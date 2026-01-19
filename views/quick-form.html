@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Intake - Flexion & Flow</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/forms.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-header">
+            <img src="/Flexioin & Flow Logo.svg" alt="Flexion & Flow Logo" class="logo-small">
+            <h1>Seated Chair Massage</h1>
+            <p class="subtitle">Quick 60-Second Form</p>
+        </div>
+
+        <form id="quickForm" class="intake-form">
+            <!-- Basic Information -->
+            <section class="form-section">
+                <h2>Basic Information</h2>
+                
+                <div class="form-group">
+                    <label for="name">Name: <span class="required">*</span></label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="mobile">Mobile: <span class="required">*</span></label>
+                    <input type="tel" id="mobile" name="mobile" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="company">Company/Team: <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="company" value="Well Corp" required> Well Corp</label>
+                        <label><input type="radio" name="company" value="Hemisphere"> Hemisphere</label>
+                        <label><input type="radio" name="company" value="AO"> AO</label>
+                        <label><input type="radio" name="company" value="Other"> Other: <input type="text" name="companyOther" id="companyOther"></label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Treatment Details -->
+            <section class="form-section">
+                <h2>What do you want help with today?</h2>
+                <p class="section-note">Tick up to 2 areas</p>
+                
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="treatmentArea" value="Neck"> Neck</label>
+                    <label><input type="checkbox" name="treatmentArea" value="Shoulders"> Shoulders</label>
+                    <label><input type="checkbox" name="treatmentArea" value="Upper back"> Upper back</label>
+                    <label><input type="checkbox" name="treatmentArea" value="Lower back"> Lower back</label>
+                    <label><input type="checkbox" name="treatmentArea" value="Arms-hands"> Arms-hands</label>
+                    <label><input type="checkbox" name="treatmentArea" value="Head-jaw"> Head-jaw</label>
+                    <label><input type="checkbox" name="treatmentArea" value="Stress"> Stress</label>
+                    <label><input type="checkbox" name="treatmentArea" value="Other"> Other: <input type="text" name="treatmentAreaOther"></label>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <div class="form-group">
+                    <label for="areasToAvoid">Any areas to avoid?</label>
+                    <input type="text" id="areasToAvoid" name="areasToAvoid">
+                </div>
+
+                <div class="form-group">
+                    <label for="pressure">Pressure: <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="pressure" value="Light" required> Light</label>
+                        <label><input type="radio" name="pressure" value="Medium"> Medium</label>
+                        <label><input type="radio" name="pressure" value="Firm"> Firm</label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Health Screening -->
+            <section class="form-section">
+                <h2>Any of these apply today?</h2>
+                <p class="section-note">Tick any that apply</p>
+                
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="healthCondition" value="Sick/feverish"> I'm sick/feverish</label>
+                    <label><input type="checkbox" name="healthCondition" value="Recent injury or surgery"> Recent injury or surgery (last 3 months)</label>
+                    <label><input type="checkbox" name="healthCondition" value="Taking blood thinners"> Taking blood thinners</label>
+                    <label><input type="checkbox" name="healthCondition" value="Heart condition/pacemaker"> Heart condition/pacemaker</label>
+                    <label><input type="checkbox" name="healthCondition" value="Pregnant"> Pregnant</label>
+                    <label><input type="checkbox" name="healthCondition" value="Skin infection/open wound"> Skin infection/open wound in the treatment area</label>
+                    <label><input type="checkbox" name="healthCondition" value="Numbness/pins and needles"> Numbness/pins and needles</label>
+                    <label><input type="checkbox" name="healthCondition" value="None"> None of the above</label>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <div class="form-group">
+                    <label for="additionalInfo">Anything important I should know before we start? (optional)</label>
+                    <textarea id="additionalInfo" name="additionalInfo" rows="3"></textarea>
+                </div>
+            </section>
+
+            <!-- Consent -->
+            <section class="form-section consent-section">
+                <h2>Consent</h2>
+                
+                <div class="consent-checkbox">
+                    <label>
+                        <input type="checkbox" name="consent" id="consent" required>
+                        <span>I confirm the info is correct and I consent to seated chair massage today. <span class="required">*</span></span>
+                    </label>
+                </div>
+            </section>
+
+            <!-- Signature -->
+            <section class="form-section">
+                <h2>Signature <span class="required">*</span></h2>
+                <div class="signature-container">
+                    <canvas id="signatureCanvas" class="signature-pad"></canvas>
+                    <button type="button" id="clearSignature" class="btn-secondary">Clear Signature</button>
+                </div>
+                <input type="hidden" id="signatureData" name="signature" required>
+            </section>
+
+            <div class="form-actions">
+                <button type="button" onclick="window.location.href='/'" class="btn-secondary">Back</button>
+                <button type="submit" class="btn-primary">Submit Form</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="/js/signature.js"></script>
+    <script src="/js/quick-form.js"></script>
+</body>
+</html>
