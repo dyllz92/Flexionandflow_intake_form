@@ -45,8 +45,8 @@ npm run dev
 
 ### 4. Access the App
 
-- **Local**: http://localhost:3000
-- **Network**: http://YOUR_LOCAL_IP:3000 (find your IP with `ipconfig` on Windows or `ifconfig` on Mac/Linux)
+- **Local**: http://localhost:3001
+- **Network**: http://YOUR_LOCAL_IP:3001 (find your IP with `ipconfig` on Windows or `ifconfig` on Mac/Linux)
 
 ## Google Drive Setup (Optional)
 
@@ -93,14 +93,14 @@ For clients to access from anywhere (not just local WiFi):
 ### Option 1: ngrok (Easiest)
 
 1. Install ngrok: https://ngrok.com/download
-2. Run: `ngrok http 3000`
+2. Run: `ngrok http 3001`
 3. Use the provided URL (e.g., `https://abc123.ngrok.io`)
 4. Share this URL or generate a QR code
 
 ### Option 2: Cloudflare Tunnel (More Stable)
 
 1. Install Cloudflare Tunnel: https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/
-2. Run: `cloudflared tunnel --url localhost:3000`
+2. Run: `cloudflared tunnel --url localhost:3001`
 3. Use the provided URL
 
 ### Option 3: Deploy to Cloud

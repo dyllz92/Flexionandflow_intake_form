@@ -23,6 +23,10 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
 
+app.get('/intake', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'intake.html'));
+});
+
 app.get('/quick-form', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'quick-form.html'));
 });

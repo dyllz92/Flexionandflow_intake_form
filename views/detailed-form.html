@@ -103,19 +103,28 @@
             <!-- Section 1: Treatment Goals -->
             <section class="form-section">
                 <h2>1) What would you like help with today?</h2>
-                <p class="section-note">Tick up to 3 areas</p>
+                <p class="section-note">Click on areas where you feel discomfort OR select up to 3 areas below</p>
                 
-                <div class="checkbox-group">
-                    <label><input type="checkbox" name="helpArea" value="Neck"> Neck</label>
-                    <label><input type="checkbox" name="helpArea" value="Shoulders"> Shoulders</label>
-                    <label><input type="checkbox" name="helpArea" value="Upper back"> Upper back</label>
-                    <label><input type="checkbox" name="helpArea" value="Mid back"> Mid back</label>
-                    <label><input type="checkbox" name="helpArea" value="Lower back"> Lower back</label>
-                    <label><input type="checkbox" name="helpArea" value="Arms/forearms/hands"> Arms/forearms/hands</label>
-                    <label><input type="checkbox" name="helpArea" value="Head/jaw"> Head/jaw</label>
-                    <label><input type="checkbox" name="helpArea" value="Hips/glutes"> Hips/glutes (over clothing only)</label>
-                    <label><input type="checkbox" name="helpArea" value="General stress/tension"> General stress/tension</label>
-                    <label><input type="checkbox" name="helpArea" value="Other"> Other: <input type="text" name="helpAreaOther"></label>
+                <div class="muscle-map-container">
+                    <canvas id="muscleMapCanvas" class="muscle-map-canvas"></canvas>
+                    <button type="button" id="clearMuscleMap" class="btn-secondary">Clear Muscle Map</button>
+                    <input type="hidden" id="muscleMapMarks" name="muscleMapMarks" value="[]">
+                </div>
+
+                <div style="margin: 20px 0;">
+                    <p class="section-note">Or select areas below (up to 3):</p>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="helpArea" value="Neck"> Neck</label>
+                        <label><input type="checkbox" name="helpArea" value="Shoulders"> Shoulders</label>
+                        <label><input type="checkbox" name="helpArea" value="Upper back"> Upper back</label>
+                        <label><input type="checkbox" name="helpArea" value="Mid back"> Mid back</label>
+                        <label><input type="checkbox" name="helpArea" value="Lower back"> Lower back</label>
+                        <label><input type="checkbox" name="helpArea" value="Arms/forearms/hands"> Arms/forearms/hands</label>
+                        <label><input type="checkbox" name="helpArea" value="Head/jaw"> Head/jaw</label>
+                        <label><input type="checkbox" name="helpArea" value="Hips/glutes"> Hips/glutes (over clothing only)</label>
+                        <label><input type="checkbox" name="helpArea" value="General stress/tension"> General stress/tension</label>
+                        <label><input type="checkbox" name="helpArea" value="Other"> Other: <input type="text" name="helpAreaOther"></label>
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -144,8 +153,13 @@
                     <label>Any sensitivity to pressure/touch?</label>
                     <div class="radio-group inline">
                         <label><input type="radio" name="sensitivity" value="No"> No</label>
-                        <label><input type="radio" name="sensitivity" value="Yes"> Yes - If yes, where: <input type="text" name="sensitivityWhere"></label>
+                        <label><input type="radio" name="sensitivity" value="Yes"> Yes</label>
                     </div>
+                </div>
+
+                <div id="sensitivityDetailsContainer" class="conditional-container hidden-field">
+                    <label>If yes, where:</label>
+                    <input type="text" name="sensitivityWhere" placeholder="Describe areas of sensitivity...">
                 </div>
 
                 <div class="form-group">
@@ -163,54 +177,63 @@
                 <h2>2) Symptoms Snapshot (Optional but helpful)</h2>
                 
                 <div class="form-group">
-                    <label for="painLevel">Pain level right now (0-10):</label>
-                    <input type="number" id="painLevel" name="painLevel" min="0" max="10">
+                    <label>
+                        <input type="checkbox" name="symptomToggle" id="symptomToggle">
+                        <span>Click here to provide symptom details</span>
+                    </label>
                 </div>
 
-                <div class="form-group">
-                    <label>Main symptoms (tick any):</label>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" name="symptom" value="Tightness"> Tightness</label>
-                        <label><input type="checkbox" name="symptom" value="Ache"> Ache</label>
-                        <label><input type="checkbox" name="symptom" value="Sharp pain"> Sharp pain</label>
-                        <label><input type="checkbox" name="symptom" value="Headache"> Headache</label>
-                        <label><input type="checkbox" name="symptom" value="Pins and needles"> Pins and needles</label>
-                        <label><input type="checkbox" name="symptom" value="Numbness"> Numbness</label>
-                        <label><input type="checkbox" name="symptom" value="Other"> Other: <input type="text" name="symptomOther"></label>
+                <div id="symptomsSection" class="conditional-container hidden-field">
+                    <div class="form-group">
+                        <label for="painLevel">Pain level right now (0-10):</label>
+                        <input type="number" id="painLevel" name="painLevel" min="0" max="10">
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label>How long has it been going on?</label>
-                    <div class="radio-group">
-                        <label><input type="radio" name="duration" value="Today"> Today</label>
-                        <label><input type="radio" name="duration" value="Days"> Days</label>
-                        <label><input type="radio" name="duration" value="Weeks"> Weeks</label>
-                        <label><input type="radio" name="duration" value="Months"> Months</label>
+                    <div class="form-group">
+                        <label>Main symptoms (tick any):</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" name="symptom" value="Tightness"> Tightness</label>
+                            <label><input type="checkbox" name="symptom" value="Ache"> Ache</label>
+                            <label><input type="checkbox" name="symptom" value="Sharp pain"> Sharp pain</label>
+                            <label><input type="checkbox" name="symptom" value="Headache"> Headache</label>
+                            <label><input type="checkbox" name="symptom" value="Pins and needles"> Pins and needles</label>
+                            <label><input type="checkbox" name="symptom" value="Numbness"> Numbness</label>
+                            <label><input type="checkbox" name="symptom" value="Other"> Other: <input type="text" name="symptomOther"></label>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label for="makesWorse">What makes it worse?</label>
-                    <input type="text" id="makesWorse" name="makesWorse">
-                </div>
+                    <div class="form-group">
+                        <label>How long has it been going on?</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="duration" value="Today"> Today</label>
+                            <label><input type="radio" name="duration" value="Days"> Days</label>
+                            <label><input type="radio" name="duration" value="Weeks"> Weeks</label>
+                            <label><input type="radio" name="duration" value="Months"> Months</label>
+                        </div>
+                    </div>
 
-                <div class="form-group">
-                    <label for="whatHelps">What helps?</label>
-                    <input type="text" id="whatHelps" name="whatHelps">
-                </div>
+                    <div class="form-group">
+                        <label for="makesWorse">What makes it worse?</label>
+                        <input type="text" id="makesWorse" name="makesWorse">
+                    </div>
 
-                <div class="form-group">
-                    <label>Any relevant work factors?</label>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" name="workFactor" value="Long shifts"> Long shifts</label>
-                        <label><input type="checkbox" name="workFactor" value="Standing"> Standing</label>
-                        <label><input type="checkbox" name="workFactor" value="Lifting"> Lifting</label>
-                        <label><input type="checkbox" name="workFactor" value="Computer"> Computer</label>
-                        <label><input type="checkbox" name="workFactor" value="Repetitive use"> Repetitive use</label>
-                        <label><input type="checkbox" name="workFactor" value="Stress"> Stress</label>
-                        <label><input type="checkbox" name="workFactor" value="Travel"> Travel</label>
-                        <label><input type="checkbox" name="workFactor" value="Other"> Other: <input type="text" name="workFactorOther"></label>
+                    <div class="form-group">
+                        <label for="whatHelps">What helps?</label>
+                        <input type="text" id="whatHelps" name="whatHelps">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Any relevant work factors?</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" name="workFactor" value="Long shifts"> Long shifts</label>
+                            <label><input type="checkbox" name="workFactor" value="Standing"> Standing</label>
+                            <label><input type="checkbox" name="workFactor" value="Lifting"> Lifting</label>
+                            <label><input type="checkbox" name="workFactor" value="Computer"> Computer</label>
+                            <label><input type="checkbox" name="workFactor" value="Repetitive use"> Repetitive use</label>
+                            <label><input type="checkbox" name="workFactor" value="Stress"> Stress</label>
+                            <label><input type="checkbox" name="workFactor" value="Travel"> Travel</label>
+                            <label><input type="checkbox" name="workFactor" value="Other"> Other: <input type="text" name="workFactorOther"></label>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -227,7 +250,14 @@
                     <label><input type="checkbox" name="recent48h" value="Recent concussion/head injury"> Recent concussion/head injury</label>
                 </div>
 
-                <h3>General health (tick any that apply):</h3>
+                <div id="recentConditionsDetails" class="conditional-container hidden-field">
+                    <div class="form-group">
+                        <label for="recent48hDetails">Please describe:</label>
+                        <textarea id="recent48hDetails" name="recent48hDetails" rows="2"></textarea>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 25px;">General health (tick any that apply):</h3>
                 <div class="checkbox-group">
                     <label><input type="checkbox" name="generalHealth" value="High or low blood pressure"> High or low blood pressure</label>
                     <label><input type="checkbox" name="generalHealth" value="Heart condition or pacemaker"> Heart condition or pacemaker</label>
@@ -241,27 +271,44 @@
                     <label><input type="checkbox" name="generalHealth" value="Skin condition/infection/open wounds in treatment area"> Skin condition/infection/open wounds in treatment area</label>
                     <label><input type="checkbox" name="generalHealth" value="Currently pregnant"> Currently pregnant</label>
                     <label><input type="checkbox" name="generalHealth" value="Taking blood thinners/anticoagulants"> Taking blood thinners/anticoagulants</label>
-                    <label><input type="checkbox" name="generalHealth" value="Other"> Other medical condition: <input type="text" name="generalHealthOther"></label>
+                    <label><input type="checkbox" name="generalHealth" value="Other"> Other medical condition</label>
                 </div>
 
-                <div class="form-group">
-                    <label for="healthDetails">If you ticked anything above, please add details:</label>
-                    <textarea id="healthDetails" name="healthDetails" rows="3"></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label>Medications that may affect treatment (optional):</label>
-                    <div class="radio-group inline">
-                        <label><input type="radio" name="medications" value="No"> No</label>
-                        <label><input type="radio" name="medications" value="Yes"> Yes - If yes: <input type="text" name="medicationsDetails"></label>
+                <div id="healthDetailsContainer" class="conditional-container hidden-field">
+                    <div class="form-group">
+                        <label for="healthDetails">Please provide details:</label>
+                        <textarea id="healthDetails" name="healthDetails" rows="3" placeholder="Describe any conditions you selected above..."></textarea>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Allergies or sensitivities (including fragrances, disinfectants, tape, latex):</label>
+                <div class="form-group" style="margin-top: 20px;">
+                    <label>Medications that may affect treatment:</label>
+                    <div class="radio-group inline">
+                        <label><input type="radio" name="medications" value="No"> No</label>
+                        <label><input type="radio" name="medications" value="Yes"> Yes</label>
+                    </div>
+                </div>
+
+                <div id="medicationsDetailsContainer" class="conditional-container hidden-field">
+                    <div class="form-group">
+                        <label for="medicationsDetails">Please list medications:</label>
+                        <textarea id="medicationsDetails" name="medicationsDetails" rows="2" placeholder="List any medications you're currently taking..."></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 20px;">
+                    <label>Allergies or sensitivities:</label>
                     <div class="radio-group inline">
                         <label><input type="radio" name="allergies" value="No"> No</label>
-                        <label><input type="radio" name="allergies" value="Yes"> Yes - If yes: <input type="text" name="allergiesDetails"></label>
+                        <label><input type="radio" name="allergies" value="Yes"> Yes</label>
+                    </div>
+                    <p class="section-note">Including fragrances, disinfectants, tape, latex</p>
+                </div>
+
+                <div id="allergiesDetailsContainer" class="conditional-container hidden-field">
+                    <div class="form-group">
+                        <label for="allergiesDetails">Please describe allergies/sensitivities:</label>
+                        <textarea id="allergiesDetails" name="allergiesDetails" rows="2" placeholder="List any allergies or sensitivities..."></textarea>
                     </div>
                 </div>
             </section>
@@ -345,7 +392,8 @@
                 </div>
             </section>
 
-            <!-- Signature -->
+            <!-- SignconditionalFields.js"></script>
+    <script src="/js/ature -->
             <section class="form-section">
                 <h2>Signature <span class="required">*</span></h2>
                 <div class="signature-container">
@@ -368,6 +416,7 @@
     </div>
 
     <script src="/js/signature.js"></script>
+    <script src="/js/muscleMap.js"></script>
     <script src="/js/detailed-form.js"></script>
 </body>
 </html>

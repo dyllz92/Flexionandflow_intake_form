@@ -146,6 +146,15 @@ textarea {
     border: 2px solid var(--warning-color);
 }
 
+.alert-section {
+    background: #fff5f5;
+    border: 2px solid #e74c3c;
+}
+
+.alert-section h2 {
+    color: #c0392b;
+}
+
 .consent-checkbox {
     margin-bottom: 15px;
 }
@@ -193,6 +202,117 @@ textarea {
 
 .info-box li {
     margin-bottom: 5px;
+}
+
+/* Conditional Fields */
+.hidden-field {
+    display: none !important;
+}
+
+.hidden-field .form-group {
+    display: none;
+}
+
+.fade-in {
+    animation: fadeInField 0.3s ease-in;
+}
+
+@keyframes fadeInField {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.conditional-container {
+    background: #f0f7fb;
+    padding: 15px;
+    border-left: 4px solid var(--secondary-color);
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+/* Muscle Map */
+.muscle-map-container {
+    margin: 20px 0;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    border: 2px solid var(--border-color);
+}
+
+.muscle-map-canvas {
+    width: 100%;
+    height: 350px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    background: #f9f9f9;
+    cursor: crosshair;
+    display: block;
+    margin-bottom: 15px;
+    touch-action: none;
+}
+
+.muscle-map-container .btn-secondary {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+    .muscle-map-canvas {
+        height: 300px;
+    }
+}
+
+/* SVG Muscle Map */
+#muscleMapContainer {
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 15px;
+    max-width: 100%;
+}
+
+.svg-muscle-map-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.svg-muscle-map {
+    max-width: 100%;
+    height: auto;
+    max-height: 400px;
+}
+
+.svg-muscle-map path,
+.svg-muscle-map circle,
+.svg-muscle-map rect,
+.svg-muscle-map polygon {
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.svg-muscle-map path:hover,
+.svg-muscle-map circle:hover,
+.svg-muscle-map rect:hover,
+.svg-muscle-map polygon:hover {
+    opacity: 0.8;
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.2));
+}
+
+.svg-muscle-map .marked {
+    fill: #e74c3c !important;
+    fill-opacity: 0.5 !important;
+    stroke: #c0392b !important;
+    stroke-width: 2 !important;
 }
 
 /* Signature Pad */

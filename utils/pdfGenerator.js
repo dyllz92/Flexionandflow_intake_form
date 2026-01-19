@@ -52,8 +52,10 @@ async function generatePDF(formData) {
             // Generate appropriate form based on type
             if (formData.formType === 'quick') {
                 generateQuickForm(doc, formData);
-            } else {
+            } else if (formData.formType === 'detailed') {
                 generateDetailedForm(doc, formData);
+            } else {
+                generateStandardForm(doc, formData);
             }
             
             // Signature section
@@ -98,6 +100,46 @@ async function generatePDF(formData) {
     });
 }
 
+function generateStandardForm(doc, data) {
+    doc.fillColor('#000');
+    
+    addSection(doc, 'Client Information');
+    addField(doc, 'Name', data.fullName);
+    addField(doc, 'Phone', data.phone);
+    addField(doc, 'Date of Birth', data.dob);
+    addField(doc, 'Emergency Contact', data.emergencyContact);
+    
+    addSection(doc, 'Treatment Details');
+    
+    // Show muscle map marks if available
+    if (data.muscleMapMarks && data.muscleMapMarks !== '[]') {
+        try {
+            const marks = JSON.parse(data.muscleMapMarks);
+            addField(doc, 'Discomfort areas marked', marks.length > 0 ? `${marks.length} area(s)` : 'None');
+        } catch (e) {
+            // Silently ignore parse errors
+        }
+    }
+    
+    addField(doc, 'Pressure preference', data.pressure);
+    addField(doc, 'Areas to avoid', data.areasAvoid || 'None');
+    
+    addSection(doc, 'Health & Safety');
+    addField(doc, 'Health issues', formatArrayValue(data.healthIssue) || 'None');
+    if (data.healthDetails) {
+        addField(doc, 'Health details', data.healthDetails);
+    }
+    
+    addSection(doc, 'Medications & Allergies');
+    addField(doc, 'Current medications', data.medications || 'None listed');
+    addField(doc, 'Allergies', data.allergies || 'None');
+    
+    addSection(doc, 'Consent');
+    addField(doc, 'Information confirmed', data.consentAccurate ? 'Yes' : 'No');
+    addField(doc, 'Consent to treatment', data.consentTreatment ? 'Yes' : 'No');
+    addField(doc, 'Understand can stop', data.consentUnderstand ? 'Yes' : 'No');
+}
+
 function generateQuickForm(doc, data) {
     doc.fillColor('#000');
     
@@ -107,6 +149,17 @@ function generateQuickForm(doc, data) {
     addField(doc, 'Company/Team', formatValue(data.company, data.companyOther));
     
     addSection(doc, 'Treatment Details');
+    
+    // Show muscle map marks if available
+    if (data.muscleMapMarks && data.muscleMapMarks !== '[]') {
+        try {
+            const marks = JSON.parse(data.muscleMapMarks);
+            addField(doc, 'Discomfort areas marked', marks.length > 0 ? `${marks.length} area(s) marked on muscle map` : 'None');
+        } catch (e) {
+            // Silently ignore parse errors
+        }
+    }
+    
     addField(doc, 'Areas for help', formatArrayValue(data.treatmentArea, data.treatmentAreaOther));
     addField(doc, 'Areas to avoid', data.areasToAvoid || 'None');
     addField(doc, 'Pressure preference', data.pressure);
@@ -143,6 +196,17 @@ function generateDetailedForm(doc, data) {
     }
     
     addSection(doc, 'Treatment Goals');
+    
+    // Show muscle map marks if available
+    if (data.muscleMapMarks && data.muscleMapMarks !== '[]') {
+        try {
+            const marks = JSON.parse(data.muscleMapMarks);
+            addField(doc, 'Discomfort areas marked', marks.length > 0 ? `${marks.length} area(s) marked on muscle map` : 'None');
+        } catch (e) {
+            // Silently ignore parse errors
+        }
+    }
+    
     addField(doc, 'Areas needing help', formatArrayValue(data.helpArea, data.helpAreaOther));
     addField(doc, 'Main goal', formatValue(data.mainGoal, data.mainGoalOther));
     addField(doc, 'Focus on first', data.focusFirst || 'Not specified');

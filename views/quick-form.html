@@ -44,17 +44,26 @@
             <!-- Treatment Details -->
             <section class="form-section">
                 <h2>What do you want help with today?</h2>
-                <p class="section-note">Tick up to 2 areas</p>
+                <p class="section-note">Click on areas where you feel discomfort OR tick up to 2 areas below</p>
                 
-                <div class="checkbox-group">
-                    <label><input type="checkbox" name="treatmentArea" value="Neck"> Neck</label>
-                    <label><input type="checkbox" name="treatmentArea" value="Shoulders"> Shoulders</label>
-                    <label><input type="checkbox" name="treatmentArea" value="Upper back"> Upper back</label>
-                    <label><input type="checkbox" name="treatmentArea" value="Lower back"> Lower back</label>
-                    <label><input type="checkbox" name="treatmentArea" value="Arms-hands"> Arms-hands</label>
-                    <label><input type="checkbox" name="treatmentArea" value="Head-jaw"> Head-jaw</label>
-                    <label><input type="checkbox" name="treatmentArea" value="Stress"> Stress</label>
-                    <label><input type="checkbox" name="treatmentArea" value="Other"> Other: <input type="text" name="treatmentAreaOther"></label>
+                <div class="muscle-map-container">
+                    <canvas id="muscleMapCanvas" class="muscle-map-canvas"></canvas>
+                    <button type="button" id="clearMuscleMap" class="btn-secondary">Clear Muscle Map</button>
+                    <input type="hidden" id="muscleMapMarks" name="muscleMapMarks" value="[]">
+                </div>
+
+                <div style="margin: 20px 0;">
+                    <p class="section-note">Or select areas below:</p>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="treatmentArea" value="Neck"> Neck</label>
+                        <label><input type="checkbox" name="treatmentArea" value="Shoulders"> Shoulders</label>
+                        <label><input type="checkbox" name="treatmentArea" value="Upper back"> Upper back</label>
+                        <label><input type="checkbox" name="treatmentArea" value="Lower back"> Lower back</label>
+                        <label><input type="checkbox" name="treatmentArea" value="Arms-hands"> Arms-hands</label>
+                        <label><input type="checkbox" name="treatmentArea" value="Head-jaw"> Head-jaw</label>
+                        <label><input type="checkbox" name="treatmentArea" value="Stress"> Stress</label>
+                        <label><input type="checkbox" name="treatmentArea" value="Other"> Other: <input type="text" name="treatmentAreaOther"></label>
+                    </div>
                 </div>
             </section>
 
@@ -128,6 +137,7 @@
     </div>
 
     <script src="/js/signature.js"></script>
+    <script src="/js/muscleMap.js"></script>
     <script src="/js/quick-form.js"></script>
 </body>
 </html>
