@@ -10,7 +10,7 @@ class InteractiveMuscleMap {
         this.currentGender = 'Male'; // Default
         this.canvas = null;
         this.ctx = null;
-        this.dotRadius = 8;
+        this.dotRadius = 12;
         this.bodyImage = null;
         this.bodyImageLoaded = false;
         this.bodyImageErrored = false;
@@ -114,10 +114,19 @@ class InteractiveMuscleMap {
             this.bodyImage.src = srcs[idx];
         };
 
-        const pngPrimary = this.getPngPathForGender(); // /img/...png
-        // Also try /js as a secondary location if user drops PNGs next to SVGs
-        const pngSecondary = this.currentGender === 'Female' ? '/js/Female Body Map.png' : '/js/Male Body Map.png';
-        tryLoad([pngPrimary, pngSecondary]);
+        // Candidate paths to try in order
+        const candidates = [];
+        // Preferred PNG in /img
+        candidates.push(this.getPngPathForGender());
+        // Alternative PNG in /js (beside SVGs)
+        candidates.push(this.currentGender === 'Female' ? '/js/Female Body Map.png' : '/js/Male Body Map.png');
+        // Support "Body Chart" naming with underscores
+        candidates.push(this.currentGender === 'Female' ? '/img/Female_Body_Chart.png' : '/img/Male_Body_Chart.png');
+        candidates.push(this.currentGender === 'Female' ? '/js/Female_Body_Chart.png' : '/js/Male_Body_Chart.png');
+        // As a last attempt, try the SVG as an image source
+        candidates.push(this.currentGender === 'Female' ? '/js/Female Body Map.svg' : '/js/Male Body Map.svg');
+
+        tryLoad(candidates);
     }
     
     drawBodyMap() {
@@ -188,8 +197,7 @@ class InteractiveMuscleMap {
         ctx.textAlign = 'center';
         ctx.fillText('Click to mark areas of discomfort', centerX, canvas.height - 10);
         
-        // Redraw dots
-        this.redrawDots();
+        // Background drawn; dots are drawn by redrawDots() when needed
     }
     
     handleCanvasClick(e) {
@@ -200,9 +208,10 @@ class InteractiveMuscleMap {
         const rect = this.canvas.getBoundingClientRect();
         let x, y;
         
-        if (e.touches) {
-            x = e.touches[0].clientX - rect.left;
-            y = e.touches[0].clientY - rect.top;
+        const touch = e.touches && e.touches[0] ? e.touches[0] : (e.changedTouches && e.changedTouches[0]);
+        if (touch) {
+            x = touch.clientX - rect.left;
+            y = touch.clientY - rect.top;
         } else {
             x = e.clientX - rect.left;
             y = e.clientY - rect.top;
@@ -248,8 +257,8 @@ class InteractiveMuscleMap {
         this.drawBodyMap();
         
         // Draw all dots
-        this.ctx.fillStyle = '#e74c3c';
-        this.ctx.strokeStyle = '#c0392b';
+        this.ctx.fillStyle = '#1e90ff'; // blue fill
+        this.ctx.strokeStyle = '#0b5ed7'; // darker blue stroke
         this.ctx.lineWidth = 2;
         
         this.marks.forEach(mark => {
