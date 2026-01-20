@@ -139,6 +139,23 @@ Seated-Massage-Intake-Form/
 └── pdfs/                    # Local PDF storage (if Drive not configured)
 ```
 
+## Muscle Map Images
+
+To use detailed body diagrams on the muscle map:
+
+- Preferred location: place PNGs in `public/img`
+	- `public/img/Male Body Map.png`
+	- `public/img/Female Body Map.png`
+- Alternative location: `public/js` (next to the SVGs)
+	- `public/js/Male Body Map.png`
+	- `public/js/Female Body Map.png`
+
+Notes:
+- The app auto-selects the image based on the selected gender.
+- If PNGs are missing or fail to load, the app falls back to a simple outline so users can still place dots.
+- Coordinates are stored in the hidden `muscleMapMarks` field for submission and PDF generation.
+
+
 ## Form Types
 
 ### Quick Form (60 seconds)

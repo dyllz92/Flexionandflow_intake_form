@@ -11,6 +11,9 @@ class InteractiveMuscleMap {
         this.canvas = null;
         this.ctx = null;
         this.dotRadius = 8;
+        this.bodyImage = null;
+        this.bodyImageLoaded = false;
+        this.bodyImageErrored = false;
         
         // Try to find canvas or container
         let containerElement = document.getElementById(containerId);
@@ -44,7 +47,7 @@ class InteractiveMuscleMap {
         this.ctx = this.canvas.getContext('2d');
         
         this.initializeGenderListener();
-        this.drawBodyMap();
+        this.loadBodyImage();
         
         // Add canvas click handler
         this.canvas.addEventListener('click', (e) => this.handleCanvasClick(e));
@@ -64,7 +67,7 @@ class InteractiveMuscleMap {
                 }
                 this.marks = [];
                 this.updateInput();
-                this.drawBodyMap();
+                this.loadBodyImage();
             });
         });
         
@@ -75,8 +78,50 @@ class InteractiveMuscleMap {
         }
     }
     
+    getPngPathForGender() {
+        // Preferred PNG assets location under public/img
+        const base = '/img';
+        return this.currentGender === 'Female'
+            ? `${base}/Female Body Map.png`
+            : `${base}/Male Body Map.png`;
+    }
+    
+    loadBodyImage() {
+        this.bodyImageLoaded = false;
+        this.bodyImageErrored = false;
+
+        const tryLoad = (srcs, idx = 0) => {
+            if (!srcs || idx >= srcs.length) {
+                // Final fallback: outline drawing
+                this.bodyImageErrored = true;
+                this.canvas.width = 400;
+                this.canvas.height = 600;
+                this.drawBodyMap();
+                return;
+            }
+            this.bodyImage = new Image();
+            this.bodyImage.crossOrigin = 'anonymous';
+            this.bodyImage.onload = () => {
+                this.bodyImageLoaded = true;
+                this.canvas.width = this.bodyImage.naturalWidth || 400;
+                this.canvas.height = this.bodyImage.naturalHeight || 600;
+                this.drawBodyMap();
+            };
+            this.bodyImage.onerror = () => {
+                // Try next candidate path
+                tryLoad(srcs, idx + 1);
+            };
+            this.bodyImage.src = srcs[idx];
+        };
+
+        const pngPrimary = this.getPngPathForGender(); // /img/...png
+        // Also try /js as a secondary location if user drops PNGs next to SVGs
+        const pngSecondary = this.currentGender === 'Female' ? '/js/Female Body Map.png' : '/js/Male Body Map.png';
+        tryLoad([pngPrimary, pngSecondary]);
+    }
+    
     drawBodyMap() {
-        // Draw a simple body outline
+        // Draw body background (PNG if available, otherwise simple outline)
         const canvas = this.canvas;
         const ctx = this.ctx;
         
@@ -88,49 +133,54 @@ class InteractiveMuscleMap {
         ctx.strokeStyle = '#ddd';
         ctx.lineWidth = 2;
         ctx.strokeRect(0, 0, canvas.width, canvas.height);
-        
-        // Draw body outline
-        ctx.strokeStyle = '#999';
-        ctx.fillStyle = '#f0f0f0';
-        ctx.lineWidth = 2;
-        
+
         const centerX = canvas.width / 2;
-        
-        // Head
-        ctx.beginPath();
-        ctx.arc(centerX, 50, 25, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.stroke();
-        
-        // Neck
-        ctx.fillRect(centerX - 12, 75, 24, 20);
-        ctx.strokeRect(centerX - 12, 75, 24, 20);
-        
-        // Shoulders and torso
-        ctx.beginPath();
-        ctx.moveTo(centerX - 50, 95);
-        ctx.lineTo(centerX + 50, 95);
-        ctx.lineTo(centerX + 40, 250);
-        ctx.lineTo(centerX - 40, 250);
-        ctx.closePath();
-        ctx.fill();
-        ctx.stroke();
-        
-        // Left arm
-        ctx.fillRect(centerX - 55, 100, 20, 130);
-        ctx.strokeRect(centerX - 55, 100, 20, 130);
-        
-        // Right arm
-        ctx.fillRect(centerX + 35, 100, 20, 130);
-        ctx.strokeRect(centerX + 35, 100, 20, 130);
-        
-        // Left leg
-        ctx.fillRect(centerX - 30, 250, 25, 150);
-        ctx.strokeRect(centerX - 30, 250, 25, 150);
-        
-        // Right leg
-        ctx.fillRect(centerX + 5, 250, 25, 150);
-        ctx.strokeRect(centerX + 5, 250, 25, 150);
+        if (this.bodyImageLoaded && this.bodyImage && !this.bodyImageErrored) {
+            // Draw PNG image to fill the canvas
+            ctx.imageSmoothingEnabled = true;
+            ctx.drawImage(this.bodyImage, 0, 0, canvas.width, canvas.height);
+        } else {
+            // Fallback: draw simple outline
+            ctx.strokeStyle = '#999';
+            ctx.fillStyle = '#f0f0f0';
+            ctx.lineWidth = 2;
+            
+            // Head
+            ctx.beginPath();
+            ctx.arc(centerX, 50, 25, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+            
+            // Neck
+            ctx.fillRect(centerX - 12, 75, 24, 20);
+            ctx.strokeRect(centerX - 12, 75, 24, 20);
+            
+            // Shoulders and torso
+            ctx.beginPath();
+            ctx.moveTo(centerX - 50, 95);
+            ctx.lineTo(centerX + 50, 95);
+            ctx.lineTo(centerX + 40, 250);
+            ctx.lineTo(centerX - 40, 250);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+            
+            // Left arm
+            ctx.fillRect(centerX - 55, 100, 20, 130);
+            ctx.strokeRect(centerX - 55, 100, 20, 130);
+            
+            // Right arm
+            ctx.fillRect(centerX + 35, 100, 20, 130);
+            ctx.strokeRect(centerX + 35, 100, 20, 130);
+            
+            // Left leg
+            ctx.fillRect(centerX - 30, 250, 25, 150);
+            ctx.strokeRect(centerX - 30, 250, 25, 150);
+            
+            // Right leg
+            ctx.fillRect(centerX + 5, 250, 25, 150);
+            ctx.strokeRect(centerX + 5, 250, 25, 150);
+        }
         
         // Draw label
         ctx.fillStyle = '#999';
