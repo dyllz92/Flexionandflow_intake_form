@@ -2,14 +2,15 @@
 
 **Project Goal:** Build a locally-hosted web app for clients to complete intake forms via mobile browser, with secure PDF storage in Google Drive.
 
-**Last Updated:** January 19, 2026
+**Last Updated:** January 20, 2026
 
 ---
 
 ## Current Status
 - ✅ Repository initialized
-- ⏳ Planning phase
-- ⏳ Awaiting requirements clarification
+- ✅ Core implementation complete
+- ✅ MVP features functional
+- ⏳ Minor UI/UX refinements in progress
 
 ---
 
@@ -22,47 +23,54 @@ A locally-hosted web form accessible via QR code for clients to complete massage
 ## Implementation Steps
 
 ### 1. Set up project foundation
-- [ ] Initialize Node.js project with package.json
-- [ ] Set up Express server
-- [ ] Create basic HTML/CSS/JS structure
-- [ ] Configure environment variables (.env)
-- [ ] Set up public access solution (ngrok/cloudflare tunnel)
-- [ ] Configure HTTPS for secure transmission
+- [x] Initialize Node.js project with package.json
+- [x] Set up Express server
+- [x] Create basic HTML/CSS/JS structure
+- [x] Configure environment variables (.env)
+- [x] Set up public access solution (ngrok/cloudflare tunnel)
+- [x] Configure HTTPS for secure transmission
 
 ### 2. Create intake form UI
-- [ ] Create home page with logo and welcome message
-- [ ] Add two form option buttons
-- [ ] Design short form layout for mobile browsers
-  - [ ] Essential client information fields
-  - [ ] Basic consent agreement
-  - [ ] Signature capture
-- [ ] Design detailed form layout for mobile browsers
-  - [ ] Comprehensive client information fields
-  - [ ] Medical history fields
-  - [ ] Detailed consent agreement
-  - [ ] Signature capture
-- [ ] Implement client-side validation for both forms
+- [x] Create home page with logo and welcome message
+- [ ] Add two form option buttons (Currently: only one button shown)
+- [x] Design short form layout for mobile browsers
+  - [x] Essential client information fields
+  - [x] Basic consent agreement
+  - [x] Signature capture
+- [x] Design detailed form layout for mobile browsers
+  - [x] Comprehensive client information fields
+  - [x] Medical history fields
+  - [x] Detailed consent agreement
+  - [x] Signature capture
+- [x] Implement client-side validation for both forms
 
 ### 3. Implement PDF generation
-- [ ] Choose and install PDF library (PDFKit or jsPDF)
-- [ ] Design PDF template layout
-- [ ] Implement form data to PDF conversion
-- [ ] Include signature in PDF output
+- [x] Choose and install PDF library (PDFKit)
+- [x] Design PDF template layout
+- [x] Implement form data to PDF conversion
+- [x] Include signature in PDF output
 
 ### 4. Integrate Google Drive API
-- [ ] Set up Google Cloud project
-- [ ] Create service account credentials
-- [ ] Install Google Drive API client library
-- [ ] Implement OAuth 2.0 authentication
-- [ ] Create PDF upload functionality
-- [ ] Set up dedicated Drive folder
+- [x] Set up Google Cloud project
+- [x] Create service account credentials
+- [x] Install Google Drive API client library
+- [x] Implement OAuth 2.0 authentication
+- [x] Create PDF upload functionality
+- [x] Set up dedicated Drive folder
 
 ### 5. Add privacy and security features
-- [ ] Implement HTTPS with self-signed certificate
-- [ ] Add data encryption in transit
-- [ ] Ensure no local persistence after upload
-- [ ] Add privacy disclosure text
-- [ ] Implement secure session handling
+- [x] Implement HTTPS with self-signed certificate
+- [x] Add data encryption in transit
+- [x] Ensure no local persistence after upload
+- [x] Add privacy disclosure text
+- [x] Implement secure session handling
+
+### 6. Interactive Muscle Map (NEW)
+- [x] Create canvas-based body diagram
+- [x] Implement dot placement for marking discomfort areas
+- [x] Add click-to-remove functionality for dots
+- [x] Integrate with both intake forms
+- [ ] Replace with actual SVG body maps (Female Body Map.svg / Male Body Map.svg)
 
 ---
 
@@ -153,14 +161,14 @@ A locally-hosted web form accessible via QR code for clients to complete massage
 
 ### Open Questions
 
-1. **Google Drive setup:**
-   - Already have Google Workspace account?
-   - Need help setting up service account?
+1. **Home Page Improvement:**
+   - Should display both form options prominently ("Quick Form" and "Detailed Form")
+   - Currently only shows one button to intake form
 
-2. **Hosting approach:**
-   - Use ngrok for temporary public URLs?
-   - Set up proper domain/hosting?
-   - Use Cloudflare Tunnel for secure access?
+2. **SVG Body Maps:**
+   - Female Body Map.svg and Male Body Map.svg files exist but not yet integrated
+   - Currently using canvas-drawn simple body outline
+   - Next step: Replace with detailed SVG diagrams
 
 ---
 
@@ -182,6 +190,16 @@ A locally-hosted web form accessible via QR code for clients to complete massage
 ---
 
 ## Notes & Updates
+
+### January 20, 2026
+- Updated roadmap to reflect actual implementation status
+- Most core features are complete and functional
+- Identified remaining tasks:
+  - Home page needs to display both form options (Quick + Detailed)
+  - Muscle map visualization needs to use actual SVG body diagrams instead of canvas drawing
+- Added interactive muscle map feature (canvas-based with dot placement)
+- Server running successfully on port 8080
+- PDF generation and Google Drive integration working
 
 ### January 19, 2026
 - Added dual-form approach: Quick 60-second form vs. Detailed intake form
