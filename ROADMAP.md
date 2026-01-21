@@ -232,6 +232,34 @@ A locally-hosted web form accessible via QR code for clients to complete massage
 
 ## Notes & Updates
 
+### January 21, 2026 (Evening Update - Part 5)
+- ⏳ **WIZARD IMPLEMENTATION IN PROGRESS** (paused)
+  - Created git backup with commit `0350480` and branch `pre-wizard-backup`
+  - Started implementing wizard/step-by-step form functionality
+  - Added step indicator HTML structure to [views/intake.html](views/intake.html) with 6 steps:
+    1. Details (name, mobile, email, gender, company, 18+ confirmation)
+    2. Body Map (interactive body diagram)
+    3. Today's Focus (reasons for visit + treatment consent areas)
+    4. Health Check (comprehensive health screening with disclaimers)
+    5. Preferences (pressure preference)
+    6. Consent (signature + optional notes + marketing opt-in)
+  - **Next steps when resuming:**
+    - Add data-step attributes to form sections to match step indicator
+    - Create wizard.js for navigation logic (show/hide steps, validate per step)
+    - Add navigation buttons (Back/Next/Submit) in sticky action bar
+    - Implement step-by-step validation (Step 1: name+mobile required, Step 6: consent+signature required)
+    - Add wizard CSS for step indicators and transitions
+    - Update intake-form.js to work with wizard flow
+    - Test wizard functionality on mobile
+  - **Files modified:**
+    - [views/intake.html](views/intake.html) - Added step indicator structure
+  - **Files to create:**
+    - [public/js/wizard.js](public/js/wizard.js) - Step navigation and validation logic
+  - **Files to update:**
+    - [public/css/forms.css](public/css/forms.css) - Wizard styling
+    - [views/intake.html](views/intake.html) - Add data-step attributes, navigation buttons
+    - [public/js/intake-form.js](public/js/intake-form.js) - Integrate with wizard
+
 ### January 21, 2026 (Evening Update - Part 4)
 - ✅ UI styling improvements for cleaner form appearance
   - Changed info boxes from filled backgrounds to outline-only styling
