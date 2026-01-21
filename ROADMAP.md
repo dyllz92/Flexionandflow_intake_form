@@ -232,6 +232,14 @@ A locally-hosted web form accessible via QR code for clients to complete massage
 
 ## Notes & Updates
 
+### January 21, 2026 (Evening Update - Part 4)
+- ✅ UI styling improvements for cleaner form appearance
+  - Changed info boxes from filled backgrounds to outline-only styling
+  - Health banner ("Please provide more details") now uses blue outline (`#2196F3`) instead of orange fill
+  - Consent & Signature section wrapped in single blue outline border
+  - Individual info boxes (Notes, Privacy) inside consent section no longer have borders
+  - Updated [views/intake.html](views/intake.html) with new outline-based styling approach
+
 ### January 21, 2026 (Evening Update - Part 3)
 - ✅ Form cleanup and UI refinements
   - Removed "Decline / Not Treated" button from sticky action bar
