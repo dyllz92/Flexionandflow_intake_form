@@ -1,5 +1,7 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
+const os = require('os');
 const cors = require('cors');
 require('dotenv').config();
 
@@ -7,16 +9,32 @@ const pdfGenerator = require('./utils/pdfGenerator');
 const driveUploader = require('./utils/driveUploader');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = Number(process.env.PORT) || 3000;
+const publicDir = path.join(__dirname, 'public');
+const distDir = path.join(__dirname, 'dist');
+const buildDir = path.join(__dirname, 'build');
+const spaDir = fs.existsSync(distDir) ? distDir : (fs.existsSync(buildDir) ? buildDir : null);
+
+function getLocalIPv4() {
+    const nets = os.networkInterfaces();
+    for (const name of Object.keys(nets)) {
+        for (const net of nets[name] || []) {
+            if (net.family === 'IPv4' && !net.internal) return net.address;
+        }
+    }
+    return null;
+}
 
 // Middleware
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-app.use(express.static('public'));
+app.use(express.static(publicDir));
 
-// Move logo to public folder for serving
-app.use(express.static('.'));
+// Serve built SPA assets when available
+if (spaDir) {
+    app.use(express.static(spaDir));
+}
 
 // Routes - Serve HTML pages
 app.get('/', (req, res) => {
@@ -96,26 +114,43 @@ app.post('/api/submit-form', async (req, res) => {
 });
 
 // Health check endpoint
-app.get('/api/health', (req, res) => {
-    res.json({ 
-        status: 'ok', 
-        timestamp: new Date().toISOString(),
-        googleDriveConfigured: driveUploader.isConfigured()
-    });
+const healthPayload = () => ({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    uptimeSeconds: Math.round(process.uptime()),
+    googleDriveConfigured: typeof driveUploader.isConfigured === 'function' ? driveUploader.isConfigured() : false
 });
+
+app.get('/health', (req, res) => {
+    res.status(200).json(healthPayload());
+});
+
+app.get('/api/health', (req, res) => {
+    res.status(200).json(healthPayload());
+});
+
+// SPA fallback for built frontend; keeps API routes untouched
+if (spaDir) {
+    app.get('*', (req, res, next) => {
+        if (req.path.startsWith('/api')) return next();
+        if (req.method !== 'GET') return next();
+        return res.sendFile(path.join(spaDir, 'index.html'));
+    });
+}
 
 // Start server
 app.listen(PORT, () => {
+    const ip = getLocalIPv4();
     console.log(`\n${'='.repeat(50)}`);
     console.log(`🌟 Flexion & Flow Intake Form Server`);
     console.log(`${'='.repeat(50)}`);
     console.log(`\n📍 Server running at:`);
     console.log(`   Local:   http://localhost:${PORT}`);
-    console.log(`   Network: http://YOUR_LOCAL_IP:${PORT}`);
+    console.log(`   Network: http://${ip ?? 'localhost'}:${PORT}`);
     console.log(`\n💡 To access from mobile devices:`);
     console.log(`   1. Make sure your phone is on the same WiFi`);
     console.log(`   2. Find your computer's IP address`);
-    console.log(`   3. Open http://YOUR_IP:${PORT} on your phone`);
+    console.log(`   3. Open http://${ip ?? 'localhost'}:${PORT} on your phone`);
     console.log(`\n🔗 For internet access, use ngrok or Cloudflare Tunnel`);
     console.log(`\n${'='.repeat(50)}\n`);
 });

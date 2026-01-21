@@ -16,9 +16,12 @@ class SignaturePad {
     
     resizeCanvas() {
         const ratio = Math.max(window.devicePixelRatio || 1, 1);
-        this.canvas.width = this.canvas.offsetWidth * ratio;
-        this.canvas.height = this.canvas.offsetHeight * ratio;
-        this.canvas.getContext('2d').scale(ratio, ratio);
+        const fallbackWidth = (this.canvas.parentElement && this.canvas.parentElement.clientWidth) || 400;
+        const cssWidth = this.canvas.offsetWidth || fallbackWidth;
+        const cssHeight = this.canvas.offsetHeight || 200;
+        this.canvas.width = cssWidth * ratio;
+        this.canvas.height = cssHeight * ratio;
+        this.canvas.getContext('2d').setTransform(ratio, 0, 0, ratio, 0, 0);
     }
     
     setupCanvas() {
