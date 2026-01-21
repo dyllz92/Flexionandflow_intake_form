@@ -2,7 +2,7 @@
 
 **Project Goal:** Build a locally-hosted web app for clients to complete intake forms via mobile browser, with secure PDF storage in Google Drive.
 
-**Last Updated:** January 20, 2026
+**Last Updated:** January 22, 2026
 
 ---
 
@@ -10,13 +10,16 @@
 - ✅ Repository initialized
 - ✅ Core implementation complete
 - ✅ MVP features functional
-- ⏳ Minor UI/UX refinements in progress
+- ✅ Universal intake form with 6-step wizard
+- ✅ Step-by-step navigation with validation
+- ✅ Azure Free Tier deployment configuration
+- ⏳ Mobile testing and QR code generation pending
 
 ---
 
 ## Plan Overview
 
-A locally-hosted web form accessible via QR code for clients to complete massage therapy intake forms on their phones. The app will capture client information, agreements, signatures, and save submissions as PDFs to Google Drive for HIPAA-compliant storage.
+A web-based intake form application for massage therapy clients. Features a 6-step wizard-style form with progressive disclosure, interactive body mapping, health screening, and digital signatures. Forms are generated as PDFs and securely uploaded to Google Drive. Deployable on Azure Free Tier (or locally via ngrok/Cloudflare Tunnel) for HIPAA-compliant storage and client accessibility.
 
 ---
 
@@ -191,6 +194,41 @@ A locally-hosted web form accessible via QR code for clients to complete massage
 
 ## Notes & Updates
 
+### January 22, 2026 (Evening Update)
+- ✅ **WIZARD IMPLEMENTATION COMPLETE**
+  - Created step-by-step form with 6 distinct steps:
+    1. Details (name, mobile, email, gender, company, 18+ confirmation)
+    2. Body Map (interactive body diagram with clickable areas)
+    3. Today's Focus (reasons for visit + treatment consent areas)
+    4. Health Check (comprehensive health screening with disclaimers)
+    5. Preferences (pressure preference selection)
+    6. Consent & Signature (consent, signature, optional notes, marketing opt-in)
+  - Implemented [public/js/wizard.js](public/js/wizard.js) with:
+    - Step validation rules per step
+    - Dynamic button visibility (Back, Next, Submit)
+    - Active step indicator styling with checkmarks
+    - Smooth animations between steps
+    - Step-specific validation error messages
+  - Added comprehensive wizard CSS styling in [public/css/forms.css](public/css/forms.css):
+    - Visual step indicator with numbered circles and connecting lines
+    - Completed steps show green checkmarks
+    - Active step highlighted with primary color
+    - Mobile-optimized step indicator (responsive at 480px)
+    - Fade-in animations for step transitions
+  - Updated [views/intake.html](views/intake.html):
+    - Added data-step attributes to all 6 wizard steps
+    - Moved optional notes and marketing into Step 6
+    - Replaced single submit button with Back/Next/Submit navigation
+    - Step indicator shows progress visually
+  - Updated [package.json](package.json) with build script for CI/CD compatibility
+- ✅ **Azure Deployment Support**
+  - Modified [utils/driveUploader.js](utils/driveUploader.js) to support `GOOGLE_SERVICE_ACCOUNT_KEY` env var
+  - Updated [.env.example](.env.example) with both credential options (env var and file path)
+  - Ready for free Azure App Service F1 tier deployment
+- ✅ **Server Improvements**
+  - [server.js](server.js) configured to detect local IP for mobile access
+  - Health check endpoints available at `/health` and `/api/health`
+
 ### January 20, 2026
 - Updated roadmap to reflect actual implementation status
 - Most core features are complete and functional
@@ -206,8 +244,19 @@ A locally-hosted web form accessible via QR code for clients to complete massage
 - Home page will feature Flexion & Flow logo, welcome message, and two form options
 - Defined all form fields for both intake forms
 - Confirmed: Internet-accessible via WiFi or mobile network (requires public URL solution)
-- Ready to begin implementation pending logo file and Google Drive setup confirmationAO
-- Ready to begin implementation pending logo file and network access decisions
+- Ready to begin implementation pending logo file and Google Drive setup confirmation
+
+---
+
+## Next Milestones (Q1 2026)
+
+- [x] Wizard form with step indicators and validation
+- [x] Azure Free Tier deployment support
+- [ ] Mobile device testing (iOS/Android)
+- [ ] QR code generation for easy mobile access
+- [ ] Basic unit tests for `pdfGenerator` and API routes
+- [ ] Production deployment to Azure
+- [ ] Generate QR code linking to live form
 
 ---
 
