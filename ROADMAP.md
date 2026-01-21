@@ -2,7 +2,7 @@
 
 **Project Goal:** Build a locally-hosted web app for clients to complete intake forms via mobile browser, with secure PDF storage in Google Drive.
 
-**Last Updated:** January 20, 2026
+**Last Updated:** January 21, 2026
 
 ---
 
@@ -27,8 +27,8 @@ A locally-hosted web form accessible via QR code for clients to complete massage
 - [x] Set up Express server
 - [x] Create basic HTML/CSS/JS structure
 - [x] Configure environment variables (.env)
-- [x] Set up public access solution (ngrok/cloudflare tunnel)
-- [x] Configure HTTPS for secure transmission
+- [ ] Set up public access solution (ngrok/cloudflare tunnel)
+- [ ] Configure HTTPS for secure transmission
 
 ### 2. Create intake form UI
 - [x] Create home page with logo and welcome message
@@ -174,11 +174,11 @@ A locally-hosted web form accessible via QR code for clients to complete massage
 
 ## Technical Decisions
 
-### Tech Stack (Proposed)
+### Tech Stack
 - **Frontend:** HTML5, CSS3, Vanilla JavaScript
 - **Backend:** Node.js + Express
-- **PDF Generation:** TBD (PDFKit or jsPDF)
-- **Storage:** Google Drive API
+- **PDF Generation:** PDFKit (confirmed)
+- **Storage:** Google Drive API (with local fallback)
 - **Hosting:** Local network server
 
 ### Privacy & Compliance
@@ -191,6 +191,13 @@ A locally-hosted web form accessible via QR code for clients to complete massage
 
 ## Notes & Updates
 
+### January 21, 2026
+- Added Windows launcher: `run-app.bat` to start the server in a new Command Prompt, auto-open the browser, and clear any process on the configured port.
+- Launcher reads `PORT` from `.env` (fallback to environment var, then default `3000`).
+- Confirmed default server port: 3000 (configurable via `.env`).
+- Health endpoint available: `/api/health` reports Drive configuration status.
+- Google Drive uploader supports local fallback when `ALLOW_LOCAL_PDF_FALLBACK=true`.
+
 ### January 20, 2026
 - Updated roadmap to reflect actual implementation status
 - Most core features are complete and functional
@@ -198,8 +205,17 @@ A locally-hosted web form accessible via QR code for clients to complete massage
   - Home page needs to display both form options (Quick + Detailed)
   - Muscle map visualization needs to use actual SVG body diagrams instead of canvas drawing
 - Added interactive muscle map feature (canvas-based with dot placement)
-- Server running successfully on port 8080
+- Server running successfully on port 3000
 - PDF generation and Google Drive integration working
+
+---
+
+## Next Milestones (Q1 2026)
+- [ ] Home page: show both form options clearly (Quick + Detailed)
+- [ ] Replace canvas muscle map with detailed SVG body maps (female/male)
+- [ ] Robust validation and UX polish on mobile
+- [ ] Basic unit tests for `pdfGenerator` and API routes
+- [ ] Optional: VS Code task for `dev` (nodemon) and documentation for tunneling (ngrok/Cloudflare Tunnel)
 
 ### January 19, 2026
 - Added dual-form approach: Quick 60-second form vs. Detailed intake form
