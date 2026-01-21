@@ -31,13 +31,18 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="company">Company/Team: <span class="required">*</span></label>
+                    <label>Gender: <span class="required">*</span></label>
                     <div class="radio-group">
-                        <label><input type="radio" name="company" value="Well Corp" required> Well Corp</label>
-                        <label><input type="radio" name="company" value="Hemisphere"> Hemisphere</label>
-                        <label><input type="radio" name="company" value="AO"> AO</label>
-                        <label><input type="radio" name="company" value="Other"> Other: <input type="text" name="companyOther" id="companyOther"></label>
+                        <label><input type="radio" name="gender" value="Male" required> Male</label>
+                        <label><input type="radio" name="gender" value="Female"> Female</label>
+                        <label><input type="radio" name="gender" value="Non-binary"> Non-binary</label>
+                        <label><input type="radio" name="gender" value="Prefer not to disclose"> Prefer not to disclose</label>
                     </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="company">Company/Team: <span class="required">*</span></label>
+                    <input type="text" id="company" name="company" maxlength="60" placeholder="e.g., Well Corp, Hemisphere, AO" required>
                 </div>
             </section>
 

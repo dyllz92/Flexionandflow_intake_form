@@ -363,6 +363,15 @@ textarea {
     margin-top: 30px;
 }
 
+.sticky-actions {
+    position: sticky;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 12px;
+    border-top: 1px solid var(--border-color);
+    z-index: 10;
+}
+
 .btn-primary,
 .btn-secondary {
     padding: 15px 30px;

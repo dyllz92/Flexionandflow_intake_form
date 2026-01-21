@@ -27,12 +27,13 @@ app.get('/intake', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'intake.html'));
 });
 
+// Deprecated routes: redirect to single intake form
 app.get('/quick-form', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'quick-form.html'));
+    res.redirect('/intake');
 });
 
 app.get('/detailed-form', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'detailed-form.html'));
+    res.redirect('/intake');
 });
 
 app.get('/success', (req, res) => {
@@ -63,11 +64,15 @@ app.post('/api/submit-form', async (req, res) => {
         console.log('Generating PDF...');
         const pdfBuffer = await pdfGenerator.generatePDF(formData);
         
-        // Create filename
-        const clientName = (formData.name || formData.fullName).replace(/[^a-z0-9]/gi, '_');
-        const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-        const formType = formData.formType === 'quick' ? 'Quick' : 'Detailed';
-        const filename = `${formType}_Intake_${clientName}_${timestamp}.pdf`;
+        // Create filename per universal format: ChairMassageIntake_{fullName}_{YYYY-MM-DD}_{HHmm}.pdf
+        const clientName = (formData.fullName || formData.name || 'Client').replace(/[^a-z0-9]/gi, '_');
+        const now = new Date();
+        const yyyy = now.getFullYear();
+        const mm = String(now.getMonth() + 1).padStart(2, '0');
+        const dd = String(now.getDate()).padStart(2, '0');
+        const HH = String(now.getHours()).padStart(2, '0');
+        const MM = String(now.getMinutes()).padStart(2, '0');
+        const filename = `ChairMassageIntake_${clientName}_${yyyy}-${mm}-${dd}_${HH}${MM}.pdf`;
         
         // Upload to Google Drive (or save locally if not configured)
         console.log('Uploading to Google Drive...');

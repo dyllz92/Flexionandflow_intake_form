@@ -4,3 +4,4 @@ node_modules/
 .DS_Store
 pdfs/
 google-credentials.json
+nul

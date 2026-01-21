@@ -111,8 +111,9 @@ class ConditionalFields {
 
 // Initialize when page loads
 document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('detailedForm');
-    if (form) {
+    const detailed = document.getElementById('detailedForm');
+    const intake = document.getElementById('intakeForm');
+    if (detailed || intake) {
         new ConditionalFields();
     }
 });

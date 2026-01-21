@@ -23,18 +23,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // Form submission
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
+
+        // Validate gender selection
+        const genderInputs = document.querySelectorAll('input[name="gender"]');
+        const genderSelected = Array.from(genderInputs).some(g => g.checked);
+        if (!genderSelected) {
+            alert('Please select your gender.');
+            return;
+        }
+
         // Validate signature
         if (window.signaturePad.isEmpty()) {
             alert('Please provide your signature before submitting.');
             return;
         }
-        
+
         // Validate required consents
         const consentAccurate = document.getElementById('consentAccurate');
         const consentTreatment = document.getElementById('consentTreatment');
         const consentStop = document.getElementById('consentStop');
-        
+
         if (!consentAccurate.checked || !consentTreatment.checked || !consentStop.checked) {
             alert('Please check all required consent boxes.');
             return;

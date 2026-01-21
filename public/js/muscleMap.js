@@ -63,18 +63,21 @@ class InteractiveMuscleMap {
                 if (e.target.value === 'Female') {
                     this.currentGender = 'Female';
                 } else {
-                    this.currentGender = 'Male'; // Default for Male, Non-binary, Prefer not to disclose
+                    // Default for Male, Non-binary, Prefer not to disclose
+                    this.currentGender = 'Male';
                 }
+                // Clear marks when gender changes
                 this.marks = [];
                 this.updateInput();
                 this.loadBodyImage();
             });
         });
-        
+
         // Get initial gender selection if any
         const selectedGender = document.querySelector('input[name="gender"]:checked');
-        if (selectedGender && selectedGender.value === 'Female') {
-            this.currentGender = 'Female';
+        if (selectedGender) {
+            this.currentGender = selectedGender.value === 'Female' ? 'Female' : 'Male';
+            this.loadBodyImage();
         }
     }
     
