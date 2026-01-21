@@ -207,7 +207,34 @@ A locally-hosted web form accessible via QR code for clients to complete massage
 
 ## Notes & Updates
 
-### January 21, 2026 (Evening Update)
+### January 21, 2026 (Evening Update - Part 3)
+- ✅ Form cleanup and UI refinements
+  - Removed "Decline / Not Treated" button from sticky action bar
+  - Removed "Work-related injury" field from Preferences section
+  - Removed "alert-section" class from Quick Health Check section (removed red box styling)
+  - Added 20px margin-top to healthBanner for better spacing from checkboxes
+  - Updated [views/intake.html](views/intake.html) to remove declined button and work-related injury field
+  - Updated [public/js/intake-form.js](public/js/intake-form.js) to remove decline functionality
+
+### January 21, 2026 (Evening Update - Part 2)
+- ✅ Major form restructuring and UX improvements
+  - Updated Body Map section with clearer instructions: "Please select on the body map below, the areas you feel most discomfort or pain"
+  - Renamed "Today's Focus" to "What brings you to see me today?"
+  - Removed redundant options: Neck/shoulder tension, Upper back tightness, Forearm/wrist/hand tightness, General tension
+  - Added new wellness-focused options: Gym soreness, Improve sleep, Relaxation/self-care, Sports recovery
+  - Removed "Areas to focus" section (covered by body map)
+  - Removed "Areas to avoid" section
+  - Added "I consent to treatment of the below areas" with checkbox list for all treatable areas
+- ✅ Enhanced health screening with detailed disclaimers
+  - Created new [public/js/healthDisclaimers.js](public/js/healthDisclaimers.js) with condition-specific guidance
+  - When a health condition is selected, detailed disclaimer appears with safe practice information
+  - 17 comprehensive disclaimers covering: pregnancy, surgery, injuries, heart conditions, pacemakers, blood clots, blood thinners, high blood pressure, diabetes, cancer treatment, osteoporosis, epilepsy, skin conditions, fever, allergies, numbness/tingling, and dizziness
+  - Disclaimers provide context-appropriate guidance to both client and therapist
+- ✅ Form validation updates
+  - Updated [public/js/intake-form.js](public/js/intake-form.js) to remove references to deleted fields (focusAreas, avoidAreas)
+  - Maintained "Other" field conditional logic for remaining checkbox groups
+
+### January 21, 2026 (Evening Update - Part 1)
 - ✅ Added gender selection field to all forms (Male, Female, Non-binary, Prefer not to disclose)
   - Updated [views/intake.html](views/intake.html) with gender field in Details section
   - Updated [views/detailed-form.html](views/detailed-form.html) with gender field in Client Details section
@@ -218,9 +245,12 @@ A locally-hosted web form accessible via QR code for clients to complete massage
   - Male, Non-binary, and Prefer not to disclose show male body map ([public/img/Male_Body_Chart.png](public/img/Male_Body_Chart.png))
   - Muscle map clears when gender is changed to prevent confusion
 - ✅ Enhanced conditional field hiding for better UX
-  - Updated [public/js/intake-form.js](public/js/intake-form.js) to hide "Other" text fields until relevant checkbox/radio is selected
-  - Added hide/show for Company/Team "Other" text input
+  - Updated [public/js/intake-form.js](public/js/intake-form.js) to hide "Other" text fields until relevant checkbox is selected
   - Existing conditional logic already handles allergies and medications in detailed form via [public/js/conditionalFields.js](public/js/conditionalFields.js)
+- ✅ Simplified Company/Team field
+  - Changed from radio buttons to simple text input across all forms
+  - Updated [views/intake.html](views/intake.html), [views/detailed-form.html](views/detailed-form.html), and [views/quick-form.html](views/quick-form.html)
+  - Removed conditional "Other" field logic from [public/js/intake-form.js](public/js/intake-form.js)
 - ✅ Added gender validation to all form submission handlers
   - Updated [public/js/intake-form.js](public/js/intake-form.js) for universal intake form
   - Updated [public/js/detailed-form.js](public/js/detailed-form.js) for detailed form

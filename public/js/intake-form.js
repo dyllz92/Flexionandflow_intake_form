@@ -2,15 +2,12 @@
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('intakeForm');
     const submitBtn = document.getElementById('submitBtn');
-    const declineBtn = document.getElementById('declineBtn');
 
     if (!form) return;
 
     // Progressive disclosure for Other fields (checkboxes)
     const otherPairs = [
         { checkboxName: 'reasonsToday', inputId: 'reasonsOtherText' },
-        { checkboxName: 'focusAreas', inputId: 'focusOtherText' },
-        { checkboxName: 'avoidAreas', inputId: 'avoidOtherText' },
         { checkboxName: 'healthChecks', inputId: 'otherHealthConcernText' }
     ];
     otherPairs.forEach(({ checkboxName, inputId }) => {
@@ -25,19 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
         inputs.forEach(i => i.addEventListener('change', update));
         update();
     });
-
-    // Progressive disclosure for Other fields (radio buttons)
-    const companyTeamInputs = document.querySelectorAll('input[name="companyTeam"]');
-    const companyTeamOtherInput = document.getElementById('companyTeamOther');
-    if (companyTeamOtherInput) {
-        const updateCompanyTeam = () => {
-            const otherChecked = Array.from(companyTeamInputs).some(i => i.checked && i.value === 'Other');
-            companyTeamOtherInput.style.display = otherChecked ? 'inline-block' : 'none';
-            if (!otherChecked) companyTeamOtherInput.value = '';
-        };
-        companyTeamInputs.forEach(i => i.addEventListener('change', updateCompanyTeam));
-        updateCompanyTeam();
-    }
 
     // Health red-flag banner
     const healthChecks = document.querySelectorAll('input[name="healthChecks"]');
@@ -81,21 +65,15 @@ document.addEventListener('DOMContentLoaded', () => {
     genderInputs.forEach(g => g.addEventListener('change', updateSubmitEnabled));
     updateSubmitEnabled();
 
-    // Decline flow
-    declineBtn.addEventListener('click', async () => {
-        const reason = prompt('Optional: brief reason for decline (cancel to skip)');
-        await submitForm('declined', reason || '');
-    });
-
     // Submit
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         await submitForm('submitted');
     });
 
-    async function submitForm(status, declineReason = '') {
-        // Validate signature for submitted status
-        if (status === 'submitted' && window.signaturePad && window.signaturePad.isEmpty()) {
+    async function submitForm(status) {
+        // Validate signature
+        if (window.signaturePad && window.signaturePad.isEmpty()) {
             alert('Please provide your signature before submitting.');
             return;
         }
@@ -150,7 +128,6 @@ document.addEventListener('DOMContentLoaded', () => {
         data.updatedAt = nowIso;
         data.status = status;
         data.formType = 'universal';
-        if (declineReason) data.declineReason = declineReason;
 
         // Show loading
         showLoading(true);
