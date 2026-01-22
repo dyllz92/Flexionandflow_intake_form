@@ -131,8 +131,9 @@ function generateUniversalForm(doc, data) {
             }
 
             // Reserve space for the image and draw marks scaled to a default canvas size
-            const imgWidth = 260;
-            const imgX = 80;
+            // Use a larger image on its own page for a clearer copy
+            const imgWidth = 420;
+            const imgX = Math.max(50, (doc.page.width - imgWidth) / 2);
             const startY = doc.y + 6;
 
             // Default canvas size used by the client when no image present
@@ -140,8 +141,12 @@ function generateUniversalForm(doc, data) {
 
             if (imagePath) {
                 try {
-                    // Add the image
-                    doc.image(imagePath, imgX, startY, { width: imgWidth });
+                    // Put image on its own page for clarity
+                    doc.addPage();
+                    doc.fontSize(11).fillColor('#2c5f7d').text('Body Map (with markers)', { align: 'center' });
+                    doc.moveDown(0.5);
+                    doc.image(imagePath, imgX, doc.y, { width: imgWidth });
+                    const imageTopY = doc.y;
                     // Compute scaled height from image dimensions (approx)
                     // pdfkit will scale maintaining aspect; we read actual image dimensions via fs when possible
                     // Use a safe scaling factor based on default canvas width
@@ -150,12 +155,20 @@ function generateUniversalForm(doc, data) {
                     // Draw marks as small circles over the image
                     marks.forEach(mark => {
                         const mx = imgX + (mark.x || 0) * scale;
-                        const my = startY + (mark.y || 0) * scale;
+                        const my = imageTopY + (mark.y || 0) * scale;
                         doc.circle(mx, my, 6).fill('#1e90ff').stroke('#0b5ed7');
                     });
 
-                    // Move cursor below image
-                    doc.moveDown( Math.ceil((defaultCanvas.height * scale) / 12) );
+                    // Add textual listing of marks for clarity
+                    if (Array.isArray(marks) && marks.length) {
+                        const marksText = marks.map((m, i) => {
+                            return `#${i+1}: x=${m.x || 0}, y=${m.y || 0}${m.timestamp ? `, ${m.timestamp}` : ''}`;
+                        }).join('; ');
+                        addField(doc, 'Body map marks', marksText);
+                    }
+
+                    // Move cursor below image (small gap)
+                    doc.moveDown(1);
                 } catch (err) {
                     addField(doc, 'Body map image', 'Error embedding image');
                 }
@@ -173,6 +186,11 @@ function generateUniversalForm(doc, data) {
                     doc.circle(mx, my, 6).fill('#1e90ff').stroke('#0b5ed7');
                 });
 
+                if (Array.isArray(marks) && marks.length) {
+                    const marksText = marks.map((m, i) => `#${i+1}: x=${m.x || 0}, y=${m.y || 0}${m.timestamp ? `, ${m.timestamp}` : ''}`).join('; ');
+                    addField(doc, 'Body map marks', marksText);
+                }
+
                 doc.moveDown( Math.ceil(boxH / 12) );
             }
 
@@ -187,7 +205,11 @@ function generateUniversalForm(doc, data) {
     addField(doc, 'Pressure preference', data.pressurePreference || 'Not specified');
 
     addSection(doc, 'Quick Health Check');
-    addField(doc, 'Items flagged', Array.isArray(data.healthChecks) ? data.healthChecks.join('; ') : (data.healthChecks || 'None'));
+    if (Array.isArray(data.healthChecks) && data.healthChecks.length) {
+        addFieldList(doc, 'Items flagged', data.healthChecks);
+    } else {
+        addField(doc, 'Items flagged', data.healthChecks || 'None');
+    }
     // Include any therapist review note if provided
     if (data.reviewNote) addField(doc, 'Review note', data.reviewNote);
 
@@ -212,6 +234,56 @@ function generateUniversalForm(doc, data) {
     }
     if (data.signedAt) addField(doc, 'Signed at', data.signedAt);
     addField(doc, 'Status', data.status || 'submitted');
+
+    // Full responses: include any remaining fields not already shown above
+    const shown = new Set([
+        'fullName','mobile','email','gender','muscleMapMarks','pressurePreference','healthChecks','reviewNote','avoidNotes','otherHealthConcernText','emailOptIn','smsOptIn','termsAccepted','treatmentConsent','publicSettingOk','signature','signedAt','status','submissionDate','createdAt','updatedAt','formType'
+    ]);
+
+    addSection(doc, 'Full responses (summary)');
+    const keys = Object.keys(data).sort();
+    keys.forEach(key => {
+        if (shown.has(key)) return;
+
+        const val = data[key];
+
+        if (key === 'signature') {
+            addField(doc, 'Signature included', val ? 'Yes' : 'No');
+            return;
+        }
+
+        if (key === 'muscleMapMarks') {
+            // already handled above
+            return;
+        }
+
+        if (Array.isArray(val)) {
+            addFieldList(doc, key, val);
+            return;
+        }
+
+        if (typeof val === 'boolean') {
+            addField(doc, key, val ? 'Yes' : 'No');
+            return;
+        }
+
+        if (typeof val === 'object' && val !== null) {
+            try { addField(doc, key, JSON.stringify(val)); } catch(e) { addField(doc, key, String(val)); }
+            return;
+        }
+
+        if (typeof val === 'string') {
+            addField(doc, key, val.length > 800 ? val.substring(0,800) + '…' : val);
+            return;
+        }
+
+        if (typeof val !== 'undefined') {
+            addField(doc, key, String(val));
+            return;
+        }
+
+        addField(doc, key, 'Not provided');
+    });
 }
 
 function addSection(doc, title) {
@@ -234,6 +306,23 @@ function addField(doc, label, value) {
        .text(value || 'Not provided');
     
     doc.moveDown(0.3);
+}
+
+function addFieldList(doc, label, arr) {
+    if (!Array.isArray(arr) || arr.length === 0) {
+        addField(doc, label, 'None');
+        return;
+    }
+
+    if (doc.y > 700) doc.addPage();
+    doc.fontSize(10).fillColor('#333').text(label + ':');
+    doc.moveDown(0.2);
+    doc.fontSize(10).fillColor('#000');
+    arr.forEach(item => {
+        const line = (typeof item === 'string') ? item : JSON.stringify(item);
+        doc.text('- ' + line, { indent: 12 });
+    });
+    doc.moveDown(0.4);
 }
 
 function formatValue(value, otherValue) {

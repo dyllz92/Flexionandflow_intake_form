@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Preview - Seated Chair Massage Intake</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/forms.css">
+  <style>
+    .preview-value { color: #000; font-weight: 500; }
+    .body-map-wrapper { position: relative; width: 400px; margin: 10px auto; }
+    .body-map-wrapper img { width: 100%; display:block }
+    .marker { position: absolute; width: 18px; height: 18px; border-radius: 50%; background: #1e90ff; border: 2px solid #0b5ed7; transform: translate(-50%, -50%); }
+    .preview-container { max-width: 760px; margin: 20px auto; background: #fff; padding: 18px; border-radius: 8px; }
+    .section { margin-bottom: 14px; }
+  </style>
+</head>
+<body>
+  <div class="preview-container">
+    <h1 style="text-align:center; color:var(--primary-color);">Flexion & Flow</h1>
+    <h3 style="text-align:center; margin-top:-6px;">Seated Chair Massage Intake Form</h3>
+    <hr>
+
+    <div class="section">
+      <h4>Client Details</h4>
+      <div><strong>Full name:</strong> <span class="preview-value">%%FULL_NAME%%</span></div>
+      <div><strong>Mobile:</strong> <span class="preview-value">%%MOBILE%%</span></div>
+      <div><strong>Email:</strong> <span class="preview-value">%%EMAIL%%</span></div>
+      <div><strong>Gender:</strong> <span class="preview-value">%%GENDER%%</span></div>
+    </div>
+
+    <div class="section">
+      <h4>Body Map</h4>
+      <div class="body-map-wrapper">
+        <img src="%%BODY_MAP_IMAGE%%" alt="Body map">
+        %%BODY_MAP_MARKERS%%
+      </div>
+      <div><strong>Marks:</strong> <span class="preview-value">%%BODY_MAP_MARKS_TEXT%%</span></div>
+    </div>
+
+    <div class="section">
+      <h4>Preferences</h4>
+      <div><strong>Pressure preference:</strong> <span class="preview-value">%%PRESSURE%%</span></div>
+    </div>
+
+    <div class="section">
+      <h4>Health Check</h4>
+      <div><strong>Items flagged:</strong> <span class="preview-value">%%HEALTH_FLAGS%%</span></div>
+      <div><strong>Additional info:</strong> <span class="preview-value">%%REVIEW_NOTE%%</span></div>
+    </div>
+
+    <div class="section">
+      <h4>Anything to avoid</h4>
+      <div class="preview-value">%%AVOID_NOTES%%</div>
+    </div>
+
+    <div class="section">
+      <h4>Questions & Answers</h4>
+      <div><strong>Email opt-in:</strong> <span class="preview-value">%%EMAIL_OPTIN%%</span></div>
+      <div><strong>SMS opt-in:</strong> <span class="preview-value">%%SMS_OPTIN%%</span></div>
+    </div>
+
+    <div class="section">
+      <h4>Consent</h4>
+      <div><strong>Terms accepted:</strong> <span class="preview-value">%%TERMS%%</span></div>
+      <div><strong>Treatment consent:</strong> <span class="preview-value">%%TREATMENT%%</span></div>
+      <div><strong>Public setting acknowledgement:</strong> <span class="preview-value">%%PUBLIC_OK%%</span></div>
+    </div>
+
+    <div class="section">
+      <h4>Signature</h4>
+      <div>%%SIGNATURE_IMAGE%%</div>
+    </div>
+
+  </div>
+</body>
+</html>

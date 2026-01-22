@@ -6,6 +6,8 @@ const cors = require('cors');
 require('dotenv').config();
 
 const pdfGenerator = require('./utils/pdfGenerator');
+let htmlToPdf = null;
+try { htmlToPdf = require('./utils/htmlToPdf'); } catch (e) { htmlToPdf = null; }
 const driveUploader = require('./utils/driveUploader');
 
 const app = express();
@@ -78,9 +80,20 @@ app.post('/api/submit-form', async (req, res) => {
             });
         }
         
-        // Generate PDF
+        // Generate PDF (prefer Puppeteer-rendered visual PDF when available)
         console.log('Generating PDF...');
-        const pdfBuffer = await pdfGenerator.generatePDF(formData);
+        let pdfBuffer = null;
+        if (htmlToPdf && typeof htmlToPdf.generatePDFWithPuppeteer === 'function') {
+            try {
+                pdfBuffer = await htmlToPdf.generatePDFWithPuppeteer(formData);
+            } catch (err) {
+                console.error('Puppeteer PDF generation failed, falling back to PDFKit:', err);
+            }
+        }
+
+        if (!pdfBuffer) {
+            pdfBuffer = await pdfGenerator.generatePDF(formData);
+        }
         
         // Create filename per universal format: ChairMassageIntake_{fullName}_{YYYY-MM-DD}_{HHmm}.pdf
         const clientName = (formData.fullName || formData.name || 'Client').replace(/[^a-z0-9]/gi, '_');
