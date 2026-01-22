@@ -102,12 +102,80 @@ function generateUniversalForm(doc, data) {
     addField(doc, 'Full name', data.fullName);
     addField(doc, 'Mobile', data.mobile);
     addField(doc, 'Email', data.email || 'Not provided');
+    if (data.gender) addField(doc, 'Gender', data.gender);
 
+    // Body map: include an image (if available) and draw marks
     addSection(doc, 'Body Map');
     if (data.muscleMapMarks) {
         try {
             const marks = typeof data.muscleMapMarks === 'string' ? JSON.parse(data.muscleMapMarks) : data.muscleMapMarks;
             addField(doc, 'Discomfort areas marked', Array.isArray(marks) && marks.length > 0 ? `${marks.length} area(s) marked on body map` : 'None');
+
+            // Attempt to include a body map image from public/img based on gender
+            const gender = (data.gender || '').toLowerCase();
+            const imgCandidates = [];
+            if (gender === 'female') {
+                imgCandidates.push(path.join(__dirname, '..', 'public', 'img', 'Female Body Map.png'));
+                imgCandidates.push(path.join(__dirname, '..', 'public', 'img', 'Female_Body_Chart.png'));
+            } else {
+                imgCandidates.push(path.join(__dirname, '..', 'public', 'img', 'Male Body Map.png'));
+                imgCandidates.push(path.join(__dirname, '..', 'public', 'img', 'Male_Body_Chart.png'));
+            }
+
+            // Fallback to a generic candidate
+            imgCandidates.push(path.join(__dirname, '..', 'public', 'img', 'Body Map.png'));
+
+            let imagePath = null;
+            for (const p of imgCandidates) {
+                if (fs.existsSync(p)) { imagePath = p; break; }
+            }
+
+            // Reserve space for the image and draw marks scaled to a default canvas size
+            const imgWidth = 260;
+            const imgX = 80;
+            const startY = doc.y + 6;
+
+            // Default canvas size used by the client when no image present
+            const defaultCanvas = { width: 400, height: 600 };
+
+            if (imagePath) {
+                try {
+                    // Add the image
+                    doc.image(imagePath, imgX, startY, { width: imgWidth });
+                    // Compute scaled height from image dimensions (approx)
+                    // pdfkit will scale maintaining aspect; we read actual image dimensions via fs when possible
+                    // Use a safe scaling factor based on default canvas width
+                    const scale = imgWidth / defaultCanvas.width;
+
+                    // Draw marks as small circles over the image
+                    marks.forEach(mark => {
+                        const mx = imgX + (mark.x || 0) * scale;
+                        const my = startY + (mark.y || 0) * scale;
+                        doc.circle(mx, my, 6).fill('#1e90ff').stroke('#0b5ed7');
+                    });
+
+                    // Move cursor below image
+                    doc.moveDown( Math.ceil((defaultCanvas.height * scale) / 12) );
+                } catch (err) {
+                    addField(doc, 'Body map image', 'Error embedding image');
+                }
+            } else {
+                // No image: draw a simple placeholder box and plot marks relative to default canvas
+                const boxX = imgX;
+                const boxW = imgWidth;
+                const boxH = Math.round(defaultCanvas.height * (imgWidth / defaultCanvas.width));
+                doc.rect(boxX, startY, boxW, boxH).stroke('#ddd');
+                doc.fontSize(9).fillColor('#666').text('Body diagram (no image available)', boxX, startY + 6, { width: boxW, align: 'center' });
+
+                marks.forEach(mark => {
+                    const mx = boxX + (mark.x || 0) * (boxW / defaultCanvas.width);
+                    const my = startY + (mark.y || 0) * (boxH / defaultCanvas.height);
+                    doc.circle(mx, my, 6).fill('#1e90ff').stroke('#0b5ed7');
+                });
+
+                doc.moveDown( Math.ceil(boxH / 12) );
+            }
+
         } catch (e) {
             addField(doc, 'Discomfort areas marked', 'Parse error');
         }
@@ -119,7 +187,7 @@ function generateUniversalForm(doc, data) {
     addField(doc, 'Pressure preference', data.pressurePreference || 'Not specified');
 
     addSection(doc, 'Quick Health Check');
-    addField(doc, 'Items flagged', Array.isArray(data.healthChecks) ? data.healthChecks.join(', ') : (data.healthChecks || 'None'));
+    addField(doc, 'Items flagged', Array.isArray(data.healthChecks) ? data.healthChecks.join('; ') : (data.healthChecks || 'None'));
     if (data.reviewedByTherapist) {
         addField(doc, 'Reviewed by therapist', 'Yes');
         if (data.reviewNote) addField(doc, 'Review note', data.reviewNote);
@@ -129,6 +197,14 @@ function generateUniversalForm(doc, data) {
         addSection(doc, 'Anything to avoid');
         addField(doc, 'Avoid', data.avoidNotes);
     }
+
+    // Add a Questions & Answers detailed section
+    addSection(doc, 'Questions & Answers');
+    addField(doc, 'Pressure preference', data.pressurePreference || 'Not specified');
+    if (data.avoidNotes) addField(doc, 'Anything to avoid', data.avoidNotes);
+    if (data.otherHealthConcernText) addField(doc, 'Other health concern', data.otherHealthConcernText);
+    if (typeof data.emailOptIn !== 'undefined') addField(doc, 'Email opt-in', data.emailOptIn ? 'Yes' : 'No');
+    if (typeof data.smsOptIn !== 'undefined') addField(doc, 'SMS opt-in', data.smsOptIn ? 'Yes' : 'No');
 
     addSection(doc, 'Consent');
     addField(doc, 'Terms accepted', data.termsAccepted ? 'Yes' : 'No');

@@ -508,6 +508,40 @@ button[type="button"]#clearSignature {
     margin-bottom: 10px;
 }
 
+/* Success card badge and spacing */
+.success-card {
+    position: relative;
+    background: white;
+    border-radius: 18px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+    padding: 30px;
+}
+.success-badge {
+    position: absolute;
+    top: -12px;
+    left: 18px;
+    background: var(--success-color);
+    color: white;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+.success-message .icon {
+    font-size: 28px;
+    margin-bottom: 12px;
+}
+
+.form-button {
+    padding: 22px;
+    border-radius: 12px;
+}
+
 /* Loading Overlay */
 .loading-overlay {
     position: fixed;
