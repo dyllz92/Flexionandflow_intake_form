@@ -188,10 +188,8 @@ function generateUniversalForm(doc, data) {
 
     addSection(doc, 'Quick Health Check');
     addField(doc, 'Items flagged', Array.isArray(data.healthChecks) ? data.healthChecks.join('; ') : (data.healthChecks || 'None'));
-    if (data.reviewedByTherapist) {
-        addField(doc, 'Reviewed by therapist', 'Yes');
-        if (data.reviewNote) addField(doc, 'Review note', data.reviewNote);
-    }
+    // Include any therapist review note if provided
+    if (data.reviewNote) addField(doc, 'Review note', data.reviewNote);
 
     if (data.avoidNotes) {
         addSection(doc, 'Anything to avoid');

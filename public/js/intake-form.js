@@ -19,9 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             healthBanner.classList.add('hidden-field');
             healthBanner.style.display = 'none';
-            const reviewed = document.getElementById('reviewedByTherapist');
             const note = document.getElementById('reviewNote');
-            if (reviewed) reviewed.checked = false;
             if (note) note.value = '';
         }
     };
