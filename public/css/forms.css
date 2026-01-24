@@ -1,4 +1,4 @@
-/* Hemisphere Wellness Wizard Styles */
+/* Hemisphere Wellness Refined Wizard Styles */
 :root {
     --primary: #2b6777;
     --accent: #ffb200;
@@ -6,40 +6,49 @@
     --text: #222;
     --text-light: #666;
     --border: #e0e0e0;
-    --radius: 10px;
-    --shadow: 0 2px 8px rgba(43,103,119,0.08);
+    --radius: 14px;
+    --shadow: 0 4px 24px rgba(43,103,119,0.10);
+}
+body {
+    background: var(--bg);
 }
 .container {
-    max-width: 480px;
-    margin: 0 auto;
+    max-width: 420px;
+    margin: 48px auto 32px auto;
     background: #fff;
     border-radius: var(--radius);
     box-shadow: var(--shadow);
-    padding: 32px 24px;
+    padding: 36px 24px 32px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .hero-title {
     color: var(--primary);
-    font-size: 2.2rem;
-    font-weight: 700;
+    font-size: 2.1rem;
+    font-weight: 800;
     margin-bottom: 0.5em;
     text-align: center;
+    letter-spacing: 0.5px;
 }
 .separator {
     width: 60px;
     height: 4px;
     background: var(--accent);
     border-radius: 2px;
-    margin: 0 auto 16px auto;
+    margin: 0 auto 18px auto;
 }
 .hero-desc {
     color: var(--text-light);
     text-align: center;
     margin-bottom: 0;
+    font-size: 1.08rem;
 }
 .form-selection {
     display: flex;
-    gap: 32px;
+    gap: 28px;
     justify-content: center;
+    margin: 32px 0 0 0;
 }
 .btn {
     background: var(--primary);
@@ -51,6 +60,8 @@
     font-weight: 600;
     cursor: pointer;
     transition: background 0.2s;
+    box-shadow: 0 1px 4px rgba(43,103,119,0.08);
+    letter-spacing: 0.5px;
 }
 .btn-secondary {
     background: var(--accent);
@@ -60,40 +71,49 @@
     outline: 2px solid var(--accent);
 }
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 22px;
+    width: 100%;
 }
 label {
     font-weight: 600;
     color: var(--text);
     display: block;
-    margin-bottom: 6px;
+    margin-bottom: 7px;
+    font-size: 1.04rem;
 }
 input, textarea {
     width: 100%;
-    padding: 10px;
+    padding: 11px;
     border: 1px solid var(--border);
     border-radius: var(--radius);
     font-size: 1rem;
     margin-bottom: 2px;
     background: #fafbfc;
     color: var(--text);
+    box-sizing: border-box;
 }
 input:focus, textarea:focus {
     border-color: var(--primary);
     outline: none;
 }
+input[type="radio"] {
+    width: auto;
+    margin-right: 8px;
+}
 .form-error {
     color: #d32f2f;
-    font-size: 0.95em;
+    font-size: 0.97em;
     margin-top: 2px;
 }
 .wizard-progress {
     margin-bottom: 24px;
+    width: 100%;
 }
 .wizard-stepper {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+    width: 100%;
 }
 .wizard-stepper .step {
     width: 32px;
@@ -119,11 +139,12 @@ input:focus, textarea:focus {
 .wizard-step-label {
     text-align: center;
     color: var(--text-light);
-    font-size: 1.05rem;
-    margin-bottom: 8px;
+    font-size: 1.07rem;
+    margin-bottom: 10px;
 }
 .wizard-step {
     display: none;
+    width: 100%;
 }
 .wizard-step.active {
     display: block;
@@ -132,7 +153,8 @@ input:focus, textarea:focus {
     display: flex;
     justify-content: space-between;
     gap: 16px;
-    margin-top: 24px;
+    margin-top: 28px;
+    width: 100%;
 }
 .accent {
     color: var(--accent);
@@ -142,12 +164,17 @@ input:focus, textarea:focus {
 }
 @media (max-width: 600px) {
     .container {
-        padding: 16px 4px;
+        padding: 14px 2px;
+        margin: 18px auto 12px auto;
     }
     .wizard-stepper .step {
-        width: 26px;
-        height: 26px;
-        font-size: 1rem;
+        width: 24px;
+        height: 24px;
+        font-size: 0.98rem;
+    }
+    .wizard-actions {
+        flex-direction: column;
+        gap: 10px;
     }
 }
     align-items: center;
