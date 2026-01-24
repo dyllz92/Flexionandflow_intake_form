@@ -420,6 +420,7 @@ textarea {
 /* Signature Pad */
 .signature-container {
     margin-bottom: 15px;
+    position: relative;
 }
 
 .signature-pad {
@@ -434,6 +435,25 @@ textarea {
 
 .signature-pad.signed {
     border-color: var(--success-color);
+}
+
+/* Typed signature overlay sits on top of the canvas and matches its size */
+.signature-container .typed-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    font-family: 'Segoe Script', 'Brush Script MT', cursive;
+    font-size: 32px;
+    color: #000;
+    padding: 12px;
+    text-align: center;
+    word-break: break-word;
 }
 
 /* Buttons */
@@ -675,6 +695,15 @@ button[type="button"]#clearSignature {
     margin: 0;
     font-family: inherit;
     white-space: pre-wrap;
+}
+
+/* Make the Close button inside the Terms modal normal-sized (override global .btn-secondary) */
+.terms-modal .terms-header .btn-secondary {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    flex: 0 0 auto;
+    width: auto;
 }
 
 @media (max-width: 480px) {

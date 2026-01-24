@@ -117,8 +117,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.typedSignatureText = '';
                 const typedInput = document.getElementById('typedSignatureInput');
                 const typedPreview = document.getElementById('typedSignaturePreview');
+                const typedOverlay = document.getElementById('typedOverlay');
                 if (typedInput) typedInput.value = '';
                 if (typedPreview) typedPreview.textContent = '';
+                if (typedOverlay) typedOverlay.textContent = '';
                 const sigField = document.getElementById('signatureData');
                 if (sigField) sigField.value = '';
             });
@@ -131,8 +133,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.typedSignatureText = '';
                 const typedInput = document.getElementById('typedSignatureInput');
                 const typedPreview = document.getElementById('typedSignaturePreview');
+                const typedOverlay = document.getElementById('typedOverlay');
                 if (typedInput) typedInput.value = '';
                 if (typedPreview) typedPreview.textContent = '';
+                if (typedOverlay) typedOverlay.textContent = '';
                 const sigField = document.getElementById('signatureData');
                 if (sigField) sigField.value = '';
                 // switch back to draw mode
@@ -146,10 +150,26 @@ document.addEventListener('DOMContentLoaded', () => {
         const drawRadio = document.getElementById('signatureMethodDraw');
         const typeRadio = document.getElementById('signatureMethodType');
         function toggleSignatureMethod(mode) {
-            const drawArea = document.querySelectorAll('.signature-draw');
+            // Keep the signature container visible at all times so the box stays the same size.
             const typeArea = document.querySelectorAll('.signature-type');
-            drawArea.forEach(el => el.style.display = (mode === 'draw') ? '' : 'none');
             typeArea.forEach(el => el.style.display = (mode === 'type') ? '' : 'none');
+
+            const canvasEl = document.getElementById('signatureCanvas');
+            const typedOverlay = document.getElementById('typedOverlay');
+            if (mode === 'type') {
+                if (canvasEl) canvasEl.style.display = 'none';
+                if (typedOverlay) {
+                    typedOverlay.style.display = 'flex';
+                    typedOverlay.setAttribute('aria-hidden', 'false');
+                    typedOverlay.textContent = window.typedSignatureText || '';
+                }
+            } else {
+                if (canvasEl) canvasEl.style.display = '';
+                if (typedOverlay) {
+                    typedOverlay.style.display = 'none';
+                    typedOverlay.setAttribute('aria-hidden', 'true');
+                }
+            }
         }
         if (drawRadio) drawRadio.addEventListener('change', () => toggleSignatureMethod('draw'));
         if (typeRadio) typeRadio.addEventListener('change', () => toggleSignatureMethod('type'));
@@ -161,7 +181,11 @@ document.addEventListener('DOMContentLoaded', () => {
             typedInput.addEventListener('input', (e) => {
                 const v = (e.target.value || '').trim();
                 window.typedSignatureText = v;
-                if (typedPreview) typedPreview.textContent = v;
+                // update any visible preview or overlay
+                const typedPreviewLocal = document.getElementById('typedSignaturePreview');
+                const typedOverlayLocal = document.getElementById('typedOverlay');
+                if (typedPreviewLocal) typedPreviewLocal.textContent = v;
+                if (typedOverlayLocal) typedOverlayLocal.textContent = v;
                 const sigField = document.getElementById('signatureData');
                 if (sigField) {
                     // prefix typed signatures so the server/pdf knows how to render

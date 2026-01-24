@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Ensure combined consent and opt-in booleans are included
         data.consentAll = !!document.getElementById('consentAll') && document.getElementById('consentAll').checked;
-        data.smsOptIn = !!document.getElementById('smsOptIn') && document.getElementById('smsOptIn').checked;
+        data.emailOptIn = !!document.getElementById('emailOptIn') && document.getElementById('emailOptIn').checked;
 
         // Metadata
         const nowIso = new Date().toISOString();

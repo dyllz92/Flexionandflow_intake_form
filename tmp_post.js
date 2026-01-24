@@ -9,7 +9,6 @@ const data = JSON.stringify({
   reviewNote: 'Automated test submission',
   avoidNotes: '',
   emailOptIn: false,
-  smsOptIn: false,
   consentAll: true,
   signature: 'text:Test User',
   signedAt: new Date().toISOString(),

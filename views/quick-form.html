@@ -148,13 +148,13 @@
                     <div class="signature-draw">
                         <div class="signature-container">
                             <canvas id="signatureCanvas" class="signature-pad"></canvas>
+                            <div id="typedOverlay" class="typed-overlay" aria-hidden="true"></div>
                             <button type="button" id="clearSignature" class="btn-secondary">Clear Signature</button>
                         </div>
                     </div>
 
                     <div class="signature-type" style="display:none; margin-top:8px;">
                         <input type="text" id="typedSignatureInput" placeholder="Type your name here" maxlength="100" style="width:100%; padding:8px; font-size:16px;" />
-                        <div id="typedSignaturePreview" class="typed-signature-preview" aria-hidden="true" style="margin-top:8px; font-family: 'Segoe Script', 'Brush Script MT', cursive; font-size:32px; color:#000;"></div>
                         <button type="button" id="clearTypedSignature" class="btn-secondary" style="margin-top:8px;">Clear Typed</button>
                     </div>
 
