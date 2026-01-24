@@ -49,7 +49,7 @@ npm run dev
 
 - **Local**: http://localhost:3000 (or your configured `PORT`)
 - **Network**: http://YOUR_LOCAL_IP:3000 (find your IP with `ipconfig` on Windows)
-- **Front Door (HTTPS)**: https://flexion-frontdoor-bmhzhfdwfteycuf8.z02.azurefd.net
+ - **App URL (Railway)**: https://intake-form.up.railway.app
 
 ## Google Drive Setup (Optional)
 
@@ -114,15 +114,15 @@ Deploy to:
 - **Render**: https://render.com
 - **DigitalOcean**: https://digitalocean.com
 
-### Option 4: Azure Front Door (HTTPS on Free Tier)
+### Option 4: Hosted App (Railway)
 
-Use Front Door to provide HTTPS without a custom domain:
+The app is hosted on Railway. Use the Railway URL below to access the live service:
 
-- **Front Door URL**: https://flexion-frontdoor-bmhzhfdwfteycuf8.z02.azurefd.net
+- **App URL (Railway)**: https://intake-form.up.railway.app
 
 Traffic flow:
 
-User → Front Door (HTTPS) → App Service
+User → Railway → App Service
 
 ## Project Structure
 
