@@ -6,20 +6,35 @@
 
 ---
 
-## Ã°Å¸â€œâ€¹ Updated Roadmap Summary
 
-### Ã¢Å“â€¦ Current Status (90% Complete)
-- Ã¢Å“â€¦ Repository initialized
-- Ã¢Å“â€¦ Core implementation complete
-- Ã¢Å“â€¦ MVP features functional
-- Ã¢Å“â€¦ Universal intake form with 6-step wizard
-- Ã¢Å“â€¦ Step-by-step navigation with validation
-- Ã¢Å“â€¦ Railway deployment configuration
-- Ã¢Å“â€¦ Home page with dual form selection buttons
-- Ã¢Å“â€¦ Interactive body mapping with PNG/SVG fallback
-- Ã¢ÂÂ³ Mobile device testing pending
-- Ã¢ÂÂ³ QR code generation pending
-- Ã¢ÂÂ³ Production deployment pending
+## 🚀 Updated Roadmap Summary
+
+### ✅ Current Status (95% Complete)
+- ✅ Repository initialized
+- ✅ Core implementation complete
+- ✅ MVP features functional
+- ✅ Universal intake form with 6-step wizard
+- ✅ Step-by-step navigation with validation
+- ✅ Home page with dual form selection buttons
+- ✅ Interactive body mapping with PNG/SVG fallback
+- ✅ Railway deployment configuration (complete)
+- ✅ Production deployment to Railway (complete)
+- ✅ All config files and CI/CD improvements (see below)
+- ⏳ Mobile device testing pending
+- ⏳ QR code generation pending
+
+---
+
+## 📝 Recent Improvements (Jan 2026)
+
+- Removed Azure/Vercel deploys; Railway is now the sole deployment target
+- Added config-as-code: `railway.toml`, `.nvmrc`, `.env.example`, `.npmrc`, `Procfile`
+- Improved CI: added test script, fixed engine/lockfile warnings, removed Azure workflow
+- Updated README and documentation for Railway deployment
+- Added/updated package-lock.json and packageManager field
+- General code cleanup and workflow improvements
+
+---
 
 ---
 
@@ -41,21 +56,15 @@
 - Print-friendly QR code version
 - Est. time: 1 hour
 
-### Priority 2 Ã¢â‚¬â€ SHORT-TERM
 
-**Production Deployment to Railway**
-- Verify .env configuration for production
-- Set up Google Service Account credentials in Railway
-- Verify Railway deploy settings
-- Confirm CORS settings for production URL
-- Est. time: 1Ã¢â‚¬â€œ2 hours
+### Priority 2 — SHORT-TERM
 
 **Error Logging & Monitoring**
 - Set up Railway metrics or Sentry
 - Add error tracking for PDF generation failures
 - Monitor Google Drive API quota usage
 - Log form submission success/failure rates
-- Est. time: 2Ã¢â‚¬â€œ3 hours
+- Est. time: 2–3 hours
 
 ### Priority 3 Ã¢â‚¬â€ TESTING & VALIDATION
 
@@ -107,7 +116,7 @@
 
 ---
 
-## Ã°Å¸Å¡â‚¬ MVP Launch Readiness
+## 🏁 MVP Launch Readiness
 
 **Current:** 90% complete
 
@@ -128,7 +137,7 @@
 
 ---
 
-## Ã¢Å¡Â Ã¯Â¸Â Known Issues
+## ⚠️ Known Issues
 
 | Issue | Workaround | Resolution |
 |---|---|---|
@@ -139,7 +148,7 @@
 
 ---
 
-## Ã°Å¸Å½â€œ Tech Stack
+## 🛠️ Tech Stack
 
 - **Frontend:** HTML5, CSS3, Vanilla JavaScript
 - **Backend:** Node.js + Express
@@ -149,12 +158,12 @@
 
 ---
 
-## Ã°Å¸â€œÅ  Task Priority Board
+## 🗂️ Task Priority Board
 
 | Priority | Task | Status | Owner |
 |---|---|---|---|
-| Ã°Å¸â€Â´ P1 | Mobile device testing | TODO | Team |
-| Ã°Å¸â€Â´ P1 | Production deployment | TODO | DevOps |
+| 🚩 P1 | Mobile device testing | TODO | Team |
+| ✅ P1 | Production deployment | Complete | DevOps |
 | Ã°Å¸Å¸Â  P2 | QR code generation | TODO | Dev |
 | Ã°Å¸Å¸Â  P2 | Error logging setup | TODO | DevOps |
 | Ã°Å¸Å¸Â¡ P3 | Comprehensive testing | TODO | QA |
