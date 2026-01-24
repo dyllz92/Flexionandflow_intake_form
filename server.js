@@ -71,6 +71,12 @@ app.post('/api/submit-form', async (req, res) => {
             });
         }
         
+        // Require consent: support newer `consentAll` or legacy `termsAccepted`+`treatmentConsent`
+        const hasConsent = !!formData.consentAll || (!!formData.termsAccepted && !!formData.treatmentConsent);
+        if (!hasConsent) {
+            return res.status(400).json({ success: false, message: 'Consent is required to proceed' });
+        }
+
         if (!formData.signature) {
             return res.status(400).json({ 
                 success: false, 
