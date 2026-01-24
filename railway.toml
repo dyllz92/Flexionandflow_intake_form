@@ -1,0 +1,21 @@
+[build]
+builder = "nixpacks"
+buildCommand = "npm ci --omit=dev"
+
+[deploy]
+# Pre-deploy commands (optional)
+preDeployCommand = []
+
+# Start command for the service
+startCommand = "npm start"
+
+# Health check - server exposes /health
+healthcheckPath = "/health"
+healthcheckTimeout = 100
+
+# Restart policy: "always", "never", "on-failure"
+restartPolicyType = "always"
+
+# Optionally set service-level environment defaults (do NOT put secrets here)
+[env]
+# Example: LOG_LEVEL = "info"
