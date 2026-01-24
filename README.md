@@ -237,6 +237,23 @@ For issues or questions:
 ## Deployment
 - GitHub Actions will auto-deploy to Azure on each push to `main`.
 
+### Recommended config files
+This project includes a set of recommended config files to make builds and deployments deterministic:
+
+- `.nvmrc` — pins Node version to `18`.
+- `package-lock.json` — lockfile for reproducible installs (already committed).
+- `.npmrc` — enforces exact versions and engine-strict installs.
+- `Procfile` — explicit start command used by some PaaS platforms: `web: npm start`.
+- `.env.example` — example environment variables (copy to `.env` locally).
+- `.github/workflows/ci.yml` — basic CI workflow for GitHub Actions.
+
+### Deployment tips for Railway
+- Build command: `npm ci --omit=dev`
+- Start command: `npm start`
+- Ensure the `packageManager` field in `package.json` is set to `npm@9` or the appropriate version.
+- Add required environment variables in Railway project settings (see `.env.example`).
+
+
 ## License
 
 ISC License - For Flexion & Flow use
