@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -78,6 +77,93 @@
                         </div>
                     </div>
                     <div class="wizard-step" data-step="4">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seated Chair Massage Intake - Flexion & Flow</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/forms.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-header">
+            <img src="/img/flexion-flow-logo.png" alt="Flexion & Flow Logo" class="logo-small">
+            <h1>Seated Chair<br>Massage Intake</h1>
+        </div>
+
+        <!-- Step Indicator -->
+        <div id="stepIndicator" class="step-indicator">
+            <div class="step active" data-step="1">
+                <span class="step-number">1</span>
+                <span class="step-label">Details</span>
+            </div>
+            <div class="step" data-step="2">
+                <span class="step-number">2</span>
+                <span class="step-label">Body Map</span>
+            </div>
+            <div class="step" data-step="3">
+                <span class="step-number">3</span>
+                <span class="step-label">Today's Focus</span>
+            </div>
+            <div class="step" data-step="4">
+                <span class="step-number">4</span>
+                <span class="step-label">Health Check</span>
+            </div>
+            <div class="step" data-step="5">
+                <span class="step-number">5</span>
+                <span class="step-label">Preferences</span>
+            </div>
+            <div class="step" data-step="6">
+                <span class="step-number">6</span>
+                <span class="step-label">Consent</span>
+            </div>
+        </div>
+        <div id="stepCount" class="step-count" style="text-align:center; margin:12px 0; font-weight:600; color:var(--text-dark);">Step 1 of 6</div>
+
+        <form id="intakeForm" class="intake-form wizard-form">
+            <!-- Step 1: Details -->
+            <div class="wizard-step form-section" data-step="1">
+                <h2>Step 1 — Details</h2>
+                <div class="form-group">
+                    <label for="fullName">Full Name: <span class="required">*</span></label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="mobile">Mobile: <span class="required">*</span></label>
+                    <input type="tel" id="mobile" name="mobile" placeholder="e.g., 04xxxxxxxx or +61xxxxxxxxx" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email (optional):</label>
+                    <input type="email" id="email" name="email">
+                </div>
+                <div class="form-group">
+                    <label>Gender (optional):</label>
+                    <div class="radio-group inline">
+                        <label><input type="radio" name="gender" value="Male"> Male</label>
+                        <label><input type="radio" name="gender" value="Female"> Female</label>
+                        <label><input type="radio" name="gender" value="Prefer not to disclose"> Prefer not to disclose</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Today's focus -->
+            <div class="wizard-step form-section" data-step="2">
+                <h2>Step 2 — Today's Focus</h2>
+                <p class="section-note">Tap the body map to mark areas of discomfort. Tap a dot to remove it.</p>
+                <div class="muscle-map-container">
+                    <div id="muscleMapContainer"></div>
+                    <button type="button" id="clearMuscleMap" class="btn-secondary">Clear</button>
+                </div>
+            </div>
+            <!-- ...existing code for steps 3-6, buttons, and closing tags... -->
+        </form>
+    </div>
+</body>
+</html>
                         <h2>Health Check</h2>
                         <div class="form-group">
                             <label for="health">Any health conditions or allergies?</label>

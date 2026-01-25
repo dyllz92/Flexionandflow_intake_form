@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detailed Intake - Flexion & Flow</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/forms.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-header">
+            <img src="/Flexion and Flow Logo.png" alt="Flexion & Flow Logo" class="logo-small">
+            <h1>Seated Chair Massage Intake</h1>
+            <p class="subtitle">Australian Open - Detailed Form</p>
+        </div>
+
+        <form id="detailedForm" class="intake-form">
+            <!-- Client Details -->
+            <section class="form-section">
+                <h2>Client Details</h2>
+                
+                <div class="form-group">
+                    <label for="fullName">Full name: <span class="required">*</span></label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="mobile">Mobile: <span class="required">*</span></label>
+                    <input type="tel" id="mobile" name="mobile" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email (optional):</label>
+                    <input type="email" id="email" name="email">
+                </div>
+
+                <div class="form-group">
+                    <label for="dob">Date of birth (optional):</label>
+                    <input type="date" id="dob" name="dob">
+                </div>
+
+                <div class="form-group">
+                    <label>Gender: <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="gender" value="Male" required> Male</label>
+                        <label><input type="radio" name="gender" value="Female"> Female</label>
+                        <label><input type="radio" name="gender" value="Non-binary"> Non-binary</label>
+                        <label><input type="radio" name="gender" value="Prefer not to disclose"> Prefer not to disclose</label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Work Details -->
+            <section class="form-section">
+                <h2>Work Details (Event Delivery)</h2>
+                
+                <div class="form-group">
+                    <label for="workCompany">Company/Team: <span class="required">*</span></label>
+                    <input type="text" id="workCompany" name="workCompany" maxlength="60" placeholder="e.g., Well Corp, Hemisphere, AO" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="role">Role:</label>
+                    <input type="text" id="role" name="role">
+                </div>
+
+                <div class="form-group">
+                    <label for="shiftTime">Today's shift time:</label>
+                    <input type="text" id="shiftTime" name="shiftTime">
+                </div>
+
+                <div class="form-group">
+                    <label for="bestTime">Best time to be seen:</label>
+                    <input type="text" id="bestTime" name="bestTime">
+                </div>
+
+                <div class="form-group">
+                    <label for="sessionLength">Preferred session length:</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="sessionLength" value="10 mins"> 10 mins</label>
+                        <label><input type="radio" name="sessionLength" value="15 mins"> 15 mins</label>
+                        <label><input type="radio" name="sessionLength" value="20 mins"> 20 mins (if available)</label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Emergency Contact -->
+            <section class="form-section">
+                <h2>Emergency Contact (Optional)</h2>
+                
+                <div class="form-group">
+                    <label for="emergencyName">Name:</label>
+                    <input type="text" id="emergencyName" name="emergencyName">
+                </div>
+
+                <div class="form-group">
+                    <label for="emergencyRelationship">Relationship:</label>
+                    <input type="text" id="emergencyRelationship" name="emergencyRelationship">
+                </div>
+
+                <div class="form-group">
+                    <label for="emergencyPhone">Phone:</label>
+                    <input type="tel" id="emergencyPhone" name="emergencyPhone">
+                </div>
+            </section>
+
+            <!-- Section 1: Treatment Goals -->
+            <section class="form-section">
+                <h2>1) What would you like help with today?</h2>
+                <p class="section-note">Click on areas where you feel discomfort OR select up to 3 areas below</p>
+                
+                <div class="muscle-map-container">
+                    <canvas id="muscleMapCanvas" class="muscle-map-canvas"></canvas>
+                    <button type="button" id="clearMuscleMap" class="btn-secondary">Clear Muscle Map</button>
+                    <input type="hidden" id="muscleMapMarks" name="muscleMapMarks" value="[]">
+                </div>
+
+                <div style="margin: 20px 0;">
+                    <p class="section-note">Or select areas below (up to 3):</p>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="helpArea" value="Neck"> Neck</label>
+                        <label><input type="checkbox" name="helpArea" value="Shoulders"> Shoulders</label>
+                        <label><input type="checkbox" name="helpArea" value="Upper back"> Upper back</label>
+                        <label><input type="checkbox" name="helpArea" value="Mid back"> Mid back</label>
+                        <label><input type="checkbox" name="helpArea" value="Lower back"> Lower back</label>
+                        <label><input type="checkbox" name="helpArea" value="Arms/forearms/hands"> Arms/forearms/hands</label>
+                        <label><input type="checkbox" name="helpArea" value="Head/jaw"> Head/jaw</label>
+                        <label><input type="checkbox" name="helpArea" value="Hips/glutes"> Hips/glutes (over clothing only)</label>
+                        <label><input type="checkbox" name="helpArea" value="General stress/tension"> General stress/tension</label>
+                        <label><input type="checkbox" name="helpArea" value="Other"> Other: <input type="text" name="helpAreaOther"></label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Main goal today:</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="mainGoal" value="Reduce tightness/pain"> Reduce tightness/pain</label>
+                        <label><input type="radio" name="mainGoal" value="Reduce stress/anxiety"> Reduce stress/anxiety</label>
+                        <label><input type="radio" name="mainGoal" value="Improve focus/energy"> Improve focus/energy</label>
+                        <label><input type="radio" name="mainGoal" value="Headache relief"> Headache relief</label>
+                        <label><input type="radio" name="mainGoal" value="Recovery from long shifts"> Recovery from long shifts</label>
+                        <label><input type="radio" name="mainGoal" value="Other"> Other: <input type="text" name="mainGoalOther"></label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="focusFirst">Anything you want to focus on first?</label>
+                    <input type="text" id="focusFirst" name="focusFirst">
+                </div>
+
+                <div class="form-group">
+                    <label for="areasAvoid">Any areas to avoid today?</label>
+                    <input type="text" id="areasAvoid" name="areasAvoid">
+                </div>
+
+                <div class="form-group">
+                    <label>Any sensitivity to pressure/touch?</label>
+                    <div class="radio-group inline">
+                        <label><input type="radio" name="sensitivity" value="No"> No</label>
+                        <label><input type="radio" name="sensitivity" value="Yes"> Yes</label>
+                    </div>
+                </div>
+
+                <div id="sensitivityDetailsContainer" class="conditional-container hidden-field">
+                    <label>If yes, where:</label>
+                    <input type="text" name="sensitivityWhere" placeholder="Describe areas of sensitivity...">
+                </div>
+
+                <div class="form-group">
+                    <label>Pressure preference:</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="pressurePref" value="Light"> Light</label>
+                        <label><input type="radio" name="pressurePref" value="Medium"> Medium</label>
+                        <label><input type="radio" name="pressurePref" value="Firm"> Firm (within comfort)</label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2: Symptoms Snapshot -->
+            <section class="form-section">
+                <h2>2) Symptoms Snapshot (Optional but helpful)</h2>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" name="symptomToggle" id="symptomToggle">
+                        <span>Click here to provide symptom details</span>
+                    </label>
+                </div>
+
+                <div id="symptomsSection" class="conditional-container hidden-field">
+                    <div class="form-group">
+                        <label for="painLevel">Pain level right now (0-10):</label>
+                        <input type="number" id="painLevel" name="painLevel" min="0" max="10">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Main symptoms (tick any):</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" name="symptom" value="Tightness"> Tightness</label>
+                            <label><input type="checkbox" name="symptom" value="Ache"> Ache</label>
+                            <label><input type="checkbox" name="symptom" value="Sharp pain"> Sharp pain</label>
+                            <label><input type="checkbox" name="symptom" value="Headache"> Headache</label>
+                            <label><input type="checkbox" name="symptom" value="Pins and needles"> Pins and needles</label>
+                            <label><input type="checkbox" name="symptom" value="Numbness"> Numbness</label>
+                            <label><input type="checkbox" name="symptom" value="Other"> Other: <input type="text" name="symptomOther"></label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>How long has it been going on?</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="duration" value="Today"> Today</label>
+                            <label><input type="radio" name="duration" value="Days"> Days</label>
+                            <label><input type="radio" name="duration" value="Weeks"> Weeks</label>
+                            <label><input type="radio" name="duration" value="Months"> Months</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="makesWorse">What makes it worse?</label>
+                        <input type="text" id="makesWorse" name="makesWorse">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="whatHelps">What helps?</label>
+                        <input type="text" id="whatHelps" name="whatHelps">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Any relevant work factors?</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" name="workFactor" value="Long shifts"> Long shifts</label>
+                            <label><input type="checkbox" name="workFactor" value="Standing"> Standing</label>
+                            <label><input type="checkbox" name="workFactor" value="Lifting"> Lifting</label>
+                            <label><input type="checkbox" name="workFactor" value="Computer"> Computer</label>
+                            <label><input type="checkbox" name="workFactor" value="Repetitive use"> Repetitive use</label>
+                            <label><input type="checkbox" name="workFactor" value="Stress"> Stress</label>
+                            <label><input type="checkbox" name="workFactor" value="Travel"> Travel</label>
+                            <label><input type="checkbox" name="workFactor" value="Other"> Other: <input type="text" name="workFactorOther"></label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3: Health Check -->
+            <section class="form-section">
+                <h2>3) Quick Health Check</h2>
+                
+                <h3>In the last 48 hours:</h3>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="recent48h" value="Fever, flu-like symptoms, or contagious illness"> Fever, flu-like symptoms, or contagious illness</label>
+                    <label><input type="checkbox" name="recent48h" value="New/unexplained swelling, redness, or heat in a limb"> New/unexplained swelling, redness, or heat in a limb</label>
+                    <label><input type="checkbox" name="recent48h" value="Chest pain, shortness of breath, fainting"> Chest pain, shortness of breath, fainting</label>
+                    <label><input type="checkbox" name="recent48h" value="Recent concussion/head injury"> Recent concussion/head injury</label>
+                </div>
+
+                <div id="recentConditionsDetails" class="conditional-container hidden-field">
+                    <div class="form-group">
+                        <label for="recent48hDetails">Please describe:</label>
+                        <textarea id="recent48hDetails" name="recent48hDetails" rows="2"></textarea>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 25px;">General health (tick any that apply):</h3>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="generalHealth" value="High or low blood pressure"> High or low blood pressure</label>
+                    <label><input type="checkbox" name="generalHealth" value="Heart condition or pacemaker"> Heart condition or pacemaker</label>
+                    <label><input type="checkbox" name="generalHealth" value="Blood clot history / DVT / clotting disorder"> Blood clot history / DVT / clotting disorder</label>
+                    <label><input type="checkbox" name="generalHealth" value="Diabetes"> Diabetes</label>
+                    <label><input type="checkbox" name="generalHealth" value="Epilepsy/seizures"> Epilepsy/seizures</label>
+                    <label><input type="checkbox" name="generalHealth" value="Recent injury or surgery (last 3 months)"> Recent injury or surgery (last 3 months)</label>
+                    <label><input type="checkbox" name="generalHealth" value="Cancer (current treatment or recent)"> Cancer (current treatment or recent)</label>
+                    <label><input type="checkbox" name="generalHealth" value="Osteoporosis"> Osteoporosis</label>
+                    <label><input type="checkbox" name="generalHealth" value="Nerve pain, pins and needles, or numbness"> Nerve pain, pins and needles, or numbness</label>
+                    <label><input type="checkbox" name="generalHealth" value="Skin condition/infection/open wounds in treatment area"> Skin condition/infection/open wounds in treatment area</label>
+                    <label><input type="checkbox" name="generalHealth" value="Currently pregnant"> Currently pregnant</label>
+                    <label><input type="checkbox" name="generalHealth" value="Taking blood thinners/anticoagulants"> Taking blood thinners/anticoagulants</label>
+                    <label><input type="checkbox" name="generalHealth" value="Other"> Other medical condition</label>
+                </div>
+
+                <div id="healthDetailsContainer" class="conditional-container hidden-field">
+                    <div class="form-group">
+                        <label for="healthDetails">Please provide details:</label>
+                        <textarea id="healthDetails" name="healthDetails" rows="3" placeholder="Describe any conditions you selected above..."></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 20px;">
+                    <label>Medications that may affect treatment:</label>
+                    <div class="radio-group inline">
+                        <label><input type="radio" name="medications" value="No"> No</label>
+                        <label><input type="radio" name="medications" value="Yes"> Yes</label>
+                    </div>
+                </div>
+
+                <div id="medicationsDetailsContainer" class="conditional-container hidden-field">
+                    <div class="form-group">
+                        <label for="medicationsDetails">Please list medications:</label>
+                        <textarea id="medicationsDetails" name="medicationsDetails" rows="2" placeholder="List any medications you're currently taking..."></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 20px;">
+                    <label>Allergies or sensitivities:</label>
+                    <div class="radio-group inline">
+                        <label><input type="radio" name="allergies" value="No"> No</label>
+                        <label><input type="radio" name="allergies" value="Yes"> Yes</label>
+                    </div>
+                    <p class="section-note">Including fragrances, disinfectants, tape, latex</p>
+                </div>
+
+                <div id="allergiesDetailsContainer" class="conditional-container hidden-field">
+                    <div class="form-group">
+                        <label for="allergiesDetails">Please describe allergies/sensitivities:</label>
+                        <textarea id="allergiesDetails" name="allergiesDetails" rows="2" placeholder="List any allergies or sensitivities..."></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 4: Current Status -->
+            <section class="form-section">
+                <h2>4) How are things tracking today?</h2>
+                
+                <div class="form-group">
+                    <label>Stress levels right now:</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="stressLevel" value="Low"> Low</label>
+                        <label><input type="radio" name="stressLevel" value="Medium"> Medium</label>
+                        <label><input type="radio" name="stressLevel" value="High"> High</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Sleep lately:</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="sleepQuality" value="Poor"> Poor</label>
+                        <label><input type="radio" name="sleepQuality" value="Average"> Average</label>
+                        <label><input type="radio" name="sleepQuality" value="Good"> Good</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Hydration today:</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="hydration" value="Low"> Low</label>
+                        <label><input type="radio" name="hydration" value="OK"> OK</label>
+                        <label><input type="radio" name="hydration" value="Good"> Good</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="additionalNotes">Anything else you want me to know before we start?</label>
+                    <textarea id="additionalNotes" name="additionalNotes" rows="3"></textarea>
+                </div>
+            </section>
+
+            <!-- Section 5: Consent -->
+            <section class="form-section consent-section">
+                <h2>5) Consent and Terms</h2>
+                
+                <div class="info-box">
+                    <h3>Seated chair massage notes:</h3>
+                    <ul>
+                        <li>Delivered fully clothed, no oils used.</li>
+                        <li>Pressure is always adjustable - you can ask to change or stop at any time.</li>
+                        <li>I may decline or modify treatment if there are health risks or contraindications.</li>
+                    </ul>
+                </div>
+
+                <div class="info-box" style="margin-top: 12px;">
+                    <h3>Privacy Notice:</h3>
+                    <ul>
+                        <li>Your information is used only to guide your session today.</li>
+                        <li>After submission, a PDF copy is stored securely in a private Google Drive folder.</li>
+                        <li>No local database is used and data is not retained on the server beyond generating the PDF.</li>
+                        <li>For encrypted transmission, access via HTTPS or a secure tunnel (e.g., ngrok/Cloudflare).</li>
+                    </ul>
+                </div>
+
+                <h3>Consent (required):</h3>
+                <div class="consent-checkbox">
+                    <label>
+                        <input type="checkbox" name="consentAll" id="consentAll" required>
+                        <span>I have read and agree to the Terms and Privacy Collection Notice, I consent to receive seated chair massage today. I understand I can ask to change pressure, pause, or stop at any time, I'm comfortable receiving seated massage in a shared workplace/event setting. <span class="required">*</span></span>
+                    </label>
+                </div>
+
+                <h3>Marketing (optional):</h3>
+                <div class="consent-checkbox">
+                    <label>
+                        <input type="checkbox" name="consentMarketing" id="consentMarketing">
+                        <span>I consent to receive email/SMS updates from Flexion & Flow (optional).</span>
+                    </label>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <h2>Signature <span class="required">*</span></h2>
+
+                <div class="signature-area">
+                    <h3>Please Sign <span class="required">*</span></h3>
+
+                    <div class="signature-methods" style="margin-bottom:8px;">
+                        <label style="margin-right:12px"><input type="radio" name="signatureMethod" id="signatureMethodDraw" value="draw" checked> Draw signature</label>
+                        <label><input type="radio" name="signatureMethod" id="signatureMethodType" value="type"> Type signature</label>
+                    </div>
+
+                    <div class="signature-draw">
+                        <div class="signature-container">
+                            <canvas id="signatureCanvas" class="signature-pad"></canvas>
+                            <button type="button" id="clearSignature" class="btn-secondary">Clear Signature</button>
+                        </div>
+                    </div>
+
+                    <div class="signature-type" style="display:none; margin-top:8px;">
+                        <input type="text" id="typedSignatureInput" placeholder="Type your name here" maxlength="100" style="width:100%; padding:8px; font-size:16px;" />
+                        <div id="typedSignaturePreview" class="typed-signature-preview" aria-hidden="true" style="margin-top:8px; font-family: 'Segoe Script', 'Brush Script MT', cursive; font-size:32px; color:#000;"></div>
+                        <button type="button" id="clearTypedSignature" class="btn-secondary" style="margin-top:8px;">Clear Typed</button>
+                    </div>
+
+                    <input type="hidden" id="signatureData" name="signature" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="signatureDate">Date:</label>
+                    <input type="date" id="signatureDate" name="signatureDate" required>
+                </div>
+            </section>
+
+            <div class="form-actions">
+                <button type="button" onclick="window.location.href='/'" class="btn-secondary">Back</button>
+                <button type="submit" class="btn-primary">Submit Form</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="/js/signature.js"></script>
+    <script src="/js/muscleMap.js"></script>
+    <script src="/js/conditionalFields.js"></script>
+    <script src="/js/detailed-form.js"></script>
+</body>
+</html>
