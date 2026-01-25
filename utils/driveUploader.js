@@ -9,7 +9,7 @@ class DriveUploader {
     constructor() {
         this.configured = false;
         this.drive = null;
-        this.folderId = process.env.GOOGLE_DRIVE_FOLDER_ID || '0ADHFfiz6qbnfUk9PVA';
+        this.folderId = process.env.GOOGLE_DRIVE_FOLDER_ID || '10iOVUY8J-h9GI9B14lmZ-QX42WyGQE4x';
         this.allowLocalFallback = String(process.env.ALLOW_LOCAL_PDF_FALLBACK).toLowerCase() === 'true';
 
         // Best practice: Use GOOGLE_SERVICE_ACCOUNT_KEY_PATH to point to your credentials file location.
