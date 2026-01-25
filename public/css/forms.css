@@ -657,9 +657,9 @@ textarea {
 .sticky-actions {
     position: sticky;
     bottom: 0;
-    background: rgba(255, 255, 255, 0.95);
+    background: transparent;
     padding: 12px;
-    border-top: 1px solid var(--border-color);
+    border-top: none;
     z-index: 10;
 }
 
@@ -690,7 +690,7 @@ textarea {
 
 .btn-primary,
 .btn-secondary {
-    padding: 15px 30px;
+    padding: 18px 50px;
     border: none;
     border-radius: 10px;
     font-size: 16px;
@@ -698,7 +698,7 @@ textarea {
     cursor: pointer;
     transition: all 0.3s ease;
     flex: 0 0 auto;
-    min-width: 120px;
+    min-width: 160px;
 }
 
 .btn-primary {
@@ -846,7 +846,7 @@ button[type="button"]#clearSignature {
     .btn-primary,
     .btn-secondary {
         width: 100%;
-        max-width: 300px;
+        max-width: 320px;
     }
 
     .signature-pad-frame {
