@@ -1,82 +1,107 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hemisphere Wellness Intake Wizard</title>
+    <title>Seated Chair Massage Intake Wizard</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/forms.css">
     <style>
-        /* [CSS omitted for brevity: will include all Hemisphere Wellness variables, layout, button, input, and wizard stepper styles as previously specified, plus .wizard-step { display:none; } .wizard-step.active { display:block; } and stepper bar styles] */
+        section, .wizard-step, fieldset { margin-bottom: 2rem; }
+        .wizard-step { display: none; padding: 1.5rem 1rem; background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+        .wizard-step.active { display: block; }
+        .wizard-step h2 { margin-bottom: 1rem; }
+        .form-header, .wizard-progress { margin-bottom: 1.5rem; }
+        .form-group { margin-bottom: 1.25rem; }
+        .required-note { font-size: 0.98em; color: #b94a48; margin-bottom: 1.5rem; display: block; }
+        .form-selection { display: flex; gap: 1.5rem; justify-content: center; margin: 1.5rem 0; }
+        .form-selection .option-btn { flex: 1 1 140px; padding: 1.2em 1em; font-size: 1.1em; border-radius: 8px; border: 2px solid var(--primary-color); background: #f8f9fa; color: var(--primary-color); font-weight: 600; cursor: pointer; transition: background 0.2s, color 0.2s; }
+        .form-selection .option-btn.selected, .form-selection .option-btn:focus { background: var(--primary-color); color: #fff; outline: 2px solid var(--secondary-color); }
+        .wizard-actions { display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem; }
+        .wizard-actions .nav-btn { background: var(--secondary-color); color: #fff; border: none; border-radius: 8px; padding: 0.7em 2em; font-size: 1em; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+        .wizard-actions .nav-btn[disabled] { background: #ccc; color: #888; cursor: not-allowed; }
+        .wizard-actions .submit-btn { background: var(--success-color); color: #fff; border: none; border-radius: 8px; padding: 0.7em 2em; font-size: 1em; font-weight: 600; margin-left: 1.5rem; cursor: pointer; transition: background 0.2s; }
+        @media (max-width: 600px) { .form-selection { flex-direction: column; gap: 1rem; } .wizard-step, .form-header, .container { padding: 1rem; } }
     </style>
 </head>
 <body>
-    <section class="hero">
-        <div class="container">
-            <h1 class="hero-title">Intake Form</h1>
-            <div class="separator"></div>
-            <p class="hero-desc">Please complete each step to help us provide you with the best possible care at <span class="accent uppercase">Hemisphere Wellness</span>.</p>
-            <div class="form-selection" style="margin:32px 0; display:flex; gap:32px; justify-content:center;">
-                <button type="button" class="btn btn-secondary" id="seatedBtn">Seated Massage</button>
-                <button type="button" class="btn btn-secondary" id="tableBtn">Table Massage</button>
-            </div>
+    <div class="container">
+        <div class="form-header">
+            <img src="/img/flexion-flow-logo.png" alt="Flexion & Flow Logo" class="logo-small" style="max-width:180px; margin-bottom:1rem;">
+            <h1>Seated Chair Massage Intake</h1>
+            <p class="subtitle">Please complete each step to help us provide you with the best possible care. <span class="required-note">Required fields are marked with <span aria-hidden="true">*</span>.</span></p>
         </div>
-    </section>
-    <section class="section">
-        <div class="container">
-            <div class="form-section" style="display:none;">
-                <form id="wizardForm" novalidate>
-                    <div class="wizard-progress">
-                        <div class="wizard-stepper">
-                            <div class="step" data-step="1">1</div>
-                            <div class="step" data-step="2">2</div>
-                            <div class="step" data-step="3">3</div>
-                            <div class="step" data-step="4">4</div>
-                            <div class="step" data-step="5">5</div>
-                            <div class="step" data-step="6">6</div>
-                        </div>
-                        <div class="wizard-step-label" id="wizardStepLabel">Step 1 of 6</div>
+
+        <section aria-labelledby="massage-type-heading">
+            <h2 id="massage-type-heading" style="font-size:1.2em; margin-bottom:0.5em;">Choose your massage type</h2>
+            <div class="form-selection" role="group" aria-label="Massage type">
+                <button type="button" class="option-btn" id="seatedBtn" aria-pressed="true">Seated Massage</button>
+                <button type="button" class="option-btn" id="tableBtn" aria-pressed="false">Table Massage</button>
+            </div>
+        </section>
+
+        <nav class="wizard-progress" aria-label="Wizard progress">
+            <ol class="wizard-stepper" style="display:flex; gap:0.5rem; list-style:none; padding:0;">
+                <li class="step active" data-step="1"><span class="step-number">1</span> <span class="step-label">Details</span></li>
+                <li class="step" data-step="2"><span class="step-number">2</span> <span class="step-label">Body Map</span></li>
+                <li class="step" data-step="3"><span class="step-number">3</span> <span class="step-label">Preferences</span></li>
+            </ol>
+            <div class="wizard-step-label" id="wizardStepLabel" aria-live="polite">Step 1 of 3</div>
+        </nav>
+
+        <form id="wizardForm" novalidate autocomplete="off">
+            <section class="wizard-step active" data-step="1" aria-labelledby="details-heading">
+                <h2 id="details-heading">Your Details</h2>
+                <div class="form-group">
+                    <label for="fullName">Full Name <span aria-hidden="true" class="accent">*</span></label>
+                    <input type="text" id="fullName" name="fullName" required aria-required="true" autocomplete="name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email <span aria-hidden="true" class="accent">*</span></label>
+                    <input type="email" id="email" name="email" required aria-required="true" autocomplete="email">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone <span aria-hidden="true" class="accent">*</span></label>
+                    <input type="tel" id="phone" name="phone" required aria-required="true" autocomplete="tel">
+                </div>
+            </section>
+
+            <section class="wizard-step" data-step="2" aria-labelledby="bodymap-heading">
+                <h2 id="bodymap-heading">Body Map</h2>
+                <div class="form-group">
+                    <label for="bodymap">Describe any areas of discomfort or focus</label>
+                    <textarea id="bodymap" name="bodymap" rows="3" placeholder="e.g. Shoulders, lower back..."></textarea>
+                </div>
+            </section>
+
+            <section class="wizard-step" data-step="3" aria-labelledby="preferences-heading">
+                <h2 id="preferences-heading">Preferences</h2>
+                <fieldset class="form-group" aria-required="true">
+                    <legend>Pressure preference <span aria-hidden="true" class="accent">*</span></legend>
+                    <div>
+                        <input type="radio" id="pressure-soft" name="pressurePreference" value="soft" required aria-required="true">
+                        <label for="pressure-soft">Soft</label>
                     </div>
-                    <div class="wizard-step" data-step="1">
-                        <h2>Details</h2>
-                        <div class="form-group">
-                            <label for="name">Full Name <span class="accent">*</span></label>
-                            <input type="text" id="name" name="name" required placeholder="Your full name" autocomplete="name">
-                            <div class="form-error" id="error-name"></div>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email <span class="accent">*</span></label>
-                            <input type="email" id="email" name="email" required placeholder="you@email.com" autocomplete="email">
-                            <div class="form-error" id="error-email"></div>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Phone <span class="accent">*</span></label>
-                            <input type="tel" id="phone" name="phone" required placeholder="e.g. 0412 345 678" autocomplete="tel">
-                            <div class="form-error" id="error-phone"></div>
-                        </div>
+                    <div>
+                        <input type="radio" id="pressure-medium" name="pressurePreference" value="medium">
+                        <label for="pressure-medium">Medium</label>
                     </div>
-                    <div class="wizard-step" data-step="2">
-                        <h2>Body Map</h2>
-                            <div class="form-group">
-                                <div style="display:flex; justify-content:center; margin-bottom:12px;">
-                                    <svg width="120" height="220" viewBox="0 0 120 220" xmlns="http://www.w3.org/2000/svg" aria-label="Body Diagram">
-                                        <ellipse cx="60" cy="30" rx="22" ry="28" fill="#f2e9e4" stroke="#888" stroke-width="2"/>
-                                        <rect x="38" y="58" width="44" height="70" rx="22" fill="#f2e9e4" stroke="#888" stroke-width="2"/>
-                                        <rect x="20" y="58" width="18" height="60" rx="9" fill="#f2e9e4" stroke="#888" stroke-width="2"/>
-                                        <rect x="82" y="58" width="18" height="60" rx="9" fill="#f2e9e4" stroke="#888" stroke-width="2"/>
-                                        <rect x="48" y="128" width="12" height="50" rx="6" fill="#f2e9e4" stroke="#888" stroke-width="2"/>
-                                        <rect x="60" y="128" width="12" height="50" rx="6" fill="#f2e9e4" stroke="#888" stroke-width="2"/>
-                                    </svg>
-                                </div>
-                                <label for="bodymap">Describe any areas of discomfort or focus</label>
-                                <textarea id="bodymap" name="bodymap" rows="3" placeholder="e.g. Shoulders, lower back..."></textarea>
-                            </div>
+                    <div>
+                        <input type="radio" id="pressure-firm" name="pressurePreference" value="firm">
+                        <label for="pressure-firm">Firm</label>
                     </div>
-                    <div class="wizard-step" data-step="3">
-                        <h2>Today's Focus</h2>
-                        <div class="form-group">
-                            <label for="focus">What would you like to focus on today?</label>
-                            <textarea id="focus" name="focus" rows="3" placeholder="e.g. Stress relief, muscle tension..."></textarea>
-                        </div>
-                    </div>
-                    <div class="wizard-step" data-step="4">
+                </fieldset>
+            </section>
+
+            <div class="wizard-actions">
+                <button type="button" class="nav-btn" id="backBtn" aria-label="Back" style="display:none;">Back</button>
+                <button type="button" class="nav-btn" id="nextBtn" aria-label="Next">Next</button>
+                <button type="submit" class="submit-btn" id="submitBtn" style="display:none;">Submit</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
