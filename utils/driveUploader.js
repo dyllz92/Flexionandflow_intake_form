@@ -9,7 +9,7 @@ class DriveUploader {
     constructor() {
         this.configured = false;
         this.drive = null;
-        this.folderId = process.env.GOOGLE_DRIVE_FOLDER_ID;
+        this.folderId = process.env.GOOGLE_DRIVE_FOLDER_ID || '0ADHFfiz6qbnfUk9PVA';
         this.allowLocalFallback = String(process.env.ALLOW_LOCAL_PDF_FALLBACK).toLowerCase() === 'true';
 
         // Best practice: Use GOOGLE_SERVICE_ACCOUNT_KEY_PATH to point to your credentials file location.
@@ -86,28 +86,25 @@ class DriveUploader {
         try {
             const fileMetadata = {
                 name: filename,
-                mimeType: 'application/pdf'
+                mimeType: 'application/pdf',
+                parents: this.folderId ? [this.folderId] : undefined // Uses your folder ID
             };
-            
-            // Add to specific folder if configured
-            if (this.folderId) {
-                fileMetadata.parents = [this.folderId];
-            }
-            
+
             const media = {
                 mimeType: 'application/pdf',
                 body: require('stream').Readable.from(pdfBuffer)
             };
-            
+
             const response = await this.drive.files.create({
                 requestBody: fileMetadata,
                 media: media,
-                fields: 'id, webViewLink, webContentLink'
+                fields: 'id, webViewLink, webContentLink',
+                supportsAllDrives: true // Required for Shared Drives
             });
-            
+
             console.log(`✅ Uploaded to Google Drive: ${filename}`);
             console.log(`   File ID: ${response.data.id}`);
-            
+
             return {
                 success: true,
                 method: 'google-drive',
@@ -115,7 +112,7 @@ class DriveUploader {
                 webViewLink: response.data.webViewLink,
                 filename: filename
             };
-            
+
         } catch (error) {
             console.error('Error uploading to Google Drive:', error.message);
             console.log('Falling back to local storage...');

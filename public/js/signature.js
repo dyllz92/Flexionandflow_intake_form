@@ -106,6 +106,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('signatureCanvas');
     if (canvas) {
         window.signaturePad = new SignaturePad(canvas);
+
+        function fitTypedSignatureText(text) {
+            const overlay = document.getElementById('typedOverlay');
+            if (!overlay) return;
+            const value = (text || '').trim();
+            overlay.textContent = value;
+            if (!value) {
+                overlay.style.fontSize = '';
+                return;
+            }
+            const maxFont = 32;
+            const minFont = 14;
+            const wasHidden = window.getComputedStyle(overlay).display === 'none';
+            if (wasHidden) {
+                overlay.style.visibility = 'hidden';
+                overlay.style.display = 'flex';
+            }
+            overlay.style.fontSize = `${maxFont}px`;
+            let fontSize = maxFont;
+            while (fontSize > minFont &&
+                (overlay.scrollWidth > overlay.clientWidth || overlay.scrollHeight > overlay.clientHeight)) {
+                fontSize -= 1;
+                overlay.style.fontSize = `${fontSize}px`;
+            }
+            if (wasHidden) {
+                overlay.style.display = 'none';
+                overlay.style.visibility = '';
+            }
+        }
         
         // Clear button
         const clearBtn = document.getElementById('clearSignature');
@@ -117,10 +146,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.typedSignatureText = '';
                 const typedInput = document.getElementById('typedSignatureInput');
                 const typedPreview = document.getElementById('typedSignaturePreview');
-                const typedOverlay = document.getElementById('typedOverlay');
                 if (typedInput) typedInput.value = '';
                 if (typedPreview) typedPreview.textContent = '';
-                if (typedOverlay) typedOverlay.textContent = '';
+                fitTypedSignatureText('');
                 const sigField = document.getElementById('signatureData');
                 if (sigField) sigField.value = '';
             });
@@ -133,10 +161,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.typedSignatureText = '';
                 const typedInput = document.getElementById('typedSignatureInput');
                 const typedPreview = document.getElementById('typedSignaturePreview');
-                const typedOverlay = document.getElementById('typedOverlay');
                 if (typedInput) typedInput.value = '';
                 if (typedPreview) typedPreview.textContent = '';
-                if (typedOverlay) typedOverlay.textContent = '';
+                fitTypedSignatureText('');
                 const sigField = document.getElementById('signatureData');
                 if (sigField) sigField.value = '';
                 // switch back to draw mode
@@ -157,14 +184,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const canvasEl = document.getElementById('signatureCanvas');
             const typedOverlay = document.getElementById('typedOverlay');
             if (mode === 'type') {
-                if (canvasEl) canvasEl.style.display = 'none';
+                if (canvasEl) canvasEl.style.pointerEvents = 'none';
                 if (typedOverlay) {
                     typedOverlay.style.display = 'flex';
                     typedOverlay.setAttribute('aria-hidden', 'false');
-                    typedOverlay.textContent = window.typedSignatureText || '';
+                    fitTypedSignatureText(window.typedSignatureText || '');
                 }
             } else {
-                if (canvasEl) canvasEl.style.display = '';
+                if (canvasEl) canvasEl.style.pointerEvents = 'auto';
                 if (typedOverlay) {
                     typedOverlay.style.display = 'none';
                     typedOverlay.setAttribute('aria-hidden', 'true');
@@ -183,9 +210,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.typedSignatureText = v;
                 // update any visible preview or overlay
                 const typedPreviewLocal = document.getElementById('typedSignaturePreview');
-                const typedOverlayLocal = document.getElementById('typedOverlay');
                 if (typedPreviewLocal) typedPreviewLocal.textContent = v;
-                if (typedOverlayLocal) typedOverlayLocal.textContent = v;
+                fitTypedSignatureText(v);
                 const sigField = document.getElementById('signatureData');
                 if (sigField) {
                     // prefix typed signatures so the server/pdf knows how to render
@@ -210,6 +236,9 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (window.signaturePad) {
                 window.signaturePad.resizeCanvas();
                 window.signaturePad.setupCanvas();
+            }
+            if (window.typedSignatureText) {
+                fitTypedSignatureText(window.typedSignatureText);
             }
         });
     }

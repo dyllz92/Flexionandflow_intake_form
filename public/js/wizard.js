@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    const TOTAL_STEPS = 6;
+    const TOTAL_STEPS = 5;
     let currentStep = 1;
 
     // DOM Elements
@@ -32,12 +32,6 @@
         },
         5: () => {
             // Step 5: combined consent + signature required
-            const consentAll = document.getElementById('consentAll');
-            const signatureValid = window.signaturePad && !window.signaturePad.isEmpty();
-            return consentAll && consentAll.checked && signatureValid;
-        },
-        6: () => {
-            // Step 6: marketing opt-in optional; submission still requires consentAll + signature
             const consentAll = document.getElementById('consentAll');
             const signatureValid = window.signaturePad && !window.signaturePad.isEmpty();
             return consentAll && consentAll.checked && signatureValid;
@@ -197,14 +191,6 @@
                 else if (!signatureValid) message = 'Please provide your signature.';
                 break;
             }
-            case 6: {
-                const consentAll = document.getElementById('consentAll');
-                const signatureValid2 = window.signaturePad && !window.signaturePad.isEmpty();
-
-                if (!consentAll || !consentAll.checked) message = 'Please confirm you have read and agreed to the Terms and consent to treatment.';
-                else if (!signatureValid2) message = 'Please provide your signature.';
-                break;
-            }
         }
 
         if (message) {
@@ -219,10 +205,10 @@
         // Previous button: hidden on step 1
         prevBtn.style.display = currentStep === 1 ? 'none' : 'block';
 
-        // Next button: visible on steps 1-5, hidden on step 6
+        // Next button: visible on steps 1-4, hidden on step 5
         nextBtn.style.display = currentStep < TOTAL_STEPS ? 'block' : 'none';
 
-        // Submit button: visible only on step 6
+        // Submit button: visible only on step 5
         submitBtn.style.display = currentStep === TOTAL_STEPS ? 'block' : 'none';
 
         // Enable/disable next button based on validation
