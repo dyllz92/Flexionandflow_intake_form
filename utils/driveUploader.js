@@ -15,45 +15,25 @@ class DriveUploader {
         // Best practice: Use GOOGLE_SERVICE_ACCOUNT_KEY_PATH to point to your credentials file location.
         // Example: $env:GOOGLE_SERVICE_ACCOUNT_KEY_PATH = "utils/amplified-alpha-485305-u5-8deb1fe12e2a.json"
 
-        // Log folderId/driveId for debugging (masking for safety)
-        if (process.env.GOOGLE_DRIVE_FOLDER_ID) {
-            const id = process.env.GOOGLE_DRIVE_FOLDER_ID;
-            console.log(
-                `ℹ️ GOOGLE_DRIVE_FOLDER_ID is set: ${id.slice(0, 6)}...${id.slice(-4)}`
-            );
-        } else {
-            const id = this.folderId;
-            console.log(
-                `ℹ️ Using fallback folderId: ${id.slice(0, 6)}...${id.slice(-4)}`
-            );
-        }
-
-        // Try to initialize Google Drive API
-        this.initialize();
-        /**
-         * Defensive check: is the folderId a Shared Drive ID or a folder ID?
-         * Shared Drive IDs start with '0A', folder IDs usually with '1' or '0B'
-         */
-        isLikelyDriveId(id) {
-            return typeof id === 'string' && id.startsWith('0A') && id.length === 19;
-        }
-    }
-    
-    initialize() {
         try {
-            let credentials;
+            let credentials = null;
+            const credentialsPath = process.env.GOOGLE_SERVICE_ACCOUNT_KEY_PATH;
 
-            // Check if credentials are provided as JSON string in env var (for cloud deployment)
-            if (process.env.GOOGLE_SERVICE_ACCOUNT_KEY) {
-                credentials = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_KEY);
-                console.log('✅ Using Google credentials from environment variable');
-            } else {
-                // Fall back to file path (for local development or custom path)
-                const credentialsPath = process.env.GOOGLE_SERVICE_ACCOUNT_KEY_PATH || './google-credentials.json';
-
-                if (fs.existsSync(credentialsPath)) {
-                    credentials = JSON.parse(fs.readFileSync(credentialsPath, 'utf8'));
+            if (credentialsPath) {
+                try {
+                    credentials = require(credentialsPath);
                     console.log(`✅ Using Google credentials from file: ${credentialsPath}`);
+                } catch (e) {
+                    console.warn('Could not load credentials from path:', credentialsPath);
+                }
+            }
+
+            if (!credentials && process.env.GOOGLE_SERVICE_ACCOUNT_KEY) {
+                try {
+                    credentials = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_KEY);
+                    console.log(`✅ Using Google credentials from GOOGLE_SERVICE_ACCOUNT_KEY env var`);
+                } catch (e) {
+                    console.warn('Could not parse GOOGLE_SERVICE_ACCOUNT_KEY env var');
                 }
             }
 
@@ -77,6 +57,12 @@ class DriveUploader {
         }
     }
     
+    isLikelyDriveId(id) {
+        // Shared Drive IDs are typically 19 characters long and start with a digit
+        // Regular folder IDs can vary, but are generally shorter or have different patterns
+        return id && id.length === 19 && /^\d/.test(id);
+    }
+
     isConfigured() {
         return this.configured;
     }
@@ -165,58 +151,58 @@ class DriveUploader {
             console.log('Falling back to local storage...');
             return await this.saveLocally(pdfBuffer, filename);
         }
-        /**
-         * Preflight check: verify the target folder or drive exists and is accessible.
-         * Logs the result.
-         */
-        async verifyTarget() {
-            if (!this.configured || !this.drive) {
-                console.log('Google Drive not configured, cannot verify target.');
+    }
+
+    /**
+     * Preflight check: verify the target folder or drive exists and is accessible.
+     * Logs the result.
+     */
+    async verifyTarget() {
+        if (!this.configured || !this.drive) {
+            console.log('Google Drive not configured, cannot verify target.');
+            return false;
+        }
+        try {
+            if (this.isLikelyDriveId(this.folderId)) {
+                // Shared Drive IDs cannot be checked with files.get
+                console.log('Target is a Shared Drive ID. To check root, list files or folders in the drive.');
+                // Optionally, list root files to check access
+                const res = await this.drive.files.list({
+                    driveId: this.folderId,
+                    includeItemsFromAllDrives: true,
+                    supportsAllDrives: true,
+                    corpora: 'drive',
+                    pageSize: 1
+                });
+                if (res && res.status === 200) {
+                    console.log('✅ Able to list files in Shared Drive root.');
+                    return true;
+                }
+                console.log('⚠️  Could not list files in Shared Drive root.');
                 return false;
-            }
-            try {
-                if (this.isLikelyDriveId(this.folderId)) {
-                    // Shared Drive IDs cannot be checked with files.get
-                    console.log('Target is a Shared Drive ID. To check root, list files or folders in the drive.');
-                    // Optionally, list root files to check access
-                    const res = await this.drive.files.list({
-                        driveId: this.folderId,
-                        includeItemsFromAllDrives: true,
-                        supportsAllDrives: true,
-                        corpora: 'drive',
-                        pageSize: 1
-                    });
-                    if (res && res.status === 200) {
-                        console.log('✅ Able to list files in Shared Drive root.');
-                        return true;
-                    }
-                    console.log('⚠️  Could not list files in Shared Drive root.');
-                    return false;
+            } else {
+                // Check if folder exists and is a folder
+                const res = await this.drive.files.get({
+                    fileId: this.folderId,
+                    fields: 'id, name, mimeType',
+                    supportsAllDrives: true
+                });
+                if (res && res.data && res.data.mimeType === 'application/vnd.google-apps.folder') {
+                    console.log(`✅ Target folder exists: ${res.data.name} (${res.data.id})`);
+                    return true;
                 } else {
-                    // Check if folder exists and is a folder
-                    const res = await this.drive.files.get({
-                        fileId: this.folderId,
-                        fields: 'id, name, mimeType',
-                        supportsAllDrives: true
-                    });
-                    if (res && res.data && res.data.mimeType === 'application/vnd.google-apps.folder') {
-                        console.log(`✅ Target folder exists: ${res.data.name} (${res.data.id})`);
-                        return true;
-                    } else {
-                        console.log('⚠️  Target exists but is not a folder:', res.data);
-                        return false;
-                    }
+                    console.log('⚠️  Target exists but is not a folder:', res.data);
+                    return false;
                 }
-            } catch (error) {
-                console.error('Error verifying target:', error.message);
-                if (error.response && error.response.data) {
-                    console.error('Google API response:', error.response.data);
-                }
-                return false;
             }
+        } catch (error) {
+            console.error('Error verifying target:', error.message);
+            if (error.response && error.response.data) {
+                console.error('Google API response:', error.response.data);
+            }
+            return false;
         }
     }
-    
     /**
      * Save PDF locally as fallback
      */
