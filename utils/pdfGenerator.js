@@ -29,10 +29,6 @@ async function generatePDF(formData) {
             doc.fontSize(16)
                .text('Seated Chair Massage Intake Form', { align: 'center' });
             
-                doc.fontSize(10)
-                    .fillColor('#666')
-                    .text('Universal Seated Chair Massage Intake', { align: 'center' });
-            
             doc.moveDown(1);
             doc.strokeColor('#2c5f7d')
                .lineWidth(2)

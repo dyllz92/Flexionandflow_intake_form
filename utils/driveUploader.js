@@ -11,7 +11,10 @@ class DriveUploader {
         this.drive = null;
         this.folderId = process.env.GOOGLE_DRIVE_FOLDER_ID;
         this.allowLocalFallback = String(process.env.ALLOW_LOCAL_PDF_FALLBACK).toLowerCase() === 'true';
-        
+
+        // Best practice: Use GOOGLE_SERVICE_ACCOUNT_KEY_PATH to point to your credentials file location.
+        // Example: $env:GOOGLE_SERVICE_ACCOUNT_KEY_PATH = "utils/amplified-alpha-485305-u5-8deb1fe12e2a.json"
+
         // Try to initialize Google Drive API
         this.initialize();
     }
@@ -25,12 +28,12 @@ class DriveUploader {
                 credentials = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_KEY);
                 console.log('✅ Using Google credentials from environment variable');
             } else {
-                // Fall back to file path (for local development)
+                // Fall back to file path (for local development or custom path)
                 const credentialsPath = process.env.GOOGLE_SERVICE_ACCOUNT_KEY_PATH || './google-credentials.json';
 
                 if (fs.existsSync(credentialsPath)) {
                     credentials = JSON.parse(fs.readFileSync(credentialsPath, 'utf8'));
-                    console.log('✅ Using Google credentials from file');
+                    console.log(`✅ Using Google credentials from file: ${credentialsPath}`);
                 }
             }
 
