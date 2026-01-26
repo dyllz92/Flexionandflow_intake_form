@@ -26,13 +26,17 @@ async function generatePDF(formData) {
             const brandName = isHemisphere ? 'Hemisphere Wellness' : 'Flexion & Flow';
             const brandColor = isHemisphere ? '#1a7a6c' : '#2c5f7d';
 
+            // Determine form type title
+            const formType = formData.formType || 'seated';
+            const formTypeTitle = formType === 'table' ? 'Table Massage Intake Form' : 'Seated Chair Massage Intake Form';
+
             // Header
             doc.fontSize(20)
                .fillColor(brandColor)
                .text(brandName, { align: 'center' });
 
             doc.fontSize(16)
-               .text('Seated Chair Massage Intake Form', { align: 'center' });
+               .text(formTypeTitle, { align: 'center' });
 
             doc.moveDown(1);
             doc.strokeColor(brandColor)
@@ -57,7 +61,7 @@ async function generatePDF(formData) {
             doc.moveDown(1);
 
             // Generate appropriate form based on type
-            generateUniversalForm(doc, formData, brandColor);
+            generateUniversalForm(doc, formData, brandColor, formType);
 
             // Signature section
             doc.moveDown(1.5);
@@ -117,7 +121,7 @@ async function generatePDF(formData) {
     });
 }
 
-function generateUniversalForm(doc, data, brandColor = '#2c5f7d') {
+function generateUniversalForm(doc, data, brandColor = '#2c5f7d', formType = 'seated') {
     doc.fillColor('#000');
 
     addSection(doc, 'Client Details', brandColor);
@@ -171,6 +175,19 @@ function generateUniversalForm(doc, data, brandColor = '#2c5f7d') {
 
     addSection(doc, "Preferences", brandColor);
     addField(doc, 'Pressure preference', data.pressurePreference || 'Not specified');
+
+    // Table-specific preferences
+    if (formType === 'table') {
+        addSection(doc, 'Table-Specific Preferences', brandColor);
+        addField(doc, 'Oil / Skin contact', data.tableOilPreference || 'Not specified');
+        if (data.tableOilPreference === 'sensitive' && data.tableOilAllergyDetails) {
+            addField(doc, 'Allergy / sensitivity details', data.tableOilAllergyDetails);
+        }
+        addField(doc, 'Position comfort', data.tablePositionComfort || 'Not specified');
+        if (data.tablePositionComfort === 'trouble' && data.tablePositionDetails) {
+            addField(doc, 'Position details', data.tablePositionDetails);
+        }
+    }
 
     addSection(doc, 'Health Check', brandColor);
     if (Array.isArray(data.healthChecks) && data.healthChecks.length) {

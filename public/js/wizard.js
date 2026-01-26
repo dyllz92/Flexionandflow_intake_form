@@ -20,7 +20,39 @@
         2: () => {
             // Step 2: pressure preference required (body map optional)
             const pressureInputs = document.querySelectorAll('input[name="pressurePreference"]');
-            return Array.from(pressureInputs).some(p => p.checked);
+            const pressureValid = Array.from(pressureInputs).some(p => p.checked);
+
+            if (!pressureValid) return false;
+
+            // If table form, check table-specific fields
+            const formType = document.getElementById('formType')?.value || (typeof getSelectedFormType === 'function' ? getSelectedFormType() : 'seated') || 'seated';
+            if (formType === 'table') {
+                // Check oil preference
+                const oilInputs = document.querySelectorAll('input[name="tableOilPreference"]');
+                const oilValid = Array.from(oilInputs).some(p => p.checked);
+                if (!oilValid) return false;
+
+                // If sensitive, check allergy details
+                const sensitiveRadio = document.querySelector('input[name="tableOilPreference"][value="sensitive"]');
+                if (sensitiveRadio && sensitiveRadio.checked) {
+                    const allergyDetails = document.getElementById('tableOilAllergyDetails');
+                    if (!allergyDetails || !allergyDetails.value.trim().length) return false;
+                }
+
+                // Check position comfort
+                const positionInputs = document.querySelectorAll('input[name="tablePositionComfort"]');
+                const positionValid = Array.from(positionInputs).some(p => p.checked);
+                if (!positionValid) return false;
+
+                // If trouble, check position details
+                const troubleRadio = document.querySelector('input[name="tablePositionComfort"][value="trouble"]');
+                if (troubleRadio && troubleRadio.checked) {
+                    const positionDetails = document.getElementById('tablePositionDetails');
+                    if (!positionDetails || !positionDetails.value.trim().length) return false;
+                }
+            }
+
+            return true;
         },
         3: () => {
             // Step 3: if any health issues selected (except "no health issues"), additional info is required
@@ -182,9 +214,63 @@
                 else if (!ageConfirm || !ageConfirm.checked) message = 'Please confirm you are 18 years or older.';
                 break;
             }
-            case 2:
-                message = 'Please mark at least one area on the body chart.';
+            case 2: {
+                // Step 2 can have different validation messages based on form type
+                const pressureInputs = document.querySelectorAll('input[name="pressurePreference"]');
+                const pressureValid = Array.from(pressureInputs).some(p => p.checked);
+
+                if (!pressureValid) {
+                    message = 'Please select a pressure preference.';
+                    break;
+                }
+
+                const formType = document.getElementById('formType')?.value || (typeof getSelectedFormType === 'function' ? getSelectedFormType() : 'seated') || 'seated';
+                if (formType === 'table') {
+                    // Table-specific validation
+                    const oilInputs = document.querySelectorAll('input[name="tableOilPreference"]');
+                    const oilValid = Array.from(oilInputs).some(p => p.checked);
+                    if (!oilValid) {
+                        message = 'Please select an oil/skin contact preference.';
+                        break;
+                    }
+
+                    const sensitiveRadio = document.querySelector('input[name="tableOilPreference"][value="sensitive"]');
+                    if (sensitiveRadio && sensitiveRadio.checked) {
+                        const allergyDetails = document.getElementById('tableOilAllergyDetails');
+                        const allergyError = document.getElementById('error-tableOilAllergyDetails');
+                        if (!allergyDetails || !allergyDetails.value.trim()) {
+                            message = 'Please provide allergy/sensitivity details.';
+                            if (allergyError) {
+                                allergyError.textContent = message;
+                                allergyError.style.display = 'block';
+                            }
+                            break;
+                        }
+                    }
+
+                    const positionInputs = document.querySelectorAll('input[name="tablePositionComfort"]');
+                    const positionValid = Array.from(positionInputs).some(p => p.checked);
+                    if (!positionValid) {
+                        message = 'Please select position comfort preference.';
+                        break;
+                    }
+
+                    const troubleRadio = document.querySelector('input[name="tablePositionComfort"][value="trouble"]');
+                    if (troubleRadio && troubleRadio.checked) {
+                        const positionDetails = document.getElementById('tablePositionDetails');
+                        const positionError = document.getElementById('error-tablePositionDetails');
+                        if (!positionDetails || !positionDetails.value.trim()) {
+                            message = 'Please provide position details.';
+                            if (positionError) {
+                                positionError.textContent = message;
+                                positionError.style.display = 'block';
+                            }
+                            break;
+                        }
+                    }
+                }
                 break;
+            }
             case 3: {
                 // Check if any health issues are indicated
                 const healthChecks = Array.from(document.querySelectorAll('input[name="healthChecks"]:checked'));

@@ -44,8 +44,9 @@
         <div id="stepCount" class="step-count" style="text-align:center; margin:12px 0; font-weight:600; color:var(--text-dark);">Step 1 of 5</div>
 
         <form id="intakeForm" class="intake-form wizard-form">
-            <!-- Hidden field for selected brand -->
+            <!-- Hidden fields for selected brand and form type -->
             <input type="hidden" id="selectedBrand" name="selectedBrand" value="">
+            <input type="hidden" id="formType" name="formType" value="seated">
 
             <!-- Step 1: Details -->
             <div class="wizard-step form-section" data-step="1">
@@ -93,6 +94,35 @@
                         <label><input type="radio" name="pressurePreference" value="Light"> Light</label>
                         <label><input type="radio" name="pressurePreference" value="Medium"> Medium</label>
                         <label><input type="radio" name="pressurePreference" value="Firm"> Firm</label>
+                    </div>
+                </div>
+
+                <!-- Table-only: Oil/Skin Contact -->
+                <div id="tableOilSection" class="form-group hidden-field">
+                    <label>Oil / Skin Contact: <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="tableOilPreference" id="tableOilOk" value="ok" checked> Oil/skin contact OK</label>
+                        <label><input type="radio" name="tableOilPreference" value="noOil"> Prefer no oil</label>
+                        <label><input type="radio" name="tableOilPreference" value="sensitive"> Sensitive/allergic</label>
+                    </div>
+                    <div id="tableOilAllergySection" class="form-group hidden-field" style="margin-top:12px;">
+                        <label for="tableOilAllergyDetails">Allergy/sensitivity details: <span class="required">*</span></label>
+                        <textarea id="tableOilAllergyDetails" name="tableOilAllergyDetails" rows="2" maxlength="200" placeholder="Eg nut oils, fragrances, latex, eczema flare-ups"></textarea>
+                        <div class="form-error" id="error-tableOilAllergyDetails"></div>
+                    </div>
+                </div>
+
+                <!-- Table-only: Position Comfort -->
+                <div id="tablePositionSection" class="form-group hidden-field">
+                    <label>Position Comfort: <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="tablePositionComfort" id="tablePositionOk" value="ok" checked> Fine face down and face up</label>
+                        <label><input type="radio" name="tablePositionComfort" value="trouble"> Trouble with one position</label>
+                    </div>
+                    <div id="tablePositionDetailsSection" class="form-group hidden-field" style="margin-top:12px;">
+                        <label for="tablePositionDetails">Position details: <span class="required">*</span></label>
+                        <textarea id="tablePositionDetails" name="tablePositionDetails" rows="2" maxlength="200" placeholder="Which position and why? Eg pregnancy, reflux, vertigo, neck/back pain, breathing issues"></textarea>
+                        <div class="form-error" id="error-tablePositionDetails"></div>
                     </div>
                 </div>
             </div>
@@ -164,7 +194,7 @@
                 <div class="consent-checkbox">
                     <label>
                         <input type="checkbox" name="consentAll" id="consentAll" required>
-                        <span>I have read and agree to the Terms and Privacy Collection Notice, I consent to receive seated chair massage today. I understand I can ask to change pressure, pause, or stop at any time, I'm comfortable receiving seated massage in a shared workplace/event setting. <span class="required">*</span></span>
+                        <span id="consentText">I have read and agree to the Terms and Privacy Collection Notice, I consent to receive seated chair massage today. I understand I can ask to change pressure, pause, or stop at any time, I'm comfortable receiving seated massage in a shared workplace/event setting. <span class="required">*</span></span>
                     </label>
                 </div>
 
@@ -294,7 +324,7 @@ I agree that selecting the consent checkbox(es) and providing a drawn or typed s
     <script src="/js/intake-form.js?v=20260126" defer></script>
 
     <script>
-        // Initialize brand theming on intake form
+        // Initialize brand and form type on intake form
         document.addEventListener('DOMContentLoaded', () => {
             const brand = getSelectedBrand();
 
@@ -304,8 +334,12 @@ I agree that selecting the consent checkbox(es) and providing a drawn or typed s
                 return;
             }
 
-            // Apply theme
-            applyBrandTheme(brand);
+            // Get form type from URL parameter or localStorage
+            const urlParams = new URLSearchParams(window.location.search);
+            let formType = urlParams.get('form') || getSelectedFormType() || 'seated';
+
+            // Store form type in localStorage
+            setSelectedFormType(formType);
 
             // Set hidden field value
             const selectedBrandInput = document.getElementById('selectedBrand');
@@ -313,21 +347,95 @@ I agree that selecting the consent checkbox(es) and providing a drawn or typed s
                 selectedBrandInput.value = brand;
             }
 
+            const formTypeInput = document.getElementById('formType');
+            if (formTypeInput) {
+                formTypeInput.value = formType;
+            }
+
+            // Apply theme
+            applyBrandTheme(brand);
+
             // Update branding elements
             const brandLogo = document.getElementById('brandLogo');
             const hemisphereLogo = document.getElementById('hemisphereLogo');
             const formTitle = document.getElementById('formTitle');
 
+            const brandSuffix = brand === 'hemisphere' ? 'Hemisphere Wellness' : 'Flexion & Flow';
+            const formTypeDisplay = getFormTypeDisplayName(formType);
+
             if (brand === 'hemisphere') {
                 if (brandLogo) brandLogo.style.display = 'none';
                 if (hemisphereLogo) hemisphereLogo.style.display = 'flex';
-                document.title = 'Seated Chair Massage Intake - Hemisphere Wellness';
             } else {
                 if (brandLogo) brandLogo.style.display = '';
                 if (hemisphereLogo) hemisphereLogo.style.display = 'none';
-                document.title = 'Seated Chair Massage Intake - Flexion & Flow';
             }
+
+            // Update page title and form title
+            document.title = formTypeDisplay + ' - ' + brandSuffix;
+            if (formTitle) {
+                const titleText = formType === 'table' ? 'Table<br>Massage Intake' : 'Seated Chair<br>Massage Intake';
+                formTitle.innerHTML = titleText;
+            }
+
+            // Update consent text based on form type
+            const consentText = document.getElementById('consentText');
+            if (consentText) {
+                if (formType === 'table') {
+                    consentText.innerHTML = 'I have read and agree to the Terms and Privacy Collection Notice, I consent to receive table massage today. I understand I can ask to change pressure, pause, or stop at any time. Table massage may involve oil/skin contact and professional draping - I can request changes at any time. <span class="required">*</span>';
+                } else {
+                    consentText.innerHTML = 'I have read and agree to the Terms and Privacy Collection Notice, I consent to receive seated chair massage today. I understand I can ask to change pressure, pause, or stop at any time, I\'m comfortable receiving seated massage in a shared workplace/event setting. <span class="required">*</span>';
+                }
+            }
+
+            // Show/hide table-specific fields based on form type
+            initTableFieldVisibility(formType);
         });
+
+        /**
+         * Initialize table field visibility based on form type
+         * @param {string} formType - 'seated' or 'table'
+         */
+        function initTableFieldVisibility(formType) {
+            const tableOilSection = document.getElementById('tableOilSection');
+            const tablePositionSection = document.getElementById('tablePositionSection');
+
+            if (formType === 'table') {
+                // Show table fields
+                if (tableOilSection) tableOilSection.classList.remove('hidden-field');
+                if (tablePositionSection) tablePositionSection.classList.remove('hidden-field');
+            } else {
+                // Hide table fields
+                if (tableOilSection) tableOilSection.classList.add('hidden-field');
+                if (tablePositionSection) tablePositionSection.classList.add('hidden-field');
+
+                // Clear table field values and remove them from form submission
+                clearTableFieldValues();
+            }
+        }
+
+        /**
+         * Clear all table-specific field values
+         */
+        function clearTableFieldValues() {
+            const tableFields = [
+                'tableOilPreference',
+                'tableOilAllergyDetails',
+                'tablePositionComfort',
+                'tablePositionDetails'
+            ];
+
+            tableFields.forEach(fieldId => {
+                const field = document.querySelector('[name="' + fieldId + '"]');
+                if (field) {
+                    if (field.type === 'radio') {
+                        field.checked = false;
+                    } else if (field.type === 'text' || field.tagName === 'TEXTAREA') {
+                        field.value = '';
+                    }
+                }
+            });
+        }
     </script>
 </body>
 </html>

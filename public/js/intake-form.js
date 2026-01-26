@@ -43,6 +43,61 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateHealthBanner();
 
+    // Table-specific field conditional visibility
+    const tableOilPreferenceRadios = Array.from(document.querySelectorAll('input[name="tableOilPreference"]'));
+    const tableOilAllergySection = document.getElementById('tableOilAllergySection');
+    const tablePositionComfortRadios = Array.from(document.querySelectorAll('input[name="tablePositionComfort"]'));
+    const tablePositionDetailsSection = document.getElementById('tablePositionDetailsSection');
+
+    const updateTableOilAllergyVisibility = () => {
+        const sensitiveRadio = document.querySelector('input[name="tableOilPreference"][value="sensitive"]');
+        if (sensitiveRadio && tableOilAllergySection) {
+            if (sensitiveRadio.checked) {
+                tableOilAllergySection.classList.remove('hidden-field');
+                tableOilAllergySection.style.display = 'block';
+            } else {
+                tableOilAllergySection.classList.add('hidden-field');
+                tableOilAllergySection.style.display = 'none';
+                // Clear field when hidden
+                const allergyDetails = document.getElementById('tableOilAllergyDetails');
+                if (allergyDetails) allergyDetails.value = '';
+                const allergyError = document.getElementById('error-tableOilAllergyDetails');
+                if (allergyError) allergyError.textContent = '';
+            }
+        }
+    };
+
+    const updateTablePositionDetailsVisibility = () => {
+        const troubleRadio = document.querySelector('input[name="tablePositionComfort"][value="trouble"]');
+        if (troubleRadio && tablePositionDetailsSection) {
+            if (troubleRadio.checked) {
+                tablePositionDetailsSection.classList.remove('hidden-field');
+                tablePositionDetailsSection.style.display = 'block';
+            } else {
+                tablePositionDetailsSection.classList.add('hidden-field');
+                tablePositionDetailsSection.style.display = 'none';
+                // Clear field when hidden
+                const positionDetails = document.getElementById('tablePositionDetails');
+                if (positionDetails) positionDetails.value = '';
+                const positionError = document.getElementById('error-tablePositionDetails');
+                if (positionError) positionError.textContent = '';
+            }
+        }
+    };
+
+    // Add event listeners for table field visibility
+    tableOilPreferenceRadios.forEach(radio => {
+        radio.addEventListener('change', updateTableOilAllergyVisibility);
+    });
+
+    tablePositionComfortRadios.forEach(radio => {
+        radio.addEventListener('change', updateTablePositionDetailsVisibility);
+    });
+
+    // Initialize table field visibility on load
+    updateTableOilAllergyVisibility();
+    updateTablePositionDetailsVisibility();
+
     // Auto-expand avoidNotes textarea
     const avoidNotes = document.getElementById('avoidNotes');
     if (avoidNotes) {
@@ -143,7 +198,8 @@ document.addEventListener('DOMContentLoaded', () => {
         data.createdAt = nowIso;
         data.updatedAt = nowIso;
         data.status = status;
-        data.formType = 'universal';
+        // Use formType from hidden field, or get from localStorage, default to 'seated'
+        data.formType = document.getElementById('formType')?.value || (typeof getSelectedFormType === 'function' ? getSelectedFormType() : 'seated') || 'seated';
 
         // Ensure selectedBrand is included (from hidden field or localStorage)
         if (!data.selectedBrand && typeof getSelectedBrand === 'function') {

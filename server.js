@@ -117,7 +117,8 @@ app.post('/api/submit-form', async (req, res) => {
         const MM = String(now.getMinutes()).padStart(2, '0');
         const ss = String(now.getSeconds()).padStart(2, '0');
 
-        const formName = 'Seated_Chair_Massage_Intake';
+        const formType = formData.formType || 'seated';
+        const formName = formType === 'table' ? 'Table_Massage_Intake' : 'Seated_Chair_Massage_Intake';
         const filename = `${clientName}_${yyyy}-${mm}-${dd}_${HH}${MM}${ss}_${formName}.pdf`;
         
         // Upload to Google Drive (or save locally if not configured)

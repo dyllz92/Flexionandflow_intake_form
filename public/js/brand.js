@@ -2,6 +2,7 @@
 // Handles localStorage persistence and UI theming for brand selection
 
 const BRAND_STORAGE_KEY = 'selectedBrand';
+const FORM_TYPE_STORAGE_KEY = 'selectedFormType';
 
 /**
  * Get the currently selected brand from localStorage
@@ -136,6 +137,57 @@ function updateBrandingElements(brand) {
     const h1 = document.querySelector('.header-section h1');
     if (h1 && h1.textContent.includes('Flexion & Flow')) {
         h1.textContent = h1.textContent.replace('Flexion & Flow', displayName);
+    }
+}
+
+/**
+ * Get the currently selected form type from localStorage
+ * @returns {'seated' | 'table' | null}
+ */
+function getSelectedFormType() {
+    try {
+        return localStorage.getItem(FORM_TYPE_STORAGE_KEY);
+    } catch (e) {
+        console.warn('localStorage not available:', e);
+        return null;
+    }
+}
+
+/**
+ * Set the selected form type in localStorage
+ * @param {'seated' | 'table'} formType
+ */
+function setSelectedFormType(formType) {
+    try {
+        localStorage.setItem(FORM_TYPE_STORAGE_KEY, formType);
+    } catch (e) {
+        console.warn('localStorage not available:', e);
+    }
+}
+
+/**
+ * Clear the selected form type from localStorage
+ */
+function clearSelectedFormType() {
+    try {
+        localStorage.removeItem(FORM_TYPE_STORAGE_KEY);
+    } catch (e) {
+        console.warn('localStorage not available:', e);
+    }
+}
+
+/**
+ * Get the display name for a form type
+ * @param {'seated' | 'table' | null} formType
+ * @returns {string}
+ */
+function getFormTypeDisplayName(formType) {
+    switch (formType) {
+        case 'table':
+            return 'Table Massage Intake';
+        case 'seated':
+        default:
+            return 'Seated Chair Massage Intake';
     }
 }
 
