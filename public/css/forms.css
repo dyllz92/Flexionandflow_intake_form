@@ -509,10 +509,36 @@ textarea {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
+/* Flexion & Flow: Muscle map container buttons */
 .muscle-map-container .btn-secondary {
     width: 100%;
-    padding: 10px;
+    padding: 12px 20px;
     margin-top: 10px;
+    background: #ffffff;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.muscle-map-container .btn-secondary:hover {
+    background: rgba(44, 95, 125, 0.08);
+    border-color: var(--primary-color);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Hemisphere: Muscle map container buttons */
+[data-brand="hemisphere"] .muscle-map-container .btn-secondary {
+    background: transparent;
+    color: #1a7a6c;
+    border: 1px solid #1a7a6c;
+    box-shadow: none;
+}
+
+[data-brand="hemisphere"] .muscle-map-container .btn-secondary:hover {
+    background: #1a7a6c;
+    color: #ffffff;
+    border-color: #1a7a6c;
+    box-shadow: 0 2px 8px rgba(26, 122, 108, 0.15);
 }
 
 .marks-display {
@@ -1037,12 +1063,38 @@ button[type="button"]#clearSignature {
     flex: 1;
 }
 
+/* Flexion & Flow: Modal header/control buttons */
 .body-map-header .btn-secondary {
     padding: 8px 16px;
     font-size: 14px;
     flex: 0 0 auto;
     width: auto;
     min-height: auto;
+    background: #ffffff;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.body-map-header .btn-secondary:hover {
+    background: rgba(44, 95, 125, 0.08);
+    border-color: var(--primary-color);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Hemisphere: Modal header/control buttons */
+[data-brand="hemisphere"] .body-map-header .btn-secondary {
+    background: transparent;
+    color: #1a7a6c;
+    border: 1px solid #1a7a6c;
+    box-shadow: none;
+}
+
+[data-brand="hemisphere"] .body-map-header .btn-secondary:hover {
+    background: #1a7a6c;
+    color: #ffffff;
+    border-color: #1a7a6c;
+    box-shadow: 0 2px 8px rgba(26, 122, 108, 0.15);
 }
 
 .body-map-body {
@@ -1072,12 +1124,38 @@ button[type="button"]#clearSignature {
     width: 100%;
 }
 
+/* Flexion & Flow: Modal control buttons */
 .body-map-controls .btn-secondary {
     padding: 10px 20px;
     font-size: 14px;
     flex: 0 1 auto;
     width: auto;
     min-height: auto;
+    background: #ffffff;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.body-map-controls .btn-secondary:hover {
+    background: rgba(44, 95, 125, 0.08);
+    border-color: var(--primary-color);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Hemisphere: Modal control buttons */
+[data-brand="hemisphere"] .body-map-controls .btn-secondary {
+    background: transparent;
+    color: #1a7a6c;
+    border: 1px solid #1a7a6c;
+    box-shadow: none;
+}
+
+[data-brand="hemisphere"] .body-map-controls .btn-secondary:hover {
+    background: #1a7a6c;
+    color: #ffffff;
+    border-color: #1a7a6c;
+    box-shadow: 0 2px 8px rgba(26, 122, 108, 0.15);
 }
 
 @media (max-width: 480px) {
