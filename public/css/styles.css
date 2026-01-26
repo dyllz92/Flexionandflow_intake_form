@@ -158,8 +158,154 @@ body[data-brand="hemisphere"] {
     border-color: #9D4EDD;
 }
 
+/* Hemisphere Form Type Selection Page */
+[data-brand="hemisphere"] .home-container {
+    color: #FFFFFF;
+}
+
+[data-brand="hemisphere"] .logo-section {
+    margin-bottom: 20px;
+}
+
+[data-brand="hemisphere"] .logo-section .logo {
+    max-height: 120px;
+    width: auto;
+    filter: brightness(1.05);
+}
+
 [data-brand="hemisphere"] .header-section h1 {
     color: #FFFFFF;
+    font-size: 32px;
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+[data-brand="hemisphere"] .header-section .subtitle {
+    color: #DCDCDC;
+    font-size: 16px;
+    letter-spacing: 0.3px;
+    margin-bottom: 32px;
+}
+
+[data-brand="hemisphere"] .forms-container {
+    max-width: 900px;
+    gap: 28px;
+    margin-top: 20px;
+}
+
+[data-brand="hemisphere"] .form-card {
+    background: rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    min-height: 280px;
+    padding: 32px 24px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+[data-brand="hemisphere"] .form-card:hover {
+    background: rgba(0, 0, 0, 0.65);
+    border-color: rgba(157, 78, 221, 0.5);
+    box-shadow: 0 12px 48px rgba(157, 78, 221, 0.25);
+    transform: translateY(-4px);
+}
+
+[data-brand="hemisphere"] .form-card:active {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(157, 78, 221, 0.2);
+}
+
+[data-brand="hemisphere"] .form-card:focus-within {
+    outline: none;
+    border-color: #9D4EDD;
+    box-shadow: 0 0 0 3px rgba(157, 78, 221, 0.2);
+}
+
+[data-brand="hemisphere"] .card-icon {
+    margin-bottom: 20px;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+[data-brand="hemisphere"] .card-icon-image {
+    width: 80px;
+    height: 80px;
+    filter: brightness(1.1) contrast(1.1);
+    transition: filter 0.2s ease;
+}
+
+[data-brand="hemisphere"] .card-icon-image-table {
+    width: 90px;
+    height: 80px;
+}
+
+[data-brand="hemisphere"] .form-card:hover .card-icon-image {
+    filter: brightness(1.25) contrast(1.15);
+}
+
+[data-brand="hemisphere"] .form-card h2 {
+    color: #FFFFFF;
+    font-size: 18px;
+    margin-bottom: 16px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+}
+
+[data-brand="hemisphere"] .form-card .btn {
+    margin-top: 16px;
+    padding: 12px 24px;
+}
+
+[data-brand="hemisphere"] .form-card .btn-primary {
+    background: linear-gradient(135deg, #9D4EDD, #7B2CBF);
+    border: none;
+    color: #FFFFFF;
+    box-shadow: 0 4px 16px rgba(157, 78, 221, 0.3);
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+[data-brand="hemisphere"] .form-card .btn-primary:hover {
+    background: linear-gradient(135deg, #AD63ED, #8B3FDF);
+    box-shadow: 0 6px 24px rgba(157, 78, 221, 0.45);
+    transform: translateY(-2px);
+}
+
+[data-brand="hemisphere"] .form-card .btn-primary:active {
+    transform: translateY(0);
+}
+
+[data-brand="hemisphere"] .footer-section {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-brand="hemisphere"] .footer-section p {
+    color: #DCDCDC;
+    font-size: 14px;
+    letter-spacing: 0.2px;
+}
+
+[data-brand="hemisphere"] .change-brand-link {
+    color: #DCDCDC;
+    text-decoration: underline;
+    font-size: 13px;
+    margin-top: 12px;
+    transition: color 0.2s ease;
+    cursor: pointer;
+}
+
+[data-brand="hemisphere"] .change-brand-link:hover {
+    color: #9D4EDD;
+}
+
+[data-brand="hemisphere"] .change-brand-link:focus {
+    outline: 2px solid #9D4EDD;
+    outline-offset: 2px;
 }
 
 body {
