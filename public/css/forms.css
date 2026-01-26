@@ -1151,20 +1151,28 @@ button[type="button"]#clearSignature {
     }
 }
 
-/* Hemisphere Wellness Theme - Dark Purple Design */
+/* Hemisphere Wellness Theme - Modern Premium Design */
 
 /* Page & Container Backgrounds */
 [data-brand="hemisphere"] body,
 [data-brand="hemisphere"] .container {
-    background: #161616;
+    background: radial-gradient(circle at 50% 0%, rgba(157, 78, 221, 0.25), transparent 55%),
+                linear-gradient(180deg, #161616 0%, #0E0E0E 100%);
+    background-attachment: fixed;
     color: #FFFFFF;
+}
+
+[data-brand="hemisphere"] .container {
+    background: rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
 }
 
 [data-brand="hemisphere"] .form-section,
 [data-brand="hemisphere"] .wizard-step {
-    background: #000000;
+    background: rgba(255, 255, 255, 0.03);
     color: #FFFFFF;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 /* Typography */
@@ -1193,31 +1201,42 @@ button[type="button"]#clearSignature {
 
 /* Form Header */
 [data-brand="hemisphere"] .form-header {
-    border-bottom-color: rgba(255, 255, 255, 0.1);
-    background: #000000;
+    background: linear-gradient(135deg, rgba(157, 78, 221, 0.15), rgba(0, 0, 0, 0));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    margin: -40px -30px 24px -30px;
+    padding: 24px 30px 28px 30px;
 }
 
 /* Inputs & Textareas */
 [data-brand="hemisphere"] input,
 [data-brand="hemisphere"] textarea,
 [data-brand="hemisphere"] select {
-    background: transparent;
-    border: 1px solid #FFFFFF;
-    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
     color: #FFFFFF;
     font-family: "Source Sans Pro", arial, sans-serif;
-    padding: 12px;
+    padding: 12px 14px;
+    transition: all 0.2s ease;
+}
+
+[data-brand="hemisphere"] input:hover,
+[data-brand="hemisphere"] textarea:hover,
+[data-brand="hemisphere"] select:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.18);
 }
 
 [data-brand="hemisphere"] input::placeholder,
 [data-brand="hemisphere"] textarea::placeholder {
-    color: #ABABAB;
+    color: rgba(255, 255, 255, 0.4);
 }
 
 [data-brand="hemisphere"] input:focus,
 [data-brand="hemisphere"] textarea:focus {
-    border-color: #9D4EDD;
-    box-shadow: 0 0 0 3px rgba(157, 78, 221, 0.3);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(157, 78, 221, 0.6);
+    box-shadow: 0 0 0 3px rgba(157, 78, 221, 0.15);
     outline: none;
 }
 
@@ -1225,68 +1244,158 @@ button[type="button"]#clearSignature {
 [data-brand="hemisphere"] .radio-group label,
 [data-brand="hemisphere"] .checkbox-group label {
     background: transparent;
-    border: 1px solid #FFFFFF;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     color: #DCDCDC;
-    padding: 12px;
-    border-radius: 4px;
+    padding: 14px 0;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+[data-brand="hemisphere"] .radio-group label:last-child,
+[data-brand="hemisphere"] .checkbox-group label:last-child {
+    border-bottom: none;
 }
 
 [data-brand="hemisphere"] .radio-group label:hover,
 [data-brand="hemisphere"] .checkbox-group label:hover {
-    background: #404040;
-    border-color: #9D4EDD;
+    background: rgba(255, 255, 255, 0.04);
+    color: #FFFFFF;
+    padding-left: 6px;
+    padding-right: -6px;
 }
 
 [data-brand="hemisphere"] .radio-group input:checked + label,
 [data-brand="hemisphere"] .checkbox-group input:checked + label {
-    background: #404040;
-    border-color: #9D4EDD;
+    color: #9D4EDD;
+    background: rgba(157, 78, 221, 0.08);
 }
 
-/* Step Indicator */
+/* Step Indicator - Modern Minimal Design */
+[data-brand="hemisphere"] .step-indicator {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 24px;
+    padding: 0;
+}
+
 [data-brand="hemisphere"] .step-indicator .step {
-    background: #404040;
-    color: #DCDCDC;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+    position: relative;
 }
 
-[data-brand="hemisphere"] .step-indicator .step.active {
-    background: #9D4EDD;
-    color: #FFFFFF;
-    border-color: #9D4EDD;
+[data-brand="hemisphere"] .step-indicator .step::before {
+    content: '';
+    position: absolute;
+    height: 1px;
+    background: rgba(157, 78, 221, 0.2);
+    width: 100%;
+    top: 18px;
+    left: 50%;
+    z-index: 0;
 }
 
-[data-brand="hemisphere"] .step-indicator .step.completed {
-    background: #404040;
-    border-color: #9D4EDD;
-}
-
-[data-brand="hemisphere"] .step-indicator .step.active .step-number {
-    background: #9D4EDD;
+[data-brand="hemisphere"] .step-indicator .step:last-child::before {
+    display: none;
 }
 
 [data-brand="hemisphere"] .step-indicator .step-number {
-    background: transparent;
-    color: #DCDCDC;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+    position: relative;
+    z-index: 1;
+    transition: all 0.3s ease;
+}
+
+[data-brand="hemisphere"] .step-indicator .step.active .step-number {
+    background: linear-gradient(135deg, #9D4EDD, #7B2CBF);
+    color: #FFFFFF;
+    border-color: rgba(157, 78, 221, 0.6);
+    box-shadow: 0 0 16px rgba(157, 78, 221, 0.4);
+}
+
+[data-brand="hemisphere"] .step-indicator .step.completed .step-number {
+    background: rgba(157, 78, 221, 0.2);
+    border-color: rgba(157, 78, 221, 0.5);
+    color: #9D4EDD;
+}
+
+[data-brand="hemisphere"] .step-indicator .step.completed .step-number::after {
+    content: '✓';
+    position: absolute;
+}
+
+[data-brand="hemisphere"] .step-indicator .step-label {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: 8px;
+    text-align: center;
+    transition: color 0.2s ease;
+}
+
+[data-brand="hemisphere"] .step-indicator .step.active .step-label {
+    color: #9D4EDD;
+    font-weight: 500;
 }
 
 /* Buttons - Primary & Secondary */
 [data-brand="hemisphere"] .btn-primary,
 [data-brand="hemisphere"] .btn-secondary {
-    background: transparent;
-    border: 1px solid #FFFFFF;
-    color: #FFFFFF;
-    border-radius: 8px;
+    border-radius: 10px;
     font-family: "Source Sans Pro", arial, sans-serif;
     font-weight: 600;
+    font-size: 15px;
+    transition: all 0.3s ease;
 }
 
-[data-brand="hemisphere"] .btn-primary:hover,
-[data-brand="hemisphere"] .btn-secondary:hover {
-    background: #9D4EDD;
-    border-color: #9D4EDD;
+/* Primary Button - Gradient */
+[data-brand="hemisphere"] .btn-primary {
+    background: linear-gradient(135deg, #9D4EDD, #7B2CBF);
+    border: none;
     color: #FFFFFF;
-    box-shadow: 0 4px 12px rgba(157, 78, 221, 0.4);
+    box-shadow: 0 4px 16px rgba(157, 78, 221, 0.3);
+}
+
+[data-brand="hemisphere"] .btn-primary:hover {
+    background: linear-gradient(135deg, #AD63ED, #8B3FDF);
+    box-shadow: 0 6px 24px rgba(157, 78, 221, 0.45);
+    transform: translateY(-2px);
+}
+
+[data-brand="hemisphere"] .btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(157, 78, 221, 0.3);
+}
+
+/* Secondary Button - Ghost */
+[data-brand="hemisphere"] .btn-secondary {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+[data-brand="hemisphere"] .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.4);
+    color: #FFFFFF;
 }
 
 [data-brand="hemisphere"] .btn-primary:focus,
@@ -1297,150 +1406,140 @@ button[type="button"]#clearSignature {
 
 [data-brand="hemisphere"] .btn-primary:disabled,
 [data-brand="hemisphere"] .btn-secondary:disabled {
-    background: transparent;
-    border-color: #404040;
-    color: #ABABAB;
-    opacity: 0.6;
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 /* Sticky Actions (Footer Buttons) */
 [data-brand="hemisphere"] .sticky-actions {
-    background: transparent;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-[data-brand="hemisphere"] .sticky-actions .btn-primary,
-[data-brand="hemisphere"] .sticky-actions .btn-secondary {
-    background: transparent;
-    border: 1px solid #FFFFFF;
-    color: #FFFFFF;
-}
-
-[data-brand="hemisphere"] .sticky-actions .btn-primary:hover,
-[data-brand="hemisphere"] .sticky-actions .btn-secondary:hover {
-    background: #9D4EDD;
-    border-color: #9D4EDD;
+    background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.3));
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding-top: 16px;
+    margin-top: 24px;
 }
 
 /* Body Map Modal */
-[data-brand="hemisphere"] .body-map-modal,
 [data-brand="hemisphere"] .body-map-backdrop {
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(0, 0, 0, 0.9);
 }
 
 [data-brand="hemisphere"] .body-map-content {
-    background: #000000;
-    border: 1px solid #FFFFFF;
+    background: rgba(20, 20, 30, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
 }
 
 [data-brand="hemisphere"] .body-map-header {
-    background: #000000;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg, rgba(157, 78, 221, 0.1), rgba(0, 0, 0, 0));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 [data-brand="hemisphere"] .body-map-header h2 {
     color: #FFFFFF;
-}
-
-[data-brand="hemisphere"] .body-map-header .btn-secondary {
-    background: transparent;
-    border: 1px solid #FFFFFF;
-    color: #FFFFFF;
-}
-
-[data-brand="hemisphere"] .body-map-header .btn-secondary:hover {
-    background: #9D4EDD;
-    border-color: #9D4EDD;
+    font-weight: 600;
 }
 
 [data-brand="hemisphere"] .body-map-body {
-    background: #161616;
-}
-
-[data-brand="hemisphere"] .body-map-controls .btn-secondary {
-    background: transparent;
-    border: 1px solid #FFFFFF;
-    color: #FFFFFF;
-}
-
-[data-brand="hemisphere"] .body-map-controls .btn-secondary:hover {
-    background: #9D4EDD;
-    border-color: #9D4EDD;
+    background: rgba(0, 0, 0, 0.4);
 }
 
 /* Terms Modal */
-[data-brand="hemisphere"] .terms-modal {
-    background: rgba(0, 0, 0, 0.85);
+[data-brand="hemisphere"] .terms-modal .terms-backdrop {
+    background: rgba(0, 0, 0, 0.9);
 }
 
 [data-brand="hemisphere"] .terms-content {
-    background: #000000;
-    border: 1px solid #FFFFFF;
+    background: rgba(20, 20, 30, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     color: #DCDCDC;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
 }
 
 [data-brand="hemisphere"] .terms-header {
-    background: #000000;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg, rgba(157, 78, 221, 0.1), rgba(0, 0, 0, 0));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 [data-brand="hemisphere"] .terms-header h2 {
     color: #FFFFFF;
+    font-weight: 600;
 }
 
 [data-brand="hemisphere"] .terms-body {
-    color: #DCDCDC;
+    color: rgba(255, 255, 255, 0.75);
     font-family: "Source Sans Pro", arial, sans-serif;
 }
 
 /* Consent Section */
 [data-brand="hemisphere"] .consent-section {
-    background: #000000;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 [data-brand="hemisphere"] .consent-checkbox {
     background: transparent;
+    padding: 0;
 }
 
 [data-brand="hemisphere"] .consent-checkbox label {
     background: transparent;
-    border: 1px solid #FFFFFF;
-    color: #DCDCDC;
-    padding: 12px;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.75);
+    padding: 14px 0;
+    display: flex;
+    align-items: flex-start;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+[data-brand="hemisphere"] .consent-checkbox:last-child label {
+    border-bottom: none;
 }
 
 [data-brand="hemisphere"] .consent-checkbox label:hover {
-    border-color: #9D4EDD;
-    background: #404040;
+    background: rgba(255, 255, 255, 0.04);
+    color: #FFFFFF;
 }
 
 [data-brand="hemisphere"] .consent-checkbox input:checked + label {
-    background: #404040;
-    border-color: #9D4EDD;
+    background: rgba(157, 78, 221, 0.08);
+    color: #9D4EDD;
 }
 
 /* Info Box & Conditionals */
 [data-brand="hemisphere"] .info-box {
-    background: rgba(157, 78, 221, 0.1);
-    border-left: 4px solid #9D4EDD;
-    color: #DCDCDC;
+    background: rgba(157, 78, 221, 0.08);
+    border-left: 3px solid rgba(157, 78, 221, 0.6);
+    color: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    padding: 14px 16px;
+}
+
+[data-brand="hemisphere"] .info-box h3,
+[data-brand="hemisphere"] .info-box strong {
+    color: #9D4EDD;
 }
 
 [data-brand="hemisphere"] .conditional-container {
     background: rgba(157, 78, 221, 0.05);
-    border-left: 4px solid #9D4EDD;
+    border-left: 3px solid rgba(157, 78, 221, 0.4);
+    border-radius: 8px;
+    padding: 12px 14px;
 }
 
 /* Dividers & Borders */
 [data-brand="hemisphere"] .section-divider {
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    margin: 16px 0;
 }
 
 /* Signature Canvas */
 [data-brand="hemisphere"] .signature-pad-frame {
-    background: #000000;
-    border: 1px solid #FFFFFF;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 [data-brand="hemisphere"] .signature-pad-frame canvas {
@@ -1449,26 +1548,31 @@ button[type="button"]#clearSignature {
 
 /* Muscle Map Canvas */
 [data-brand="hemisphere"] .muscle-map-canvas {
-    background: #000000;
-    border: 1px solid #FFFFFF;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
 }
 
 /* Spinner/Loader */
 [data-brand="hemisphere"] .spinner {
-    border-color: rgba(157, 78, 221, 0.2);
+    border-color: rgba(157, 78, 221, 0.15);
     border-top-color: #9D4EDD;
 }
 
 /* Success Message */
 [data-brand="hemisphere"] .success-message {
-    background: #000000;
+    background: transparent;
     color: #FFFFFF;
+    padding: 40px 20px;
 }
 
 [data-brand="hemisphere"] .success-message h2 {
-    color: #FFFFFF;
+    color: #9D4EDD;
+    font-weight: 600;
+    margin-bottom: 12px;
 }
 
 [data-brand="hemisphere"] .success-message p {
-    color: #DCDCDC;
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.6;
 }

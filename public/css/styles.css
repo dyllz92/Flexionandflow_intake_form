@@ -37,7 +37,9 @@
 
 [data-brand="hemisphere"] body,
 body[data-brand="hemisphere"] {
-    background: #161616;
+    background: radial-gradient(circle at 50% 0%, rgba(157, 78, 221, 0.25), transparent 55%),
+                linear-gradient(180deg, #161616 0%, #0E0E0E 100%);
+    background-attachment: fixed;
 }
 
 /* Brand Selection Page Styles */
@@ -71,8 +73,9 @@ body[data-brand="hemisphere"] {
 
 /* Hemisphere Card Specific Styling */
 .hemisphere-card {
-    border: 2px solid #9D4EDD;
-    background: linear-gradient(180deg, #000000 0%, #1a1a1a 100%);
+    border: 1px solid rgba(157, 78, 221, 0.35);
+    background: rgba(0, 0, 0, 0.55);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
 }
 
 .hemisphere-card:hover {
@@ -84,18 +87,22 @@ body[data-brand="hemisphere"] {
 .hemisphere-card h2 {
     color: #FFFFFF;
     font-family: "Source Sans Pro", arial, sans-serif;
-    font-weight: 700;
+    font-weight: 600;
+    font-size: 18px;
+    margin-bottom: 4px;
 }
 
 .hemisphere-logo-placeholder {
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #9D4EDD 0%, #9D4EDD 100%);
+    background: linear-gradient(135deg, rgba(157, 78, 221, 0.4), rgba(157, 78, 221, 0.15));
+    border: 1px solid rgba(157, 78, 221, 0.4);
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto;
+    box-shadow: 0 8px 24px rgba(157, 78, 221, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.1);
 }
 
 .hemisphere-logo-icon {
