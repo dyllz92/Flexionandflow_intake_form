@@ -195,9 +195,9 @@ body[data-brand="hemisphere"] {
 }
 
 [data-brand="hemisphere"] .form-card {
-    background: rgba(20, 20, 20, 0.8);
-    border: 1px solid rgba(157, 78, 221, 0.2);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+    background: linear-gradient(180deg, #FFFFFF 0%, #FBF7FC 100%);
+    border: 2px solid #9D4EDD;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.10);
     min-height: 300px;
     padding: 36px 28px;
     border-radius: 16px;
@@ -205,78 +205,89 @@ body[data-brand="hemisphere"] {
 }
 
 [data-brand="hemisphere"] .form-card:hover {
-    background: rgba(20, 20, 20, 0.95);
-    border-color: rgba(157, 78, 221, 0.4);
-    box-shadow: 0 12px 48px rgba(157, 78, 221, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.08);
+    background: linear-gradient(180deg, #FFFFFF 0%, #F5F0FF 100%);
+    box-shadow: 0 0 0 4px rgba(157, 78, 221, 0.18), 0 12px 28px rgba(0, 0, 0, 0.12);
     transform: translateY(-2px);
 }
 
 [data-brand="hemisphere"] .form-card:active {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 32px rgba(157, 78, 221, 0.2);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
 [data-brand="hemisphere"] .form-card:focus-within {
     outline: none;
-    border-color: #9D4EDD;
-    box-shadow: 0 0 0 3px rgba(157, 78, 221, 0.2);
+    box-shadow: 0 0 0 4px rgba(157, 78, 221, 0.18), 0 12px 28px rgba(0, 0, 0, 0.12);
 }
 
 [data-brand="hemisphere"] .card-icon {
-    margin-bottom: 24px;
-    min-height: 100px;
+    margin-bottom: 20px;
+    min-height: 110px;
     display: flex;
     align-items: center;
     justify-content: center;
+    max-height: 110px;
 }
 
 [data-brand="hemisphere"] .card-icon-image {
-    width: 90px;
-    height: 90px;
-    filter: invert(1) brightness(1.15);
-    transition: filter 0.2s ease;
+    width: 100%;
+    max-width: 110px;
+    height: auto;
+    object-fit: contain;
+    transition: transform 0.2s ease;
 }
 
 [data-brand="hemisphere"] .card-icon-image-table {
-    width: 100px;
-    height: 90px;
-    filter: invert(1) brightness(1.15);
+    width: 100%;
+    max-width: 110px;
+    height: auto;
+    object-fit: contain;
 }
 
 [data-brand="hemisphere"] .form-card:hover .card-icon-image {
-    filter: invert(1) brightness(1.3);
+    transform: scale(1.05);
 }
 
 [data-brand="hemisphere"] .form-card h2 {
-    color: #FFFFFF;
-    font-size: 18px;
-    margin-bottom: 16px;
-    font-weight: 600;
-    letter-spacing: 0.2px;
+    color: #1A1A1A;
+    font-size: 20px;
+    margin-bottom: 18px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+    line-height: 1.3;
 }
 
 [data-brand="hemisphere"] .form-card .btn {
-    margin-top: 16px;
-    padding: 12px 24px;
+    margin-top: 20px;
+    padding: 14px 32px;
+    font-size: 16px;
+    min-height: 48px;
+    border-radius: 12px;
 }
 
 [data-brand="hemisphere"] .form-card .btn-primary {
     background: linear-gradient(135deg, #9D4EDD, #7B2CBF);
     border: none;
     color: #FFFFFF;
-    box-shadow: 0 4px 16px rgba(157, 78, 221, 0.3);
+    box-shadow: 0 4px 12px rgba(157, 78, 221, 0.3);
     font-weight: 600;
     transition: all 0.3s ease;
 }
 
 [data-brand="hemisphere"] .form-card .btn-primary:hover {
     background: linear-gradient(135deg, #AD63ED, #8B3FDF);
-    box-shadow: 0 6px 24px rgba(157, 78, 221, 0.45);
+    box-shadow: 0 6px 20px rgba(157, 78, 221, 0.4);
     transform: translateY(-2px);
 }
 
 [data-brand="hemisphere"] .form-card .btn-primary:active {
     transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(157, 78, 221, 0.3);
+}
+
+[data-brand="hemisphere"] .form-card .btn-primary:focus {
+    outline: 2px solid #9D4EDD;
+    outline-offset: 2px;
 }
 
 [data-brand="hemisphere"] .footer-section {
@@ -322,16 +333,25 @@ body[data-brand="hemisphere"] {
     text-decoration: underline;
 }
 
-/* Hemisphere card website links - readable and purple */
-[data-brand="hemisphere"] .card-website-link {
+/* Hemisphere card website links - readable and purple on white */
+[data-brand="hemisphere"] .form-card .card-website-link {
     color: #9D4EDD;
     font-weight: 500;
+    font-size: 13px;
     transition: all 0.2s ease;
+    display: block;
+    margin-top: 12px;
+    text-decoration: none;
 }
 
-[data-brand="hemisphere"] .card-website-link:hover {
-    color: #AD63ED;
+[data-brand="hemisphere"] .form-card .card-website-link:hover {
+    color: #7B2CBF;
     text-decoration: underline;
+}
+
+[data-brand="hemisphere"] .form-card .card-website-link:focus {
+    outline: 2px solid #9D4EDD;
+    outline-offset: 2px;
 }
 
 body {
