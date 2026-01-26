@@ -23,17 +23,26 @@
             return Array.from(pressureInputs).some(p => p.checked);
         },
         3: () => {
-            // Step 3: health check optional
-            return true;
+            // Step 3: if any health issues selected (except "no health issues"), additional info is required
+            const healthChecks = Array.from(document.querySelectorAll('input[name="healthChecks"]:checked'));
+            const noHealthIssues = document.getElementById('noHealthIssues');
+            const reviewNote = document.getElementById('reviewNote');
+
+            // If no issues selected OR only "no health issues" is selected, step is valid
+            if (healthChecks.length === 0) return true;
+            if (healthChecks.length === 1 && healthChecks[0].id === 'noHealthIssues') return true;
+
+            // If health issues are selected, reviewNote is required
+            return reviewNote && reviewNote.value.trim().length > 0;
         },
         4: () => {
             // Step 4: anything to avoid optional
             return true;
         },
         5: () => {
-            // Step 5: combined consent + signature required
+            // Step 5: combined consent + signature required (method-aware validation)
             const consentAll = document.getElementById('consentAll');
-            const signatureValid = window.signaturePad && !window.signaturePad.isEmpty();
+            const signatureValid = typeof window.isSignatureValid === 'function' && window.isSignatureValid();
             return consentAll && consentAll.checked && signatureValid;
         }
     };
@@ -190,18 +199,22 @@
                 const hasHealthIssues = healthChecks.length > 0 && !(healthChecks.length === 1 && healthChecks[0].id === 'noHealthIssues');
 
                 if (hasHealthIssues && reviewNote && !reviewNote.value.trim()) {
-                    message = 'Please provide a few details, including dates or how long ago.';
+                    message = 'Please provide additional information about your health concerns.';
                     if (errorReviewNote) {
                         errorReviewNote.textContent = message;
+                        errorReviewNote.style.display = 'block';
                     }
+                    // Focus on the field and scroll into view
+                    reviewNote.focus();
+                    reviewNote.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
                 break;
             }
             case 5: {
                 const consentAll = document.getElementById('consentAll');
-                const signatureValid = window.signaturePad && !window.signaturePad.isEmpty();
+                const signatureValid = typeof window.isSignatureValid === 'function' && window.isSignatureValid();
                 if (!consentAll || !consentAll.checked) message = 'Please confirm you have read and agreed to the Terms and consent to treatment.';
-                else if (!signatureValid) message = 'Please provide your signature.';
+                else if (!signatureValid) message = 'Please provide a signature (draw or type).';
                 break;
             }
         }

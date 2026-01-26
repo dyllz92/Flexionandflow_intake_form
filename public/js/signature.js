@@ -99,6 +99,32 @@ class SignaturePad {
     toDataURL() {
         return this.canvas.toDataURL('image/png');
     }
+
+    /**
+     * Check if canvas has actual drawn content (more robust than just hasSignature flag)
+     * Compares a few pixels to ensure there's actual drawing, not just the flag being set
+     */
+    hasDrawnContent() {
+        // First check the flag
+        if (!this.hasSignature) return false;
+
+        // For additional safety, check that there's actual pixel data on the canvas
+        try {
+            const imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+            const data = imageData.data;
+            // Check if any pixel has non-zero alpha (indicating something was drawn)
+            for (let i = 3; i < data.length; i += 4) {
+                if (data[i] > 0) {
+                    return true;
+                }
+            }
+        } catch (e) {
+            // If we can't check pixels, rely on the flag
+            return this.hasSignature;
+        }
+
+        return false;
+    }
 }
 
 // Initialize signature pad when page loads
@@ -247,3 +273,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+/**
+ * Method-aware signature validation
+ * Returns true if EITHER:
+ * 1. signatureMethod === 'draw' AND the canvas contains a real signature
+ * 2. signatureMethod === 'type' AND the typed signature has text
+ */
+window.isSignatureValid = function() {
+    // Get the selected signature method
+    const selectedMethod = document.querySelector('input[name="signatureMethod"]:checked')?.value || 'draw';
+
+    if (selectedMethod === 'draw') {
+        // For draw method, check if canvas has drawn content
+        return window.signaturePad && window.signaturePad.hasDrawnContent();
+    } else if (selectedMethod === 'type') {
+        // For type method, check if typed text has content
+        return window.typedSignatureText && window.typedSignatureText.trim().length > 0;
+    }
+
+    // Default: invalid
+    return false;
+};

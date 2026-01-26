@@ -79,17 +79,56 @@
 
         if (!modal || !expandedContainer || !mainContainer) return;
 
-        // Clone the muscle map into the expanded container
+        // Clone the muscle map canvas into the expanded container
         expandedContainer.innerHTML = '';
-        const svgClone = mainContainer.querySelector('svg');
-        if (svgClone) {
-            const clonedSvg = svgClone.cloneNode(true);
-            expandedContainer.appendChild(clonedSvg);
+        const mainCanvas = mainContainer.querySelector('canvas.muscle-map-canvas');
+        if (mainCanvas && window.muscleMap) {
+            // Create a new canvas in the expanded container with the same dimensions
+            const expandedCanvas = document.createElement('canvas');
+            expandedCanvas.className = 'muscle-map-canvas';
+            expandedCanvas.width = mainCanvas.width;
+            expandedCanvas.height = mainCanvas.height;
+            expandedCanvas.style.maxWidth = '100%';
+            expandedCanvas.style.height = 'auto';
+            expandedContainer.appendChild(expandedCanvas);
 
-            // Reattach event listeners for the cloned map
-            if (window.muscleMap && typeof window.muscleMap.attachEventsToSvg === 'function') {
-                window.muscleMap.attachEventsToSvg(clonedSvg);
-            }
+            // Copy the current drawing from main canvas to expanded canvas
+            const expandedCtx = expandedCanvas.getContext('2d');
+            expandedCtx.drawImage(mainCanvas, 0, 0);
+
+            // Attach click handlers to the expanded canvas to interact with muscleMap
+            expandedCanvas.addEventListener('click', (e) => {
+                const rect = expandedCanvas.getBoundingClientRect();
+                const scaleX = expandedCanvas.width / rect.width;
+                const scaleY = expandedCanvas.height / rect.height;
+                const x = (e.clientX - rect.left) * scaleX;
+                const y = (e.clientY - rect.top) * scaleY;
+
+                // Use the main muscleMap to add/remove marks
+                if (window.muscleMap && typeof window.muscleMap.addMark === 'function') {
+                    window.muscleMap.addMark(x, y);
+                    // Redraw the expanded canvas to match the main canvas
+                    expandedCtx.drawImage(mainCanvas, 0, 0);
+                }
+            });
+
+            // Touch support
+            expandedCanvas.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                const touch = e.changedTouches[0];
+                if (touch) {
+                    const rect = expandedCanvas.getBoundingClientRect();
+                    const scaleX = expandedCanvas.width / rect.width;
+                    const scaleY = expandedCanvas.height / rect.height;
+                    const x = (touch.clientX - rect.left) * scaleX;
+                    const y = (touch.clientY - rect.top) * scaleY;
+
+                    if (window.muscleMap && typeof window.muscleMap.addMark === 'function') {
+                        window.muscleMap.addMark(x, y);
+                        expandedCtx.drawImage(mainCanvas, 0, 0);
+                    }
+                }
+            });
         }
 
         // Reset zoom
@@ -115,11 +154,9 @@
         if (!modal) return;
 
         // Sync any changes back to main view
-        if (window.muscleMap && mainContainer) {
-            // The muscleMap singleton handles state, so just redraw the main view
-            if (typeof window.muscleMap.redrawDots === 'function') {
-                window.muscleMap.redrawDots();
-            }
+        if (window.muscleMap && mainContainer && typeof window.muscleMap.redrawDots === 'function') {
+            // The muscleMap singleton handles state, redraw the main view
+            window.muscleMap.redrawDots();
         }
 
         // Hide modal
