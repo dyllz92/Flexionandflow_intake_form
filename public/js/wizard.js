@@ -10,12 +10,26 @@
     // Step validation rules
     const stepValidation = {
         1: () => {
-            // Step 1: fullName + mobile required
+            // Step 1: fullName, mobile, aoRole, firstTimeAOWellness, therapistName required
             const fullName = document.getElementById('fullName');
             const mobile = document.getElementById('mobile');
+            const aoRole = document.getElementById('aoRole');
+            const firstTimeAOWellness = document.querySelectorAll('input[name="firstTimeAOWellness"]');
+            const therapistName = document.querySelectorAll('input[name="therapistName"]');
+
             const nameValid = fullName && fullName.value.trim().length > 0;
             const mobileValid = mobile && mobile.value.trim().length > 0;
-            return nameValid && mobileValid;
+            const aoRoleValid = aoRole && aoRole.value.trim().length > 0;
+            const firstTimeValid = Array.from(firstTimeAOWellness).some(r => r.checked);
+            const therapistValid = Array.from(therapistName).some(r => r.checked);
+
+            // If aoRole is "Other", also require aoRoleOther
+            if (aoRole && aoRole.value === 'Other') {
+                const aoRoleOther = document.getElementById('aoRoleOther');
+                if (!aoRoleOther || !aoRoleOther.value.trim().length) return false;
+            }
+
+            return nameValid && mobileValid && aoRoleValid && firstTimeValid && therapistValid;
         },
         2: () => {
             // Step 2: pressure preference required (body map optional)
@@ -100,14 +114,8 @@
         document.addEventListener('input', updateButtonStates);
         document.addEventListener('change', updateButtonStates);
 
-        // Listen for signature changes
-        if (window.signaturePad) {
-            const canvas = document.getElementById('signatureCanvas');
-            if (canvas) {
-                canvas.addEventListener('mouseup', updateButtonStates);
-                canvas.addEventListener('touchend', updateButtonStates);
-            }
-        }
+        // Listen for signature:changed custom event (works regardless of script load order)
+        document.addEventListener('signature:changed', updateButtonStates);
 
         // Initial state
         showStep(1);
@@ -164,9 +172,17 @@
         }
 
         // Ensure signature pad is resized/available on step 5 (signature step)
-        if (currentStep === 5 && window.signaturePad && typeof window.signaturePad.resizeCanvas === 'function') {
+        if (currentStep === 5 && window.signaturePad) {
             setTimeout(() => {
-                try { window.signaturePad.resizeCanvas(); } catch (e) { /* ignore */ }
+                try {
+                    // Resize canvas and re-setup drawing settings
+                    if (typeof window.signaturePad.resizeCanvas === 'function') {
+                        window.signaturePad.resizeCanvas();
+                    }
+                    if (typeof window.signaturePad.setupCanvas === 'function') {
+                        window.signaturePad.setupCanvas();
+                    }
+                } catch (e) { /* ignore */ }
             }, 100);
         }
     }
@@ -205,13 +221,17 @@
             case 1: {
                 const fullName = document.getElementById('fullName');
                 const mobile = document.getElementById('mobile');
-                const genderSelected = Array.from(document.querySelectorAll('input[name="gender"]')).some(g => g.checked);
-                const ageConfirm = document.getElementById('ageConfirm18Plus');
+                const aoRole = document.getElementById('aoRole');
+                const aoRoleOther = document.getElementById('aoRoleOther');
+                const firstTimeAOWellness = document.querySelectorAll('input[name="firstTimeAOWellness"]');
+                const therapistName = document.querySelectorAll('input[name="therapistName"]');
 
                 if (!fullName || !fullName.value.trim()) message = 'Please enter your full name.';
                 else if (!mobile || !mobile.value.trim()) message = 'Please enter your mobile number.';
-                else if (!genderSelected) message = 'Please select your gender.';
-                else if (!ageConfirm || !ageConfirm.checked) message = 'Please confirm you are 18 years or older.';
+                else if (!aoRole || !aoRole.value.trim()) message = 'Please select your role at AO.';
+                else if (aoRole.value === 'Other' && (!aoRoleOther || !aoRoleOther.value.trim())) message = 'Please specify your role.';
+                else if (!Array.from(firstTimeAOWellness).some(r => r.checked)) message = 'Please indicate if this is your first time with AO wellness.';
+                else if (!Array.from(therapistName).some(r => r.checked)) message = 'Please select your therapist.';
                 break;
             }
             case 2: {

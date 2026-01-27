@@ -63,6 +63,52 @@
                     <label for="email">Email Address:</label>
                     <input type="email" id="email" name="email">
                 </div>
+
+                <div class="form-group">
+                    <label for="aoRole">Your role at AO: <span class="required">*</span></label>
+                    <select id="aoRole" name="aoRole" required style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:8px; font-size:16px; background:white;">
+                        <option value="">-- Select your role --</option>
+                        <option value="Player">Player</option>
+                        <option value="Coach">Coach</option>
+                        <option value="AO Staff">AO Staff</option>
+                        <option value="Contractor">Contractor</option>
+                        <option value="Volunteer">Volunteer</option>
+                        <option value="Media">Media</option>
+                        <option value="Spectator">Spectator</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <div id="aoRoleOtherSection" class="hidden-field" style="margin-top:10px;">
+                        <input type="text" id="aoRoleOther" name="aoRoleOther" placeholder="Please specify your role" maxlength="100">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="feelingPre">How are we feeling right now (pre-massage)? <span class="required">*</span></label>
+                    <div style="display:flex; align-items:center; gap:12px; margin-top:8px;">
+                        <span style="font-size:14px; color:var(--text-light);">1</span>
+                        <input type="range" id="feelingPre" name="feelingPre" min="1" max="10" value="5" style="flex:1; cursor:pointer;">
+                        <span style="font-size:14px; color:var(--text-light);">10</span>
+                        <span id="feelingPreValue" style="min-width:36px; padding:6px 10px; background:var(--primary-color); color:white; border-radius:6px; font-weight:600; text-align:center;">5</span>
+                    </div>
+                    <p style="font-size:12px; color:var(--text-light); margin-top:6px;">1 = Not great &nbsp;|&nbsp; 10 = Fantastic</p>
+                </div>
+
+                <div class="form-group">
+                    <label>Is this your first time experiencing AO wellness? <span class="required">*</span></label>
+                    <div class="radio-group" style="display:flex; gap:12px; margin-top:8px;">
+                        <label style="flex:1; text-align:center;"><input type="radio" name="firstTimeAOWellness" value="Yes" required> Yes</label>
+                        <label style="flex:1; text-align:center;"><input type="radio" name="firstTimeAOWellness" value="No" required> No</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Who is your therapist today? <span class="required">*</span></label>
+                    <div class="radio-group" style="display:flex; gap:12px; margin-top:8px;">
+                        <label style="flex:1; text-align:center;"><input type="radio" name="therapistName" value="Dylan" required> Dylan</label>
+                        <label style="flex:1; text-align:center;"><input type="radio" name="therapistName" value="Adriana" required> Adriana</label>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label>Gender (optional):</label>
                     <div class="radio-group inline">
@@ -329,6 +375,32 @@ I agree that selecting the consent checkbox(es) and providing a drawn or typed s
             // Get form type from URL parameter or localStorage
             const urlParams = new URLSearchParams(window.location.search);
             let formType = urlParams.get('form') || getSelectedFormType() || 'seated';
+
+            // Feeling slider value display
+            const feelingSlider = document.getElementById('feelingPre');
+            const feelingValue = document.getElementById('feelingPreValue');
+            if (feelingSlider && feelingValue) {
+                feelingSlider.addEventListener('input', () => {
+                    feelingValue.textContent = feelingSlider.value;
+                });
+            }
+
+            // AO Role "Other" toggle
+            const aoRoleSelect = document.getElementById('aoRole');
+            const aoRoleOtherSection = document.getElementById('aoRoleOtherSection');
+            if (aoRoleSelect && aoRoleOtherSection) {
+                aoRoleSelect.addEventListener('change', () => {
+                    if (aoRoleSelect.value === 'Other') {
+                        aoRoleOtherSection.classList.remove('hidden-field');
+                        aoRoleOtherSection.style.display = 'block';
+                    } else {
+                        aoRoleOtherSection.classList.add('hidden-field');
+                        aoRoleOtherSection.style.display = 'none';
+                        const otherInput = document.getElementById('aoRoleOther');
+                        if (otherInput) otherInput.value = '';
+                    }
+                });
+            }
 
             // Store form type in localStorage
             setSelectedFormType(formType);

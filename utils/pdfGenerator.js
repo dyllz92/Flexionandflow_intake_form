@@ -27,7 +27,14 @@ async function generatePDF(formData) {
 
             // Determine form type title
             const formType = formData.formType || 'seated';
-            const formTypeTitle = formType === 'table' ? 'Table Massage Intake Form' : 'Seated Chair Massage Intake Form';
+            let formTypeTitle;
+            if (formType === 'feedback') {
+                formTypeTitle = 'AO Wellness - Post-Session Feedback';
+            } else if (formType === 'table') {
+                formTypeTitle = 'Table Massage Intake Form';
+            } else {
+                formTypeTitle = 'Seated Chair Massage Intake Form';
+            }
 
             // Header
             doc.fontSize(20)
@@ -60,7 +67,11 @@ async function generatePDF(formData) {
             doc.moveDown(1);
 
             // Generate appropriate form based on type
-            generateUniversalForm(doc, formData, brandColor, formType);
+            if (formType === 'feedback') {
+                generateFeedbackForm(doc, formData, brandColor);
+            } else {
+                generateUniversalForm(doc, formData, brandColor, formType);
+            }
 
             // Signature section
             doc.moveDown(1.5);
@@ -128,6 +139,15 @@ function generateUniversalForm(doc, data, brandColor = '#9D4EDD', formType = 'se
     addField(doc, 'Mobile', data.mobile);
     addField(doc, 'Email', data.email || 'Not provided');
     if (data.gender) addField(doc, 'Gender', data.gender);
+
+    // AO-specific fields
+    if (data.aoRole) {
+        const roleDisplay = data.aoRole === 'Other' && data.aoRoleOther ? `Other: ${data.aoRoleOther}` : data.aoRole;
+        addField(doc, 'AO Role', roleDisplay);
+    }
+    if (data.feelingPre) addField(doc, 'Pre-massage feeling (1-10)', data.feelingPre);
+    if (data.firstTimeAOWellness) addField(doc, 'First time AO wellness', data.firstTimeAOWellness);
+    if (data.therapistName) addField(doc, 'Therapist', data.therapistName);
 
     // Body map: include the captured image if available
     addSection(doc, 'Body Map', brandColor);
@@ -218,6 +238,29 @@ function generateUniversalForm(doc, data, brandColor = '#9D4EDD', formType = 'se
 
     addSection(doc, 'Consent & Agreement', brandColor);
     addField(doc, 'Terms, treatment & public setting consent', data.consentAll ? 'Agreed' : 'Not agreed');
+}
+
+/**
+ * Generate a simpler feedback form PDF
+ */
+function generateFeedbackForm(doc, data, brandColor = '#9D4EDD') {
+    doc.fillColor('#000');
+
+    addSection(doc, 'Contact Details', brandColor);
+    addField(doc, 'Full name', data.fullName);
+    if (data.mobile) addField(doc, 'Mobile', data.mobile);
+    if (data.email) addField(doc, 'Email', data.email);
+
+    addSection(doc, 'Session Details', brandColor);
+    if (data.therapistName) addField(doc, 'Therapist', data.therapistName);
+
+    addSection(doc, 'Feedback', brandColor);
+    addField(doc, 'Post-session feeling (1-10)', data.feelingPost || 'Not provided');
+    addField(doc, 'Would recommend AO wellness', data.wouldRecommend || 'Not provided');
+
+    if (data.feedbackComments) {
+        addField(doc, 'Additional comments', data.feedbackComments);
+    }
 }
 
 function addSection(doc, title, brandColor = '#9D4EDD') {

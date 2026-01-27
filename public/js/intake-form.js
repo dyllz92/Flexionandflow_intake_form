@@ -130,23 +130,28 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Validate signature
-        if (window.signaturePad && window.signaturePad.isEmpty()) {
-            alert('Please provide your signature before submitting.');
+        // Validate signature using method-aware validation
+        if (typeof window.isSignatureValid === 'function' && !window.isSignatureValid()) {
+            alert('Please provide your signature before submitting (draw or type).');
             return;
         }
 
         // Get signature data depending on chosen method
         const typeRadio = document.getElementById('signatureMethodType');
+        const sigField = document.getElementById('signatureData');
+        const signedAtField = document.getElementById('signedAt');
+
         if (typeRadio && typeRadio.checked) {
+            // Typed signature
             const txt = window.typedSignatureText || (document.getElementById('typedSignatureInput') && document.getElementById('typedSignatureInput').value) || '';
-            document.getElementById('signatureData').value = txt ? `text:${txt}` : '';
-            document.getElementById('signedAt').value = new Date().toISOString();
+            if (sigField) sigField.value = txt ? `text:${txt}` : '';
+            if (signedAtField) signedAtField.value = new Date().toISOString();
         } else {
-            if (!window.signaturePad.isEmpty()) {
+            // Drawn signature - check if canvas has content
+            if (window.signaturePad && window.signaturePad.hasDrawnContent()) {
                 const signatureData = window.signaturePad.toDataURL();
-                document.getElementById('signatureData').value = signatureData;
-                document.getElementById('signedAt').value = new Date().toISOString();
+                if (sigField) sigField.value = signatureData;
+                if (signedAtField) signedAtField.value = new Date().toISOString();
             }
         }
 
@@ -211,7 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Ensure selectedBrand is included (from hidden field or localStorage)
         if (!data.selectedBrand && typeof getSelectedBrand === 'function') {
-            data.selectedBrand = getSelectedBrand() || 'flexion';
+            data.selectedBrand = getSelectedBrand() || 'hemisphere';
         }
 
         // Show loading

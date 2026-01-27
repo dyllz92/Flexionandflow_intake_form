@@ -5,15 +5,15 @@ class SignaturePad {
         this.ctx = canvas.getContext('2d');
         this.isDrawing = false;
         this.hasSignature = false;
-        
+
         // Set canvas size
         this.resizeCanvas();
-        
+
         // Setup drawing
         this.setupCanvas();
         this.bindEvents();
     }
-    
+
     resizeCanvas() {
         const ratio = Math.max(window.devicePixelRatio || 1, 1);
         const fallbackWidth = (this.canvas.parentElement && this.canvas.parentElement.clientWidth) || 400;
@@ -23,21 +23,21 @@ class SignaturePad {
         this.canvas.height = cssHeight * ratio;
         this.canvas.getContext('2d').setTransform(ratio, 0, 0, ratio, 0, 0);
     }
-    
+
     setupCanvas() {
         this.ctx.strokeStyle = '#000';
         this.ctx.lineWidth = 2;
         this.ctx.lineCap = 'round';
         this.ctx.lineJoin = 'round';
     }
-    
+
     bindEvents() {
         // Mouse events
         this.canvas.addEventListener('mousedown', (e) => this.startDrawing(e));
         this.canvas.addEventListener('mousemove', (e) => this.draw(e));
         this.canvas.addEventListener('mouseup', () => this.stopDrawing());
         this.canvas.addEventListener('mouseout', () => this.stopDrawing());
-        
+
         // Touch events
         this.canvas.addEventListener('touchstart', (e) => {
             e.preventDefault();
@@ -52,7 +52,7 @@ class SignaturePad {
             this.stopDrawing();
         });
     }
-    
+
     getCoordinates(event) {
         const rect = this.canvas.getBoundingClientRect();
         return {
@@ -60,42 +60,57 @@ class SignaturePad {
             y: event.clientY - rect.top
         };
     }
-    
+
     startDrawing(event) {
         this.isDrawing = true;
         const coords = this.getCoordinates(event);
         this.ctx.beginPath();
         this.ctx.moveTo(coords.x, coords.y);
     }
-    
+
     draw(event) {
         if (!this.isDrawing) return;
-        
+
         const coords = this.getCoordinates(event);
         this.ctx.lineTo(coords.x, coords.y);
         this.ctx.stroke();
         this.hasSignature = true;
         this.canvas.classList.add('signed');
     }
-    
+
     stopDrawing() {
         if (this.isDrawing) {
             this.isDrawing = false;
             this.ctx.closePath();
+
+            // If we have drawn content, update hidden fields immediately
+            if (this.hasDrawnContent()) {
+                const sigField = document.getElementById('signatureData');
+                const signedAtField = document.getElementById('signedAt');
+                if (sigField) {
+                    sigField.value = this.toDataURL();
+                }
+                if (signedAtField) {
+                    signedAtField.value = new Date().toISOString();
+                }
+            }
+
+            // Notify listeners that signature changed
+            notifySignatureChanged();
         }
     }
-    
+
     clear() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.hasSignature = false;
         this.canvas.classList.remove('signed');
     }
-    
+
     isEmpty() {
         // Consider typed signature as a valid signature as well
         return !this.hasSignature && !(window.typedSignatureText && String(window.typedSignatureText).trim().length > 0);
     }
-    
+
     toDataURL() {
         return this.canvas.toDataURL('image/png');
     }
@@ -124,6 +139,21 @@ class SignaturePad {
         }
 
         return false;
+    }
+}
+
+/**
+ * Notify that signature state has changed
+ * - Dispatches custom event for other listeners
+ * - Updates wizard button states if available
+ */
+function notifySignatureChanged() {
+    // Dispatch custom event
+    document.dispatchEvent(new Event('signature:changed'));
+
+    // Update wizard button states if wizard is initialized
+    if (window.wizard && typeof window.wizard.updateButtonStates === 'function') {
+        window.wizard.updateButtonStates();
     }
 }
 
@@ -161,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 overlay.style.visibility = '';
             }
         }
-        
+
         // Clear button
         const clearBtn = document.getElementById('clearSignature');
         if (clearBtn) {
@@ -176,7 +206,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (typedPreview) typedPreview.textContent = '';
                 fitTypedSignatureText('');
                 const sigField = document.getElementById('signatureData');
+                const signedAtField = document.getElementById('signedAt');
                 if (sigField) sigField.value = '';
+                if (signedAtField) signedAtField.value = '';
+
+                // Notify listeners that signature changed
+                notifySignatureChanged();
             });
         }
 
@@ -191,11 +226,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (typedPreview) typedPreview.textContent = '';
                 fitTypedSignatureText('');
                 const sigField = document.getElementById('signatureData');
+                const signedAtField = document.getElementById('signedAt');
                 if (sigField) sigField.value = '';
+                if (signedAtField) signedAtField.value = '';
                 // switch back to draw mode
                 const drawRadio = document.getElementById('signatureMethodDraw');
                 if (drawRadio) drawRadio.checked = true;
                 toggleSignatureMethod('draw');
+
+                // Notify listeners that signature changed
+                notifySignatureChanged();
             });
         }
 
@@ -223,6 +263,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     typedOverlay.setAttribute('aria-hidden', 'true');
                 }
             }
+
+            // Notify listeners that signature method changed (affects validation)
+            notifySignatureChanged();
         }
         if (drawRadio) drawRadio.addEventListener('change', () => toggleSignatureMethod('draw'));
         if (typeRadio) typeRadio.addEventListener('change', () => toggleSignatureMethod('type'));
@@ -235,7 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const v = (e.target.value || '').trim();
                 window.typedSignatureText = v;
                 // Clear any drawn signature when user starts typing
-                if (v && window.signaturePad && !window.signaturePad.isEmpty()) {
+                if (v && window.signaturePad && window.signaturePad.hasSignature) {
                     window.signaturePad.clear();
                 }
                 // update any visible preview or overlay
@@ -243,15 +286,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (typedPreviewLocal) typedPreviewLocal.textContent = v;
                 fitTypedSignatureText(v);
                 const sigField = document.getElementById('signatureData');
+                const signedAtField = document.getElementById('signedAt');
                 if (sigField) {
                     // prefix typed signatures so the server/pdf knows how to render
                     sigField.value = v ? `text:${v}` : '';
                 }
+                if (signedAtField && v) {
+                    signedAtField.value = new Date().toISOString();
+                }
                 // when typed signature present, mark signaturePad as having a signature for validation
                 if (window.signaturePad) window.signaturePad.hasSignature = !!v || window.signaturePad.hasSignature;
+
+                // Notify listeners that signature changed
+                notifySignatureChanged();
             });
         }
-        
+
         // Resize handler
         window.addEventListener('resize', () => {
             if (window.signaturePad && !window.signaturePad.isEmpty()) {
@@ -270,6 +320,31 @@ document.addEventListener('DOMContentLoaded', () => {
             if (window.typedSignatureText) {
                 fitTypedSignatureText(window.typedSignatureText);
             }
+        });
+
+        // Orientation change handler for mobile
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => {
+                if (window.signaturePad) {
+                    const hasContent = !window.signaturePad.isEmpty();
+                    const data = hasContent ? window.signaturePad.toDataURL() : null;
+                    window.signaturePad.resizeCanvas();
+                    window.signaturePad.setupCanvas();
+                    if (hasContent && data) {
+                        const img = new Image();
+                        img.onload = () => {
+                            window.signaturePad.ctx.drawImage(img, 0, 0);
+                        };
+                        img.src = data;
+                    }
+                }
+                if (window.typedSignatureText) {
+                    const overlay = document.getElementById('typedOverlay');
+                    if (overlay) {
+                        fitTypedSignatureText(window.typedSignatureText);
+                    }
+                }
+            }, 200);
         });
     }
 });
