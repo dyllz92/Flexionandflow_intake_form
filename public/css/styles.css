@@ -283,14 +283,14 @@ body[data-brand="hemisphere"] {
 }
 
 [data-brand="hemisphere"] .card-subtitle {
-    color: #777;
+    color: #FFFFFF;
     font-size: 13px;
     margin: 0 0 16px 0;
     line-height: 1.5;
 }
 
 [data-brand="hemisphere"] .form-card h2 {
-    color: #1A1A1A;
+    color: #FFFFFF;
     font-size: 18px;
     margin-bottom: 8px;
     margin-top: 8px;
