@@ -388,6 +388,16 @@ textarea {
     cursor: pointer;
 }
 
+/* Highlight selected radio/checkbox options */
+.radio-group label:has(input[type="radio"]:checked),
+.checkbox-group label:has(input[type="checkbox"]:checked) {
+    background: rgba(44, 95, 125, 0.1);
+    border-color: var(--primary-color);
+    border-width: 2px;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
 .radio-group label input[type="text"],
 .checkbox-group label input[type="text"] {
     margin-left: 10px;
