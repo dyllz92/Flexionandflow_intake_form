@@ -1360,7 +1360,7 @@ button[type="button"]#clearSignature {
     content: '';
     position: absolute;
     height: 1px;
-    background: rgba(157, 78, 221, 0.2);
+    background: #444444;
     width: 100%;
     top: 18px;
     left: 50%;
@@ -1375,9 +1375,9 @@ button[type="button"]#clearSignature {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    color: rgba(255, 255, 255, 0.4);
+    background: #1a1a1a;
+    border: 1px solid #444444;
+    color: #888888;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1391,13 +1391,13 @@ button[type="button"]#clearSignature {
 [data-brand="hemisphere"] .step-indicator .step.active .step-number {
     background: linear-gradient(135deg, #9D4EDD, #7B2CBF);
     color: #FFFFFF;
-    border-color: rgba(157, 78, 221, 0.6);
+    border-color: #9D4EDD;
     box-shadow: 0 0 16px rgba(157, 78, 221, 0.4);
 }
 
 [data-brand="hemisphere"] .step-indicator .step.completed .step-number {
-    background: rgba(157, 78, 221, 0.2);
-    border-color: rgba(157, 78, 221, 0.5);
+    background: #3a1a5f;
+    border-color: #9D4EDD;
     color: #9D4EDD;
 }
 
