@@ -184,7 +184,7 @@ body[data-brand="hemisphere"] {
     color: #DCDCDC;
     font-size: 16px;
     letter-spacing: 0.3px;
-    margin-bottom: 32px;
+    margin-bottom: 0px;
 }
 
 [data-brand="hemisphere"] .forms-container {
@@ -654,5 +654,310 @@ body {
 .footer-section p {
     color: var(--text-light);
     font-size: 14px;
+}
+
+/* Mobile Responsive Design */
+@media (max-width: 1200px) {
+    .forms-container {
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    [data-brand="hemisphere"] .forms-container {
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .form-card {
+        flex: 1 1 calc(50% - 8px);
+        min-height: 280px;
+    }
+
+    [data-brand="hemisphere"] .form-card {
+        flex: 1 1 calc(50% - 10px);
+    }
+}
+
+@media (max-width: 768px) {
+    .home-container {
+        gap: 20px;
+        padding: 20px 10px;
+    }
+
+    .logo-section {
+        margin-bottom: 10px;
+    }
+
+    [data-brand="hemisphere"] .logo-section .logo {
+        max-height: 80px;
+    }
+
+    .header-section h1 {
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+
+    [data-brand="hemisphere"] .header-section h1 {
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+
+    .header-section .subtitle {
+        font-size: 14px;
+    }
+
+    [data-brand="hemisphere"] .header-section .subtitle {
+        font-size: 14px;
+    }
+
+    .forms-container {
+        width: calc(100% + 20px);
+        margin: 0 -10px;
+        padding: 0 10px;
+        gap: 12px;
+    }
+
+    [data-brand="hemisphere"] .forms-container {
+        gap: 16px;
+    }
+
+    .form-card {
+        flex: 1 1 calc(50% - 6px);
+        padding: 24px 20px 20px 20px;
+        min-height: 260px;
+        gap: 8px;
+    }
+
+    [data-brand="hemisphere"] .form-card {
+        flex: 1 1 calc(50% - 8px);
+        padding: 24px 20px 20px 20px;
+        min-height: 260px;
+    }
+
+    .card-icon {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 12px;
+    }
+
+    [data-brand="hemisphere"] .card-icon {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 12px;
+    }
+
+    .card-icon-image {
+        width: 60px;
+        max-width: 60px;
+    }
+
+    [data-brand="hemisphere"] .card-icon-image {
+        max-width: 70px;
+    }
+
+    .card-icon-image-table {
+        width: 70px;
+    }
+
+    [data-brand="hemisphere"] .card-icon-image-table {
+        max-width: 80px;
+    }
+
+    .card-icon-emoji {
+        font-size: 40px;
+    }
+
+    [data-brand="hemisphere"] .card-icon-emoji {
+        font-size: 40px;
+    }
+
+    .form-card h2 {
+        font-size: 16px;
+        margin-bottom: 4px;
+    }
+
+    [data-brand="hemisphere"] .form-card h2 {
+        font-size: 16px;
+        margin-bottom: 4px;
+    }
+
+    .form-card p {
+        font-size: 13px;
+        line-height: 1.4;
+    }
+
+    [data-brand="hemisphere"] .card-subtitle {
+        font-size: 12px;
+        margin-bottom: 12px;
+    }
+
+    .form-card .btn {
+        margin-top: 16px;
+        padding: 12px 24px;
+        font-size: 14px;
+        min-height: 44px;
+    }
+
+    [data-brand="hemisphere"] .form-card .btn {
+        margin-top: 16px;
+        padding: 12px 24px;
+        font-size: 14px;
+        min-height: 44px;
+    }
+
+    .footer-section {
+        margin-top: 30px;
+        padding-top: 15px;
+    }
+
+    [data-brand="hemisphere"] .footer-section {
+        margin-top: 30px;
+        padding-top: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .home-container {
+        gap: 16px;
+        padding: 16px 8px;
+    }
+
+    .logo-section {
+        margin-bottom: 8px;
+    }
+
+    [data-brand="hemisphere"] .logo-section .logo {
+        max-height: 60px;
+    }
+
+    .header-section h1 {
+        font-size: 24px;
+        margin-bottom: 8px;
+    }
+
+    [data-brand="hemisphere"] .header-section h1 {
+        font-size: 24px;
+        margin-bottom: 8px;
+    }
+
+    .header-section .subtitle {
+        font-size: 13px;
+    }
+
+    [data-brand="hemisphere"] .header-section .subtitle {
+        font-size: 13px;
+    }
+
+    .forms-container {
+        width: calc(100% + 16px);
+        margin: 0 -8px;
+        padding: 0 8px;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    [data-brand="hemisphere"] .forms-container {
+        gap: 12px;
+    }
+
+    .form-card {
+        flex: 1 1 auto;
+        width: 100%;
+        padding: 20px 16px 16px 16px;
+        min-height: 240px;
+    }
+
+    [data-brand="hemisphere"] .form-card {
+        flex: 1 1 auto;
+        width: 100%;
+        padding: 20px 16px 16px 16px;
+        min-height: 240px;
+    }
+
+    .card-icon {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 10px;
+    }
+
+    [data-brand="hemisphere"] .card-icon {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 10px;
+    }
+
+    .card-icon-image {
+        width: 50px;
+        max-width: 50px;
+    }
+
+    [data-brand="hemisphere"] .card-icon-image {
+        max-width: 60px;
+    }
+
+    .card-icon-image-table {
+        width: 60px;
+    }
+
+    [data-brand="hemisphere"] .card-icon-image-table {
+        max-width: 70px;
+    }
+
+    .card-icon-emoji {
+        font-size: 32px;
+    }
+
+    [data-brand="hemisphere"] .card-icon-emoji {
+        font-size: 32px;
+    }
+
+    .form-card h2 {
+        font-size: 15px;
+        margin-bottom: 3px;
+    }
+
+    [data-brand="hemisphere"] .form-card h2 {
+        font-size: 15px;
+        margin-bottom: 3px;
+    }
+
+    .form-card p {
+        font-size: 12px;
+        line-height: 1.35;
+    }
+
+    [data-brand="hemisphere"] .card-subtitle {
+        font-size: 11px;
+        margin-bottom: 10px;
+    }
+
+    .form-card .btn {
+        margin-top: 12px;
+        padding: 10px 20px;
+        font-size: 13px;
+        min-height: 40px;
+    }
+
+    [data-brand="hemisphere"] .form-card .btn {
+        margin-top: 12px;
+        padding: 10px 20px;
+        font-size: 13px;
+        min-height: 40px;
+    }
+
+    .footer-section {
+        margin-top: 24px;
+        padding-top: 12px;
+        font-size: 12px;
+    }
+
+    [data-brand="hemisphere"] .footer-section {
+        margin-top: 24px;
+        padding-top: 12px;
+    }
+
+    [data-brand="hemisphere"] .footer-section p {
+        font-size: 12px;
+    }
 }
 
