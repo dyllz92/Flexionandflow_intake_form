@@ -1264,7 +1264,7 @@ button[type="button"]#clearSignature {
     color: #FFFFFF;
     font-family: "Source Sans Pro", arial, sans-serif;
     padding: 12px 14px;
-    transition: all 0.2s ease;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 [data-brand="hemisphere"] input:hover,
@@ -1282,6 +1282,7 @@ button[type="button"]#clearSignature {
 [data-brand="hemisphere"] input:focus,
 [data-brand="hemisphere"] textarea:focus {
     background: #000000;
+    color: #FFFFFF;
     border-color: rgba(157, 78, 221, 0.6);
     box-shadow: 0 0 0 3px rgba(157, 78, 221, 0.15);
     outline: none;
