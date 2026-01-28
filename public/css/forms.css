@@ -690,25 +690,27 @@ textarea {
     position: sticky;
     bottom: 0;
     background: transparent;
-    padding: 12px;
-    padding-bottom: max(12px, env(safe-area-inset-bottom));
+    padding: 16px 20px;
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
     border-top: none;
     z-index: 10;
     width: 100%;
     box-sizing: border-box;
     display: flex;
-    gap: 15px;
+    gap: 16px;
     justify-content: center;
     align-items: center;
     flex-wrap: nowrap;
 }
 
-/* Ensure buttons in sticky actions have equal width */
+/* Ensure buttons in sticky actions have equal width and are centered */
 .sticky-actions .btn-primary,
 .sticky-actions .btn-secondary {
-    flex: 1 1 0;
-    max-width: 200px;
-    min-width: 120px;
+    flex: 0 0 auto;
+    width: 160px;
+    min-width: 140px;
+    padding: 16px 32px;
+    font-size: 16px;
 }
 
 /* Subtle background fill with outline style */
@@ -790,34 +792,37 @@ textarea {
     flex: 1 1 100%;
 }
 
-/* Mobile: keep buttons side by side but smaller */
+/* Mobile: keep buttons side by side and centered */
 @media (max-width: 480px) {
     .form-actions {
         flex-direction: row;
-        gap: 10px;
+        gap: 12px;
+        justify-content: center;
     }
 
     .btn-primary,
     .btn-secondary {
-        padding: 14px 24px;
-        font-size: 14px;
-        min-width: 100px;
+        padding: 14px 28px;
+        font-size: 15px;
+        min-width: 120px;
     }
 
     .sticky-actions {
         flex-direction: row;
         align-items: center;
-        padding: 12px 8px;
-        padding-bottom: max(12px, env(safe-area-inset-bottom));
-        gap: 10px;
+        justify-content: center;
+        padding: 14px 16px;
+        padding-bottom: max(14px, env(safe-area-inset-bottom));
+        gap: 12px;
     }
 
     .sticky-actions .btn-primary,
     .sticky-actions .btn-secondary {
-        flex: 1 1 0;
-        max-width: none;
-        min-width: 0;
-        padding: 14px 16px;
+        flex: 0 0 auto;
+        width: 140px;
+        min-width: 120px;
+        padding: 14px 24px;
+        font-size: 15px;
     }
 }
 
@@ -1468,12 +1473,14 @@ button[type="button"]#clearSignature {
     margin-top: 24px;
 }
 
-/* Ensure buttons are equally sized and aligned */
+/* Ensure buttons are equally sized and centered */
 [data-brand="hemisphere"] .sticky-actions .btn-primary,
 [data-brand="hemisphere"] .sticky-actions .btn-secondary {
-    flex: 1 1 0;
-    max-width: 200px;
-    min-width: 120px;
+    flex: 0 0 auto;
+    width: 160px;
+    min-width: 140px;
+    padding: 16px 32px;
+    font-size: 16px;
     text-align: center;
 }
 
