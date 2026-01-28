@@ -134,6 +134,34 @@ class HealthCategoryToggle {
             });
         });
 
+        // Handle "I feel well" button and radio button
+        const feelWellRadio = document.getElementById('feelWellRadio');
+        const feelWellButton = feelWellRadio?.closest('label')?.querySelector('button');
+
+        if (feelWellButton && feelWellRadio) {
+            feelWellButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Check the radio button
+                feelWellRadio.checked = true;
+                // Trigger change event
+                feelWellRadio.dispatchEvent(new Event('change', { bubbles: true }));
+            });
+
+            feelWellRadio.addEventListener('change', (e) => {
+                if (e.target.value === 'well') {
+                    // Collapse all health categories
+                    document.querySelectorAll('.health-category.expandable.expanded').forEach(category => {
+                        category.classList.remove('expanded');
+                        // Update arrow indicators
+                        const toggle = category.querySelector('.category-toggle');
+                        if (toggle && toggle.textContent.includes('▼')) {
+                            toggle.textContent = toggle.textContent.replace('▼', '▶');
+                        }
+                    });
+                }
+            });
+        }
+
         // Expand all categories by default
         document.querySelectorAll('.health-category.expandable').forEach(category => {
             category.classList.add('expanded');
