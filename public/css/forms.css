@@ -428,6 +428,30 @@ textarea {
     margin-bottom: 15px;
 }
 
+/* Health Check Categories */
+.health-category {
+    margin-bottom: 24px;
+    padding: 16px;
+    background: rgba(157, 78, 221, 0.05);
+    border-radius: 8px;
+    border-left: 4px solid var(--primary-color);
+}
+
+.category-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin: 0 0 12px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.health-category .checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
 .consent-checkbox label {
     display: flex;
     align-items: flex-start;
