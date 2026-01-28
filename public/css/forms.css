@@ -589,8 +589,8 @@ textarea {
     border: 2px solid var(--border-color);
     border-radius: 8px;
     background-color: #f9f9f9;
-    padding: 20px;
-    margin-bottom: 20px;
+    padding: 0px;
+    margin-bottom: 0px;
     max-width: 100%;
 }
 
@@ -1121,7 +1121,7 @@ button[type="button"]#clearSignature {
 
 
 .body-map-body {
-    padding: 20px;
+    padding: 0;
     overflow-y: auto;
     flex: 1 1 auto;
     display: flex;
@@ -1132,8 +1132,8 @@ button[type="button"]#clearSignature {
 
 #muscleMapContainerExpanded {
     width: 100%;
-    max-width: 500px;
-    margin-bottom: 20px;
+    max-width: none;
+    margin-bottom: 0;
     touch-action: pan-x pan-y pinch-zoom;
     transform-origin: center center;
     transition: transform 0.2s ease;
