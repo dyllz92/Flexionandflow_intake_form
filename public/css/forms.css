@@ -738,7 +738,6 @@ textarea {
     color: var(--primary-color);
     border-color: var(--primary-color);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transform: translateY(-1px);
 }
 
 .sticky-actions .btn-secondary {
@@ -753,7 +752,6 @@ textarea {
     color: var(--primary-color);
     border-color: var(--primary-color);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transform: translateY(-1px);
 }
 
 
@@ -774,7 +772,6 @@ textarea {
 .btn-secondary:hover {
     background: var(--primary-color);
     color: white;
-    transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(44, 95, 125, 0.2);
 }
 
@@ -1667,7 +1664,6 @@ button[type="button"]#clearSignature {
 [data-brand="hemisphere"] #clearMuscleMapExpanded:hover {
     background: linear-gradient(135deg, #AD63ED, #8B3FDF);
     box-shadow: 0 6px 16px rgba(157, 78, 221, 0.45);
-    transform: translateY(-1px);
 }
 
 /* Spinner/Loader */
