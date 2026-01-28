@@ -184,26 +184,35 @@
             <!-- Step 3: Quick Health Check -->
             <div class="wizard-step form-section" data-step="3">
                 <h2>Step 3 — Quick Health Check</h2>
-                <p class="section-note">Tick any that apply. Please discuss flags with your therapist.</p>
+                <p class="section-note">How are you feeling today?</p>
 
-                <div class="checkbox-group" id="healthChecksGroup" role="group" aria-labelledby="healthChecksLabel">
-                    <span id="healthChecksLabel" class="visually-hidden">Select any health conditions that apply</span>
-                    <label><input type="checkbox" name="healthChecks" value="Pregnant"> Pregnant</label>
-                    <label><input type="checkbox" name="healthChecks" value="Recent surgery (last 6 months)"> Recent surgery (last 6 months)</label>
-                    <label><input type="checkbox" name="healthChecks" value="Recent injury (last 3 months)"> Recent injury (last 3 months)</label>
-                    <label><input type="checkbox" name="healthChecks" value="Heart condition"> Heart condition</label>
-                    <label><input type="checkbox" name="healthChecks" value="Pacemaker/implanted device"> Pacemaker/implanted device</label>
-                    <label><input type="checkbox" name="healthChecks" value="History of blood clots / DVT"> History of blood clots / DVT</label>
-                    <label><input type="checkbox" name="healthChecks" value="On blood thinners"> On blood thinners</label>
-                    <label><input type="checkbox" name="healthChecks" value="High blood pressure (uncontrolled)"> High blood pressure (uncontrolled)</label>
-                    <label><input type="checkbox" name="healthChecks" value="Diabetes"> Diabetes</label>
-                    <label><input type="checkbox" name="healthChecks" value="Skin infection/rash/open wound in areas to be treated"> Skin infection/rash/open wound in areas to be treated</label>
-                    <label><input type="checkbox" name="healthChecks" value="Fever / contagious illness today"> Fever / contagious illness today</label>
-                    <label><input type="checkbox" name="healthChecks" value="Allergies/sensitivities (balms/oils/fragrances)"> Allergies/sensitivities (balms/oils/fragrances)</label>
-                    <label><input type="checkbox" name="healthChecks" value="Numbness/tingling (unexplained)"> Numbness/tingling (unexplained)</label>
-                    <label><input type="checkbox" name="healthChecks" value="Dizziness/fainting episodes"> Dizziness/fainting episodes</label>
-                    <label><input type="checkbox" name="healthChecks" value="Other health concern"> Other health concern: <input type="text" name="otherHealthConcernText" id="otherHealthConcernText" maxlength="200"></label>
-                    <label><input type="checkbox" id="noHealthIssues"> I feel well today / No issues to report</label>
+                <!-- Quick selection: Well vs Concerns -->
+                <div class="radio-group inline" id="healthStatusGroup" style="margin-bottom: 24px;">
+                    <label><input type="radio" name="healthStatus" value="well" checked> I feel well today / No issues to report</label>
+                    <label><input type="radio" name="healthStatus" value="concerns"> I have health concerns to report</label>
+                </div>
+
+                <!-- Detailed health checks - shown only when "concerns" is selected -->
+                <div id="detailedHealthChecks" class="hidden-field" style="margin-top: 20px;">
+                    <p style="font-size: 14px; color: var(--text-light); margin-bottom: 16px;">Please select any that apply. Discuss these with your therapist.</p>
+                    <div class="checkbox-group" id="healthChecksGroup" role="group" aria-labelledby="healthChecksLabel">
+                        <span id="healthChecksLabel" class="visually-hidden">Select any health conditions that apply</span>
+                        <label><input type="checkbox" name="healthChecks" value="Pregnant"> Pregnant</label>
+                        <label><input type="checkbox" name="healthChecks" value="Recent surgery (last 6 months)"> Recent surgery (last 6 months)</label>
+                        <label><input type="checkbox" name="healthChecks" value="Recent injury (last 3 months)"> Recent injury (last 3 months)</label>
+                        <label><input type="checkbox" name="healthChecks" value="Heart condition"> Heart condition</label>
+                        <label><input type="checkbox" name="healthChecks" value="Pacemaker/implanted device"> Pacemaker/implanted device</label>
+                        <label><input type="checkbox" name="healthChecks" value="History of blood clots / DVT"> History of blood clots / DVT</label>
+                        <label><input type="checkbox" name="healthChecks" value="On blood thinners"> On blood thinners</label>
+                        <label><input type="checkbox" name="healthChecks" value="High blood pressure (uncontrolled)"> High blood pressure (uncontrolled)</label>
+                        <label><input type="checkbox" name="healthChecks" value="Diabetes"> Diabetes</label>
+                        <label><input type="checkbox" name="healthChecks" value="Skin infection/rash/open wound in areas to be treated"> Skin infection/rash/open wound in areas to be treated</label>
+                        <label><input type="checkbox" name="healthChecks" value="Fever / contagious illness today"> Fever / contagious illness today</label>
+                        <label><input type="checkbox" name="healthChecks" value="Allergies/sensitivities (balms/oils/fragrances)"> Allergies/sensitivities (balms/oils/fragrances)</label>
+                        <label><input type="checkbox" name="healthChecks" value="Numbness/tingling (unexplained)"> Numbness/tingling (unexplained)</label>
+                        <label><input type="checkbox" name="healthChecks" value="Dizziness/fainting episodes"> Dizziness/fainting episodes</label>
+                        <label><input type="checkbox" name="healthChecks" value="Other health concern"> Other health concern: <input type="text" name="otherHealthConcernText" id="otherHealthConcernText" maxlength="200"></label>
+                    </div>
                 </div>
 
                 <div id="healthBanner" class="info-box hidden-field" style="background:transparent; border:2px solid #2196F3; margin-top:20px;">
@@ -289,7 +298,7 @@
     <script src="/js/signature.js?v=20260125" defer></script>
     <script src="/js/muscleMap.js?v=20260125" defer></script>
     <script src="/js/conditionalFields.js?v=20260125" defer></script>
-    <script src="/js/healthDisclaimers.js?v=20260125" defer></script>
+    <script src="/js/healthDisclaimers.js?v=20260129" defer></script>
     <script src="/js/wizard.js?v=20260125" defer></script>
     
     <!-- Terms + Privacy Modal -->

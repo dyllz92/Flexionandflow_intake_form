@@ -236,4 +236,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     healthChecks.forEach(cb => cb.addEventListener('change', updateDisclaimers));
     updateDisclaimers();
+
+    // Handle quick health status selection (well vs concerns)
+    const healthStatusRadios = document.querySelectorAll('input[name="healthStatus"]');
+    const detailedHealthChecks = document.getElementById('detailedHealthChecks');
+
+    if (healthStatusRadios.length && detailedHealthChecks) {
+        const toggleDetailedHealth = () => {
+            const selectedStatus = document.querySelector('input[name="healthStatus"]:checked')?.value;
+            if (selectedStatus === 'concerns') {
+                detailedHealthChecks.classList.remove('hidden-field');
+            } else {
+                detailedHealthChecks.classList.add('hidden-field');
+                // Clear health checks when switching to "well"
+                healthChecks.forEach(cb => cb.checked = false);
+                updateDisclaimers();
+            }
+        };
+
+        healthStatusRadios.forEach(radio => {
+            radio.addEventListener('change', toggleDetailedHealth);
+        });
+    }
 });
