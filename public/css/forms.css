@@ -660,8 +660,6 @@ textarea {
     width: 100%;
     max-width: 820px;
     margin: 0 auto;
-    left: 50%;
-    transform: translateX(-50%);
     box-sizing: border-box;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
@@ -1419,6 +1417,23 @@ button[type="button"]#clearSignature {
 [data-brand="hemisphere"] .btn-secondary:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+    transform: none;
+}
+
+[data-brand="hemisphere"] .btn-primary:disabled:hover,
+[data-brand="hemisphere"] .btn-secondary:disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+[data-brand="hemisphere"] .btn-primary:disabled:hover {
+    background: linear-gradient(135deg, #9D4EDD, #7B2CBF);
+}
+
+[data-brand="hemisphere"] .btn-secondary:disabled:hover {
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.25);
+    color: rgba(255, 255, 255, 0.8);
 }
 
 /* Sticky Actions (Footer Buttons) */
