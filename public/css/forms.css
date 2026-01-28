@@ -1261,7 +1261,7 @@ button[type="button"]#clearSignature {
 [data-brand="hemisphere"] input,
 [data-brand="hemisphere"] textarea,
 [data-brand="hemisphere"] select {
-    background: rgba(255, 255, 255, 0.05);
+    background: #000000;
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 8px;
     color: #FFFFFF;
@@ -1273,7 +1273,7 @@ button[type="button"]#clearSignature {
 [data-brand="hemisphere"] input:hover,
 [data-brand="hemisphere"] textarea:hover,
 [data-brand="hemisphere"] select:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: #000000;
     border-color: rgba(255, 255, 255, 0.18);
 }
 
@@ -1284,7 +1284,7 @@ button[type="button"]#clearSignature {
 
 [data-brand="hemisphere"] input:focus,
 [data-brand="hemisphere"] textarea:focus {
-    background: rgba(255, 255, 255, 0.08);
+    background: #000000;
     border-color: rgba(157, 78, 221, 0.6);
     box-shadow: 0 0 0 3px rgba(157, 78, 221, 0.15);
     outline: none;
@@ -1293,35 +1293,35 @@ button[type="button"]#clearSignature {
 /* Radio & Checkbox Groups */
 [data-brand="hemisphere"] .radio-group label,
 [data-brand="hemisphere"] .checkbox-group label {
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    background: #000000;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
     color: #DCDCDC;
-    padding: 14px 0;
-    border-radius: 0;
+    padding: 14px 18px;
     display: flex;
     align-items: center;
+    justify-content: center;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 [data-brand="hemisphere"] .radio-group label:last-child,
 [data-brand="hemisphere"] .checkbox-group label:last-child {
-    border-bottom: none;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 [data-brand="hemisphere"] .radio-group label:hover,
 [data-brand="hemisphere"] .checkbox-group label:hover {
-    background: rgba(255, 255, 255, 0.04);
+    background: #1a1a1a;
     color: #FFFFFF;
-    padding-left: 6px;
-    padding-right: -6px;
+    border-color: rgba(255, 255, 255, 0.3);
 }
 
 [data-brand="hemisphere"] .radio-group input:checked + label,
 [data-brand="hemisphere"] .checkbox-group input:checked + label {
-    color: #9D4EDD;
-    background: rgba(157, 78, 221, 0.08);
+    color: #FFFFFF;
+    background: #000000;
+    border-color: #9D4EDD;
 }
 
 /* Step Indicator - Modern Minimal Design */
@@ -1416,16 +1416,17 @@ button[type="button"]#clearSignature {
     transition: all 0.3s ease;
 }
 
-/* Primary Button - Gradient */
+/* Primary Button - Black Background */
 [data-brand="hemisphere"] .btn-primary {
-    background: linear-gradient(135deg, #9D4EDD, #7B2CBF);
-    border: none;
+    background: #000000;
+    border: 2px solid #9D4EDD;
     color: #FFFFFF;
     box-shadow: 0 4px 16px rgba(157, 78, 221, 0.3);
 }
 
 [data-brand="hemisphere"] .btn-primary:hover {
-    background: linear-gradient(135deg, #AD63ED, #8B3FDF);
+    background: #1a0033;
+    border-color: #9D4EDD;
     box-shadow: 0 6px 24px rgba(157, 78, 221, 0.45);
     transform: translateY(-2px);
 }
@@ -1435,15 +1436,15 @@ button[type="button"]#clearSignature {
     box-shadow: 0 2px 8px rgba(157, 78, 221, 0.3);
 }
 
-/* Secondary Button - Ghost */
+/* Secondary Button - Black Background */
 [data-brand="hemisphere"] .btn-secondary {
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: #000000;
+    border: 2px solid rgba(255, 255, 255, 0.25);
     color: rgba(255, 255, 255, 0.8);
 }
 
 [data-brand="hemisphere"] .btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: #1a1a1a;
     border-color: rgba(255, 255, 255, 0.4);
     color: #FFFFFF;
 }
@@ -1468,7 +1469,8 @@ button[type="button"]#clearSignature {
 }
 
 [data-brand="hemisphere"] .btn-primary:disabled:hover {
-    background: linear-gradient(135deg, #9D4EDD, #7B2CBF);
+    background: #000000;
+    border-color: #9D4EDD;
 }
 
 [data-brand="hemisphere"] .btn-secondary:disabled:hover {

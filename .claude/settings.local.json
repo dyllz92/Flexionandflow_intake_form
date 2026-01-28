@@ -27,7 +27,8 @@
       "Bash(for file in utils/metadataStore.js utils/analyticsService.js controllers/analyticsController.js utils/pdfParser.js)",
       "Bash(do node -c \"$file\")",
       "Bash(npm ci:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(grep:*)"
     ]
   }
 }
