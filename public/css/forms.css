@@ -1443,11 +1443,9 @@ button[type="button"]#clearSignature {
     background: #1a0033;
     border-color: #9D4EDD;
     box-shadow: 0 6px 24px rgba(157, 78, 221, 0.45);
-    transform: translateY(-2px);
 }
 
 [data-brand="hemisphere"] .btn-primary:active {
-    transform: translateY(0);
     box-shadow: 0 2px 8px rgba(157, 78, 221, 0.3);
 }
 
