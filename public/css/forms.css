@@ -354,13 +354,13 @@ textarea {
 .checkbox-group {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
 }
 
 .radio-group.inline {
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 16px;
 }
 
 .radio-group label,
@@ -368,10 +368,10 @@ textarea {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 14px 24px;
+    padding: 16px 32px;
     background: #ffffff;
     border: 2px solid #d0d0d0;
-    border-radius: 12px;
+    border-radius: 20px;
     cursor: pointer;
     transition: all 0.2s ease;
     font-weight: 500;
