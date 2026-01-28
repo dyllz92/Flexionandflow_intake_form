@@ -520,8 +520,8 @@ textarea {
 
 /* Muscle Map */
 .muscle-map-container {
-    margin: 20px 0;
-    padding: 20px;
+    margin: 0px 0;
+    padding: 0px;
     background: white;
     border-radius: 10px;
     border: 2px solid var(--border-color);
