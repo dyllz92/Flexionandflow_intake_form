@@ -437,6 +437,10 @@ textarea {
     border-left: 4px solid var(--primary-color);
 }
 
+.health-category.expandable {
+    padding: 0;
+}
+
 .category-title {
     font-size: 14px;
     font-weight: 600;
@@ -444,6 +448,35 @@ textarea {
     margin: 0 0 12px 0;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+}
+
+.category-toggle {
+    cursor: pointer;
+    padding: 16px;
+    margin: 0;
+    user-select: none;
+    transition: background 0.2s ease;
+    border-radius: 8px 8px 0 0;
+}
+
+.category-toggle:hover {
+    background: rgba(157, 78, 221, 0.1);
+}
+
+.health-category.expandable .category-content {
+    padding: 12px 16px 16px 16px;
+    display: none;
+    background: rgba(157, 78, 221, 0.05);
+    border-radius: 0 0 8px 8px;
+}
+
+.health-category.expandable.expanded .category-content {
+    display: block;
+}
+
+.health-category.expandable.expanded .category-toggle {
+    background: rgba(157, 78, 221, 0.1);
+    border-radius: 8px 8px 0 0;
 }
 
 .health-category .checkbox-group {

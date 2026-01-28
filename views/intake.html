@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Massage Intake - Hemisphere Wellness</title>
-    <link rel="stylesheet" href="/css/styles.css?v=20260129-v16">
-    <link rel="stylesheet" href="/css/forms.css?v=20260129-v16">
+    <link rel="stylesheet" href="/css/styles.css?v=20260129-v18">
+    <link rel="stylesheet" href="/css/forms.css?v=20260129-v18">
     <script src="/js/brand.js?v=20260127"></script>
 </head>
 <body data-brand="hemisphere">
@@ -185,63 +185,77 @@
                 <h2>Step 3 — Quick Health Check</h2>
                 <p class="section-note">Let's check in on your wellbeing</p>
 
-                <!-- Quick selection: Well vs Concerns -->
-                <div class="radio-group inline" id="healthStatusGroup" style="margin-bottom: 24px;">
-                    <label><input type="radio" name="healthStatus" value="well" checked> I feel well today / No issues to report</label>
-                    <label><input type="radio" name="healthStatus" value="concerns"> I have health concerns to report</label>
+                <!-- Button for "I feel well" -->
+                <div style="margin-bottom: 28px;">
+                    <label style="display: block; width: 100%;">
+                        <input type="radio" name="healthStatus" value="well" checked style="display: none;" id="feelWellRadio">
+                        <button type="button" class="btn btn-secondary" style="width: 100%; padding: 14px; cursor: pointer;">
+                            ✓ I feel well today / No issues to report
+                        </button>
+                    </label>
                 </div>
 
-                <!-- Detailed health checks - shown only when "concerns" is selected -->
-                <div id="detailedHealthChecks" class="hidden-field" style="margin-top: 20px;">
-                    <p style="font-size: 14px; color: var(--text-light); margin-bottom: 20px;">Please select any that apply. Discuss these with your therapist.</p>
+                <!-- Detailed health checks -->
+                <div id="detailedHealthChecks" style="margin-top: 20px;">
+                    <p style="font-size: 14px; color: var(--text-light); margin-bottom: 20px;">Please let us know if any of the following apply to you. Discuss these with your therapist.</p>
 
                     <!-- Recent Events Category -->
-                    <div class="health-category">
-                        <h3 class="category-title">Recent Events</h3>
-                        <div class="checkbox-group">
-                            <label><input type="checkbox" name="healthChecks" value="Pregnant"> Pregnant</label>
-                            <label><input type="checkbox" name="healthChecks" value="Recent surgery (last 6 months)"> Recent surgery (last 6 months)</label>
-                            <label><input type="checkbox" name="healthChecks" value="Recent injury (last 3 months)"> Recent injury (last 3 months)</label>
+                    <div class="health-category expandable" data-category="recent">
+                        <h3 class="category-title category-toggle">▼ Recent Events</h3>
+                        <div class="category-content">
+                            <div class="checkbox-group">
+                                <label><input type="checkbox" name="healthChecks" value="Pregnant"> Pregnant</label>
+                                <label><input type="checkbox" name="healthChecks" value="Recent surgery (last 6 months)"> Recent surgery (last 6 months)</label>
+                                <label><input type="checkbox" name="healthChecks" value="Recent injury (last 3 months)"> Recent injury (last 3 months)</label>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Cardiovascular Category -->
-                    <div class="health-category">
-                        <h3 class="category-title">Heart & Circulation</h3>
-                        <div class="checkbox-group">
-                            <label><input type="checkbox" name="healthChecks" value="Heart condition"> Heart condition</label>
-                            <label><input type="checkbox" name="healthChecks" value="Pacemaker/implanted device"> Pacemaker/implanted device</label>
-                            <label><input type="checkbox" name="healthChecks" value="History of blood clots / DVT"> History of blood clots / DVT</label>
-                            <label><input type="checkbox" name="healthChecks" value="On blood thinners"> On blood thinners</label>
-                            <label><input type="checkbox" name="healthChecks" value="High blood pressure (uncontrolled)"> High blood pressure (uncontrolled)</label>
+                    <div class="health-category expandable" data-category="cardio">
+                        <h3 class="category-title category-toggle">▼ Heart & Circulation</h3>
+                        <div class="category-content">
+                            <div class="checkbox-group">
+                                <label><input type="checkbox" name="healthChecks" value="Heart condition"> Heart condition</label>
+                                <label><input type="checkbox" name="healthChecks" value="Pacemaker/implanted device"> Pacemaker/implanted device</label>
+                                <label><input type="checkbox" name="healthChecks" value="History of blood clots / DVT"> History of blood clots / DVT</label>
+                                <label><input type="checkbox" name="healthChecks" value="On blood thinners"> On blood thinners</label>
+                                <label><input type="checkbox" name="healthChecks" value="High blood pressure (uncontrolled)"> High blood pressure (uncontrolled)</label>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Skin & Infection Category -->
-                    <div class="health-category">
-                        <h3 class="category-title">Skin & Infection</h3>
-                        <div class="checkbox-group">
-                            <label><input type="checkbox" name="healthChecks" value="Skin infection/rash/open wound in areas to be treated"> Skin infection/rash/open wound in areas to be treated</label>
-                            <label><input type="checkbox" name="healthChecks" value="Fever / contagious illness today"> Fever / contagious illness today</label>
-                            <label><input type="checkbox" name="healthChecks" value="Allergies/sensitivities (balms/oils/fragrances)"> Allergies/sensitivities (balms/oils/fragrances)</label>
+                    <div class="health-category expandable" data-category="skin">
+                        <h3 class="category-title category-toggle">▼ Skin & Infection</h3>
+                        <div class="category-content">
+                            <div class="checkbox-group">
+                                <label><input type="checkbox" name="healthChecks" value="Skin infection/rash/open wound in areas to be treated"> Skin infection/rash/open wound in areas to be treated</label>
+                                <label><input type="checkbox" name="healthChecks" value="Fever / contagious illness today"> Fever / contagious illness today</label>
+                                <label><input type="checkbox" name="healthChecks" value="Allergies/sensitivities (balms/oils/fragrances)"> Allergies/sensitivities (balms/oils/fragrances)</label>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Neurological Category -->
-                    <div class="health-category">
-                        <h3 class="category-title">Neurological</h3>
-                        <div class="checkbox-group">
-                            <label><input type="checkbox" name="healthChecks" value="Numbness/tingling (unexplained)"> Numbness/tingling (unexplained)</label>
-                            <label><input type="checkbox" name="healthChecks" value="Dizziness/fainting episodes"> Dizziness/fainting episodes</label>
+                    <div class="health-category expandable" data-category="neuro">
+                        <h3 class="category-title category-toggle">▼ Neurological</h3>
+                        <div class="category-content">
+                            <div class="checkbox-group">
+                                <label><input type="checkbox" name="healthChecks" value="Numbness/tingling (unexplained)"> Numbness/tingling (unexplained)</label>
+                                <label><input type="checkbox" name="healthChecks" value="Dizziness/fainting episodes"> Dizziness/fainting episodes</label>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Other Category -->
-                    <div class="health-category">
-                        <h3 class="category-title">Other</h3>
-                        <div class="checkbox-group">
-                            <label><input type="checkbox" name="healthChecks" value="Diabetes"> Diabetes</label>
-                            <label><input type="checkbox" name="healthChecks" value="Other health concern"> Other health concern: <input type="text" name="otherHealthConcernText" id="otherHealthConcernText" maxlength="200"></label>
+                    <div class="health-category expandable" data-category="other">
+                        <h3 class="category-title category-toggle">▼ Other</h3>
+                        <div class="category-content">
+                            <div class="checkbox-group">
+                                <label><input type="checkbox" name="healthChecks" value="Diabetes"> Diabetes</label>
+                                <label><input type="checkbox" name="healthChecks" value="Other health concern"> Other health concern: <input type="text" name="otherHealthConcernText" id="otherHealthConcernText" maxlength="200"></label>
+                            </div>
                         </div>
                     </div>
                 </div>

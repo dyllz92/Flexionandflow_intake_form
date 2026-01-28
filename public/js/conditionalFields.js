@@ -110,11 +110,43 @@ class ConditionalFields {
     }
 }
 
+/**
+ * Health Category Expandable Handler
+ * Allows collapsing/expanding health check categories
+ */
+class HealthCategoryToggle {
+    constructor() {
+        this.init();
+    }
+
+    init() {
+        const categoryToggles = document.querySelectorAll('.category-toggle');
+        categoryToggles.forEach(toggle => {
+            toggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                const category = toggle.closest('.health-category');
+                if (category) {
+                    category.classList.toggle('expanded');
+                    // Update arrow indicator
+                    const arrow = toggle.textContent.includes('▼') ? '▶' : '▼';
+                    toggle.textContent = toggle.textContent.replace(/[▼▶]/, arrow);
+                }
+            });
+        });
+
+        // Expand all categories by default
+        document.querySelectorAll('.health-category.expandable').forEach(category => {
+            category.classList.add('expanded');
+        });
+    }
+}
+
 // Initialize when page loads
 document.addEventListener('DOMContentLoaded', () => {
     const detailed = document.getElementById('detailedForm');
     const intake = document.getElementById('intakeForm');
     if (detailed || intake) {
         new ConditionalFields();
+        new HealthCategoryToggle();
     }
 });
