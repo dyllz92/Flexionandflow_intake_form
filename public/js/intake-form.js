@@ -130,23 +130,15 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Get signature data depending on chosen method
-        const typeRadio = document.getElementById('signatureMethodType');
+        // Get drawn signature data (if any)
         const sigField = document.getElementById('signatureData');
         const signedAtField = document.getElementById('signedAt');
 
-        if (typeRadio && typeRadio.checked) {
-            // Typed signature
-            const txt = window.typedSignatureText || (document.getElementById('typedSignatureInput') && document.getElementById('typedSignatureInput').value) || '';
-            if (sigField) sigField.value = txt ? `text:${txt}` : '';
+        // Capture drawn signature if canvas has content
+        if (window.signaturePad && window.signaturePad.hasDrawnContent()) {
+            const signatureData = window.signaturePad.toDataURL();
+            if (sigField) sigField.value = signatureData;
             if (signedAtField) signedAtField.value = new Date().toISOString();
-        } else {
-            // Drawn signature - check if canvas has content
-            if (window.signaturePad && window.signaturePad.hasDrawnContent()) {
-                const signatureData = window.signaturePad.toDataURL();
-                if (sigField) sigField.value = signatureData;
-                if (signedAtField) signedAtField.value = new Date().toISOString();
-            }
         }
 
         // Collect form data
@@ -213,45 +205,60 @@ document.addEventListener('DOMContentLoaded', () => {
             data.selectedBrand = getSelectedBrand() || 'hemisphere';
         }
 
-        // Show loading
-        showLoading(true);
+        // Show loading with progress steps
+        const showLoading = window.FormUtils ? window.FormUtils.showLoading : fallbackShowLoading;
+        const updateLoadingMessage = window.FormUtils ? window.FormUtils.updateLoadingMessage : () => {};
+        const safeParseJSON = window.FormUtils ? window.FormUtils.safeParseJSON : async (r) => r.json();
+        const showToast = window.FormUtils ? window.FormUtils.showToast : (msg) => alert(msg);
+
+        showLoading('Validating your information...');
 
         try {
+            updateLoadingMessage('Submitting your form...');
+
             const response = await fetch('/api/submit-form', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
             });
-            const result = await response.json();
-            if (response.ok) {
+
+            updateLoadingMessage('Processing response...');
+            const result = await safeParseJSON(response);
+
+            if (response.ok && result.success) {
+                updateLoadingMessage('Success! Redirecting...');
                 window.location.href = '/success';
             } else {
-                alert('Error submitting form: ' + (result.message || 'Unknown error'));
+                showLoading(false);
+                showToast(result.message || 'An error occurred. Please try again.', 'error');
             }
         } catch (error) {
             console.error('Submission error:', error);
-            alert('An error occurred while submitting the form. Please try again.');
-        } finally {
             showLoading(false);
+            showToast('A network error occurred. Please check your connection and try again.', 'error');
         }
     }
 });
 
-function showLoading(show) {
+// Fallback loading function if form-utils.js isn't loaded
+function fallbackShowLoading(show) {
     let overlay = document.querySelector('.loading-overlay');
     if (!overlay) {
         overlay = document.createElement('div');
         overlay.className = 'loading-overlay';
+        overlay.setAttribute('role', 'status');
         overlay.innerHTML = `
             <div class="loading-spinner">
                 <div class="spinner"></div>
-                <p>Submitting your form...</p>
+                <p class="loading-message">Processing...</p>
             </div>
         `;
         document.body.appendChild(overlay);
     }
-    
+
     if (show) {
+        const messageEl = overlay.querySelector('.loading-message');
+        if (messageEl) messageEl.textContent = typeof show === 'string' ? show : 'Processing...';
         overlay.classList.add('active');
     } else {
         overlay.classList.remove('active');

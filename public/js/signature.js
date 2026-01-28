@@ -104,11 +104,16 @@ class SignaturePad {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.hasSignature = false;
         this.canvas.classList.remove('signed');
+
+        // Clear hidden fields
+        const sigField = document.getElementById('signatureData');
+        const signedAtField = document.getElementById('signedAt');
+        if (sigField) sigField.value = '';
+        if (signedAtField) signedAtField.value = '';
     }
 
     isEmpty() {
-        // Consider typed signature as a valid signature as well
-        return !this.hasSignature && !(window.typedSignatureText && String(window.typedSignatureText).trim().length > 0);
+        return !this.hasSignature;
     }
 
     toDataURL() {
@@ -163,148 +168,18 @@ document.addEventListener('DOMContentLoaded', () => {
     if (canvas) {
         window.signaturePad = new SignaturePad(canvas);
 
-        function fitTypedSignatureText(text) {
-            const overlay = document.getElementById('typedOverlay');
-            if (!overlay) return;
-            const value = (text || '').trim();
-            overlay.textContent = value;
-            if (!value) {
-                overlay.style.fontSize = '';
-                return;
-            }
-            const maxFont = 56;
-            const minFont = 14;
-            const wasHidden = window.getComputedStyle(overlay).display === 'none';
-            if (wasHidden) {
-                overlay.style.visibility = 'hidden';
-                overlay.style.display = 'flex';
-            }
-            overlay.style.fontSize = `${maxFont}px`;
-            let fontSize = maxFont;
-            while (fontSize > minFont &&
-                (overlay.scrollWidth > overlay.clientWidth || overlay.scrollHeight > overlay.clientHeight)) {
-                fontSize -= 1;
-                overlay.style.fontSize = `${fontSize}px`;
-            }
-            if (wasHidden) {
-                overlay.style.display = 'none';
-                overlay.style.visibility = '';
-            }
-        }
-
         // Clear button
         const clearBtn = document.getElementById('clearSignature');
         if (clearBtn) {
             clearBtn.addEventListener('click', () => {
-                // clear drawn signature
                 window.signaturePad.clear();
-                // clear typed signature state too
-                window.typedSignatureText = '';
-                const typedInput = document.getElementById('typedSignatureInput');
-                const typedPreview = document.getElementById('typedSignaturePreview');
-                if (typedInput) typedInput.value = '';
-                if (typedPreview) typedPreview.textContent = '';
-                fitTypedSignatureText('');
-                const sigField = document.getElementById('signatureData');
-                const signedAtField = document.getElementById('signedAt');
-                if (sigField) sigField.value = '';
-                if (signedAtField) signedAtField.value = '';
-
-                // Notify listeners that signature changed
                 notifySignatureChanged();
             });
         }
 
-        // Clear typed-only button
-        const clearTypedBtn = document.getElementById('clearTypedSignature');
-        if (clearTypedBtn) {
-            clearTypedBtn.addEventListener('click', () => {
-                window.typedSignatureText = '';
-                const typedInput = document.getElementById('typedSignatureInput');
-                const typedPreview = document.getElementById('typedSignaturePreview');
-                if (typedInput) typedInput.value = '';
-                if (typedPreview) typedPreview.textContent = '';
-                fitTypedSignatureText('');
-                const sigField = document.getElementById('signatureData');
-                const signedAtField = document.getElementById('signedAt');
-                if (sigField) sigField.value = '';
-                if (signedAtField) signedAtField.value = '';
-                // switch back to draw mode
-                const drawRadio = document.getElementById('signatureMethodDraw');
-                if (drawRadio) drawRadio.checked = true;
-                toggleSignatureMethod('draw');
-
-                // Notify listeners that signature changed
-                notifySignatureChanged();
-            });
-        }
-
-        // Signature method toggles
-        const drawRadio = document.getElementById('signatureMethodDraw');
-        const typeRadio = document.getElementById('signatureMethodType');
-        function toggleSignatureMethod(mode) {
-            // Keep the signature container visible at all times so the box stays the same size.
-            const typeArea = document.querySelectorAll('.signature-type');
-            typeArea.forEach(el => el.style.display = (mode === 'type') ? '' : 'none');
-
-            const canvasEl = document.getElementById('signatureCanvas');
-            const typedOverlay = document.getElementById('typedOverlay');
-            if (mode === 'type') {
-                if (canvasEl) canvasEl.style.pointerEvents = 'none';
-                if (typedOverlay) {
-                    typedOverlay.style.display = 'flex';
-                    typedOverlay.setAttribute('aria-hidden', 'false');
-                    fitTypedSignatureText(window.typedSignatureText || '');
-                }
-            } else {
-                if (canvasEl) canvasEl.style.pointerEvents = 'auto';
-                if (typedOverlay) {
-                    typedOverlay.style.display = 'none';
-                    typedOverlay.setAttribute('aria-hidden', 'true');
-                }
-            }
-
-            // Notify listeners that signature method changed (affects validation)
-            notifySignatureChanged();
-        }
-        if (drawRadio) drawRadio.addEventListener('change', () => toggleSignatureMethod('draw'));
-        if (typeRadio) typeRadio.addEventListener('change', () => toggleSignatureMethod('type'));
-
-        // Typed signature input handling
-        const typedInput = document.getElementById('typedSignatureInput');
-        const typedPreview = document.getElementById('typedSignaturePreview');
-        if (typedInput) {
-            typedInput.addEventListener('input', (e) => {
-                const v = (e.target.value || '').trim();
-                window.typedSignatureText = v;
-                // Clear any drawn signature when user starts typing
-                if (v && window.signaturePad && window.signaturePad.hasSignature) {
-                    window.signaturePad.clear();
-                }
-                // update any visible preview or overlay
-                const typedPreviewLocal = document.getElementById('typedSignaturePreview');
-                if (typedPreviewLocal) typedPreviewLocal.textContent = v;
-                fitTypedSignatureText(v);
-                const sigField = document.getElementById('signatureData');
-                const signedAtField = document.getElementById('signedAt');
-                if (sigField) {
-                    // prefix typed signatures so the server/pdf knows how to render
-                    sigField.value = v ? `text:${v}` : '';
-                }
-                if (signedAtField && v) {
-                    signedAtField.value = new Date().toISOString();
-                }
-                // when typed signature present, mark signaturePad as having a signature for validation
-                if (window.signaturePad) window.signaturePad.hasSignature = !!v || window.signaturePad.hasSignature;
-
-                // Notify listeners that signature changed
-                notifySignatureChanged();
-            });
-        }
-
-        // Resize handler
+        // Resize handler - preserve signature on resize
         window.addEventListener('resize', () => {
-            if (window.signaturePad && !window.signaturePad.isEmpty()) {
+            if (window.signaturePad && window.signaturePad.hasDrawnContent()) {
                 const data = window.signaturePad.toDataURL();
                 window.signaturePad.resizeCanvas();
                 window.signaturePad.setupCanvas();
@@ -317,16 +192,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.signaturePad.resizeCanvas();
                 window.signaturePad.setupCanvas();
             }
-            if (window.typedSignatureText) {
-                fitTypedSignatureText(window.typedSignatureText);
-            }
         });
 
         // Orientation change handler for mobile
         window.addEventListener('orientationchange', () => {
             setTimeout(() => {
                 if (window.signaturePad) {
-                    const hasContent = !window.signaturePad.isEmpty();
+                    const hasContent = window.signaturePad.hasDrawnContent();
                     const data = hasContent ? window.signaturePad.toDataURL() : null;
                     window.signaturePad.resizeCanvas();
                     window.signaturePad.setupCanvas();
@@ -336,12 +208,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             window.signaturePad.ctx.drawImage(img, 0, 0);
                         };
                         img.src = data;
-                    }
-                }
-                if (window.typedSignatureText) {
-                    const overlay = document.getElementById('typedOverlay');
-                    if (overlay) {
-                        fitTypedSignatureText(window.typedSignatureText);
                     }
                 }
             }, 200);

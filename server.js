@@ -30,7 +30,14 @@ function getLocalIPv4() {
 }
 
 // Middleware
-app.use(cors());
+// CORS configuration - restrict origins in production
+const corsOptions = {
+    origin: process.env.NODE_ENV === 'production'
+        ? (process.env.ALLOWED_ORIGINS || '').split(',').filter(Boolean)
+        : true, // Allow all origins in development
+    credentials: true
+};
+app.use(cors(corsOptions));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(express.static(publicDir));
@@ -93,22 +100,68 @@ app.get('/analytics', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'analytics.html'));
 });
 
+// Input validation helpers
+function sanitizeString(str, maxLength = 500) {
+    if (typeof str !== 'string') return '';
+    return str.trim().slice(0, maxLength);
+}
+
+function isValidEmail(email) {
+    if (!email) return true; // Email is optional
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email) && email.length <= 254;
+}
+
+function isValidPhone(phone) {
+    if (!phone) return false;
+    // Allow digits, spaces, hyphens, parentheses, plus sign
+    const phoneRegex = /^[\d\s\-()+ ]{6,20}$/;
+    return phoneRegex.test(phone);
+}
+
 // API endpoint - Submit form
 app.post('/api/submit-form', async (req, res) => {
     try {
         const formData = req.body;
-        
-        // Validate required fields
-        if (!formData.name && !formData.fullName) {
-            return res.status(400).json({ 
-                success: false, 
-                message: 'Name is required' 
+        const isFeedbackForm = formData.formType === 'feedback';
+
+        // Validate and sanitize name
+        const name = sanitizeString(formData.name || formData.fullName, 100);
+        if (!name || name.length < 2) {
+            return res.status(400).json({
+                success: false,
+                message: 'Please provide a valid name (at least 2 characters)'
             });
         }
-        
+        formData.fullName = name;
+        formData.name = name;
+
+        // Validate email format (if provided)
+        if (formData.email && !isValidEmail(formData.email)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Please provide a valid email address'
+            });
+        }
+        formData.email = sanitizeString(formData.email, 254);
+
+        // Validate phone (required for intake forms)
+        if (!isFeedbackForm && !isValidPhone(formData.mobile)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Please provide a valid phone number'
+            });
+        }
+        formData.mobile = sanitizeString(formData.mobile, 20);
+
+        // Sanitize text fields
+        formData.reviewNote = sanitizeString(formData.reviewNote, 1000);
+        formData.otherHealthConcernText = sanitizeString(formData.otherHealthConcernText, 500);
+        formData.comments = sanitizeString(formData.comments, 2000);
+        formData.aoRoleOther = sanitizeString(formData.aoRoleOther, 100);
+
         // Require consent: support newer `consentAll` or legacy `termsAccepted`+`treatmentConsent`
         // Feedback forms don't require consent checkbox (just signature)
-        const isFeedbackForm = formData.formType === 'feedback';
         const hasConsent = isFeedbackForm || !!formData.consentAll || (!!formData.termsAccepted && !!formData.treatmentConsent);
         if (!hasConsent) {
             return res.status(400).json({ success: false, message: 'Consent is required to proceed' });
@@ -167,9 +220,10 @@ app.post('/api/submit-form', async (req, res) => {
 
     } catch (error) {
         console.error('Error processing form:', error);
+        // Don't expose internal error details to client
         res.status(500).json({
             success: false,
-            message: 'Error processing form: ' + error.message
+            message: 'An error occurred while processing your form. Please try again.'
         });
     }
 });

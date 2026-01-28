@@ -88,18 +88,18 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="feelingPre">How are we feeling right now (pre-massage)? <span class="required">*</span></label>
+                    <label for="feelingPre" id="feelingPreLabel">How are we feeling right now (pre-massage)? <span class="required">*</span></label>
                     <div style="display:flex; align-items:flex-start; gap:12px; margin-top:8px; position:relative;">
                         <div style="display:flex; flex-direction:column; align-items:center; gap:4px; min-width:50px;">
                             <span style="font-size:12px; font-weight:600; color:var(--text-light);">1</span>
                             <span style="font-size:11px; color:var(--text-light); text-align:center;">Not Great</span>
                         </div>
-                        <input type="range" id="feelingPre" name="feelingPre" min="1" max="10" value="5" style="flex:1; cursor:pointer; margin-top:6px;">
+                        <input type="range" id="feelingPre" name="feelingPre" min="1" max="10" value="5" style="flex:1; cursor:pointer; margin-top:6px;" aria-labelledby="feelingPreLabel" aria-valuemin="1" aria-valuemax="10" aria-valuenow="5" aria-valuetext="5 out of 10">
                         <div style="display:flex; flex-direction:column; align-items:center; gap:4px; min-width:50px;">
                             <span style="font-size:12px; font-weight:600; color:var(--text-light);">10</span>
                             <span style="font-size:11px; color:var(--text-light); text-align:center;">Fantastic</span>
                         </div>
-                        <span id="feelingPreValue" style="min-width:36px; padding:6px 10px; background:var(--primary-color); color:white; border-radius:6px; font-weight:600; text-align:center; margin-top:6px;">5</span>
+                        <span id="feelingPreValue" style="min-width:36px; padding:6px 10px; background:var(--primary-color); color:white; border-radius:6px; font-weight:600; text-align:center; margin-top:6px;" aria-hidden="true">5</span>
                     </div>
                 </div>
 
@@ -186,7 +186,8 @@
                 <h2>Step 3 — Quick Health Check</h2>
                 <p class="section-note">Tick any that apply. Please discuss flags with your therapist.</p>
 
-                <div class="checkbox-group" id="healthChecksGroup">
+                <div class="checkbox-group" id="healthChecksGroup" role="group" aria-labelledby="healthChecksLabel">
+                    <span id="healthChecksLabel" class="visually-hidden">Select any health conditions that apply</span>
                     <label><input type="checkbox" name="healthChecks" value="Pregnant"> Pregnant</label>
                     <label><input type="checkbox" name="healthChecks" value="Recent surgery (last 6 months)"> Recent surgery (last 6 months)</label>
                     <label><input type="checkbox" name="healthChecks" value="Recent injury (last 3 months)"> Recent injury (last 3 months)</label>
@@ -255,25 +256,15 @@
 
                 <div class="signature-area">
                     <h2>Signature <span class="optional">(optional)</span></h2>
-
-                    <div class="signature-methods" style="margin-bottom:8px;">
-                        <label style="margin-right:12px"><input type="radio" name="signatureMethod" id="signatureMethodDraw" value="draw" checked> Draw signature</label>
-                        <label><input type="radio" name="signatureMethod" id="signatureMethodType" value="type"> Type signature</label>
-                    </div>
+                    <p class="section-note">Draw your signature below using your finger or mouse.</p>
 
                     <div class="signature-draw">
                         <div class="signature-container">
                             <div class="signature-pad-frame">
                                 <canvas id="signatureCanvas" class="signature-pad"></canvas>
-                                <div id="typedOverlay" class="typed-overlay" aria-hidden="true"></div>
                             </div>
                             <button type="button" id="clearSignature" class="btn-secondary">Clear Signature</button>
                         </div>
-                    </div>
-
-                    <div class="signature-type" style="display:none; margin-top:8px;">
-                        <input type="text" id="typedSignatureInput" placeholder="Type your name here" maxlength="100" style="width:100%; padding:8px; font-size:16px;" />
-                        <button type="button" id="clearTypedSignature" class="btn-secondary" style="margin-top:8px;">Clear Typed</button>
                     </div>
 
                     <input type="hidden" id="signatureData" name="signature">
@@ -374,7 +365,8 @@ I agree that selecting the consent checkbox(es) and providing a drawn or typed s
 
     <script src="/js/termsModal.js?v=20260125" defer></script>
     <script src="/js/bodyMapModal.js?v=20260126" defer></script>
-    <script src="/js/intake-form.js?v=20260126" defer></script>
+    <script src="/js/form-utils.js?v=20260128" defer></script>
+    <script src="/js/intake-form.js?v=20260128" defer></script>
 
     <script>
         // Initialize form type on intake form (Hemisphere Wellness only)
@@ -383,12 +375,15 @@ I agree that selecting the consent checkbox(es) and providing a drawn or typed s
             const urlParams = new URLSearchParams(window.location.search);
             let formType = urlParams.get('form') || getSelectedFormType() || 'seated';
 
-            // Feeling slider value display
+            // Feeling slider value display with accessibility
             const feelingSlider = document.getElementById('feelingPre');
             const feelingValue = document.getElementById('feelingPreValue');
             if (feelingSlider && feelingValue) {
                 feelingSlider.addEventListener('input', () => {
                     feelingValue.textContent = feelingSlider.value;
+                    // Update ARIA attributes for screen readers
+                    feelingSlider.setAttribute('aria-valuenow', feelingSlider.value);
+                    feelingSlider.setAttribute('aria-valuetext', feelingSlider.value + ' out of 10');
                 });
             }
 

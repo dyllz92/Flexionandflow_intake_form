@@ -164,18 +164,21 @@
             const therapistRadios = document.querySelectorAll('input[name="therapistName"]');
             const recommendRadios = document.querySelectorAll('input[name="wouldRecommend"]');
 
+            const showToast = window.FormUtils ? window.FormUtils.showToast : (msg) => alert(msg);
+
             if (!fullName || !fullName.value.trim()) {
-                alert('Please enter your full name.');
+                showToast('Please enter your full name.', 'error');
+                fullName.focus();
                 return;
             }
 
             if (!Array.from(therapistRadios).some(r => r.checked)) {
-                alert('Please select your therapist.');
+                showToast('Please select your therapist.', 'error');
                 return;
             }
 
             if (!Array.from(recommendRadios).some(r => r.checked)) {
-                alert('Please indicate if you would recommend AO Wellness.');
+                showToast('Please indicate if you would recommend AO Wellness.', 'error');
                 return;
             }
 
@@ -194,8 +197,13 @@
             data.formType = 'feedback';
             data.selectedBrand = 'hemisphere';
 
-            // Show loading
-            showLoading(true);
+            // Use shared utilities if available, otherwise use fallback
+            const showLoadingFn = window.FormUtils ? window.FormUtils.showLoading : fallbackShowLoading;
+            const updateLoadingMessage = window.FormUtils ? window.FormUtils.updateLoadingMessage : () => {};
+            const safeParseJSON = window.FormUtils ? window.FormUtils.safeParseJSON : async (r) => r.json();
+
+            // Show loading with progress
+            showLoadingFn('Submitting your feedback...');
 
             try {
                 const response = await fetch('/api/submit-form', {
@@ -203,36 +211,44 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 });
-                const result = await response.json();
-                if (response.ok) {
+
+                updateLoadingMessage('Processing response...');
+                const result = await safeParseJSON(response);
+
+                if (response.ok && result.success) {
+                    updateLoadingMessage('Success! Redirecting...');
                     window.location.href = '/success';
                 } else {
-                    alert('Error submitting feedback: ' + (result.message || 'Unknown error'));
+                    showLoadingFn(false);
+                    showToast(result.message || 'An error occurred. Please try again.', 'error');
                 }
             } catch (error) {
                 console.error('Submission error:', error);
-                alert('An error occurred while submitting. Please try again.');
-            } finally {
-                showLoading(false);
+                showLoadingFn(false);
+                showToast('A network error occurred. Please check your connection and try again.', 'error');
             }
         });
     });
 
-    function showLoading(show) {
+    // Fallback loading function if form-utils.js isn't loaded
+    function fallbackShowLoading(show) {
         let overlay = document.querySelector('.loading-overlay');
         if (!overlay) {
             overlay = document.createElement('div');
             overlay.className = 'loading-overlay';
+            overlay.setAttribute('role', 'status');
             overlay.innerHTML = `
                 <div class="loading-spinner">
                     <div class="spinner"></div>
-                    <p>Submitting your feedback...</p>
+                    <p class="loading-message">Submitting your feedback...</p>
                 </div>
             `;
             document.body.appendChild(overlay);
         }
 
         if (show) {
+            const messageEl = overlay.querySelector('.loading-message');
+            if (messageEl) messageEl.textContent = typeof show === 'string' ? show : 'Submitting...';
             overlay.classList.add('active');
         } else {
             overlay.classList.remove('active');

@@ -5,7 +5,7 @@
     let currentStep = 1;
 
     // DOM Elements
-    let steps, stepIndicators, prevBtn, nextBtn, submitBtn;
+    let steps, stepIndicators, prevBtn, nextBtn, submitBtn, validationToast;
 
     // Step validation rules
     const stepValidation = {
@@ -100,6 +100,9 @@
             console.warn('Wizard elements not found');
             return;
         }
+
+        // Create validation toast element
+        createValidationToast();
 
         // Set up event listeners
         if (prevBtn) prevBtn.addEventListener('click', goToPrevStep);
@@ -319,7 +322,48 @@
         }
 
         if (message) {
-            alert(message);
+            showValidationToast(message);
+        }
+    }
+
+    // Create accessible validation toast element
+    function createValidationToast() {
+        if (document.getElementById('validationToast')) return;
+
+        validationToast = document.createElement('div');
+        validationToast.id = 'validationToast';
+        validationToast.className = 'validation-toast';
+        validationToast.setAttribute('role', 'alert');
+        validationToast.setAttribute('aria-live', 'polite');
+        validationToast.innerHTML = `
+            <span class="validation-toast-icon">!</span>
+            <span class="validation-toast-message"></span>
+            <button type="button" class="validation-toast-close" aria-label="Dismiss">&times;</button>
+        `;
+        document.body.appendChild(validationToast);
+
+        // Close button handler
+        validationToast.querySelector('.validation-toast-close').addEventListener('click', hideValidationToast);
+    }
+
+    // Show validation toast with message
+    function showValidationToast(message) {
+        if (!validationToast) createValidationToast();
+
+        const messageEl = validationToast.querySelector('.validation-toast-message');
+        messageEl.textContent = message;
+
+        validationToast.classList.add('visible');
+
+        // Auto-hide after 5 seconds
+        clearTimeout(validationToast._timeout);
+        validationToast._timeout = setTimeout(hideValidationToast, 5000);
+    }
+
+    // Hide validation toast
+    function hideValidationToast() {
+        if (validationToast) {
+            validationToast.classList.remove('visible');
         }
     }
 

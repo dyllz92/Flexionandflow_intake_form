@@ -459,6 +459,19 @@ textarea {
     margin-bottom: 5px;
 }
 
+/* Visually hidden but accessible to screen readers */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
 /* Conditional Fields */
 .hidden-field {
     display: none !important;
@@ -687,7 +700,15 @@ textarea {
     gap: 15px;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+}
+
+/* Ensure buttons in sticky actions have equal width */
+.sticky-actions .btn-primary,
+.sticky-actions .btn-secondary {
+    flex: 1 1 0;
+    max-width: 200px;
+    min-width: 120px;
 }
 
 /* Subtle background fill with outline style */
@@ -769,31 +790,34 @@ textarea {
     flex: 1 1 100%;
 }
 
-/* Mobile: stack buttons vertically */
+/* Mobile: keep buttons side by side but smaller */
 @media (max-width: 480px) {
     .form-actions {
-        flex-direction: column;
-        gap: 12px;
+        flex-direction: row;
+        gap: 10px;
     }
 
     .btn-primary,
     .btn-secondary {
-        flex: 1 1 auto;
-        width: 100%;
+        padding: 14px 24px;
+        font-size: 14px;
+        min-width: 100px;
     }
 
     .sticky-actions {
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
-        padding: 12px;
+        padding: 12px 8px;
         padding-bottom: max(12px, env(safe-area-inset-bottom));
+        gap: 10px;
     }
 
     .sticky-actions .btn-primary,
     .sticky-actions .btn-secondary {
-        width: 100%;
-        max-width: 320px;
-        flex: 1 1 auto;
+        flex: 1 1 0;
+        max-width: none;
+        min-width: 0;
+        padding: 14px 16px;
     }
 }
 
@@ -1444,6 +1468,15 @@ button[type="button"]#clearSignature {
     margin-top: 24px;
 }
 
+/* Ensure buttons are equally sized and aligned */
+[data-brand="hemisphere"] .sticky-actions .btn-primary,
+[data-brand="hemisphere"] .sticky-actions .btn-secondary {
+    flex: 1 1 0;
+    max-width: 200px;
+    min-width: 120px;
+    text-align: center;
+}
+
 /* Body Map Modal */
 [data-brand="hemisphere"] .body-map-backdrop {
     background: rgba(0, 0, 0, 0.9);
@@ -1625,4 +1658,88 @@ button[type="button"]#clearSignature {
 [data-brand="hemisphere"] .success-message p {
     color: rgba(255, 255, 255, 0.75);
     line-height: 1.6;
+}
+
+/* Validation Toast - Accessible inline validation message */
+.validation-toast {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #d32f2f;
+    color: white;
+    padding: 12px 16px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 90%;
+    width: max-content;
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+}
+
+.validation-toast.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+.validation-toast-icon {
+    width: 24px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.validation-toast-message {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.validation-toast-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0 4px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    flex-shrink: 0;
+}
+
+.validation-toast-close:hover {
+    opacity: 1;
+}
+
+/* Hemisphere theme validation toast */
+[data-brand="hemisphere"] .validation-toast {
+    background: linear-gradient(135deg, #c62828, #b71c1c);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 480px) {
+    .validation-toast {
+        bottom: 80px;
+        left: 10px;
+        right: 10px;
+        transform: translateY(20px);
+        width: auto;
+        max-width: none;
+    }
+
+    .validation-toast.visible {
+        transform: translateY(0);
+    }
 }
