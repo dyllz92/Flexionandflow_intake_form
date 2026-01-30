@@ -66,7 +66,8 @@ class MetadataStore {
       feedback: {
         feelingPost: parseInt(formData.feelingPost) || null,
         wouldRecommend: formData.wouldRecommend || null,
-        hasComments: !!formData.feedbackComments
+        hasComments: !!formData.feedbackComments,
+        comments: formData.feedbackComments || null
       }
     };
   }

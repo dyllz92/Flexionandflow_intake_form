@@ -8,6 +8,7 @@ require('dotenv').config();
 const pdfGenerator = require('./utils/pdfGenerator');
 const driveUploader = require('./utils/driveUploader');
 const MetadataStore = require('./utils/metadataStore');
+const MasterFileManager = require('./utils/masterFileManager');
 const AnalyticsService = require('./utils/analyticsService');
 const { authMiddleware, login, logout } = require('./utils/authMiddleware');
 const AnalyticsController = require('./controllers/analyticsController');
@@ -44,6 +45,7 @@ app.use(express.static(publicDir));
 
 // Initialize analytics modules
 const metadataStore = new MetadataStore(driveUploader);
+const masterFileManager = new MasterFileManager();
 const analyticsService = new AnalyticsService(metadataStore);
 const analyticsController = new AnalyticsController(analyticsService);
 
@@ -204,12 +206,16 @@ app.post('/api/submit-form', async (req, res) => {
 
         console.log('Form submitted successfully:', uploadResult);
 
-        // Save metadata for analytics
+        // Save metadata for analytics and update master files
         try {
-            await metadataStore.saveMetadata(formData, filename);
+            const metadata = await metadataStore.saveMetadata(formData, filename);
             console.log('Metadata saved for analytics');
+
+            // Update master file with new entry
+            await masterFileManager.appendToMasterFile(metadata, formData.formType);
+            console.log('Master file updated');
         } catch (error) {
-            console.warn('Failed to save metadata (non-fatal):', error.message);
+            console.warn('Failed to save metadata or update master file (non-fatal):', error.message);
         }
 
         res.json({
