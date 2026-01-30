@@ -271,37 +271,70 @@ class AnalyticsService {
     const postScores = [];
     const improvements = [];
 
-    // Group intake and feedback by approximate time/therapist
-    const intakeMap = {};
-    const feedbackMap = {};
+    // Separate intakes and feedback
+    const intakes = [];
+    const feedbacks = [];
 
     for (const item of metadata) {
       if (item.formType === 'seated' || item.formType === 'table') {
         if (item.ao?.feelingPre) {
           preScores.push(item.ao.feelingPre);
-          const key = `${item.client?.fullName}_${item.ao?.therapistName}`;
-          if (!intakeMap[key]) intakeMap[key] = [];
-          intakeMap[key].push(item);
+          intakes.push(item);
         }
       } else if (item.formType === 'feedback') {
         if (item.feedback?.feelingPost) {
           postScores.push(item.feedback.feelingPost);
-          const key = `${item.client?.fullName}_${item.ao?.therapistName}`;
-          if (!feedbackMap[key]) feedbackMap[key] = [];
-          feedbackMap[key].push(item);
+          feedbacks.push(item);
         }
       }
     }
 
-    // Calculate improvements (matched pairs)
-    for (const key in intakeMap) {
-      if (feedbackMap[key]) {
-        const intake = intakeMap[key][0];
-        const feedback = feedbackMap[key][0];
-        if (intake.ao?.feelingPre && feedback.feedback?.feelingPost) {
-          const improvement = feedback.feedback.feelingPost - intake.ao.feelingPre;
-          improvements.push(improvement);
+    // Calculate improvements (matched pairs with better matching strategy)
+    for (const intake of intakes) {
+      // Try to find matching feedback using mobile, therapist, and time proximity (within 24 hours)
+      const intakeTime = new Date(intake.submissionDate).getTime();
+
+      let bestMatch = null;
+      let bestScore = -1;
+
+      for (const feedback of feedbacks) {
+        const feedbackTime = new Date(feedback.submissionDate).getTime();
+        const timeDiff = Math.abs(feedbackTime - intakeTime);
+        const withinDay = timeDiff < 24 * 60 * 60 * 1000; // Within 24 hours
+
+        if (!withinDay) continue; // Skip if not within same day
+
+        let matchScore = 0;
+
+        // Exact mobile match is strongest
+        if (intake.client?.mobile && feedback.client?.mobile &&
+            intake.client.mobile === feedback.client.mobile) {
+          matchScore += 100;
+        } else if (intake.client?.fullName && feedback.client?.fullName &&
+                   intake.client.fullName.toLowerCase() === feedback.client.fullName.toLowerCase()) {
+          matchScore += 50; // Name match is secondary
         }
+
+        // Therapist match adds confidence
+        if (intake.ao?.therapistName && feedback.ao?.therapistName &&
+            intake.ao.therapistName === feedback.ao.therapistName) {
+          matchScore += 20;
+        }
+
+        // Prefer closer time differences
+        if (timeDiff < 60 * 60 * 1000) { // Less than 1 hour
+          matchScore += 10;
+        }
+
+        if (matchScore > bestScore) {
+          bestScore = matchScore;
+          bestMatch = feedback;
+        }
+      }
+
+      if (bestMatch && bestScore >= 50 && intake.ao?.feelingPre && bestMatch.feedback?.feelingPost) {
+        const improvement = bestMatch.feedback.feelingPost - intake.ao.feelingPre;
+        improvements.push(improvement);
       }
     }
 

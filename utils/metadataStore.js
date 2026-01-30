@@ -21,9 +21,12 @@ class MetadataStore {
       ? formData.healthChecks
       : (formData.healthChecks ? [formData.healthChecks] : []);
 
+    // Use submission date from form if available, otherwise use current time
+    let submissionDate = formData.submissionDate || formData.createdAt || new Date().toISOString();
+
     return {
       filename: null, // Set by caller
-      submissionDate: new Date().toISOString(),
+      submissionDate: submissionDate,
       formType: formData.formType || 'seated',
       client: {
         fullName: formData.fullName || formData.name || 'Unknown',
@@ -54,7 +57,9 @@ class MetadataStore {
       health: {
         healthChecks: health,
         hasReviewNote: !!formData.reviewNote,
-        hasAvoidNotes: !!formData.avoidNotes
+        reviewNote: formData.reviewNote || null,
+        hasAvoidNotes: !!formData.avoidNotes,
+        avoidNotes: formData.avoidNotes || null
       },
       marketing: {
         emailOptIn: formData.emailOptIn === true || formData.emailOptIn === 'on',
