@@ -192,11 +192,11 @@ app.post('/api/submit-form', async (req, res) => {
         if (formType === 'feedback') {
             formName = 'Post_Session_Feedback';
         } else if (formType === 'table') {
-            formName = 'Table_Massage_Intake';
+            formName = 'Table_Massage';
         } else {
-            formName = 'Seated_Chair_Massage_Intake';
+            formName = 'Seated_Chair_Massage';
         }
-        const filename = `${clientName}_${yyyy}-${mm}-${dd}_${HH}${MM}${ss}_${formName}.pdf`;
+        const filename = `${formName}_${clientName}_${yyyy}-${mm}-${dd}_${HH}${MM}${ss}.pdf`;
         
         // Upload to Google Drive (or save locally if not configured)
         console.log('Uploading to Google Drive...');
