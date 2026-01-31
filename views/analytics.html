@@ -18,15 +18,46 @@
                     <h1>Analytics Dashboard</h1>
                 </div>
 
-                <form id="loginForm">
+                <!-- Login Form (shown by default) -->
+                <form id="loginForm" style="display:block;">
                     <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" placeholder="Enter dashboard password" required>
+                        <label for="loginUsername">Username</label>
+                        <input type="text" id="loginUsername" placeholder="Enter your username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" placeholder="Enter your password" required>
                     </div>
                     <button type="submit" class="btn-primary">Login</button>
+                    <p class="form-link">Don't have an account? <a href="#" onclick="dashboard.showRegistrationForm(); return false;">Register here</a></p>
+                </form>
+
+                <!-- Registration Form (hidden initially) -->
+                <form id="registerForm" style="display:none;">
+                    <div class="form-group">
+                        <label for="regUsername">Username</label>
+                        <input type="text" id="regUsername" placeholder="Choose a username (3-30 chars)" required>
+                        <small class="form-help">Alphanumeric and underscore only</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="regEmail">Email</label>
+                        <input type="email" id="regEmail" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="regPassword">Password</label>
+                        <input type="password" id="regPassword" placeholder="Min 8 chars (uppercase, lowercase, number)" required>
+                        <div id="passwordStrength" class="password-strength"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="regConfirmPassword">Confirm Password</label>
+                        <input type="password" id="regConfirmPassword" placeholder="Confirm your password" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Create Account</button>
+                    <p class="form-link">Already have an account? <a href="#" onclick="dashboard.showLoginForm(); return false;">Login here</a></p>
                 </form>
 
                 <div id="loginError" class="error-message" style="display:none;"></div>
+                <div id="registerSuccess" class="success-message" style="display:none;"></div>
             </div>
         </div>
     </div>
@@ -82,6 +113,22 @@
                     </select>
                 </div>
             </div>
+
+            <!-- Admin Panel (visible only to admins) -->
+            <section id="adminPanel" class="admin-panel" style="display:none;">
+                <div class="admin-header">
+                    <h2>👨‍💼 User Management</h2>
+                    <button id="toggleAdminPanel" class="btn-small">▼ Hide</button>
+                </div>
+                <div id="adminContent" class="admin-content">
+                    <div class="admin-section">
+                        <h3>Pending Registrations (<span id="pendingCount">0</span>)</h3>
+                        <div id="pendingUsersList" class="pending-list">
+                            <p class="empty-state">No pending registrations</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
             <!-- Summary Cards -->
             <section class="summary-section">

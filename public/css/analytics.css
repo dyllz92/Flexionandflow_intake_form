@@ -644,3 +644,207 @@
         text-align: left;
     }
 }
+
+/* Registration and Login Form Styles */
+.form-help {
+    display: block;
+    font-size: 12px;
+    color: #666;
+    margin-top: 4px;
+}
+
+.form-link {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.form-link a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.form-link a:hover {
+    text-decoration: underline;
+}
+
+.password-strength {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+.password-strength.weak {
+    background: #fee;
+    color: #c33;
+}
+
+.password-strength.fair {
+    background: #fef3cd;
+    color: #856404;
+}
+
+.password-strength.good {
+    background: #d4edda;
+    color: #155724;
+}
+
+.password-strength.strong {
+    background: #d4edda;
+    color: #155724;
+}
+
+.password-strength.very-strong {
+    background: #d4edda;
+    color: #155724;
+}
+
+.success-message {
+    background: #d4edda;
+    color: #155724;
+    padding: 12px;
+    border-radius: 4px;
+    border: 1px solid #c3e6cb;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+/* Admin Panel Styles */
+.admin-panel {
+    background: linear-gradient(135deg, #f0f4ff 0%, #f5f7ff 100%);
+    border: 2px solid #e0e7ff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e0e7ff;
+}
+
+.admin-header h2 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.btn-small {
+    padding: 6px 12px;
+    font-size: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background: #667eea;
+    color: white;
+    transition: background 0.2s;
+}
+
+.btn-small:hover {
+    background: #5568d3;
+}
+
+.btn-approve {
+    background: #28a745;
+}
+
+.btn-approve:hover {
+    background: #218838;
+}
+
+.btn-reject {
+    background: #dc3545;
+}
+
+.btn-reject:hover {
+    background: #c82333;
+}
+
+.admin-content {
+    display: block;
+}
+
+.admin-section {
+    margin-bottom: 20px;
+}
+
+.admin-section h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.pending-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.user-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background: white;
+    border-radius: 4px;
+    border-left: 4px solid #667eea;
+}
+
+.user-info {
+    flex: 1;
+}
+
+.user-info strong {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.user-info p {
+    margin: 0;
+    font-size: 12px;
+    color: #666;
+}
+
+.user-info small {
+    display: block;
+    font-size: 11px;
+    color: #999;
+    margin-top: 4px;
+}
+
+.user-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.empty-state {
+    text-align: center;
+    color: #999;
+    padding: 20px;
+    font-style: italic;
+}
+
+@media (max-width: 768px) {
+    .user-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .user-actions {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .btn-small {
+        flex: 1;
+    }
+}

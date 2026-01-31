@@ -10,7 +10,9 @@ const driveUploader = require('./utils/driveUploader');
 const MetadataStore = require('./utils/metadataStore');
 const MasterFileManager = require('./utils/masterFileManager');
 const AnalyticsService = require('./utils/analyticsService');
-const { authMiddleware, login, logout } = require('./utils/authMiddleware');
+const { authMiddleware, adminMiddleware, login, logout, register } = require('./utils/authMiddleware');
+const UserStore = require('./utils/userStore');
+const emailService = require('./utils/emailService');
 const AnalyticsController = require('./controllers/analyticsController');
 
 const app = express();
@@ -236,7 +238,99 @@ app.post('/api/submit-form', async (req, res) => {
 
 // Authentication endpoints
 app.post('/api/auth/login', login);
+app.post('/api/auth/register', register);
 app.post('/api/auth/logout', authMiddleware, logout);
+
+// Admin user management endpoints
+app.get('/api/admin/pending-users', authMiddleware, adminMiddleware, async (req, res) => {
+    try {
+        const userStore = new UserStore();
+        const pendingUsers = await userStore.getPendingUsers();
+
+        // Remove password hashes for security
+        const safeUsers = pendingUsers.map(u => ({
+            id: u.id,
+            username: u.username,
+            email: u.email,
+            createdAt: u.createdAt
+        }));
+
+        res.json({ users: safeUsers });
+    } catch (error) {
+        console.error('Error fetching pending users:', error);
+        res.status(500).json({ error: 'Failed to fetch pending users' });
+    }
+});
+
+app.post('/api/admin/approve-user/:userId', authMiddleware, adminMiddleware, async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const userStore = new UserStore();
+
+        // Update user status
+        const user = await userStore.updateUserStatus(userId, 'approved', req.user.userId);
+
+        // Send approval email
+        await emailService.sendApprovalEmail(user.email, user.username);
+
+        res.json({
+            success: true,
+            message: `User ${user.username} approved and notified by email`
+        });
+    } catch (error) {
+        console.error('Error approving user:', error);
+        res.status(500).json({ error: 'Failed to approve user' });
+    }
+});
+
+app.post('/api/admin/reject-user/:userId', authMiddleware, adminMiddleware, async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const { reason } = req.body;
+        const userStore = new UserStore();
+
+        // Update user status
+        const user = await userStore.updateUserStatus(userId, 'rejected', req.user.userId);
+
+        // Send rejection email
+        await emailService.sendRejectionEmail(user.email, user.username, reason);
+
+        // Remove rejected user to allow re-registration
+        await userStore.deleteRejectedUser(user.email);
+
+        res.json({
+            success: true,
+            message: `User ${user.username} rejected and notified by email`
+        });
+    } catch (error) {
+        console.error('Error rejecting user:', error);
+        res.status(500).json({ error: 'Failed to reject user' });
+    }
+});
+
+app.get('/api/admin/all-users', authMiddleware, adminMiddleware, async (req, res) => {
+    try {
+        const userStore = new UserStore();
+        const allUsers = await userStore.getAllUsers();
+
+        // Remove password hashes for security
+        const safeUsers = allUsers.map(u => ({
+            id: u.id,
+            username: u.username,
+            email: u.email,
+            role: u.role,
+            status: u.status,
+            createdAt: u.createdAt,
+            approvedAt: u.approvedAt,
+            lastLoginAt: u.lastLoginAt
+        }));
+
+        res.json({ users: safeUsers });
+    } catch (error) {
+        console.error('Error fetching all users:', error);
+        res.status(500).json({ error: 'Failed to fetch users' });
+    }
+});
 
 // Analytics endpoints (all require authentication)
 app.get('/api/analytics/summary', authMiddleware, (req, res) =>
@@ -378,8 +472,21 @@ if (spaDir) {
     });
 }
 
+// Initialize admin account on startup
+async function initializeAdmin() {
+    try {
+        const userStore = new UserStore();
+        await userStore.ensureAdminExists();
+    } catch (error) {
+        console.error('❌ Failed to initialize admin account:', error.message);
+    }
+}
+
 // Start server
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
+    // Initialize admin account
+    await initializeAdmin();
+
     const ip = getLocalIPv4();
     console.log(`\n${'='.repeat(50)}`);
     console.log(`🌟 Hemisphere Wellness Intake Form Server`);

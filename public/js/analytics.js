@@ -5,6 +5,7 @@
 class AnalyticsDashboard {
     constructor() {
         this.sessionId = localStorage.getItem('analyticsSession');
+        this.userRole = localStorage.getItem('analyticsUserRole') || 'manager';
         this.charts = {};
         this.init();
     }
@@ -14,17 +15,30 @@ class AnalyticsDashboard {
 
         if (this.sessionId) {
             this.showDashboard();
+            // Load admin panel if user is admin
+            if (this.userRole === 'admin') {
+                this.showAdminPanel();
+            } else {
+                this.hideAdminPanel();
+            }
             await this.loadDashboard();
         } else {
             this.showLogin();
+            this.showLoginForm();
         }
     }
 
     setupEventListeners() {
         // Login form
-        document.getElementById('loginForm').addEventListener('submit', (e) => {
+        document.getElementById('loginForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
             this.handleLogin();
+        });
+
+        // Registration form
+        document.getElementById('registerForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.handleRegister();
         });
 
         // Dashboard actions
@@ -40,6 +54,17 @@ class AnalyticsDashboard {
             this.handleLogout();
         });
 
+        // Admin panel
+        document.getElementById('toggleAdminPanel')?.addEventListener('click', () => {
+            const content = document.getElementById('adminContent');
+            if (content) {
+                const isVisible = content.style.display !== 'none';
+                content.style.display = isVisible ? 'none' : 'block';
+                const btn = document.getElementById('toggleAdminPanel');
+                if (btn) btn.textContent = isVisible ? '▶ Show' : '▼ Hide';
+            }
+        });
+
         // Filters
         document.getElementById('periodFilter')?.addEventListener('change', () => {
             this.loadDashboard();
@@ -47,6 +72,11 @@ class AnalyticsDashboard {
 
         document.getElementById('formTypeFilter')?.addEventListener('change', () => {
             this.loadDashboard();
+        });
+
+        // Password strength indicator
+        document.getElementById('regPassword')?.addEventListener('input', (e) => {
+            this.checkPasswordStrength(e.target.value);
         });
     }
 
@@ -65,7 +95,8 @@ class AnalyticsDashboard {
     }
 
     async handleLogin() {
-        const password = document.getElementById('password').value;
+        const username = document.getElementById('loginUsername').value;
+        const password = document.getElementById('loginPassword').value;
         const errorDiv = document.getElementById('loginError');
         errorDiv.style.display = 'none';
 
@@ -75,7 +106,7 @@ class AnalyticsDashboard {
             const response = await fetch('/api/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ password })
+                body: JSON.stringify({ username, password })
             });
 
             this.showLoading(false);
@@ -83,12 +114,20 @@ class AnalyticsDashboard {
             if (response.ok) {
                 const data = await response.json();
                 this.sessionId = data.sessionId;
+                this.userRole = data.role;
                 localStorage.setItem('analyticsSession', this.sessionId);
+                localStorage.setItem('analyticsUserRole', data.role);
                 document.getElementById('loginForm').reset();
                 this.showDashboard();
+                if (data.role === 'admin') {
+                    this.showAdminPanel();
+                } else {
+                    this.hideAdminPanel();
+                }
                 await this.loadDashboard();
             } else {
-                errorDiv.textContent = 'Invalid password. Please try again.';
+                const data = await response.json();
+                errorDiv.textContent = data.error || 'Login failed. Please try again.';
                 errorDiv.style.display = 'block';
             }
         } catch (error) {
@@ -97,6 +136,80 @@ class AnalyticsDashboard {
             errorDiv.style.display = 'block';
             console.error('Login error:', error);
         }
+    }
+
+    async handleRegister() {
+        const username = document.getElementById('regUsername').value;
+        const email = document.getElementById('regEmail').value;
+        const password = document.getElementById('regPassword').value;
+        const confirmPassword = document.getElementById('regConfirmPassword').value;
+        const errorDiv = document.getElementById('loginError');
+        const successDiv = document.getElementById('registerSuccess');
+
+        errorDiv.style.display = 'none';
+        successDiv.style.display = 'none';
+
+        try {
+            this.showLoading(true);
+
+            const response = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, email, password, confirmPassword })
+            });
+
+            this.showLoading(false);
+
+            if (response.status === 201) {
+                const data = await response.json();
+                successDiv.textContent = '✓ ' + data.message + ' You will receive an email once approved.';
+                successDiv.style.display = 'block';
+                document.getElementById('registerForm').reset();
+                setTimeout(() => this.showLoginForm(), 3000);
+            } else {
+                const data = await response.json();
+                errorDiv.textContent = data.error || 'Registration failed. Please try again.';
+                errorDiv.style.display = 'block';
+            }
+        } catch (error) {
+            this.showLoading(false);
+            errorDiv.textContent = 'Registration failed. Please try again.';
+            errorDiv.style.display = 'block';
+            console.error('Registration error:', error);
+        }
+    }
+
+    showLoginForm() {
+        document.getElementById('loginForm').style.display = 'block';
+        document.getElementById('registerForm').style.display = 'none';
+        document.getElementById('loginError').style.display = 'none';
+        document.getElementById('registerSuccess').style.display = 'none';
+    }
+
+    showRegistrationForm() {
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('registerForm').style.display = 'block';
+        document.getElementById('loginError').style.display = 'none';
+        document.getElementById('registerSuccess').style.display = 'none';
+    }
+
+    checkPasswordStrength(password) {
+        const strengthDiv = document.getElementById('passwordStrength');
+        if (!strengthDiv) return;
+
+        let strength = 0;
+        if (password.length >= 8) strength++;
+        if (/[A-Z]/.test(password)) strength++;
+        if (/[a-z]/.test(password)) strength++;
+        if (/[0-9]/.test(password)) strength++;
+
+        const strengthLevels = ['Weak', 'Fair', 'Good', 'Strong', 'Very Strong'];
+        const strengthClasses = ['weak', 'fair', 'good', 'strong', 'very-strong'];
+        const strengthText = strengthLevels[strength] || 'Very Weak';
+        const strengthClass = strengthClasses[strength] || 'weak';
+
+        strengthDiv.textContent = strengthText;
+        strengthDiv.className = `password-strength ${strengthClass}`;
     }
 
     async handleLogout() {
@@ -112,9 +225,12 @@ class AnalyticsDashboard {
         }
 
         localStorage.removeItem('analyticsSession');
+        localStorage.removeItem('analyticsUserRole');
         this.sessionId = null;
+        this.userRole = 'manager';
         this.clearCharts();
         this.showLogin();
+        this.showLoginForm();
     }
 
     async handleUpdateData() {
@@ -560,6 +676,95 @@ class AnalyticsDashboard {
         document.getElementById('healthValue').textContent = `${metrics.healthNotesCapture}%`;
     }
 
+    showAdminPanel() {
+        const adminPanel = document.getElementById('adminPanel');
+        if (adminPanel) {
+            adminPanel.style.display = 'block';
+            this.loadPendingUsers();
+        }
+    }
+
+    hideAdminPanel() {
+        const adminPanel = document.getElementById('adminPanel');
+        if (adminPanel) {
+            adminPanel.style.display = 'none';
+        }
+    }
+
+    async loadPendingUsers() {
+        try {
+            const response = await this.fetchAPI('/api/admin/pending-users', { method: 'GET' });
+            const pendingCount = document.getElementById('pendingCount');
+            if (pendingCount) {
+                pendingCount.textContent = response.users.length;
+            }
+
+            const pendingList = document.getElementById('pendingUsersList');
+            if (!pendingList) return;
+
+            if (response.users.length === 0) {
+                pendingList.innerHTML = '<p class="empty-state">No pending registrations</p>';
+                return;
+            }
+
+            let html = '';
+            for (const user of response.users) {
+                html += `
+                    <div class="user-item">
+                        <div class="user-info">
+                            <strong>${this.escapeHtml(user.username)}</strong>
+                            <p>${this.escapeHtml(user.email)}</p>
+                            <small>${new Date(user.createdAt).toLocaleDateString()}</small>
+                        </div>
+                        <div class="user-actions">
+                            <button class="btn-small btn-approve" onclick="dashboard.approveUser('${user.id}'); return false;">✓ Approve</button>
+                            <button class="btn-small btn-reject" onclick="dashboard.rejectUser('${user.id}'); return false;">✗ Reject</button>
+                        </div>
+                    </div>
+                `;
+            }
+            pendingList.innerHTML = html;
+        } catch (error) {
+            console.error('Error loading pending users:', error);
+        }
+    }
+
+    async approveUser(userId) {
+        if (!confirm('Approve this user registration?')) return;
+
+        try {
+            this.showLoading(true);
+            const response = await this.fetchAPI(`/api/admin/approve-user/${userId}`, { method: 'POST' });
+            this.showLoading(false);
+            alert('User approved and notified via email');
+            await this.loadPendingUsers();
+        } catch (error) {
+            this.showLoading(false);
+            alert('Failed to approve user');
+            console.error('Approve error:', error);
+        }
+    }
+
+    async rejectUser(userId) {
+        const reason = prompt('Rejection reason (optional):', '');
+        if (reason === null) return; // User cancelled
+
+        try {
+            this.showLoading(true);
+            const response = await this.fetchAPI(`/api/admin/reject-user/${userId}`, {
+                method: 'POST',
+                body: JSON.stringify({ reason: reason || undefined })
+            });
+            this.showLoading(false);
+            alert('User rejected and notified via email');
+            await this.loadPendingUsers();
+        } catch (error) {
+            this.showLoading(false);
+            alert('Failed to reject user');
+            console.error('Reject error:', error);
+        }
+    }
+
     escapeHtml(text) {
         const div = document.createElement('div');
         div.textContent = text;
@@ -568,6 +773,7 @@ class AnalyticsDashboard {
 }
 
 // Initialize dashboard when DOM is loaded
+let dashboard;
 document.addEventListener('DOMContentLoaded', () => {
-    new AnalyticsDashboard();
+    dashboard = new AnalyticsDashboard();
 });
