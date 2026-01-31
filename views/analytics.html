@@ -75,52 +75,78 @@
                     </div>
                 </div>
 
-                <div class="header-actions">
-                    <button id="updateDataBtn" class="btn-secondary" title="Update data from sources">
-                        <span>⬇ Update Data</span>
-                    </button>
-                    <button id="refreshBtn" class="btn-secondary" title="Refresh data">
-                        <span>⟳ Refresh</span>
-                    </button>
-                    <button id="logoutBtn" class="btn-secondary" title="Logout">
-                        <span>Logout</span>
-                    </button>
-                </div>
-            </div>
-        </header>
+                <section class="summary-section">
+                    <h2>Key metrics</h2>
+                    <div class="summary-cards modern-metrics-grid">
+                        <div class="card">
+                            <div class="card-icon metric-icon metric-icon-total">
+                                <img src="/img/icons/clipboard-list.svg" alt="Total Submissions" width="36" height="36" />
+                            </div>
+                            <h3>Total submissions</h3>
+                            <div class="metric" id="totalSubmissions">-</div>
+                            <p class="card-detail" id="submissionDetail"></p>
+                        </div>
+                        <div class="card">
+                            <div class="card-icon metric-icon metric-icon-improvement">
+                                <img src="/img/icons/trending-up.svg" alt="Average Improvement" width="36" height="36" />
+                            </div>
+                            <h3>Average improvement</h3>
+                            <div class="metric" id="avgImprovement">-</div>
+                            <p class="card-detail">Pre → Post feeling score</p>
+                        </div>
+                        <div class="card">
+                            <div class="card-icon metric-icon metric-icon-recommend">
+                                <img src="/img/icons/thumbs-up.svg" alt="Recommendation Rate" width="36" height="36" />
+                            </div>
+                            <h3>Recommendation rate</h3>
+                            <div class="metric" id="recommendationRate">-</div>
+                            <p class="card-detail">Would recommend</p>
+                        </div>
+                        <div class="card">
+                            <div class="card-icon metric-icon metric-icon-therapist">
+                                <img class="avatar" src="/img/therapists/dylan.jpg" alt="Dylan" width="36" height="36" />
+                            </div>
+                            <h3>Top therapist</h3>
+                            <div class="metric" id="topTherapist">-</div>
+                            <p class="card-detail" id="topTherapistDetail"></p>
+                        </div>
+                        <div class="card">
+                            <div class="card-icon metric-icon metric-icon-match">
+                                <img src="/img/icons/link.svg" alt="Match Quality" width="36" height="36" />
+                            </div>
+                            <h3>Match quality</h3>
+                            <div class="metric" id="matchQuality">-</div>
+                            <p class="card-detail" id="matchQualityDetail">Intake-feedback pairs</p>
+                        </div>
+                        <div class="card">
+                            <div class="card-icon metric-icon metric-icon-data">
+                                <img src="/img/icons/check-circle.svg" alt="Data Quality" width="36" height="36" />
+                            </div>
+                            <h3>Data quality</h3>
+                            <div class="metric" id="dataQuality">-</div>
+                            <p class="card-detail">Overall collection rate</p>
+                        </div>
+                    </div>
+                </section>
 
-        <!-- Main Content -->
-        <main class="dashboard-main">
-            <!-- Filters Section -->
-            <div class="filters-section">
-                <div class="filter-group">
-                    <label for="periodFilter">Time Period:</label>
-                    <select id="periodFilter">
-                        <option value="7">Last 7 days</option>
-                        <option value="30" selected>Last 30 days</option>
-                        <option value="90">Last 90 days</option>
-                        <option value="all">All time</option>
-                    </select>
-                </div>
-
-                <div class="filter-group">
-                    <label for="formTypeFilter">Form Type:</label>
-                    <select id="formTypeFilter">
-                        <option value="all" selected>All forms</option>
-                        <option value="seated">Seated only</option>
-                        <option value="table">Table only</option>
-                        <option value="feedback">Feedback only</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Admin Panel (visible only to admins) -->
-            <section id="adminPanel" class="admin-panel" style="display:none;">
-                <div class="admin-header">
-                    <h2>👨‍💼 User Management</h2>
-                    <button id="toggleAdminPanel" class="btn-small">▼ Hide</button>
-                </div>
-                <div id="adminContent" class="admin-content">
+                <!-- Day-by-Day Session Tracking Table -->
+                <section class="calendar-section">
+                    <h2>Day-by-day session tracking</h2>
+                    <div class="calendar-table-wrapper">
+                        <table class="calendar-table">
+                            <thead>
+                                <tr id="calendarDatesRow">
+                                    <th>Date</th>
+                                    <!-- JS will insert date columns here -->
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="calendarSessionsBody">
+                                <!-- JS will insert session rows here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
                     <div class="admin-section">
                         <h3>Pending Registrations (<span id="pendingCount">0</span>)</h3>
                         <div id="pendingUsersList" class="pending-list">

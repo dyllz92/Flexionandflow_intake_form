@@ -1,18 +1,15 @@
 /* Analytics Dashboard Styles */
 
 /* Root Variables */
-:root {
-    --primary-purple: #9D4EDD;
-    --dark-purple: #7B2CBF;
-    --light-purple: #AD63ED;
-    --white: #FFFFFF;
-    --bg-dark: #0E0E0E;
-    --bg-card: rgba(255, 255, 255, 0.95);
-    --text-dark: #1A1A1A;
-    --text-light: #666666;
-    --border-light: #E0E0E0;
-    --shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.2);
+ :root {
+     --bg-main: #0f1419;
+     --accent-purple: #8b5cf6;
+     --success-green: #10b981;
+     --info-blue: #3b82f6;
+     --soft-dark: #1a1a2e;
+     --softer-dark: #16213e;
+     --white: #fff;
+     --shadow: 0 4px 24px rgba(16,24,39,0.12);
 }
 
 /* Login Screen */
@@ -180,40 +177,42 @@
     font-size: 14px;
     font-weight: 600;
     transition: all 0.3s ease;
-}
-
-.header-actions button:hover {
-    background: rgba(157, 78, 221, 0.3);
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, auto);
+        gap: 32px;
+        margin-bottom: 48px;
     border-color: var(--primary-purple);
 }
 
-/* Main Content */
-.dashboard-main {
-    flex: 1;
-    max-width: 1400px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 30px 20px;
-    box-sizing: border-box;
-}
-
+        background: rgba(30, 34, 45, 0.7);
+        backdrop-filter: blur(8px);
+        border-radius: 18px;
+        box-shadow: var(--shadow);
+        border: 1px solid rgba(255,255,255,0.08);
+        text-align: center;
+        transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 36px 28px 28px 28px;
 /* Filters */
 .filters-section {
-    display: flex;
-    gap: 20px;
-    margin-bottom: 30px;
+        box-shadow: 0 8px 32px rgba(16,24,39,0.18);
+        border-color: var(--accent-purple);
+        transform: translateY(-4px) scale(1.02);
     flex-wrap: wrap;
 }
 
-.filter-group {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.filter-group label {
-    color: var(--white);
-    font-weight: 600;
+        width: 64px;
+        height: 64px;
+        background: none;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 18px;
+        box-shadow: none;
     font-size: 14px;
 }
 
@@ -226,89 +225,97 @@
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.filter-group select:hover {
-    border-color: #9D4EDD;
-    background: #1a1a1a;
+        font-size: 1.1rem;
+        color: #e5e7eb;
+        font-weight: 400;
+        margin: 0 0 12px 0;
+        text-transform: none;
+        letter-spacing: 0.2px;
 }
 
 .filter-group select:focus {
-    outline: none;
-    border-color: #9D4EDD;
-    box-shadow: 0 0 0 3px rgba(157, 78, 221, 0.2);
-}
-
+        font-size: 2.8rem;
+        font-weight: 700;
+        color: var(--accent-purple);
+        margin: 8px 0 12px 0;
+        line-height: 1.1;
 .filter-group select option {
     background: #1a1a1a;
     color: #FFFFFF;
-}
-
-/* Summary Section */
-.summary-section h2 {
+        font-size: 1rem;
+        color: #8b98a5;
+        margin: 0;
+        line-height: 1.5;
+        font-weight: 300;
     color: var(--white);
     font-size: 22px;
+    /* Calendar Table Styles */
+    .calendar-section {
+        margin-bottom: 48px;
+    }
+    .calendar-table-wrapper {
+        overflow-x: auto;
+        background: rgba(30,34,45,0.7);
+        border-radius: 14px;
+        box-shadow: var(--shadow);
+        padding: 0 0 8px 0;
+    }
+    .calendar-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 700px;
+        background: transparent;
+    }
+    .calendar-table th, .calendar-table td {
+        padding: 14px 18px;
+        text-align: center;
+        font-size: 1rem;
+    }
+    .calendar-table th {
+        background: var(--softer-dark);
+        color: #fff;
+        font-weight: 600;
+        border-bottom: 2px solid var(--accent-purple);
+    }
+    .calendar-table td {
+        color: #e5e7eb;
+        border-bottom: 1px solid rgba(139,92,246,0.08);
+    }
+    .calendar-table tr:nth-child(even) {
+        background: rgba(255,255,255,0.03);
+    }
+    .calendar-table tr:hover td {
+        background: rgba(139,92,246,0.07);
+    }
+    .calendar-table .total-col {
+        font-weight: 700;
+        color: var(--success-green);
+    }
     margin: 0 0 24px 0;
     font-weight: 700;
     letter-spacing: 0.3px;
-}
-
-.summary-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 20px;
-    margin-bottom: 40px;
-}
-
-.card {
-    background: transparent;
-    border-radius: 16px;
-    padding: 28px 24px;
-    box-shadow: none;
-    text-align: center;
-    transition: all 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-    border-color: var(--primary-purple);
-}
-
-.card-icon {
-    width: 100px;
-    height: 100px;
-    background: rgba(157, 78, 221, 0.08);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 48px;
-    margin-bottom: 16px;
-}
-
-.card:hover .card-icon {
-    background: rgba(157, 78, 221, 0.12);
-}
-
-.card h3 {
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.7);
-    font-weight: 600;
-    margin: 0 0 12px 0;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-}
-
-.metric {
-    font-size: 36px;
-    font-weight: 700;
-    color: #9D4EDD;
+        .summary-cards.modern-metrics-grid {
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: repeat(3, auto);
+        }
+        .calendar-table {
+            min-width: 500px;
+        }
+    }
+    @media (max-width: 600px) {
+        .summary-cards.modern-metrics-grid {
+            grid-template-columns: 1fr;
+            grid-template-rows: repeat(6, auto);
+        }
+        .calendar-table {
+            min-width: 350px;
+        }
+        .card {
+            padding: 16px;
+        }
+        .metric {
+            font-size: 1.5rem;
+        }
     margin: 8px 0 12px 0;
     line-height: 1;
 }

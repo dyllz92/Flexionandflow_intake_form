@@ -278,7 +278,7 @@ class AnalyticsDashboard {
             const formType = document.getElementById('formTypeFilter').value;
 
             // Fetch all analytics data in parallel
-            const [summary, trends, health, therapists, pressure, feelings, healthNotes, dataQuality] = await Promise.all([
+            const [summary, trends, health, therapists, pressure, feelings, healthNotes, dataQuality, sessions] = await Promise.all([
                 this.fetchAPI(`/api/analytics/summary`),
                 this.fetchAPI(`/api/analytics/trends?period=${period}`),
                 this.fetchAPI(`/api/analytics/health-issues`),
@@ -286,7 +286,8 @@ class AnalyticsDashboard {
                 this.fetchAPI(`/api/analytics/pressure`),
                 this.fetchAPI(`/api/analytics/feeling-scores`),
                 this.fetchAPI(`/api/analytics/health-notes`).catch(() => null),
-                this.fetchAPI(`/api/analytics/data-quality`).catch(() => null)
+                this.fetchAPI(`/api/analytics/data-quality`).catch(() => null),
+                this.fetchAPI(`/api/analytics/sessions?period=${period}`).catch(() => null)
             ]);
 
             this.renderSummaryCards(summary);
@@ -298,6 +299,7 @@ class AnalyticsDashboard {
 
             if (healthNotes) this.renderHealthNotes(healthNotes);
             if (dataQuality) this.renderDataQuality(dataQuality);
+            if (sessions) this.renderSessionCalendar(sessions);
 
             this.showLoading(false);
         } catch (error) {
@@ -311,6 +313,49 @@ class AnalyticsDashboard {
             console.error('Error loading dashboard:', error);
             alert('Failed to load dashboard data. Please refresh the page.');
         }
+    }
+
+    /**
+     * Render the day-by-day session tracking table
+     * @param {Object} sessions - { dates: ["27/1", ...], counts: [14, 19, ...] }
+     */
+    renderSessionCalendar(sessions) {
+        const datesRow = document.getElementById('calendarDatesRow');
+        const body = document.getElementById('calendarSessionsBody');
+        if (!datesRow || !body) return;
+
+        // Clear previous
+        datesRow.innerHTML = '<th>Date</th>';
+        body.innerHTML = '';
+
+        // Insert date columns
+        (sessions.dates || []).forEach(date => {
+            const th = document.createElement('th');
+            th.textContent = date;
+            datesRow.appendChild(th);
+        });
+        const totalTh = document.createElement('th');
+        totalTh.textContent = 'Total';
+        totalTh.className = 'total-col';
+        datesRow.appendChild(totalTh);
+
+        // Insert session row
+        const tr = document.createElement('tr');
+        const labelTd = document.createElement('td');
+        labelTd.textContent = 'Sessions';
+        tr.appendChild(labelTd);
+        let total = 0;
+        (sessions.counts || []).forEach(count => {
+            const td = document.createElement('td');
+            td.textContent = (count === null || count === undefined || count === '-') ? '-' : count;
+            if (typeof count === 'number') total += count;
+            tr.appendChild(td);
+        });
+        const totalTd = document.createElement('td');
+        totalTd.textContent = total;
+        totalTd.className = 'total-col';
+        tr.appendChild(totalTd);
+        body.appendChild(tr);
     }
 
     async fetchAPI(endpoint, options = {}) {
