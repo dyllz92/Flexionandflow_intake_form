@@ -56,7 +56,7 @@ class UserStore {
     /**
      * Create a new user account
      */
-    async createUser(email, firstName, lastName, password, role = 'manager') {
+    async createUser(email, firstName, lastName, dateOfBirth, password, role = 'manager') {
         // Validate inputs
         if (!this.validateEmail(email)) {
             throw new Error('Invalid email address');
@@ -66,6 +66,9 @@ class UserStore {
         }
         if (!this.validateLastName(lastName)) {
             throw new Error('Last name must be 2-50 characters and contain only letters, spaces, hyphens, and apostrophes');
+        }
+        if (!this.validateDateOfBirth(dateOfBirth)) {
+            throw new Error('Date of birth must be a valid date (YYYY-MM-DD format)');
         }
         if (!this.validatePassword(password)) {
             throw new Error('Password must be at least 8 characters, containing uppercase and lowercase letters');
@@ -87,6 +90,7 @@ class UserStore {
             email,
             firstName: firstName.trim(),
             lastName: lastName.trim(),
+            dateOfBirth: dateOfBirth.trim(),
             passwordHash,
             role,
             status: 'pending',
@@ -99,7 +103,7 @@ class UserStore {
         users.push(newUser);
         await this.saveUsers(users);
 
-        return { id: newUser.id, email, firstName: newUser.firstName, lastName: newUser.lastName, status: 'pending' };
+        return { id: newUser.id, email, firstName: newUser.firstName, lastName: newUser.lastName, dateOfBirth: newUser.dateOfBirth, status: 'pending' };
     }
 
     /**
@@ -210,6 +214,7 @@ class UserStore {
                 email: adminEmail,
                 firstName: 'Admin',
                 lastName: 'User',
+                dateOfBirth: '1990-01-01',
                 passwordHash,
                 role: 'admin',
                 status: 'approved',
@@ -239,6 +244,19 @@ class UserStore {
     validateLastName(lastName) {
         if (!lastName || lastName.trim().length < 2 || lastName.trim().length > 50) return false;
         return /^[a-zA-Z\s'-]+$/.test(lastName.trim());
+    }
+
+    /**
+     * Validate date of birth format (YYYY-MM-DD)
+     */
+    validateDateOfBirth(dateOfBirth) {
+        if (!dateOfBirth) return false;
+        const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+        if (!dateRegex.test(dateOfBirth)) return false;
+
+        // Validate the date is actually valid
+        const date = new Date(dateOfBirth);
+        return date instanceof Date && !isNaN(date);
     }
 
     /**

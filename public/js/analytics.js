@@ -158,6 +158,7 @@ class AnalyticsDashboard {
         const email = document.getElementById('regEmail').value;
         const firstName = document.getElementById('regFirstName').value;
         const lastName = document.getElementById('regLastName').value;
+        const dateOfBirth = document.getElementById('regDateOfBirth').value;
         const password = document.getElementById('regPassword').value;
         const confirmPassword = document.getElementById('regConfirmPassword').value;
         const errorDiv = document.getElementById('loginError');
@@ -172,7 +173,7 @@ class AnalyticsDashboard {
             const response = await fetch('/api/auth/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, firstName, lastName, password, confirmPassword })
+                body: JSON.stringify({ email, firstName, lastName, dateOfBirth, password, confirmPassword })
             });
 
             this.showLoading(false);

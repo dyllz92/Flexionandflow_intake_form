@@ -272,7 +272,7 @@ app.post('/api/admin/approve-user/:userId', authMiddleware, adminMiddleware, asy
         const user = await userStore.updateUserStatus(userId, 'approved', req.user.userId);
 
         // Send approval email
-        await emailService.sendApprovalEmail(user.email, user.firstName, user.lastName);
+        await emailService.sendApprovalEmail(user.email, user.firstName);
 
         res.json({
             success: true,
@@ -294,7 +294,7 @@ app.post('/api/admin/reject-user/:userId', authMiddleware, adminMiddleware, asyn
         const user = await userStore.updateUserStatus(userId, 'rejected', req.user.userId);
 
         // Send rejection email
-        await emailService.sendRejectionEmail(user.email, user.firstName, user.lastName, reason);
+        await emailService.sendRejectionEmail(user.email, user.firstName, reason);
 
         // Remove rejected user to allow re-registration
         await userStore.deleteRejectedUser(user.email);

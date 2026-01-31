@@ -58,7 +58,7 @@ class EmailService {
     /**
      * Send approval email
      */
-    async sendApprovalEmail(email, firstName, lastName) {
+    async sendApprovalEmail(email, firstName) {
         if (!this.initialized || !this.transporter) {
             console.log(`[SKIPPED EMAIL] Approval email to ${email} - email service not configured`);
             return { success: false, message: 'Email service not configured' };
@@ -72,11 +72,11 @@ class EmailService {
                 from: emailFrom,
                 to: email,
                 subject: 'Your Analytics Dashboard Access Has Been Approved',
-                html: this.getApprovalEmailTemplate(firstName, lastName, dashboardUrl)
+                html: this.getApprovalEmailTemplate(firstName, dashboardUrl)
             };
 
             const result = await this.transporter.sendMail(mailOptions);
-            console.log(`✓ Approval email sent to ${email} (${firstName} ${lastName})`, result.messageId);
+            console.log(`✓ Approval email sent to ${email} (${firstName})`, result.messageId);
             return { success: true, messageId: result.messageId };
         } catch (error) {
             console.error(`✗ Failed to send approval email to ${email}:`, error.message);
@@ -87,7 +87,7 @@ class EmailService {
     /**
      * Send rejection email
      */
-    async sendRejectionEmail(email, firstName, lastName, reason = '') {
+    async sendRejectionEmail(email, firstName, reason = '') {
         if (!this.initialized || !this.transporter) {
             console.log(`[SKIPPED EMAIL] Rejection email to ${email} - email service not configured`);
             return { success: false, message: 'Email service not configured' };
@@ -100,11 +100,11 @@ class EmailService {
                 from: emailFrom,
                 to: email,
                 subject: 'Your Analytics Dashboard Registration',
-                html: this.getRejectionEmailTemplate(firstName, lastName, reason)
+                html: this.getRejectionEmailTemplate(firstName, reason)
             };
 
             const result = await this.transporter.sendMail(mailOptions);
-            console.log(`✓ Rejection email sent to ${email} (${firstName} ${lastName})`, result.messageId);
+            console.log(`✓ Rejection email sent to ${email} (${firstName})`, result.messageId);
             return { success: true, messageId: result.messageId };
         } catch (error) {
             console.error(`✗ Failed to send rejection email to ${email}:`, error.message);
@@ -115,7 +115,7 @@ class EmailService {
     /**
      * Get approval email HTML template
      */
-    getApprovalEmailTemplate(firstName, lastName, dashboardUrl) {
+    getApprovalEmailTemplate(firstName, dashboardUrl) {
         return `
 <!DOCTYPE html>
 <html>
@@ -136,7 +136,7 @@ class EmailService {
             <h1>Welcome! 🎉</h1>
         </div>
         <div class="content">
-            <p>Hi <strong>${this.escapeHtml(firstName)} ${this.escapeHtml(lastName)}</strong>,</p>
+            <p>Hi <strong>${this.escapeHtml(firstName)}</strong>,</p>
             <p>Great news! Your registration for the Analytics Dashboard has been <strong>approved</strong>.</p>
             <p>You can now log in and access the dashboard:</p>
             <p style="text-align: center;">
@@ -158,7 +158,7 @@ class EmailService {
     /**
      * Get rejection email HTML template
      */
-    getRejectionEmailTemplate(firstName, lastName, reason) {
+    getRejectionEmailTemplate(firstName, reason) {
         const reasonText = reason ? `<p><strong>Reason:</strong> ${this.escapeHtml(reason)}</p>` : '';
         return `
 <!DOCTYPE html>
@@ -179,7 +179,7 @@ class EmailService {
             <h1>Registration Status</h1>
         </div>
         <div class="content">
-            <p>Hi <strong>${this.escapeHtml(firstName)} ${this.escapeHtml(lastName)}</strong>,</p>
+            <p>Hi <strong>${this.escapeHtml(firstName)}</strong>,</p>
             <p>Thank you for registering for the Analytics Dashboard.</p>
             <p>Unfortunately, your registration could not be approved at this time.</p>
             ${reasonText}

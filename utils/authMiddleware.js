@@ -210,12 +210,12 @@ async function login(req, res) {
  */
 async function register(req, res) {
   try {
-    const { email, firstName, lastName, password, confirmPassword } = req.body;
+    const { email, firstName, lastName, dateOfBirth, password, confirmPassword } = req.body;
     const userStore = new UserStore();
 
     // Validate input
-    if (!email || !firstName || !lastName || !password) {
-      return res.status(400).json({ error: 'Email, first name, last name, and password required' });
+    if (!email || !firstName || !lastName || !dateOfBirth || !password) {
+      return res.status(400).json({ error: 'Email, first name, last name, date of birth, and password required' });
     }
 
     if (password !== confirmPassword) {
@@ -223,7 +223,7 @@ async function register(req, res) {
     }
 
     // Create user
-    const user = await userStore.createUser(email, firstName, lastName, password);
+    const user = await userStore.createUser(email, firstName, lastName, dateOfBirth, password);
 
     return res.status(201).json({
       success: true,
@@ -231,7 +231,8 @@ async function register(req, res) {
       userId: user.id,
       email: user.email,
       firstName: user.firstName,
-      lastName: user.lastName
+      lastName: user.lastName,
+      dateOfBirth: user.dateOfBirth
     });
   } catch (error) {
     console.error('Registration error:', error);
@@ -241,7 +242,7 @@ async function register(req, res) {
       return res.status(409).json({ error: error.message });
     }
 
-    if (error.message.includes('must be')) {
+    if (error.message.includes('must be') || error.message.includes('must be a valid')) {
       return res.status(400).json({ error: error.message });
     }
 

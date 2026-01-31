@@ -30,7 +30,10 @@
       "Bash(npm install:*)",
       "Bash(grep:*)",
       "Bash(\"G:\\\\Shared drives\\\\App Uploads\\\\Intake Forms\")",
-      "Bash(python3:*)"
+      "Bash(python3:*)",
+      "Bash(kill:*)",
+      "Bash(cmd /c:*)",
+      "Bash(PORT=3001 npm start)"
     ]
   }
 }
