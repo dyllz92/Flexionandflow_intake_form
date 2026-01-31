@@ -28,7 +28,9 @@
       "Bash(do node -c \"$file\")",
       "Bash(npm ci:*)",
       "Bash(npm install:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(\"G:\\\\Shared drives\\\\App Uploads\\\\Intake Forms\")",
+      "Bash(python3:*)"
     ]
   }
 }
