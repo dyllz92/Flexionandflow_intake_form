@@ -45,6 +45,24 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(express.static(publicDir));
 
+// Ensure required directories exist
+const requiredDirs = [
+    path.join(__dirname, 'metadata'),
+    path.join(__dirname, 'pdfs'),
+    path.join(__dirname, 'public')
+];
+
+requiredDirs.forEach(dir => {
+    if (!fs.existsSync(dir)) {
+        try {
+            fs.mkdirSync(dir, { recursive: true });
+            console.log(`[Init] Created directory: ${dir}`);
+        } catch (error) {
+            console.error(`[Init] Failed to create directory ${dir}:`, error.message);
+        }
+    }
+});
+
 // Initialize analytics modules
 const metadataStore = new MetadataStore(driveUploader);
 const masterFileManager = new MasterFileManager();
