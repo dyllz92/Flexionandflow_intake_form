@@ -52,10 +52,30 @@ class AnalyticsDashboard {
             this.handleLogin();
         });
 
+        // Clear login error message when user starts editing fields
+        document.getElementById('loginEmail')?.addEventListener('input', () => {
+            const errorDiv = document.getElementById('loginError');
+            if (errorDiv) errorDiv.style.display = 'none';
+        });
+
+        document.getElementById('loginPassword')?.addEventListener('input', () => {
+            const errorDiv = document.getElementById('loginError');
+            if (errorDiv) errorDiv.style.display = 'none';
+        });
+
         // Registration form
         document.getElementById('registerForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
             this.handleRegister();
+        });
+
+        // Clear registration error message when user starts editing fields
+        const registrationFields = ['regEmail', 'regFirstName', 'regLastName', 'regDateOfBirth', 'regPassword', 'regConfirmPassword'];
+        registrationFields.forEach(fieldId => {
+            document.getElementById(fieldId)?.addEventListener('input', () => {
+                const errorDiv = document.getElementById('loginError');
+                if (errorDiv) errorDiv.style.display = 'none';
+            });
         });
 
         // Dashboard actions
@@ -132,24 +152,37 @@ class AnalyticsDashboard {
     }
 
     showLogin() {
-        document.getElementById('loginScreen').style.display = 'flex';
-        document.getElementById('dashboardScreen').style.display = 'none';
+        const loginScreen = document.getElementById('loginScreen');
+        const dashboardScreen = document.getElementById('dashboardScreen');
+        if (loginScreen) loginScreen.style.display = 'flex';
+        if (dashboardScreen) dashboardScreen.style.display = 'none';
     }
 
     showDashboard() {
-        document.getElementById('loginScreen').style.display = 'none';
-        document.getElementById('dashboardScreen').style.display = 'flex';
+        const loginScreen = document.getElementById('loginScreen');
+        const dashboardScreen = document.getElementById('dashboardScreen');
+        if (loginScreen) loginScreen.style.display = 'none';
+        if (dashboardScreen) dashboardScreen.style.display = 'flex';
     }
 
     showLoading(show = true) {
-        document.getElementById('loadingSpinner').style.display = show ? 'flex' : 'none';
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        if (loadingSpinner) loadingSpinner.style.display = show ? 'flex' : 'none';
     }
 
     async handleLogin() {
-        const email = document.getElementById('loginEmail').value;
-        const password = document.getElementById('loginPassword').value;
+        const emailEl = document.getElementById('loginEmail');
+        const passwordEl = document.getElementById('loginPassword');
         const errorDiv = document.getElementById('loginError');
-        errorDiv.style.display = 'none';
+
+        if (!emailEl || !passwordEl) {
+            console.error('Login form elements not found');
+            return;
+        }
+
+        const email = emailEl.value;
+        const password = passwordEl.value;
+        if (errorDiv) errorDiv.style.display = 'none';
 
         try {
             this.showLoading(true);
@@ -174,7 +207,8 @@ class AnalyticsDashboard {
                 localStorage.setItem('analyticsUserLastName', data.lastName);
                 localStorage.setItem('analyticsUserDOB', data.dateOfBirth);
                 localStorage.setItem('analyticsUserCreatedAt', data.createdAt);
-                document.getElementById('loginForm').reset();
+                const loginForm = document.getElementById('loginForm');
+                if (loginForm) loginForm.reset();
 
                 // Update UI with user's first name
                 const userFirstNameElement = document.getElementById('userFirstName');
@@ -203,17 +237,29 @@ class AnalyticsDashboard {
     }
 
     async handleRegister() {
-        const email = document.getElementById('regEmail').value;
-        const firstName = document.getElementById('regFirstName').value;
-        const lastName = document.getElementById('regLastName').value;
-        const dateOfBirth = document.getElementById('regDateOfBirth').value;
-        const password = document.getElementById('regPassword').value;
-        const confirmPassword = document.getElementById('regConfirmPassword').value;
+        const emailEl = document.getElementById('regEmail');
+        const firstNameEl = document.getElementById('regFirstName');
+        const lastNameEl = document.getElementById('regLastName');
+        const dateOfBirthEl = document.getElementById('regDateOfBirth');
+        const passwordEl = document.getElementById('regPassword');
+        const confirmPasswordEl = document.getElementById('regConfirmPassword');
         const errorDiv = document.getElementById('loginError');
         const successDiv = document.getElementById('registerSuccess');
 
-        errorDiv.style.display = 'none';
-        successDiv.style.display = 'none';
+        if (!emailEl || !firstNameEl || !lastNameEl || !dateOfBirthEl || !passwordEl || !confirmPasswordEl) {
+            console.error('Registration form elements not found');
+            return;
+        }
+
+        const email = emailEl.value;
+        const firstName = firstNameEl.value;
+        const lastName = lastNameEl.value;
+        const dateOfBirth = dateOfBirthEl.value;
+        const password = passwordEl.value;
+        const confirmPassword = confirmPasswordEl.value;
+
+        if (errorDiv) errorDiv.style.display = 'none';
+        if (successDiv) successDiv.style.display = 'none';
 
         try {
             this.showLoading(true);
@@ -228,35 +274,52 @@ class AnalyticsDashboard {
 
             if (response.status === 201) {
                 const data = await response.json();
-                successDiv.textContent = '✓ ' + data.message + ' You will receive an email once approved.';
-                successDiv.style.display = 'block';
-                document.getElementById('registerForm').reset();
+                if (successDiv) {
+                    successDiv.textContent = '✓ ' + data.message + ' You will receive an email once approved.';
+                    successDiv.style.display = 'block';
+                }
+                const registerForm = document.getElementById('registerForm');
+                if (registerForm) registerForm.reset();
                 setTimeout(() => this.showLoginForm(), 3000);
             } else {
                 const data = await response.json();
-                errorDiv.textContent = data.error || 'Registration failed. Please try again.';
-                errorDiv.style.display = 'block';
+                if (errorDiv) {
+                    errorDiv.textContent = data.error || 'Registration failed. Please try again.';
+                    errorDiv.style.display = 'block';
+                }
             }
         } catch (error) {
             this.showLoading(false);
-            errorDiv.textContent = 'Registration failed. Please try again.';
-            errorDiv.style.display = 'block';
+            if (errorDiv) {
+                errorDiv.textContent = 'Registration failed. Please try again.';
+                errorDiv.style.display = 'block';
+            }
             console.error('Registration error:', error);
         }
     }
 
     showLoginForm() {
-        document.getElementById('loginForm').style.display = 'block';
-        document.getElementById('registerForm').style.display = 'none';
-        document.getElementById('loginError').style.display = 'none';
-        document.getElementById('registerSuccess').style.display = 'none';
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const loginError = document.getElementById('loginError');
+        const registerSuccess = document.getElementById('registerSuccess');
+
+        if (loginForm) loginForm.style.display = 'block';
+        if (registerForm) registerForm.style.display = 'none';
+        if (loginError) loginError.style.display = 'none';
+        if (registerSuccess) registerSuccess.style.display = 'none';
     }
 
     showRegistrationForm() {
-        document.getElementById('loginForm').style.display = 'none';
-        document.getElementById('registerForm').style.display = 'block';
-        document.getElementById('loginError').style.display = 'none';
-        document.getElementById('registerSuccess').style.display = 'none';
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const loginError = document.getElementById('loginError');
+        const registerSuccess = document.getElementById('registerSuccess');
+
+        if (loginForm) loginForm.style.display = 'none';
+        if (registerForm) registerForm.style.display = 'block';
+        if (loginError) loginError.style.display = 'none';
+        if (registerSuccess) registerSuccess.style.display = 'none';
     }
 
     checkPasswordStrength(password) {
@@ -349,13 +412,19 @@ class AnalyticsDashboard {
         }
 
         // Populate modal fields
-        document.getElementById('settingsEmail').textContent = email;
-        document.getElementById('settingsName').textContent = `${firstName} ${lastName}`.trim();
-        document.getElementById('settingsDOB').textContent = dobDisplay;
-        document.getElementById('settingsMemberSince').textContent = memberSinceDisplay;
+        const settingsEmail = document.getElementById('settingsEmail');
+        const settingsName = document.getElementById('settingsName');
+        const settingsDOB = document.getElementById('settingsDOB');
+        const settingsMemberSince = document.getElementById('settingsMemberSince');
+        const accountSettingsModal = document.getElementById('accountSettingsModal');
+
+        if (settingsEmail) settingsEmail.textContent = email;
+        if (settingsName) settingsName.textContent = `${firstName} ${lastName}`.trim();
+        if (settingsDOB) settingsDOB.textContent = dobDisplay;
+        if (settingsMemberSince) settingsMemberSince.textContent = memberSinceDisplay;
 
         // Show modal
-        document.getElementById('accountSettingsModal').style.display = 'flex';
+        if (accountSettingsModal) accountSettingsModal.style.display = 'flex';
     }
 
     async handleUpdateData() {
@@ -399,8 +468,10 @@ class AnalyticsDashboard {
         try {
             this.showLoading(true);
 
-            const period = document.getElementById('periodFilter').value;
-            const formType = document.getElementById('formTypeFilter').value;
+            const periodFilter = document.getElementById('periodFilter');
+            const formTypeFilter = document.getElementById('formTypeFilter');
+            const period = periodFilter?.value || '30';
+            const formType = formTypeFilter?.value || 'all';
 
             // Fetch all analytics data in parallel
             const [summary, trends, health, therapists, pressure, feelings, healthNotes, dataQuality, sessions] = await Promise.all([
@@ -943,19 +1014,29 @@ class AnalyticsDashboard {
 
         container.style.display = 'block';
 
-        const metrics = data.qualityMetrics;
+        const metrics = data?.qualityMetrics;
+        if (!metrics) return;
 
-        document.getElementById('timestampQuality').style.width = `${metrics.submissionDatesAccuracy}%`;
-        document.getElementById('timestampValue').textContent = `${metrics.submissionDatesAccuracy}%`;
+        const timestampQuality = document.getElementById('timestampQuality');
+        const timestampValue = document.getElementById('timestampValue');
+        const contactQuality = document.getElementById('contactQuality');
+        const contactValue = document.getElementById('contactValue');
+        const commentsQuality = document.getElementById('commentsQuality');
+        const commentsValue = document.getElementById('commentsValue');
+        const healthQuality = document.getElementById('healthQuality');
+        const healthValue = document.getElementById('healthValue');
 
-        document.getElementById('contactQuality').style.width = `${metrics.contactInfoComplete}%`;
-        document.getElementById('contactValue').textContent = `${metrics.contactInfoComplete}%`;
+        if (timestampQuality) timestampQuality.style.width = `${metrics.submissionDatesAccuracy}%`;
+        if (timestampValue) timestampValue.textContent = `${metrics.submissionDatesAccuracy}%`;
 
-        document.getElementById('commentsQuality').style.width = `${metrics.commentsCapture}%`;
-        document.getElementById('commentsValue').textContent = `${metrics.commentsCapture}%`;
+        if (contactQuality) contactQuality.style.width = `${metrics.contactInfoComplete}%`;
+        if (contactValue) contactValue.textContent = `${metrics.contactInfoComplete}%`;
 
-        document.getElementById('healthQuality').style.width = `${metrics.healthNotesCapture}%`;
-        document.getElementById('healthValue').textContent = `${metrics.healthNotesCapture}%`;
+        if (commentsQuality) commentsQuality.style.width = `${metrics.commentsCapture}%`;
+        if (commentsValue) commentsValue.textContent = `${metrics.commentsCapture}%`;
+
+        if (healthQuality) healthQuality.style.width = `${metrics.healthNotesCapture}%`;
+        if (healthValue) healthValue.textContent = `${metrics.healthNotesCapture}%`;
     }
 
     showAdminPanel() {
