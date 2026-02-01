@@ -277,10 +277,19 @@ app.post('/api/submit-form', async (req, res) => {
     }
 });
 
+// Wrapper to handle async errors in routes
+const asyncHandler = (fn) => (req, res, next) => {
+    Promise.resolve(fn(req, res, next)).catch(err => {
+        console.error('[Route Error]', req.path, ':', err.message);
+        console.error(err.stack);
+        res.status(500).json({ error: 'Internal server error' });
+    });
+};
+
 // Authentication endpoints
-app.post('/api/auth/login', login);
-app.post('/api/auth/register', register);
-app.post('/api/auth/logout', authMiddleware, logout);
+app.post('/api/auth/login', asyncHandler(login));
+app.post('/api/auth/register', asyncHandler(register));
+app.post('/api/auth/logout', authMiddleware, asyncHandler(logout));
 
 // Admin user management endpoints
 app.get('/api/admin/pending-users', authMiddleware, adminMiddleware, async (req, res) => {
@@ -564,6 +573,22 @@ app.get('/api/health', (req, res) => {
     }
 });
 
+// Global error handling middleware for Express
+app.use((err, req, res, next) => {
+    console.error('[Express Error]', req.method, req.path);
+    console.error('Error:', err.message);
+    if (err.stack) console.error(err.stack);
+
+    // Don't crash the server - return error response
+    if (!res.headersSent) {
+        res.status(err.status || 500).json({
+            error: process.env.NODE_ENV === 'production'
+                ? 'Internal server error'
+                : err.message
+        });
+    }
+});
+
 // SPA fallback for built frontend; keeps API routes untouched
 if (spaDir) {
     app.get('*', (req, res, next) => {
@@ -647,13 +672,19 @@ server.on('error', (error) => {
 
 // Error handling
 process.on('uncaughtException', (error) => {
-    console.error('[Process] Uncaught Exception:', error);
-    process.exit(1);
+    console.error('[Process] Uncaught Exception:', error.message);
+    console.error(error.stack);
+    // Don't exit immediately - try to keep the server running
+    console.error('[Process] Attempting to continue running despite uncaught exception');
 });
 
 process.on('unhandledRejection', (error) => {
-    console.error('[Process] Unhandled Rejection:', error);
-    process.exit(1);
+    console.error('[Process] Unhandled Rejection:', error.message || error);
+    if (error && error.stack) {
+        console.error(error.stack);
+    }
+    // Don't exit immediately - try to keep the server running
+    console.error('[Process] Attempting to continue running despite unhandled rejection');
 });
 
 // Graceful shutdown handling for Railway/Docker
