@@ -468,13 +468,32 @@ class AnalyticsDashboard {
         try {
             this.showLoading(true);
 
-            const periodFilter = document.getElementById('periodFilter');
-            const formTypeFilter = document.getElementById('formTypeFilter');
-            const period = periodFilter?.value || '30';
-            const formType = formTypeFilter?.value || 'all';
+            // Get filter values with safe defaults
+            let period = '30';
+            let formType = 'all';
+
+            try {
+                const periodFilter = document.getElementById('periodFilter');
+                if (periodFilter && periodFilter.value) {
+                    period = periodFilter.value;
+                }
+            } catch (e) {
+                console.warn('Could not access periodFilter:', e.message);
+            }
+
+            try {
+                const formTypeFilter = document.getElementById('formTypeFilter');
+                if (formTypeFilter && formTypeFilter.value) {
+                    formType = formTypeFilter.value;
+                }
+            } catch (e) {
+                console.warn('Could not access formTypeFilter:', e.message);
+            }
+
+            console.log('Loading dashboard with period:', period, 'formType:', formType);
 
             // Fetch all analytics data in parallel
-            const [summary, trends, health, therapists, pressure, feelings, healthNotes, dataQuality, sessions] = await Promise.all([
+            const responses = await Promise.all([
                 this.fetchAPI(`/api/analytics/summary`),
                 this.fetchAPI(`/api/analytics/trends?period=${period}`),
                 this.fetchAPI(`/api/analytics/health-issues`),
@@ -486,28 +505,77 @@ class AnalyticsDashboard {
                 this.fetchAPI(`/api/analytics/sessions?period=${period}`).catch(() => null)
             ]);
 
-            this.renderSummaryCards(summary);
-            this.renderTrendsChart(trends);
-            this.renderHealthChart(health);
-            this.renderTherapistsChart(therapists);
-            this.renderPressureChart(pressure);
-            this.renderFeelingsChart(feelings);
+            const [summary, trends, health, therapists, pressure, feelings, healthNotes, dataQuality, sessions] = responses;
 
-            if (healthNotes) this.renderHealthNotes(healthNotes);
-            if (dataQuality) this.renderDataQuality(dataQuality);
-            if (sessions) this.renderSessionCalendar(sessions);
+            // Safely render each section
+            try {
+                if (summary) this.renderSummaryCards(summary);
+            } catch (e) {
+                console.error('Error rendering summary cards:', e);
+            }
 
+            try {
+                if (trends) this.renderTrendsChart(trends);
+            } catch (e) {
+                console.error('Error rendering trends chart:', e);
+            }
+
+            try {
+                if (health) this.renderHealthChart(health);
+            } catch (e) {
+                console.error('Error rendering health chart:', e);
+            }
+
+            try {
+                if (therapists) this.renderTherapistsChart(therapists);
+            } catch (e) {
+                console.error('Error rendering therapists chart:', e);
+            }
+
+            try {
+                if (pressure) this.renderPressureChart(pressure);
+            } catch (e) {
+                console.error('Error rendering pressure chart:', e);
+            }
+
+            try {
+                if (feelings) this.renderFeelingsChart(feelings);
+            } catch (e) {
+                console.error('Error rendering feelings chart:', e);
+            }
+
+            try {
+                if (healthNotes) this.renderHealthNotes(healthNotes);
+            } catch (e) {
+                console.error('Error rendering health notes:', e);
+            }
+
+            try {
+                if (dataQuality) this.renderDataQuality(dataQuality);
+            } catch (e) {
+                console.error('Error rendering data quality:', e);
+            }
+
+            try {
+                if (sessions) this.renderSessionCalendar(sessions);
+            } catch (e) {
+                console.error('Error rendering session calendar:', e);
+            }
+
+            console.log('Dashboard loaded successfully');
             this.showLoading(false);
         } catch (error) {
             this.showLoading(false);
 
             if (error.status === 401) {
+                console.warn('Session expired, logging out');
                 this.handleLogout();
                 return;
             }
 
             console.error('Error loading dashboard:', error);
-            alert('Failed to load dashboard data. Please refresh the page.');
+            console.error('Error details:', error.message, error.stack);
+            alert('Failed to load dashboard data. Please refresh the page. (Check console for details)');
         }
     }
 
