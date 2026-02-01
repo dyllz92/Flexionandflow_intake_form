@@ -413,32 +413,73 @@ class AnalyticsDashboard {
     }
 
     renderSummaryCards(data) {
-        document.getElementById('totalSubmissions').textContent = data.totalSubmissions;
-        document.getElementById('submissionDetail').textContent =
-            `${data.totalIntakes} intakes, ${data.totalFeedback} feedback`;
+        // Validate input data
+        if (!data || typeof data !== 'object') {
+            console.warn('Invalid data passed to renderSummaryCards:', data);
+            return;
+        }
 
-        document.getElementById('avgImprovement').textContent =
-            data.avgImprovement > 0 ? `+${data.avgImprovement}` : data.avgImprovement;
+        // Helper function to safely set element text
+        const setText = (elementId, value) => {
+            const el = document.getElementById(elementId);
+            if (el) {
+                el.textContent = value || '-';
+            }
+        };
 
-        document.getElementById('recommendationRate').textContent =
-            data.recommendationRate !== 0 ? `${data.recommendationRate}%` : 'N/A';
+        // Total Submissions
+        setText('totalSubmissions', data.totalSubmissions || '-');
+        const intakeCount = data.totalIntakes !== undefined ? data.totalIntakes : '-';
+        const feedbackCount = data.totalFeedback !== undefined ? data.totalFeedback : '-';
+        setText('submissionDetail', `${intakeCount} intakes, ${feedbackCount} feedback`);
 
-        document.getElementById('topTherapist').textContent = data.topTherapist;
-        document.getElementById('topTherapistDetail').textContent =
-            `${data.topTherapistSessions} sessions`;
+        // Average Improvement
+        if (data.avgImprovement !== undefined && data.avgImprovement !== null) {
+            setText('avgImprovement', data.avgImprovement > 0 ? `+${data.avgImprovement}` : data.avgImprovement);
+        } else {
+            setText('avgImprovement', '-');
+        }
 
-        // Match quality
-        const matchQuality = Math.round((data.matchedFeedbackRate || 0) / 10) * 10;
-        document.getElementById('matchQuality').textContent = `${matchQuality}%`;
-        document.getElementById('matchQualityDetail').textContent =
-            `${data.matchedFeedbackRate}% matched`;
+        // Recommendation Rate
+        if (data.recommendationRate !== undefined && data.recommendationRate !== null) {
+            setText('recommendationRate', data.recommendationRate !== 0 ? `${data.recommendationRate}%` : 'N/A');
+        } else {
+            setText('recommendationRate', 'N/A');
+        }
 
-        // Data quality
-        document.getElementById('dataQuality').textContent = 'Good';
+        // Top Therapist
+        setText('topTherapist', data.topTherapist || '-');
+        const sessions = data.topTherapistSessions !== undefined ? data.topTherapistSessions : 0;
+        setText('topTherapistDetail', `${sessions} sessions`);
+
+        // Match Quality
+        const matchRate = data.matchedFeedbackRate !== undefined ? data.matchedFeedbackRate : 0;
+        const matchQuality = Math.round((matchRate || 0) / 10) * 10;
+        setText('matchQuality', `${matchQuality}%`);
+        setText('matchQualityDetail', `${matchRate}% matched`);
+
+        // Data Quality (always show "Good" for now as per original logic)
+        setText('dataQuality', 'Good');
     }
 
     renderTrendsChart(data) {
-        const ctx = document.getElementById('trendsChart').getContext('2d');
+        // Validate inputs
+        const canvasEl = document.getElementById('trendsChart');
+        if (!canvasEl) {
+            console.warn('Canvas element trendsChart not found');
+            return;
+        }
+
+        if (!data || !Array.isArray(data.labels) || !Array.isArray(data.values)) {
+            console.warn('Invalid data for trends chart:', data);
+            return;
+        }
+
+        const ctx = canvasEl.getContext('2d');
+        if (!ctx) {
+            console.warn('Could not get canvas context for trendsChart');
+            return;
+        }
 
         if (this.charts.trends) {
             this.charts.trends.destroy();
@@ -447,11 +488,11 @@ class AnalyticsDashboard {
         this.charts.trends = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: data.labels,
+                labels: data.labels || [],
                 datasets: [
                     {
                         label: 'Total',
-                        data: data.values,
+                        data: data.values || [],
                         borderColor: '#9D4EDD',
                         backgroundColor: 'rgba(157, 78, 221, 0.1)',
                         fill: true,
@@ -485,7 +526,23 @@ class AnalyticsDashboard {
     }
 
     renderHealthChart(data) {
-        const ctx = document.getElementById('healthIssuesChart').getContext('2d');
+        // Validate inputs
+        const canvasEl = document.getElementById('healthIssuesChart');
+        if (!canvasEl) {
+            console.warn('Canvas element healthIssuesChart not found');
+            return;
+        }
+
+        if (!data || !Array.isArray(data.labels) || !Array.isArray(data.data)) {
+            console.warn('Invalid data for health chart:', data);
+            return;
+        }
+
+        const ctx = canvasEl.getContext('2d');
+        if (!ctx) {
+            console.warn('Could not get canvas context for healthIssuesChart');
+            return;
+        }
 
         if (this.charts.health) {
             this.charts.health.destroy();
@@ -494,11 +551,11 @@ class AnalyticsDashboard {
         this.charts.health = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: data.labels,
+                labels: data.labels || [],
                 datasets: [
                     {
                         label: 'Frequency',
-                        data: data.data,
+                        data: data.data || [],
                         backgroundColor: [
                             '#9D4EDD',
                             '#AD63ED',
@@ -538,7 +595,23 @@ class AnalyticsDashboard {
     }
 
     renderPressureChart(data) {
-        const ctx = document.getElementById('pressureChart').getContext('2d');
+        // Validate inputs
+        const canvasEl = document.getElementById('pressureChart');
+        if (!canvasEl) {
+            console.warn('Canvas element pressureChart not found');
+            return;
+        }
+
+        if (!data || !Array.isArray(data.labels) || !Array.isArray(data.data)) {
+            console.warn('Invalid data for pressure chart:', data);
+            return;
+        }
+
+        const ctx = canvasEl.getContext('2d');
+        if (!ctx) {
+            console.warn('Could not get canvas context for pressureChart');
+            return;
+        }
 
         if (this.charts.pressure) {
             this.charts.pressure.destroy();
@@ -549,10 +622,10 @@ class AnalyticsDashboard {
         this.charts.pressure = new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: data.labels,
+                labels: data.labels || [],
                 datasets: [
                     {
-                        data: data.data,
+                        data: data.data || [],
                         backgroundColor: colors,
                         borderColor: 'rgba(0, 0, 0, 0.3)',
                         borderWidth: 3
@@ -577,7 +650,28 @@ class AnalyticsDashboard {
     }
 
     renderTherapistsChart(data) {
-        const ctx = document.getElementById('therapistsChart').getContext('2d');
+        // Validate inputs
+        const canvasEl = document.getElementById('therapistsChart');
+        if (!canvasEl) {
+            console.warn('Canvas element therapistsChart not found');
+            return;
+        }
+
+        if (!data || !Array.isArray(data.labels) || !Array.isArray(data.datasets) || data.datasets.length < 3) {
+            console.warn('Invalid data for therapists chart:', data);
+            return;
+        }
+
+        const ctx = canvasEl.getContext('2d');
+        if (!ctx) {
+            console.warn('Could not get canvas context for therapistsChart');
+            return;
+        }
+
+        // Validate all three datasets exist and have data
+        const ds0 = data.datasets[0] && Array.isArray(data.datasets[0].data) ? data.datasets[0].data : [];
+        const ds1 = data.datasets[1] && Array.isArray(data.datasets[1].data) ? data.datasets[1].data : [];
+        const ds2 = data.datasets[2] && Array.isArray(data.datasets[2].data) ? data.datasets[2].data : [];
 
         if (this.charts.therapists) {
             this.charts.therapists.destroy();
@@ -586,23 +680,23 @@ class AnalyticsDashboard {
         this.charts.therapists = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: data.labels,
+                labels: data.labels || [],
                 datasets: [
                     {
                         label: 'Sessions',
-                        data: data.datasets[0].data,
+                        data: ds0,
                         backgroundColor: '#9D4EDD',
                         borderRadius: 8
                     },
                     {
                         label: 'Avg Pre-Feeling',
-                        data: data.datasets[1].data,
+                        data: ds1,
                         backgroundColor: '#AD63ED',
                         borderRadius: 8
                     },
                     {
                         label: 'Avg Post-Feeling',
-                        data: data.datasets[2].data,
+                        data: ds2,
                         backgroundColor: '#7B2CBF',
                         borderRadius: 8
                     }
@@ -637,14 +731,32 @@ class AnalyticsDashboard {
     }
 
     renderFeelingsChart(data) {
-        const ctx = document.getElementById('feelingScoresChart').getContext('2d');
+        // Validate inputs
+        const canvasEl = document.getElementById('feelingScoresChart');
+        if (!canvasEl) {
+            console.warn('Canvas element feelingScoresChart not found');
+            return;
+        }
+
+        if (!data || typeof data !== 'object' || !data.summary) {
+            console.warn('Invalid data for feelings chart:', data);
+            return;
+        }
+
+        const ctx = canvasEl.getContext('2d');
+        if (!ctx) {
+            console.warn('Could not get canvas context for feelingScoresChart');
+            return;
+        }
 
         if (this.charts.feelings) {
             this.charts.feelings.destroy();
         }
 
         const summary = data.summary;
-        const improvement = summary.avgImprovement;
+        const improvement = summary.avgImprovement !== undefined ? summary.avgImprovement : 0;
+        const avgPre = summary.avgPre !== undefined ? summary.avgPre : 0;
+        const avgPost = summary.avgPost !== undefined ? summary.avgPost : 0;
 
         this.charts.feelings = new Chart(ctx, {
             type: 'bar',
@@ -653,7 +765,7 @@ class AnalyticsDashboard {
                 datasets: [
                     {
                         label: 'Average Feeling Score',
-                        data: [summary.avgPre, summary.avgPost],
+                        data: [avgPre, avgPost],
                         backgroundColor: ['#9D4EDD', '#7B2CBF'],
                         borderRadius: 8
                     }
@@ -674,7 +786,7 @@ class AnalyticsDashboard {
                     tooltip: {
                         callbacks: {
                             afterLabel: (context) => {
-                                if (context.dataIndex === 1) {
+                                if (context.dataIndex === 1 && improvement) {
                                     return `Improvement: +${improvement}`;
                                 }
                                 return '';
@@ -796,16 +908,41 @@ class AnalyticsDashboard {
                             <small>Registered: ${new Date(user.createdAt).toLocaleDateString()}</small>
                         </div>
                         <div class="user-actions">
-                            <button class="btn-small btn-approve" onclick="dashboard.approveUser('${user.id}'); return false;">✓ Approve</button>
-                            <button class="btn-small btn-reject" onclick="dashboard.rejectUser('${user.id}'); return false;">✗ Reject</button>
+                            <button class="btn-small btn-approve" data-user-id="${user.id}" data-action="approve">✓ Approve</button>
+                            <button class="btn-small btn-reject" data-user-id="${user.id}" data-action="reject">✗ Reject</button>
                         </div>
                     </div>
                 `;
             }
             pendingList.innerHTML = html;
+
+            // Add event listeners to approval/rejection buttons
+            this.attachUserActionListeners();
         } catch (error) {
             console.error('Error loading pending users:', error);
         }
+    }
+
+    attachUserActionListeners() {
+        const pendingList = document.getElementById('pendingUsersList');
+        if (!pendingList) return;
+
+        // Use event delegation to handle approve buttons
+        pendingList.addEventListener('click', (event) => {
+            const btn = event.target.closest('button[data-action]');
+            if (!btn) return;
+
+            const userId = btn.getAttribute('data-user-id');
+            const action = btn.getAttribute('data-action');
+
+            if (!userId || !action) return;
+
+            if (action === 'approve') {
+                this.approveUser(userId);
+            } else if (action === 'reject') {
+                this.rejectUser(userId);
+            }
+        });
     }
 
     async approveUser(userId) {

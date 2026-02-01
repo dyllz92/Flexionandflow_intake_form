@@ -89,135 +89,103 @@
                     <p>Hi, <strong id="userFirstName">User</strong>!</p>
                     <button id="logoutBtn" class="btn-logout">Logout</button>
                 </div>
+            </div>
+        </header>
 
-                <section class="summary-section">
-                    <h2>Key metrics</h2>
-                    <div class="summary-cards modern-metrics-grid">
-                        <div class="card">
-                            <div class="card-icon metric-icon metric-icon-total">
-                                <img src="/img/icons/clipboard-list.svg" alt="Total Submissions" width="36" height="36" />
-                            </div>
-                            <h3>Total submissions</h3>
-                            <div class="metric" id="totalSubmissions">-</div>
-                            <p class="card-detail" id="submissionDetail"></p>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon metric-icon metric-icon-improvement">
-                                <img src="/img/icons/trending-up.svg" alt="Average Improvement" width="36" height="36" />
-                            </div>
-                            <h3>Average improvement</h3>
-                            <div class="metric" id="avgImprovement">-</div>
-                            <p class="card-detail">Pre → Post feeling score</p>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon metric-icon metric-icon-recommend">
-                                <img src="/img/icons/thumbs-up.svg" alt="Recommendation Rate" width="36" height="36" />
-                            </div>
-                            <h3>Recommendation rate</h3>
-                            <div class="metric" id="recommendationRate">-</div>
-                            <p class="card-detail">Would recommend</p>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon metric-icon metric-icon-therapist">
-                                <img class="avatar" src="/img/therapists/dylan.jpg" alt="Dylan" width="36" height="36" />
-                            </div>
-                            <h3>Top therapist</h3>
-                            <div class="metric" id="topTherapist">-</div>
-                            <p class="card-detail" id="topTherapistDetail"></p>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon metric-icon metric-icon-match">
-                                <img src="/img/icons/link.svg" alt="Match Quality" width="36" height="36" />
-                            </div>
-                            <h3>Match quality</h3>
-                            <div class="metric" id="matchQuality">-</div>
-                            <p class="card-detail" id="matchQualityDetail">Intake-feedback pairs</p>
-                        </div>
-                        <div class="card">
-                            <div class="card-icon metric-icon metric-icon-data">
-                                <img src="/img/icons/check-circle.svg" alt="Data Quality" width="36" height="36" />
-                            </div>
-                            <h3>Data quality</h3>
-                            <div class="metric" id="dataQuality">-</div>
-                            <p class="card-detail">Overall collection rate</p>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Day-by-Day Session Tracking Table -->
-                <section class="calendar-section">
-                    <h2>Day-by-day session tracking</h2>
-                    <div class="calendar-table-wrapper">
-                        <table class="calendar-table">
-                            <thead>
-                                <tr id="calendarDatesRow">
-                                    <th>Date</th>
-                                    <!-- JS will insert date columns here -->
-                                    <th>Total</th>
-                                </tr>
-                            </thead>
-                            <tbody id="calendarSessionsBody">
-                                <!-- JS will insert session rows here -->
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
-                    <div class="admin-section">
-                        <h3>Pending Registrations (<span id="pendingCount">0</span>)</h3>
-                        <div id="pendingUsersList" class="pending-list">
-                            <p class="empty-state">No pending registrations</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Summary Cards -->
+        <!-- Main Dashboard Content -->
+        <main class="dashboard-main">
+            <!-- Key Metrics Section -->
             <section class="summary-section">
                 <h2>Key Metrics</h2>
-                <div class="summary-cards">
+                <div class="summary-cards modern-metrics-grid">
                     <div class="card">
-                        <div class="card-icon">📋</div>
+                        <div class="card-icon metric-icon metric-icon-total">
+                            <img src="/img/icons/clipboard-list.svg" alt="Total Submissions" width="36" height="36" />
+                        </div>
                         <h3>Total Submissions</h3>
-                        <div class="metric" id="totalSubmissions">-</div>
+                        <div class="metric" id="totalSubmissions">0</div>
                         <p class="card-detail" id="submissionDetail"></p>
                     </div>
-
                     <div class="card">
-                        <div class="card-icon">📈</div>
+                        <div class="card-icon metric-icon metric-icon-improvement">
+                            <img src="/img/icons/trending-up.svg" alt="Average Improvement" width="36" height="36" />
+                        </div>
                         <h3>Average Improvement</h3>
-                        <div class="metric" id="avgImprovement">-</div>
+                        <div class="metric" id="avgImprovement">0</div>
                         <p class="card-detail">Pre → Post feeling score</p>
                     </div>
-
                     <div class="card">
-                        <div class="card-icon">👍</div>
+                        <div class="card-icon metric-icon metric-icon-recommend">
+                            <img src="/img/icons/thumbs-up.svg" alt="Recommendation Rate" width="36" height="36" />
+                        </div>
                         <h3>Recommendation Rate</h3>
-                        <div class="metric" id="recommendationRate">-</div>
+                        <div class="metric" id="recommendationRate">0%</div>
                         <p class="card-detail">Would recommend</p>
                     </div>
-
                     <div class="card">
-                        <div class="card-icon">⭐</div>
+                        <div class="card-icon metric-icon metric-icon-therapist">
+                            <img class="avatar" src="/img/therapists/dylan.jpg" alt="Dylan" width="36" height="36" />
+                        </div>
                         <h3>Top Therapist</h3>
-                        <div class="metric" id="topTherapist">-</div>
+                        <div class="metric" id="topTherapist">No data</div>
                         <p class="card-detail" id="topTherapistDetail"></p>
                     </div>
-
                     <div class="card">
-                        <div class="card-icon">🎯</div>
+                        <div class="card-icon metric-icon metric-icon-match">
+                            <img src="/img/icons/link.svg" alt="Match Quality" width="36" height="36" />
+                        </div>
                         <h3>Match Quality</h3>
-                        <div class="metric" id="matchQuality">-</div>
+                        <div class="metric" id="matchQuality">0%</div>
                         <p class="card-detail" id="matchQualityDetail">Intake-feedback pairs</p>
                     </div>
-
                     <div class="card">
-                        <div class="card-icon">✓</div>
+                        <div class="card-icon metric-icon metric-icon-data">
+                            <img src="/img/icons/check-circle.svg" alt="Data Quality" width="36" height="36" />
+                        </div>
                         <h3>Data Quality</h3>
-                        <div class="metric" id="dataQuality">-</div>
+                        <div class="metric" id="dataQuality">Good</div>
                         <p class="card-detail">Overall collection rate</p>
                     </div>
                 </div>
             </section>
+
+            <!-- Day-by-Day Session Tracking Table -->
+            <section class="calendar-section">
+                <h2>Day-by-Day Session Tracking</h2>
+                <div class="calendar-table-wrapper">
+                    <table class="calendar-table">
+                        <thead>
+                            <tr id="calendarDatesRow">
+                                <th>Date</th>
+                                <!-- JS will insert date columns here -->
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="calendarSessionsBody">
+                            <!-- JS will insert session rows here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Admin Panel (only visible to admins) -->
+            <div id="adminPanel" style="display:none;">
+                <div class="admin-panel">
+                    <div class="admin-header">
+                        <h2>Admin Controls</h2>
+                        <button id="toggleAdminPanel" class="btn-small">▼ Hide</button>
+                    </div>
+                    <div id="adminContent">
+                        <div class="admin-section">
+                            <h3>Pending Registrations (<span id="pendingCount">0</span>)</h3>
+                            <div id="pendingUsersList" class="pending-list">
+                                <p class="empty-state">No pending registrations</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
             <!-- Data Quality & Health Notes Section -->
             <section class="insights-section">
