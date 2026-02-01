@@ -399,16 +399,6 @@ class AnalyticsDashboard {
         try {
             this.showLoading(true);
 
-            // Sync data first to ensure master files are up-to-date
-            // This is important for Railway deployments with ephemeral filesystems
-            try {
-                console.log('[Dashboard] Syncing data from metadata...');
-                await this.fetchAPI('/api/analytics/update-data', { method: 'POST' });
-            } catch (syncError) {
-                console.warn('[Dashboard] Data sync failed, continuing:', syncError.message);
-                // Continue loading dashboard even if sync fails
-            }
-
             const period = document.getElementById('periodFilter').value;
             const formType = document.getElementById('formTypeFilter').value;
 
