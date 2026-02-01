@@ -2,28 +2,13 @@
 builder = "nixpacks"
 
 [deploy]
-# Start command for the service
 startCommand = "npm start"
 
-# Health check configuration
-# Path to health endpoint
+# Health check settings - very generous timeouts to prevent false kills
 healthcheckPath = "/health"
+healthcheckTimeout = 30000
+healthcheckInterval = 30000
+startupTimeout = 60000
 
-# Timeout for individual health check requests (10 seconds)
-healthcheckTimeout = 10000
-
-# Interval between health checks (10 seconds)
-healthcheckInterval = 10000
-
-# Time to wait before starting health checks (allows server to initialize)
-startupTimeout = 30000
-
-# Restart policy: "always", "never", "on-failure"
 restartPolicyType = "always"
-
-# Graceful shutdown
 drainingSeconds = 10
-
-# Optionally set service-level environment defaults (do NOT put secrets here)
-[env]
-# Example: LOG_LEVEL = "info"
