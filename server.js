@@ -562,7 +562,8 @@ async function initializeAdmin() {
 }
 
 // Start server with error handling
-const server = app.listen(PORT, () => {
+// Listen on 0.0.0.0 to accept connections from any interface (required for Docker/Railway)
+const server = app.listen(PORT, '0.0.0.0', () => {
     console.log(`[Server] Starting on port ${PORT}...`);
 
     const ip = getLocalIPv4();
