@@ -503,31 +503,71 @@ async function initializeAdmin() {
     }
 }
 
-// Start server
-app.listen(PORT, async () => {
-    // Initialize admin account
-    await initializeAdmin();
+// Start server with error handling
+const server = app.listen(PORT, async () => {
+    console.log(`[Server] Starting on port ${PORT}...`);
 
-    const ip = getLocalIPv4();
-    console.log(`\n${'='.repeat(50)}`);
-    console.log(`🌟 Hemisphere Wellness Intake Form Server`);
-    console.log(`${'='.repeat(50)}`);
-    console.log(`\n📍 Server running at:`);
-    console.log(`   Local:   http://localhost:${PORT}`);
-    console.log(`   Network: http://${ip ?? 'localhost'}:${PORT}`);
-    console.log(`\n💡 To access from mobile devices:`);
-    console.log(`   1. Make sure your phone is on the same WiFi`);
-    console.log(`   2. Find your computer's IP address`);
-    console.log(`   3. Open http://${ip ?? 'localhost'}:${PORT} on your phone`);
-    console.log(`\n🔗 For internet access, use ngrok or Cloudflare Tunnel`);
-    console.log(`\n${'='.repeat(50)}\n`);
+    try {
+        // Initialize admin account
+        await initializeAdmin();
+
+        const ip = getLocalIPv4();
+        console.log(`\n${'='.repeat(50)}`);
+        console.log(`🌟 Hemisphere Wellness Intake Form Server`);
+        console.log(`${'='.repeat(50)}`);
+        console.log(`\n📍 Server running at:`);
+        console.log(`   Local:   http://localhost:${PORT}`);
+        console.log(`   Network: http://${ip ?? 'localhost'}:${PORT}`);
+        console.log(`\n💡 To access from mobile devices:`);
+        console.log(`   1. Make sure your phone is on the same WiFi`);
+        console.log(`   2. Find your computer's IP address`);
+        console.log(`   3. Open http://${ip ?? 'localhost'}:${PORT} on your phone`);
+        console.log(`\n🔗 For internet access, use ngrok or Cloudflare Tunnel`);
+        console.log(`\n${'='.repeat(50)}\n`);
+    } catch (error) {
+        console.error('[Server] Fatal error during initialization:', error.message);
+        console.error(error.stack);
+        process.exit(1);
+    }
+});
+
+server.on('error', (error) => {
+    console.error('[Server] Error:', error.message);
+    if (error.code === 'EADDRINUSE') {
+        console.error(`Port ${PORT} is already in use`);
+    }
+    process.exit(1);
 });
 
 // Error handling
 process.on('uncaughtException', (error) => {
-    console.error('Uncaught Exception:', error);
+    console.error('[Process] Uncaught Exception:', error);
+    process.exit(1);
 });
 
 process.on('unhandledRejection', (error) => {
-    console.error('Unhandled Rejection:', error);
+    console.error('[Process] Unhandled Rejection:', error);
+    process.exit(1);
+});
+
+// Graceful shutdown handling for Railway/Docker
+process.on('SIGTERM', () => {
+    console.log('[Server] SIGTERM received, shutting down gracefully...');
+    server.close(() => {
+        console.log('[Server] Server closed');
+        process.exit(0);
+    });
+    // Force exit after 10 seconds
+    setTimeout(() => {
+        console.error('[Server] Forced exit due to timeout');
+        process.exit(1);
+    }, 10000);
+});
+
+process.on('SIGINT', () => {
+    console.log('[Server] SIGINT received, shutting down gracefully...');
+    server.close(() => {
+        console.log('[Server] Server closed');
+        process.exit(0);
+    });
 });
