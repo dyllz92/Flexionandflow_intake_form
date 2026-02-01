@@ -527,19 +527,41 @@ app.post('/api/analytics/update-data', authMiddleware, async (req, res) => {
 });
 
 // Health check endpoint
-const healthPayload = () => ({
-    status: 'ok',
-    timestamp: new Date().toISOString(),
-    uptimeSeconds: Math.round(process.uptime()),
-    googleDriveConfigured: typeof driveUploader.isConfigured === 'function' ? driveUploader.isConfigured() : false
-});
+const healthPayload = () => {
+    try {
+        return {
+            status: 'ok',
+            timestamp: new Date().toISOString(),
+            uptimeSeconds: Math.round(process.uptime()),
+            googleDriveConfigured: driveUploader && typeof driveUploader.isConfigured === 'function' ? driveUploader.isConfigured() : false
+        };
+    } catch (error) {
+        console.error('[Health] Error generating health payload:', error.message);
+        return {
+            status: 'ok',
+            timestamp: new Date().toISOString(),
+            uptimeSeconds: Math.round(process.uptime()),
+            googleDriveConfigured: false
+        };
+    }
+};
 
 app.get('/health', (req, res) => {
-    res.status(200).json(healthPayload());
+    try {
+        res.status(200).json(healthPayload());
+    } catch (error) {
+        console.error('[Health] Error in /health endpoint:', error.message);
+        res.status(200).json({ status: 'ok', uptime: Math.round(process.uptime()) });
+    }
 });
 
 app.get('/api/health', (req, res) => {
-    res.status(200).json(healthPayload());
+    try {
+        res.status(200).json(healthPayload());
+    } catch (error) {
+        console.error('[Health] Error in /api/health endpoint:', error.message);
+        res.status(200).json({ status: 'ok', uptime: Math.round(process.uptime()) });
+    }
 });
 
 // SPA fallback for built frontend; keeps API routes untouched
@@ -558,6 +580,34 @@ async function initializeAdmin() {
         await userStore.ensureAdminExists();
     } catch (error) {
         console.error('❌ Failed to initialize admin account:', error.message);
+    }
+}
+
+// Log environment configuration for debugging
+console.log('[Init] Environment Configuration:');
+console.log(`  NODE_ENV: ${process.env.NODE_ENV || 'development'}`);
+console.log(`  PORT: ${PORT}`);
+console.log(`  ADMIN_EMAIL configured: ${!!process.env.ADMIN_EMAIL}`);
+console.log(`  ADMIN_PASSWORD configured: ${!!process.env.ADMIN_PASSWORD}`);
+console.log(`  Google Drive configured: ${driveUploader.isConfigured()}`);
+console.log(`  Public directory exists: ${fs.existsSync(publicDir)}`);
+
+// Validate critical paths
+const criticalPaths = [
+    { path: publicDir, name: 'public' },
+    { path: path.join(__dirname, 'metadata'), name: 'metadata' },
+    { path: path.join(__dirname, 'pdfs'), name: 'pdfs' },
+    { path: path.join(__dirname, 'views'), name: 'views' },
+    { path: path.join(__dirname, 'utils'), name: 'utils' }
+];
+
+console.log('[Init] Path Validation:');
+for (const { path: p, name } of criticalPaths) {
+    const exists = fs.existsSync(p);
+    console.log(`  ${name}: ${exists ? '✓' : '✗'} ${p}`);
+    if (!exists && (name === 'views' || name === 'utils' || name === 'public')) {
+        console.error(`[FATAL] Critical directory missing: ${name}`);
+        process.exit(1);
     }
 }
 
