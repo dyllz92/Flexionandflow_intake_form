@@ -638,8 +638,10 @@ for (const { path: p, name } of criticalPaths) {
 
 // Start server with error handling
 // Listen on 0.0.0.0 to accept connections from any interface (required for Docker/Railway)
+console.log('[Init] About to start listening on port', PORT);
+
 const server = app.listen(PORT, '0.0.0.0', () => {
-    console.log(`[Server] Starting on port ${PORT}...`);
+    console.log(`[Server] Callback triggered - server is now listening on port ${PORT}`);
 
     const ip = getLocalIPv4();
     console.log(`\n${'='.repeat(50)}`);
@@ -657,10 +659,27 @@ const server = app.listen(PORT, '0.0.0.0', () => {
 
     // Initialize admin account in background (non-blocking)
     // This prevents blocking the event loop on startup
-    initializeAdmin().catch(error => {
-        console.error('⚠️  Background admin initialization failed:', error.message);
-    });
+    console.log('[Init] Starting background admin initialization...');
+    initializeAdmin()
+        .then(() => {
+            console.log('[Init] Background admin initialization completed successfully');
+        })
+        .catch(error => {
+            console.error('⚠️  Background admin initialization failed:', error.message);
+        });
+
+    console.log('[Init] Server is fully initialized and ready to accept requests');
 });
+
+console.log('[Init] app.listen() called, waiting for callback...');
+
+// Keep-alive monitor to ensure the process doesn't exit unexpectedly
+setInterval(() => {
+    console.log('[Monitor] Server still running, uptime:', Math.round(process.uptime()), 'seconds');
+}, 30000); // Log every 30 seconds
+
+// Final confirmation that module loaded successfully
+console.log('[Init] Server module fully loaded, process will remain active');
 
 server.on('error', (error) => {
     console.error('[Server] Error:', error.message);
