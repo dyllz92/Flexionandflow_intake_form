@@ -376,77 +376,73 @@ app.get('/api/analytics/pressure', authMiddleware, (req, res) =>
 app.get('/api/analytics/feeling-scores', authMiddleware, (req, res) =>
     analyticsController.getFeelingScores(req, res));
 
-// Update data endpoint - runs extraction and update scripts
+// Update data endpoint - rebuilds master files from metadata
+// Works on both local development and Railway deployment
 app.post('/api/analytics/update-data', authMiddleware, async (req, res) => {
     try {
-        const { execFile } = require('child_process');
-        const util = require('util');
-        const execFileAsync = util.promisify(execFile);
+        const fs = require('fs');
+        const path = require('path');
 
-        const googleDriveDir = "G:\\Shared drives\\App Uploads\\Intake Forms";
         const results = [];
         const errors = [];
+        const metadataDir = path.join(__dirname, 'metadata');
+        const masterIntakesPath = path.join(__dirname, 'pdfs', 'master_intakes.json');
+        const masterFeedbackPath = path.join(__dirname, 'pdfs', 'master_feedback.json');
 
-        // Helper to run Python script
-        const runPythonScript = async (scriptName) => {
-            try {
-                const { stdout, stderr } = await execFileAsync('python3', [scriptName], {
-                    cwd: googleDriveDir,
-                    timeout: 120000 // 2 minute timeout
-                });
+        console.log('[UpdateData] Starting data synchronization...');
 
-                const output = stdout.trim() || stderr.trim();
-                return { script: scriptName, output, success: true };
-            } catch (error) {
-                const errorMsg = error.stderr || error.stdout || error.message;
-                throw { script: scriptName, error: errorMsg, code: error.code };
+        // Ensure pdfs directory exists
+        const pdfsDir = path.join(__dirname, 'pdfs');
+        if (!fs.existsSync(pdfsDir)) {
+            fs.mkdirSync(pdfsDir, { recursive: true });
+            console.log('[UpdateData] Created pdfs directory');
+        }
+
+        // Load all metadata files
+        const feedbackEntries = [];
+        const intakeEntries = [];
+
+        if (fs.existsSync(metadataDir)) {
+            const files = fs.readdirSync(metadataDir).filter(f => f.endsWith('.json'));
+            console.log(`[UpdateData] Found ${files.length} metadata files`);
+
+            for (const file of files) {
+                try {
+                    const content = fs.readFileSync(path.join(metadataDir, file), 'utf8');
+                    const data = JSON.parse(content);
+
+                    if (data.formType === 'feedback') {
+                        feedbackEntries.push(data);
+                    } else {
+                        intakeEntries.push(data);
+                    }
+                } catch (error) {
+                    console.warn(`[UpdateData] Failed to parse ${file}:`, error.message);
+                    errors.push(`Failed to parse ${file}`);
+                }
             }
-        };
+        } else {
+            console.log('[UpdateData] No metadata directory found');
+            results.push('No submissions yet');
+        }
 
-        // Run extraction scripts in sequence
-        console.log('Starting intake and feedback data extraction...');
-
+        // Write master files
         try {
-            const intakeResult = await runPythonScript('extract_intakes.py');
-            results.push(`✓ ${intakeResult.output}`);
-            console.log('Intake extraction completed:', intakeResult.output);
+            fs.writeFileSync(masterIntakesPath, JSON.stringify(intakeEntries, null, 2), 'utf8');
+            results.push(`✓ Updated master_intakes.json (${intakeEntries.length} entries)`);
+            console.log(`[UpdateData] Updated master_intakes.json with ${intakeEntries.length} entries`);
         } catch (error) {
-            const errorMsg = typeof error === 'object' ? error.error : error;
-            errors.push(`✗ Intake extraction: ${errorMsg}`);
-            console.error('Intake extraction failed:', error);
+            errors.push(`Failed to update master_intakes.json: ${error.message}`);
+            console.error('[UpdateData] Failed to write master_intakes.json:', error);
         }
 
         try {
-            const feedbackResult = await runPythonScript('extract_feedback.py');
-            results.push(`✓ ${feedbackResult.output}`);
-            console.log('Feedback extraction completed:', feedbackResult.output);
+            fs.writeFileSync(masterFeedbackPath, JSON.stringify(feedbackEntries, null, 2), 'utf8');
+            results.push(`✓ Updated master_feedback.json (${feedbackEntries.length} entries)`);
+            console.log(`[UpdateData] Updated master_feedback.json with ${feedbackEntries.length} entries`);
         } catch (error) {
-            const errorMsg = typeof error === 'object' ? error.error : error;
-            errors.push(`✗ Feedback extraction: ${errorMsg}`);
-            console.error('Feedback extraction failed:', error);
-        }
-
-        // Run update scripts in sequence
-        console.log('Starting master file update...');
-
-        try {
-            const intakeUpdateResult = await runPythonScript('update_master_intakes.py');
-            results.push(`✓ ${intakeUpdateResult.output}`);
-            console.log('Intake update completed:', intakeUpdateResult.output);
-        } catch (error) {
-            const errorMsg = typeof error === 'object' ? error.error : error;
-            errors.push(`✗ Intake update: ${errorMsg}`);
-            console.error('Intake update failed:', error);
-        }
-
-        try {
-            const feedbackUpdateResult = await runPythonScript('update_master_feedback.py');
-            results.push(`✓ ${feedbackUpdateResult.output}`);
-            console.log('Feedback update completed:', feedbackUpdateResult.output);
-        } catch (error) {
-            const errorMsg = typeof error === 'object' ? error.error : error;
-            errors.push(`✗ Feedback update: ${errorMsg}`);
-            console.error('Feedback update failed:', error);
+            errors.push(`Failed to update master_feedback.json: ${error.message}`);
+            console.error('[UpdateData] Failed to write master_feedback.json:', error);
         }
 
         // Clear analytics cache to force reload

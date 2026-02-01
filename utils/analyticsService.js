@@ -47,9 +47,11 @@ class AnalyticsService {
 
   /**
    * Load all metadata from master files (feedback + intakes)
+   * Falls back to reading from metadata directory if master files don't exist
    */
   async loadAllMetadataFromMasterFiles() {
     const allData = [];
+    let masterFilesExist = false;
 
     try {
       // Load feedback submissions
@@ -61,6 +63,7 @@ class AnalyticsService {
         } else if (feedbackData) {
           allData.push(feedbackData);
         }
+        masterFilesExist = true;
       }
 
       // Load intake submissions
@@ -71,6 +74,28 @@ class AnalyticsService {
           allData.push(...intakesData);
         } else if (intakesData) {
           allData.push(intakesData);
+        }
+        masterFilesExist = true;
+      }
+
+      // If no master files exist (Railway ephemeral filesystem), load from metadata directory
+      if (!masterFilesExist) {
+        console.log('[Analytics] Master files not found, loading from metadata directory...');
+        const metadataDir = path.join(__dirname, '..', 'metadata');
+
+        if (fs.existsSync(metadataDir)) {
+          const files = fs.readdirSync(metadataDir).filter(f => f.endsWith('.json'));
+
+          for (const file of files) {
+            try {
+              const content = fs.readFileSync(path.join(metadataDir, file), 'utf8');
+              const data = JSON.parse(content);
+              allData.push(data);
+            } catch (error) {
+              console.warn(`[Analytics] Failed to parse metadata file ${file}:`, error.message);
+            }
+          }
+          console.log(`[Analytics] Loaded ${allData.length} entries from metadata directory`);
         }
       }
 
