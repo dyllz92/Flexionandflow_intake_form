@@ -86,8 +86,15 @@
                 </div>
 
                 <div class="user-profile">
-                    <p>Hi, <strong id="userFirstName">User</strong>!</p>
-                    <button id="logoutBtn" class="btn-logout">Logout</button>
+                    <div class="user-greeting">
+                        <p>Hello, <strong id="userFirstName">User</strong>!</p>
+                    </div>
+                    <div class="user-menu">
+                        <button id="accountSettingsBtn" class="btn-icon-text" title="Account Settings">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+                        </button>
+                        <button id="logoutBtn" class="btn-logout">Logout</button>
+                    </div>
                 </div>
             </div>
         </header>
@@ -292,6 +299,41 @@
         <footer class="dashboard-footer">
             <p>&copy; 2026 Hemisphere Wellness. All rights reserved. Analytics data is aggregated and confidential.</p>
         </footer>
+
+        <!-- Account Settings Modal -->
+        <div id="accountSettingsModal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Account Settings</h2>
+                    <button class="modal-close" onclick="document.getElementById('accountSettingsModal').style.display='none'">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="settings-section">
+                        <h3>User Information</h3>
+                        <div class="info-row">
+                            <label>Email:</label>
+                            <span id="settingsEmail">-</span>
+                        </div>
+                        <div class="info-row">
+                            <label>Name:</label>
+                            <span id="settingsName">-</span>
+                        </div>
+                        <div class="info-row">
+                            <label>Date of Birth:</label>
+                            <span id="settingsDOB">-</span>
+                        </div>
+                        <div class="info-row">
+                            <label>Member Since:</label>
+                            <span id="settingsMemberSince">-</span>
+                        </div>
+                    </div>
+                    <div class="settings-section">
+                        <h3>Account Actions</h3>
+                        <button class="btn btn-secondary" onclick="alert('Password change coming soon')">Change Password</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Loading Spinner -->

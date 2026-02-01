@@ -34,7 +34,8 @@
       "Bash(kill:*)",
       "Bash(cmd /c:*)",
       "Bash(PORT=3001 npm start)",
-      "Bash(PORT=3005 npm start:*)"
+      "Bash(PORT=3005 npm start:*)",
+      "Bash(wmic process where processid=68168 delete)"
     ]
   }
 }

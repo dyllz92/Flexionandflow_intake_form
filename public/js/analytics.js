@@ -30,8 +30,18 @@ class AnalyticsDashboard {
             }
             await this.loadDashboard();
         } else {
+            // Determine which form to show based on URL path or hash
+            const currentPath = window.location.pathname;
+            const currentHash = window.location.hash;
+
             this.showLogin();
-            this.showLoginForm();
+
+            // Check if user came from /register path or has #register hash
+            if (currentPath === '/register' || currentHash === '#register') {
+                this.showRegistrationForm();
+            } else {
+                this.showLoginForm();
+            }
         }
     }
 
@@ -61,6 +71,11 @@ class AnalyticsDashboard {
             this.handleLogout();
         });
 
+        // Account settings
+        document.getElementById('accountSettingsBtn')?.addEventListener('click', () => {
+            this.showAccountSettings();
+        });
+
         // Admin panel
         document.getElementById('toggleAdminPanel')?.addEventListener('click', () => {
             const content = document.getElementById('adminContent');
@@ -84,6 +99,35 @@ class AnalyticsDashboard {
         // Password strength indicator
         document.getElementById('regPassword')?.addEventListener('input', (e) => {
             this.checkPasswordStrength(e.target.value);
+        });
+
+        // Modal event listeners
+        const accountSettingsModal = document.getElementById('accountSettingsModal');
+        if (accountSettingsModal) {
+            // Close modal when clicking the X button
+            const closeBtn = accountSettingsModal.querySelector('.modal-close');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', () => {
+                    accountSettingsModal.style.display = 'none';
+                });
+            }
+
+            // Close modal when clicking outside the modal content
+            accountSettingsModal.addEventListener('click', (e) => {
+                if (e.target === accountSettingsModal) {
+                    accountSettingsModal.style.display = 'none';
+                }
+            });
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const accountSettingsModal = document.getElementById('accountSettingsModal');
+                if (accountSettingsModal && accountSettingsModal.style.display === 'flex') {
+                    accountSettingsModal.style.display = 'none';
+                }
+            }
         });
     }
 
@@ -126,6 +170,10 @@ class AnalyticsDashboard {
                 localStorage.setItem('analyticsSession', this.sessionId);
                 localStorage.setItem('analyticsUserRole', data.role);
                 localStorage.setItem('analyticsUserFirstName', data.firstName);
+                localStorage.setItem('analyticsUserEmail', data.email);
+                localStorage.setItem('analyticsUserLastName', data.lastName);
+                localStorage.setItem('analyticsUserDOB', data.dateOfBirth);
+                localStorage.setItem('analyticsUserCreatedAt', data.createdAt);
                 document.getElementById('loginForm').reset();
 
                 // Update UI with user's first name
@@ -259,12 +307,55 @@ class AnalyticsDashboard {
         localStorage.removeItem('analyticsSession');
         localStorage.removeItem('analyticsUserRole');
         localStorage.removeItem('analyticsUserFirstName');
+        localStorage.removeItem('analyticsUserEmail');
+        localStorage.removeItem('analyticsUserLastName');
+        localStorage.removeItem('analyticsUserDOB');
+        localStorage.removeItem('analyticsUserCreatedAt');
         this.sessionId = null;
         this.userRole = 'manager';
         this.userFirstName = 'User';
         this.clearCharts();
         this.showLogin();
         this.showLoginForm();
+    }
+
+    showAccountSettings() {
+        const email = localStorage.getItem('analyticsUserEmail') || '-';
+        const firstName = localStorage.getItem('analyticsUserFirstName') || 'User';
+        const lastName = localStorage.getItem('analyticsUserLastName') || '-';
+        const dob = localStorage.getItem('analyticsUserDOB') || '-';
+        const createdAt = localStorage.getItem('analyticsUserCreatedAt') || '-';
+
+        // Format dates for display
+        let dobDisplay = dob;
+        let memberSinceDisplay = createdAt;
+
+        if (dob && dob !== '-') {
+            try {
+                const dobDate = new Date(dob);
+                dobDisplay = dobDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            } catch (e) {
+                dobDisplay = dob;
+            }
+        }
+
+        if (createdAt && createdAt !== '-') {
+            try {
+                const createdDate = new Date(createdAt);
+                memberSinceDisplay = createdDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            } catch (e) {
+                memberSinceDisplay = createdAt;
+            }
+        }
+
+        // Populate modal fields
+        document.getElementById('settingsEmail').textContent = email;
+        document.getElementById('settingsName').textContent = `${firstName} ${lastName}`.trim();
+        document.getElementById('settingsDOB').textContent = dobDisplay;
+        document.getElementById('settingsMemberSince').textContent = memberSinceDisplay;
+
+        // Show modal
+        document.getElementById('accountSettingsModal').style.display = 'flex';
     }
 
     async handleUpdateData() {

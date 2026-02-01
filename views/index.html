@@ -5,53 +5,102 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hemisphere Wellness - Intake Form</title>
   <link rel="stylesheet" href="/css/styles.css?v=20260129-v20">
+  <link rel="stylesheet" href="/css/home.css?v=20260201">
   <script src="/js/brand.js?v=20260127"></script>
 </head>
 <body data-brand="hemisphere">
-  <div class="home-container" data-brand="hemisphere">
-    <div class="logo-section" id="logoSection">
-      <img src="/js/Wellcorp_Logo.png?v=20260129" alt="Hemisphere Wellness Logo" class="logo" style="max-height:100px; background: none; box-shadow: none; border: none;">
-    </div>
-
-    <div class="header-section">
-      <h1>Choose your massage type:</h1>
-      <p class="subtitle">Select a service to begin your wellness journey</p>
-    </div>
-
-    <div class="forms-grid">
-      <div class="form-card">
-        <div class="card-icon" aria-hidden="true">
-          <!-- Lucide/FontAwesome SVG: Chair Massage -->
-          <svg width="40" height="40" fill="none" stroke="#9D4EDD" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M7 21h2m4 0h2M5 21V9a2 2 0 0 1 2-2h2m2 0h2a2 2 0 0 1 2 2v12M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg>
+  <div class="page">
+    <!-- Header Bar with Logo and Auth Buttons -->
+    <header class="top-bar">
+      <div class="top-bar-content">
+        <div class="logo-container">
+          <img src="/js/Wellcorp_Logo.png?v=20260129" alt="Hemisphere Wellness Logo" class="logo-large">
         </div>
-        <h2>Seated Massage</h2>
-        <p class="card-subtitle">Delivered fully clothed in a comfortable chair</p>
-        <a href="/intake?form=seated" class="btn btn-primary">Start</a>
-      </div>
-
-      <div class="form-card">
-        <div class="card-icon" aria-hidden="true">
-          <!-- Lucide/FontAwesome SVG: Table Massage -->
-          <svg width="40" height="40" fill="none" stroke="#9D4EDD" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="10" width="18" height="6" rx="2"/><path d="M4 16v2m16-2v2"/></svg>
+        <div class="auth-buttons">
+          <a href="/login" class="btn-text-link">Login</a>
+          <a href="/register" class="btn btn-primary btn-sm" style="text-decoration: none;">Create Account</a>
         </div>
-        <h2>Table Massage</h2>
-        <p class="card-subtitle">Professional massage with draping and optional oils</p>
-        <a href="/intake?form=table" class="btn btn-primary">Start</a>
       </div>
-    </div>
+    </header>
 
-    <div class="feedback-card">
-      <div class="card-icon" aria-hidden="true">
-        <!-- Lucide/FontAwesome SVG: Message Circle -->
-        <svg width="36" height="36" fill="none" stroke="#9D4EDD" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-1.9 5.4A8.5 8.5 0 0 1 12 21a8.38 8.38 0 0 1-5.4-1.9L3 21l1.9-5.4A8.38 8.38 0 0 1 3 11.5 8.5 8.5 0 0 1 12 3a8.5 8.5 0 0 1 8.5 8.5z"/></svg>
+    <!-- Main Content Area - Centered -->
+    <main class="main-content">
+      <!-- Hero Section -->
+      <div class="hero-section">
+        <p class="tagline">Massage and wellness made simple</p>
+        <h1>Choose your massage type</h1>
+        <p class="hero-subtitle">Select a service to begin your wellness journey.</p>
       </div>
-      <h2>Post-Session Feedback</h2>
-      <p class="card-subtitle">Tell us how you're feeling after your massage</p>
-      <a href="/feedback" class="btn btn-secondary">Give Feedback</a>
-    </div>
 
+      <!-- Service Cards Grid -->
+      <div class="service-grid">
+      <!-- Seated Massage Card -->
+      <article class="service-card" aria-labelledby="seated-massage-title">
+        <div class="card-icon" aria-hidden="true">
+          <svg fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="color: #9D4EDD;">
+            <title>Seated Massage</title>
+            <path d="M9 3c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm0 5c-1.1 0-2 .9-2 2v6h1v4h2v-4h2v-6c0-1.1-.9-2-2-2zm-5 7h10v4H4v-4z"/>
+          </svg>
+        </div>
+        <h2 id="seated-massage-title">Seated Massage</h2>
+        <p class="card-description">Fully clothed, perfect for quick workplace or chair sessions.</p>
+        <div class="card-benefit" aria-label="Best for short, focused relief">
+          <span class="benefit-icon" aria-hidden="true">✓</span>
+          <span class="benefit-text">Best for short, focused relief.</span>
+        </div>
+        <p class="card-explainer">Answer a few quick questions so we can tailor your session.</p>
+        <a href="/intake?form=seated" target="_blank" rel="noopener noreferrer" class="btn btn-primary" title="Start seated massage intake form">Start seated massage</a>
+      </article>
+
+      <!-- Table Massage Card -->
+      <article class="service-card" aria-labelledby="table-massage-title">
+        <div class="card-icon" aria-hidden="true">
+          <svg fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="color: #9D4EDD;">
+            <title>Table Massage</title>
+            <path d="M3 8h18v8c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V8zm1 10h4v2H4v-2zm12 0h4v2h-4v-2z"/>
+          </svg>
+        </div>
+        <h2 id="table-massage-title">Table Massage</h2>
+        <p class="card-description">Traditional table massage with optional oils and draping.</p>
+        <div class="card-benefit" aria-label="Best for full-body relaxation">
+          <span class="benefit-icon" aria-hidden="true">✓</span>
+          <span class="benefit-text">Best for full-body relaxation.</span>
+        </div>
+        <p class="card-explainer">Answer a few quick questions so we can tailor your session.</p>
+        <a href="/intake?form=table" target="_blank" rel="noopener noreferrer" class="btn btn-primary" title="Start table massage intake form">Start table massage</a>
+      </article>
+
+      <!-- Feedback Card -->
+      <article class="service-card" aria-labelledby="feedback-title">
+        <div class="card-icon" aria-hidden="true">
+          <svg fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="color: #9D4EDD;">
+            <title>Post-Session Feedback</title>
+            <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74A9 9 0 0 1 21 12c0 5.92-4.08 10.89-9.46 11.74L3 23l1.26-6.52A8.97 8.97 0 0 1 3 12z"/>
+            <circle cx="9" cy="12" r="1" fill="currentColor"/>
+            <circle cx="12" cy="12" r="1" fill="currentColor"/>
+            <circle cx="15" cy="12" r="1" fill="currentColor"/>
+          </svg>
+        </div>
+        <h2 id="feedback-title">Post-Session Feedback</h2>
+        <p class="card-description">Share how you feel before or after your session.</p>
+        <div class="card-benefit" aria-label="Takes less than 1 minute">
+          <span class="benefit-icon" aria-hidden="true">⏱</span>
+          <span class="benefit-text">Takes less than 1 minute.</span>
+        </div>
+        <p class="card-explainer">Help us improve by sharing your wellness experience.</p>
+        <a href="/feedback" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" title="Open feedback form">Give feedback</a>
+      </article>
+      </div>
+    </main>
+
+    <!-- Footer -->
     <footer class="footer-section" data-brand="hemisphere">
-        <span style="color: #b3b8c5; font-size: 1.05rem;">&copy; 2026 Hemisphere Wellness. All rights reserved.</span>
+      <p>&copy; 2026 Hemisphere Wellness. All rights reserved.</p>
+      <p class="footer-links">
+        <a href="/privacy">Privacy Policy</a>
+        <span aria-hidden="true"> · </span>
+        <a href="/terms">Terms of Service</a>
+      </p>
     </footer>
   </div>
 </body>

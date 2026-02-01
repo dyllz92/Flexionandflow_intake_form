@@ -76,6 +76,29 @@ app.get('/feedback', (req, res) => {
     res.set('Cache-Control', 'no-store');
     res.sendFile(path.join(__dirname, 'views', 'feedback.html'));
 });
+
+// Auth routes - serve analytics dashboard with hash routing
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'analytics.html'));
+});
+
+app.get('/register', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'analytics.html'));
+});
+
+// Static pages
+app.get('/analytics', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'analytics.html'));
+});
+
+app.get('/privacy', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'privacy.html'));
+});
+
+app.get('/terms', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'terms.html'));
+});
+
 // Diagnostics endpoint for deploy/version info
 app.get('/__version', (req, res) => {
     res.json({
