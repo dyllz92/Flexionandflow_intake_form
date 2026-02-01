@@ -562,31 +562,28 @@ async function initializeAdmin() {
 }
 
 // Start server with error handling
-const server = app.listen(PORT, async () => {
+const server = app.listen(PORT, () => {
     console.log(`[Server] Starting on port ${PORT}...`);
 
-    try {
-        // Initialize admin account
-        await initializeAdmin();
+    const ip = getLocalIPv4();
+    console.log(`\n${'='.repeat(50)}`);
+    console.log(`🌟 Hemisphere Wellness Intake Form Server`);
+    console.log(`${'='.repeat(50)}`);
+    console.log(`\n📍 Server running at:`);
+    console.log(`   Local:   http://localhost:${PORT}`);
+    console.log(`   Network: http://${ip ?? 'localhost'}:${PORT}`);
+    console.log(`\n💡 To access from mobile devices:`);
+    console.log(`   1. Make sure your phone is on the same WiFi`);
+    console.log(`   2. Find your computer's IP address`);
+    console.log(`   3. Open http://${ip ?? 'localhost'}:${PORT} on your phone`);
+    console.log(`\n🔗 For internet access, use ngrok or Cloudflare Tunnel`);
+    console.log(`\n${'='.repeat(50)}\n`);
 
-        const ip = getLocalIPv4();
-        console.log(`\n${'='.repeat(50)}`);
-        console.log(`🌟 Hemisphere Wellness Intake Form Server`);
-        console.log(`${'='.repeat(50)}`);
-        console.log(`\n📍 Server running at:`);
-        console.log(`   Local:   http://localhost:${PORT}`);
-        console.log(`   Network: http://${ip ?? 'localhost'}:${PORT}`);
-        console.log(`\n💡 To access from mobile devices:`);
-        console.log(`   1. Make sure your phone is on the same WiFi`);
-        console.log(`   2. Find your computer's IP address`);
-        console.log(`   3. Open http://${ip ?? 'localhost'}:${PORT} on your phone`);
-        console.log(`\n🔗 For internet access, use ngrok or Cloudflare Tunnel`);
-        console.log(`\n${'='.repeat(50)}\n`);
-    } catch (error) {
-        console.error('[Server] Fatal error during initialization:', error.message);
-        console.error(error.stack);
-        process.exit(1);
-    }
+    // Initialize admin account in background (non-blocking)
+    // This prevents blocking the event loop on startup
+    initializeAdmin().catch(error => {
+        console.error('⚠️  Background admin initialization failed:', error.message);
+    });
 });
 
 server.on('error', (error) => {
