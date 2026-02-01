@@ -416,38 +416,78 @@ app.post('/api/analytics/update-data', authMiddleware, async (req, res) => {
             console.log('[UpdateData] Created pdfs directory');
         }
 
-        // Load all metadata files
-        const feedbackEntries = [];
-        const intakeEntries = [];
+        // Load existing master files
+        let existingFeedback = [];
+        let existingIntakes = [];
+
+        try {
+            if (fs.existsSync(masterFeedbackPath)) {
+                const content = fs.readFileSync(masterFeedbackPath, 'utf8');
+                existingFeedback = JSON.parse(content) || [];
+            }
+        } catch (error) {
+            console.warn('[UpdateData] Failed to load existing master_feedback.json:', error.message);
+        }
+
+        try {
+            if (fs.existsSync(masterIntakesPath)) {
+                const content = fs.readFileSync(masterIntakesPath, 'utf8');
+                existingIntakes = JSON.parse(content) || [];
+            }
+        } catch (error) {
+            console.warn('[UpdateData] Failed to load existing master_intakes.json:', error.message);
+        }
+
+        // Load all metadata files and merge with existing entries
+        const feedbackEntries = [...existingFeedback];
+        const intakeEntries = [...existingIntakes];
+        const existingFilenames = new Set([
+            ...existingFeedback.map(e => e.filename),
+            ...existingIntakes.map(e => e.filename)
+        ]);
 
         if (fs.existsSync(metadataDir)) {
             const files = fs.readdirSync(metadataDir).filter(f => f.endsWith('.json'));
             console.log(`[UpdateData] Found ${files.length} metadata files`);
+            let newEntriesCount = 0;
 
             for (const file of files) {
                 try {
                     const content = fs.readFileSync(path.join(metadataDir, file), 'utf8');
                     const data = JSON.parse(content);
 
+                    // Skip if entry already exists (avoid duplicates)
+                    if (existingFilenames.has(data.filename)) {
+                        console.log(`[UpdateData] Skipping existing entry: ${data.filename}`);
+                        continue;
+                    }
+
                     if (data.formType === 'feedback') {
                         feedbackEntries.push(data);
                     } else {
                         intakeEntries.push(data);
                     }
+                    newEntriesCount++;
                 } catch (error) {
                     console.warn(`[UpdateData] Failed to parse ${file}:`, error.message);
                     errors.push(`Failed to parse ${file}`);
                 }
             }
+
+            if (newEntriesCount > 0) {
+                results.push(`✓ Found ${newEntriesCount} new entries to add`);
+            } else {
+                results.push('✓ All metadata entries already in master files');
+            }
         } else {
             console.log('[UpdateData] No metadata directory found');
-            results.push('No submissions yet');
+            results.push('No new submissions to sync');
         }
 
-        // Write master files
+        // Write merged master files
         try {
             fs.writeFileSync(masterIntakesPath, JSON.stringify(intakeEntries, null, 2), 'utf8');
-            results.push(`✓ Updated master_intakes.json (${intakeEntries.length} entries)`);
+            results.push(`✓ Saved master_intakes.json (${intakeEntries.length} total entries)`);
             console.log(`[UpdateData] Updated master_intakes.json with ${intakeEntries.length} entries`);
         } catch (error) {
             errors.push(`Failed to update master_intakes.json: ${error.message}`);
@@ -456,7 +496,7 @@ app.post('/api/analytics/update-data', authMiddleware, async (req, res) => {
 
         try {
             fs.writeFileSync(masterFeedbackPath, JSON.stringify(feedbackEntries, null, 2), 'utf8');
-            results.push(`✓ Updated master_feedback.json (${feedbackEntries.length} entries)`);
+            results.push(`✓ Saved master_feedback.json (${feedbackEntries.length} total entries)`);
             console.log(`[UpdateData] Updated master_feedback.json with ${feedbackEntries.length} entries`);
         } catch (error) {
             errors.push(`Failed to update master_feedback.json: ${error.message}`);
