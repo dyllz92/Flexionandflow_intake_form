@@ -37,7 +37,8 @@
       "Bash(PORT=3005 npm start:*)",
       "Bash(wmic process where processid=68168 delete)",
       "Bash(wmic process where processid=156628 delete)",
-      "Bash(wmic process where processid=33088 delete)"
+      "Bash(wmic process where processid=33088 delete)",
+      "Bash([ -d \".github\" ])"
     ]
   }
 }
