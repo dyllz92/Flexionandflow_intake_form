@@ -9,8 +9,8 @@ startCommand = "npm start"
 # Path to health endpoint
 healthcheckPath = "/health"
 
-# Timeout for individual health check requests (5 seconds)
-healthcheckTimeout = 5000
+# Timeout for individual health check requests (10 seconds)
+healthcheckTimeout = 10000
 
 # Interval between health checks (10 seconds)
 healthcheckInterval = 10000
