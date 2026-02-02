@@ -220,6 +220,21 @@ class AnalyticsController {
       res.status(500).json({ error: 'Failed to get data quality data' });
     }
   }
+
+  /**
+   * GET /api/analytics/sessions?period=30
+   * Returns day-by-day session counts for calendar display
+   */
+  async getSessions(req, res) {
+    try {
+      const period = req.query.period || '30';
+      const data = await this.analyticsService.getSessionCalendar(period);
+      res.json(data);
+    } catch (error) {
+      console.error('Error getting session calendar:', error);
+      res.status(500).json({ error: 'Failed to get session calendar' });
+    }
+  }
 }
 
 module.exports = AnalyticsController;

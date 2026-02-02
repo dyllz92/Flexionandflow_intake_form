@@ -403,6 +403,15 @@ app.get('/api/analytics/pressure', authMiddleware, (req, res) =>
 app.get('/api/analytics/feeling-scores', authMiddleware, (req, res) =>
     analyticsController.getFeelingScores(req, res));
 
+app.get('/api/analytics/health-notes', authMiddleware, (req, res) =>
+    analyticsController.getHealthNotes(req, res));
+
+app.get('/api/analytics/data-quality', authMiddleware, (req, res) =>
+    analyticsController.getDataQuality(req, res));
+
+app.get('/api/analytics/sessions', authMiddleware, (req, res) =>
+    analyticsController.getSessions(req, res));
+
 // Update data endpoint - rebuilds master files from metadata
 // Works on both local development and Railway deployment
 app.post('/api/analytics/update-data', authMiddleware, async (req, res) => {

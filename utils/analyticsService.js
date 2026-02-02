@@ -15,6 +15,17 @@ class AnalyticsService {
   }
 
   /**
+   * Parse submission date safely.
+   * Returns a Date object or null if invalid.
+   */
+  parseSubmissionDate(value) {
+    if (!value) return null;
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return null;
+    return date;
+  }
+
+  /**
    * Get cached value if fresh, otherwise return null
    */
   getFromCache(key) {
@@ -119,7 +130,10 @@ class AnalyticsService {
 
     // Group by date based on period
     for (const item of metadata) {
-      const date = new Date(item.submissionDate);
+      const date = this.parseSubmissionDate(item.submissionDate);
+      if (!date) {
+        continue;
+      }
       let key;
 
       if (period === 'daily' || period === '7') {
@@ -131,6 +145,8 @@ class AnalyticsService {
       } else if (period === 'monthly' || period === '90') {
         key = date.toISOString().substring(0, 7); // YYYY-MM
       }
+
+      if (!key) continue;
 
       if (!trends[key]) {
         trends[key] = {
@@ -314,16 +330,27 @@ class AnalyticsService {
       }
     }
 
+    const feedbackCandidates = feedbacks
+      .map(feedback => ({
+        feedback,
+        time: this.parseSubmissionDate(feedback.submissionDate)
+      }))
+      .filter(entry => entry.time);
+
     // Calculate improvements (matched pairs with better matching strategy)
     for (const intake of intakes) {
       // Try to find matching feedback using mobile, therapist, and time proximity (within 24 hours)
-      const intakeTime = new Date(intake.submissionDate).getTime();
+      const intakeDate = this.parseSubmissionDate(intake.submissionDate);
+      if (!intakeDate) {
+        continue;
+      }
+      const intakeTime = intakeDate.getTime();
 
       let bestMatch = null;
       let bestScore = -1;
 
-      for (const feedback of feedbacks) {
-        const feedbackTime = new Date(feedback.submissionDate).getTime();
+      for (const { feedback, time } of feedbackCandidates) {
+        const feedbackTime = time.getTime();
         const timeDiff = Math.abs(feedbackTime - intakeTime);
         const withinDay = timeDiff < 24 * 60 * 60 * 1000; // Within 24 hours
 
@@ -457,6 +484,66 @@ class AnalyticsService {
       lastUpdated: new Date().toISOString()
     };
 
+    this.setCache(cacheKey, result);
+    return result;
+  }
+
+  /**
+   * Build day-by-day session counts for the calendar table.
+   * Returns { dates: ["M/D", ...], counts: [number, ...] }.
+   */
+  async getSessionCalendar(period = '30') {
+    const cacheKey = `session_calendar_${period}`;
+    const cached = this.getFromCache(cacheKey);
+    if (cached) return cached;
+
+    const metadata = await this.loadAllMetadataFromMasterFiles();
+    const intakes = metadata.filter(m => m.formType === 'seated' || m.formType === 'table' || !m.formType);
+    const countsByDate = new Map();
+
+    let minDate = null;
+    let maxDate = null;
+
+    for (const item of intakes) {
+      const date = this.parseSubmissionDate(item.submissionDate);
+      if (!date) continue;
+
+      const dateKey = date.toISOString().split('T')[0]; // YYYY-MM-DD
+      countsByDate.set(dateKey, (countsByDate.get(dateKey) || 0) + 1);
+
+      if (!minDate || date < minDate) minDate = date;
+      if (!maxDate || date > maxDate) maxDate = date;
+    }
+
+    if (!minDate || !maxDate) {
+      const emptyResult = { dates: [], counts: [] };
+      this.setCache(cacheKey, emptyResult);
+      return emptyResult;
+    }
+
+    let startDate = new Date(minDate);
+    let endDate = new Date(maxDate);
+
+    if (period !== 'all') {
+      const days = parseInt(period, 10);
+      if (!Number.isNaN(days) && days > 0) {
+        startDate = new Date(endDate);
+        startDate.setDate(endDate.getDate() - (days - 1));
+      }
+    }
+
+    const dates = [];
+    const counts = [];
+
+    const cursor = new Date(startDate);
+    while (cursor <= endDate) {
+      const key = cursor.toISOString().split('T')[0];
+      dates.push(cursor.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' }));
+      counts.push(countsByDate.get(key) || 0);
+      cursor.setDate(cursor.getDate() + 1);
+    }
+
+    const result = { dates, counts };
     this.setCache(cacheKey, result);
     return result;
   }
