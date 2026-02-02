@@ -23,6 +23,82 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!form) return;
 
+    const DRAFT_STORAGE_KEY = 'flexionIntakeDraft';
+
+    const loadDraft = () => {
+        try {
+            const stored = localStorage.getItem(DRAFT_STORAGE_KEY);
+            if (!stored) return;
+            const data = JSON.parse(stored);
+            const fields = Array.from(form.querySelectorAll('input, textarea, select'));
+
+            fields.forEach(field => {
+                if (!field.name) return;
+                if (field.type === 'hidden' || field.id === 'signatureData' || field.id === 'signedAt') return;
+
+                const savedValue = data[field.name];
+                if (savedValue === undefined || savedValue === null) return;
+
+                if (field.type === 'checkbox') {
+                    if (Array.isArray(savedValue)) {
+                        field.checked = savedValue.includes(field.value || 'on');
+                    } else {
+                        field.checked = Boolean(savedValue);
+                    }
+                } else if (field.type === 'radio') {
+                    field.checked = savedValue === field.value;
+                } else {
+                    field.value = savedValue;
+                }
+            });
+
+            // Trigger conditional UI updates
+            form.querySelectorAll('input[type="radio"]:checked, input[type="checkbox"]:checked').forEach(el => {
+                el.dispatchEvent(new Event('change', { bubbles: true }));
+            });
+            form.querySelectorAll('input[type="range"]').forEach(el => {
+                el.dispatchEvent(new Event('input', { bubbles: true }));
+            });
+        } catch (error) {
+            console.warn('Could not load draft intake form data:', error);
+        }
+    };
+
+    const saveDraft = () => {
+        try {
+            const data = {};
+            const fields = Array.from(form.querySelectorAll('input, textarea, select'));
+
+            fields.forEach(field => {
+                if (!field.name) return;
+                if (field.type === 'hidden' || field.id === 'signatureData' || field.id === 'signedAt') return;
+
+                if (field.type === 'checkbox') {
+                    if (!Array.isArray(data[field.name])) data[field.name] = [];
+                    if (field.checked) data[field.name].push(field.value || 'on');
+                } else if (field.type === 'radio') {
+                    if (field.checked) data[field.name] = field.value;
+                } else {
+                    data[field.name] = field.value;
+                }
+            });
+
+            localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(data));
+        } catch (error) {
+            console.warn('Could not save draft intake form data:', error);
+        }
+    };
+
+    const scheduleDraftSave = () => {
+        clearTimeout(scheduleDraftSave._timer);
+        scheduleDraftSave._timer = setTimeout(saveDraft, 250);
+    };
+
+    form.addEventListener('input', scheduleDraftSave);
+    form.addEventListener('change', scheduleDraftSave);
+
+    loadDraft();
+
     // Progressive disclosure for Other fields (checkboxes)
     // Health red-flag banner and 'no issues' mutual exclusivity
     const healthChecks = Array.from(document.querySelectorAll('input[name="healthChecks"]'));
@@ -30,6 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const noHealthIssues = document.getElementById('noHealthIssues');
 
     const updateHealthBanner = () => {
+        if (!healthBanner) return;
         const anyChecked = healthChecks.some(cb => cb.checked);
         if (anyChecked) {
             healthBanner.classList.remove('hidden-field');
@@ -42,24 +119,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // When 'I feel well today' is checked, clear other health checks. If any health check selected, clear 'no issues'
-    healthChecks.forEach(cb => cb.addEventListener('change', () => {
-        if (cb.checked && noHealthIssues && noHealthIssues.checked) {
-            noHealthIssues.checked = false;
-        }
-        updateHealthBanner();
-    }));
-
-    if (noHealthIssues) {
-        noHealthIssues.addEventListener('change', () => {
-            if (noHealthIssues.checked) {
-                healthChecks.forEach(cb => cb.checked = false);
-                updateHealthBanner();
+    if (healthChecks.length && healthBanner) {
+        // When 'I feel well today' is checked, clear other health checks. If any health check selected, clear 'no issues'
+        healthChecks.forEach(cb => cb.addEventListener('change', () => {
+            if (cb.checked && noHealthIssues && noHealthIssues.checked) {
+                noHealthIssues.checked = false;
             }
-        });
-    }
+            updateHealthBanner();
+        }));
 
-    updateHealthBanner();
+        if (noHealthIssues) {
+            noHealthIssues.addEventListener('change', () => {
+                if (noHealthIssues.checked) {
+                    healthChecks.forEach(cb => cb.checked = false);
+                    updateHealthBanner();
+                }
+            });
+        }
+
+        updateHealthBanner();
+    }
 
     // Table-specific field conditional visibility
     const tableOilPreferenceRadios = Array.from(document.querySelectorAll('input[name="tableOilPreference"]'));
@@ -232,7 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showLoading('Validating your information...');
 
         try {
-            updateLoadingMessage('Submitting your form...');
+            updateLoadingMessage('Saving your information...');
 
             const response = await fetch('/api/submit-form', {
                 method: 'POST',
@@ -245,6 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (response.ok && result.success) {
                 updateLoadingMessage('Success! Redirecting...');
+                localStorage.removeItem(DRAFT_STORAGE_KEY);
                 window.location.href = '/success';
             } else {
                 showLoading(false);

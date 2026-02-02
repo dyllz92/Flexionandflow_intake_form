@@ -6,6 +6,7 @@
     <title>Client Intake Form - Flexion &amp; Flow</title>
     <link rel="stylesheet" href="/css/styles.css?v=20260203">
     <link rel="stylesheet" href="/css/forms.css?v=20260203">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="/js/brand.js?v=20260127"></script>
 </head>
 <body data-brand="flexion">
@@ -42,6 +43,8 @@
                 <span class="step-label">Consent &amp; Sign</span>
             </div>
         </div>
+        <div id="stepCount" class="step-count" aria-live="polite">Step 1 of 4</div>
+        <div id="stepValidationMessage" class="step-validation-message" role="status" aria-live="polite"></div>
 
         <form id="intakeForm" class="intake-form wizard-form">
             <!-- Hidden field for selected brand -->
@@ -69,13 +72,13 @@
 
                 <div class="form-group">
                     <label for="mobile">Phone: <span class="required">*</span></label>
-                    <input type="tel" id="mobile" name="mobile" placeholder="e.g., 0412 345 678" required>
+                    <input type="tel" id="mobile" name="mobile" placeholder="Phone will format automatically" required>
                     <div class="form-error" id="error-mobile"></div>
                 </div>
 
                 <div class="form-group">
                     <label for="dateOfBirth">Date of Birth: <span class="required">*</span></label>
-                    <input type="date" id="dateOfBirth" name="dateOfBirth" required style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:12px; font-size:16px; background:var(--input-bg);">
+                    <input type="text" id="dateOfBirth" name="dateOfBirth" class="date-input" placeholder="DD/MM/YYYY" inputmode="numeric" autocomplete="bday" data-max-date="today" required style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:12px; font-size:16px; background:var(--input-bg);">
                 </div>
 
                 <h3 style="margin-top: 28px; margin-bottom: 16px; font-size: 16px; color: var(--primary-color);">Emergency Contact <span style="font-weight: normal; font-size: 13px; color: var(--text-light);">(Optional)</span></h3>
@@ -127,8 +130,8 @@
                     </div>
                 </div>
 
-                <div id="referrerNameSection" class="form-group hidden-field" style="margin-top: 12px;">
-                    <label for="referrerName">Who referred you?</label>
+                <div id="referrerNameSection" class="form-group hidden-field slide-field" style="margin-top: 12px;">
+                    <label for="referrerName">Who referred you? <span class="optional">(Optional)</span></label>
                     <input type="text" id="referrerName" name="referrerName" placeholder="Name of person or practitioner who referred you" maxlength="100">
                 </div>
 
@@ -187,9 +190,9 @@
                     </div>
                 </div>
 
-                <div id="lastTreatmentSection" class="form-group hidden-field" style="margin-top: 12px;">
-                    <label for="lastTreatmentDate">When was your last treatment?</label>
-                    <input type="date" id="lastTreatmentDate" name="lastTreatmentDate" style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:12px; font-size:16px; background:var(--input-bg);">
+                <div id="lastTreatmentSection" class="form-group hidden-field slide-field" style="margin-top: 12px;">
+                    <label for="lastTreatmentDate">When was your last treatment? <span class="optional">(Optional)</span></label>
+                    <input type="text" id="lastTreatmentDate" name="lastTreatmentDate" class="date-input" placeholder="DD/MM/YYYY" inputmode="numeric" data-max-date="today" style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:12px; font-size:16px; background:var(--input-bg);">
                     <p style="font-size: 12px; color: var(--text-light); margin-top: 4px; font-style: italic;">If unsure, please leave blank.</p>
                 </div>
 
@@ -211,7 +214,7 @@
                     </div>
                 </div>
 
-                <div id="medicationsSection" class="form-group hidden-field" style="margin-top: 12px;">
+                <div id="medicationsSection" class="form-group hidden-field slide-field" style="margin-top: 12px;">
                     <label for="medicationsList">Please list medications here: <span class="required">*</span></label>
                     <textarea id="medicationsList" name="medicationsList" rows="2" maxlength="500" placeholder="e.g., Blood pressure medication, pain relievers, etc."></textarea>
                 </div>
@@ -224,7 +227,7 @@
                     </div>
                 </div>
 
-                <div id="allergiesSection" class="form-group hidden-field" style="margin-top: 12px;">
+                <div id="allergiesSection" class="form-group hidden-field slide-field" style="margin-top: 12px;">
                     <label for="allergiesList">Please list allergies here: <span class="required">*</span></label>
                     <textarea id="allergiesList" name="allergiesList" rows="2" maxlength="500" placeholder="e.g., Nuts, latex, fragrances, certain oils, etc."></textarea>
                 </div>
@@ -243,7 +246,7 @@
                     <label>Do you have any of the following? <span class="required">*</span></label>
                     <p style="font-size: 13px; color: var(--text-light); margin: 4px 0 12px 0;">Select all that apply. This helps me tailor your treatment safely.</p>
                     <div class="checkbox-group">
-                        <label style="background: linear-gradient(135deg, rgba(92,184,92,0.15) 0%, rgba(92,184,92,0.08) 100%); border-color: var(--success-color);"><input type="checkbox" name="medicalConditions" value="I Feel Fine Today"> I Feel Fine Today</label>
+                        <label><input type="checkbox" name="medicalConditions" value="I Feel Fine Today"> I Feel Fine Today</label>
                         <label><input type="checkbox" name="medicalConditions" value="Arthritis"> Arthritis</label>
                         <label><input type="checkbox" name="medicalConditions" value="Asthma / Respiratory conditions"> Asthma / Respiratory conditions</label>
                         <label><input type="checkbox" name="medicalConditions" value="Blood clots / DVT"> Blood clots / DVT</label>
@@ -261,8 +264,8 @@
                     </div>
                 </div>
 
-                <div id="conditionsDetailsSection" class="form-group hidden-field" style="margin-top: 12px;">
-                    <label for="conditionsDetails">Please provide more details about your condition(s):</label>
+                <div id="conditionsDetailsSection" class="form-group hidden-field slide-field" style="margin-top: 12px;">
+                    <label for="conditionsDetails">Please provide more details about your condition(s): <span class="optional">(Optional)</span></label>
                     <textarea id="conditionsDetails" name="conditionsDetails" rows="3" maxlength="1000" placeholder="e.g., Diagnosed with diabetes in 2020, currently managed with medication..."></textarea>
                 </div>
 
@@ -284,7 +287,7 @@
                 </div>
 
                 <div class="form-group" style="margin-top: 20px;">
-                    <label for="additionalHealthInfo">Please provide any additional information that you feel is relevant to your health history:</label>
+                    <label for="additionalHealthInfo">Please provide any additional information that you feel is relevant to your health history: <span class="optional">(Optional)</span></label>
                     <textarea id="additionalHealthInfo" name="additionalHealthInfo" rows="3" maxlength="1000" placeholder="Any other information you'd like to share..."></textarea>
                 </div>
 
@@ -337,6 +340,7 @@
             </div>
 
             <!-- Sticky Action Bar (wizard controls) -->
+            <div id="stepStatus" class="step-status" aria-live="polite"></div>
             <div class="form-actions sticky-actions wizard-bottom-bar" style="align-items:center;">
                 <button type="button" id="prevBtn" class="btn-secondary">Back</button>
                 <button type="button" id="nextBtn" class="btn-primary">Next</button>
@@ -347,6 +351,8 @@
 
     <script src="/js/auPhoneFormatter.js?v=20260127" defer></script>
     <script src="/js/signature.js?v=20260125" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr" defer></script>
+    <script src="/js/date-picker.js?v=20260203" defer></script>
     <script src="/js/wizard.js?v=20260203" defer></script>
 
     <!-- Terms + Privacy Modal -->
@@ -374,6 +380,13 @@ My information will remain confidential and will not be disclosed to any third p
     <script>
         // Initialize intake form conditional fields
         document.addEventListener('DOMContentLoaded', () => {
+            function animateReveal(section) {
+                if (!section) return;
+                section.classList.remove('slide-down');
+                void section.offsetWidth;
+                section.classList.add('slide-down');
+            }
+
             // Toggle conditional field visibility based on Yes/No selections
             function setupConditionalField(radioName, conditionalSectionId, showOnValue = 'Yes') {
                 const radios = document.querySelectorAll(`input[name="${radioName}"]`);
@@ -386,6 +399,7 @@ My information will remain confidential and will not be disclosed to any third p
                         if (radio.value === showOnValue && radio.checked) {
                             section.classList.remove('hidden-field');
                             section.style.display = 'block';
+                            animateReveal(section);
                         } else if (radio.checked) {
                             section.classList.add('hidden-field');
                             section.style.display = 'none';
@@ -412,6 +426,7 @@ My information will remain confidential and will not be disclosed to any third p
                     if (showReferrer && radio.checked) {
                         referrerSection.classList.remove('hidden-field');
                         referrerSection.style.display = 'block';
+                        animateReveal(referrerSection);
                     } else if (radio.checked) {
                         referrerSection.classList.add('hidden-field');
                         referrerSection.style.display = 'none';
@@ -435,6 +450,7 @@ My information will remain confidential and will not be disclosed to any third p
                 if (injuriesYes || hasConditions) {
                     detailsSection.classList.remove('hidden-field');
                     detailsSection.style.display = 'block';
+                    animateReveal(detailsSection);
                 } else {
                     detailsSection.classList.add('hidden-field');
                     detailsSection.style.display = 'none';
