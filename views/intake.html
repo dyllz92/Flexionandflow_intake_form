@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Massage Intake - Flexion &amp; Flow</title>
+    <title>Client Intake Form - Flexion &amp; Flow</title>
     <link rel="stylesheet" href="/css/styles.css?v=20260129-v20">
     <link rel="stylesheet" href="/css/forms.css?v=20260129-v20">
     <script src="/js/brand.js?v=20260127"></script>
@@ -12,7 +12,7 @@
     <div class="container">
         <div class="form-header">
             <img src="/js/Wellcorp_Logo.png?v=20260129" alt="Flexion &amp; Flow Logo" class="logo-small">
-            <h1 id="formTitle">Seated Chair Massage Intake</h1>
+            <h1 id="formTitle">Client Intake Form</h1>
         </div>
 
         <!-- Step Indicator -->
@@ -36,17 +36,12 @@
         </div>
 
         <form id="intakeForm" class="intake-form wizard-form">
-            <!-- Hidden fields for selected brand and form type -->
+            <!-- Hidden field for selected brand -->
             <input type="hidden" id="selectedBrand" name="selectedBrand" value="flexion">
-            <input type="hidden" id="formType" name="formType" value="seated">
 
             <!-- Step 1: Details -->
             <div class="wizard-step form-section" data-step="1">
                 <h2>Step 1 — Details</h2>
-                <div class="form-group">
-                    <label for="fullName">Full Name: <span class="required">*</span></label>
-                    <input type="text" id="fullName" name="fullName" required>
-                </div>
 
                 <div class="form-group">
                     <label>Gender (optional):</label>
@@ -55,6 +50,16 @@
                         <label><input type="radio" name="gender" value="Female"> Female</label>
                         <label><input type="radio" name="gender" value="Prefer not to disclose"> Prefer not to disclose</label>
                     </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="fullName">Full Name: <span class="required">*</span></label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="dateOfBirth">Date of Birth: <span class="required">*</span></label>
+                    <input type="date" id="dateOfBirth" name="dateOfBirth" required style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:12px; font-size:16px; background:var(--input-bg);">
                 </div>
 
                 <div class="form-group">
@@ -69,21 +74,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="aoRole">Your role at AO: <span class="required">*</span></label>
-                    <select id="aoRole" name="aoRole" required style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:12px; font-size:16px; background:var(--input-bg);">
-                        <option value="">-- Select your role --</option>
-                        <option value="Player">Player</option>
-                        <option value="Coach">Coach</option>
-                        <option value="AO Staff">AO Staff</option>
-                        <option value="Contractor">Contractor</option>
-                        <option value="Volunteer">Volunteer</option>
-                        <option value="Media">Media</option>
-                        <option value="Spectator">Spectator</option>
-                        <option value="Other">Other</option>
-                    </select>
-                    <div id="aoRoleOtherSection" class="hidden-field" style="margin-top:10px;">
-                        <input type="text" id="aoRoleOther" name="aoRoleOther" placeholder="Please specify your role" maxlength="100">
-                    </div>
+                    <label for="occupation">Occupation: <span class="required">*</span></label>
+                    <input type="text" id="occupation" name="occupation" placeholder="e.g., Office Worker, Athlete, Student" maxlength="100" required>
                 </div>
 
                 <div class="form-group">
@@ -99,22 +91,6 @@
                             <span style="font-size:11px; color:var(--text-light); text-align:center;">Fantastic</span>
                         </div>
                         <span id="feelingPreValue" style="min-width:36px; padding:6px 10px; background:var(--primary-color); color:white; border-radius:6px; font-weight:600; text-align:center; margin-top:6px;" aria-hidden="true">5</span>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Is this your first time experiencing AO wellness? <span class="required">*</span></label>
-                    <div class="radio-group" style="display:flex; flex-direction:row; gap:12px; margin-top:8px;">
-                        <label style="flex:1; text-align:center;"><input type="radio" name="firstTimeAOWellness" value="Yes" required> Yes</label>
-                        <label style="flex:1; text-align:center;"><input type="radio" name="firstTimeAOWellness" value="No" required> No</label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Who is your therapist today? <span class="required">*</span></label>
-                    <div class="radio-group" style="display:flex; flex-direction:row; gap:12px; margin-top:8px;">
-                        <label style="flex:1; text-align:center;"><input type="radio" name="therapistName" value="Dylan" required> Dylan</label>
-                        <label style="flex:1; text-align:center;"><input type="radio" name="therapistName" value="Adriana" required> Adriana</label>
                     </div>
                 </div>
 
@@ -292,13 +268,13 @@
                 </div>
 
                 <div style="margin-bottom:12px;">
-                    <button type="button" id="viewTermsBtn" class="btn-secondary" style="width:100%;" aria-label="View Terms and Privacy">View Terms + Privacy</button>
+                    <button type="button" id="viewTermsBtn" class="btn-secondary" style="width:100%;" aria-label="View Declaration and Privacy Consent">View Declaration & Privacy Consent</button>
                 </div>
 
                 <div class="consent-checkbox">
                     <label>
                         <input type="checkbox" name="consentAll" id="consentAll" required>
-                        <span id="consentText">I have read and agree to the Terms and Privacy Collection Notice, I consent to receive seated chair massage today. I understand I can ask to change pressure, pause, or stop at any time, I'm comfortable receiving seated massage in a shared workplace/event setting. <span class="required">*</span></span>
+                        <span id="consentText">I confirm that I have read, understood, and agree to the above terms. This tick serves as my digital signature and consent to the collection, storage, and use of my personal information for the stated purposes. <span class="required">*</span></span>
                     </label>
                 </div>
 
@@ -351,48 +327,15 @@
         <div class="terms-backdrop"></div>
         <div class="terms-content" role="document">
             <div class="terms-header">
-                <h2 id="termsModalTitle">Terms and Privacy</h2>
-                <button type="button" id="closeTermsBtn" class="btn-secondary" aria-label="Close Terms">Close</button>
+                <h2 id="termsModalTitle">Declaration & Privacy Consent</h2>
+                <button type="button" id="closeTermsBtn" class="btn-secondary" aria-label="Close">Close</button>
             </div>
             <div class="terms-body">
-                <pre style="white-space:pre-wrap;">TERMS AND CONDITIONS AND CONSENT TO TREATMENT
+                <div style="white-space:pre-wrap; line-height:1.6;">I confirm that the information I have provided in this form is true and complete to the best of my knowledge. I understand that it is my responsibility to inform the practitioner of any changes to my health or medical history that may affect my treatment.
 
-By completing and submitting this form, you confirm that you have read and agree to the following.
+I acknowledge that my personal and health information is collected for the purpose of delivering safe and effective massage therapy. This information will be stored securely within Flexion & Flow's authorised systems, including Google Workspace and Carepatron, in accordance with the Privacy Act 1988 (Cth) and the Australian Privacy Principles.
 
-1) CONSENT TO MASSAGE THERAPY
-
-I consent to receive massage therapy from a qualified and insured practitioner. I understand massage therapy may involve physical pressure, stretching, or manipulation and carries inherent risks, including (but not limited to) muscle soreness, bruising, fatigue, dizziness, or aggravation of a pre-existing condition.
-
-2) NOT A SUBSTITUTE FOR MEDICAL CARE
-
-I understand that the services provided:
-- Do not replace regular medical care or treatment by a doctor
-- Do not involve medical diagnosis, prescription, or medical procedures
-
-If I am unsure whether massage is appropriate, I will consult my GP or specialist before treatment.
-
-3) HEALTH INFORMATION - CLIENT RESPONSIBILITY
-
-I confirm I have disclosed all relevant medical and health information (including injuries, surgeries, implants/medical devices, medications, allergies, pregnancy, and any conditions that may affect treatment). I agree to inform the practitioner of any changes before or during treatment.
-
-4) VOLUNTARY PARTICIPATION AND RIGHT TO STOP
-
-I understand this treatment is undertaken voluntarily. I can request changes to pressure or areas treated at any time and can stop the session at any time.
-
-5) RELEASE AND LIMITATION OF LIABILITY
-
-To the extent permitted by law, I release and hold harmless the organiser of the service, the venue or event promoter (if applicable), and the treating practitioner from liability for injury, illness, or adverse effects arising from treatment, except in cases of gross negligence, unlawful conduct, or where liability cannot be excluded by law.
-
-Nothing in these terms excludes, restricts, or modifies any rights or remedies available under the Australian Consumer Law or other laws that cannot be excluded.
-
-6) PRIVACY AND STORAGE OF INFORMATION
-
-I consent to the collection, use, and storage of the information I provide (including sensitive health information and my signature) for the purpose of providing treatment, maintaining professional records, and meeting legal, insurance, and safety obligations. Reasonable steps will be taken to store information securely, and access will be limited to those who need it for these purposes.
-
-7) ELECTRONIC SIGNATURE
-
-I agree that selecting the consent checkbox(es) and providing a drawn or typed signature constitutes a valid electronic signature and evidence of my informed consent.
-</pre>
+My information will remain confidential and will not be disclosed to any third party without my consent, except where disclosure is required or authorised by law. I understand that I may request access to, or correction of, my records at any time by contacting Dylan Ennis, Owner of Flexion & Flow.</div>
             </div>
         </div>
     </div>
@@ -441,23 +384,6 @@ I agree that selecting the consent checkbox(es) and providing a drawn or typed s
                 });
             }
 
-            // AO Role "Other" toggle
-            const aoRoleSelect = document.getElementById('aoRole');
-            const aoRoleOtherSection = document.getElementById('aoRoleOtherSection');
-            if (aoRoleSelect && aoRoleOtherSection) {
-                aoRoleSelect.addEventListener('change', () => {
-                    if (aoRoleSelect.value === 'Other') {
-                        aoRoleOtherSection.classList.remove('hidden-field');
-                        aoRoleOtherSection.style.display = 'block';
-                    } else {
-                        aoRoleOtherSection.classList.add('hidden-field');
-                        aoRoleOtherSection.style.display = 'none';
-                        const otherInput = document.getElementById('aoRoleOther');
-                        if (otherInput) otherInput.value = '';
-                    }
-                });
-            }
-
             // Store form type in localStorage
             setSelectedFormType(formType);
 
@@ -477,15 +403,8 @@ I agree that selecting the consent checkbox(es) and providing a drawn or typed s
                 formTitle.innerHTML = titleText;
             }
 
-            // Update consent text based on form type
-            const consentText = document.getElementById('consentText');
-            if (consentText) {
-                if (formType === 'table') {
-                    consentText.innerHTML = 'I have read and agree to the Terms and Privacy Collection Notice, I consent to receive table massage today. I understand I can ask to change pressure, pause, or stop at any time. Table massage may involve oil/skin contact and professional draping - I can request changes at any time. <span class="required">*</span>';
-                } else {
-                    consentText.innerHTML = 'I have read and agree to the Terms and Privacy Collection Notice, I consent to receive seated chair massage today. I understand I can ask to change pressure, pause, or stop at any time, I\'m comfortable receiving seated massage in a shared workplace/event setting. <span class="required">*</span>';
-                }
-            }
+            // Consent text is now the same for all form types (Declaration & Privacy Consent)
+            // No need to update dynamically based on form type
 
             // Show/hide table-specific fields based on form type
             initTableFieldVisibility(formType);

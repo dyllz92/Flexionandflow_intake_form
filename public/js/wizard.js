@@ -10,26 +10,18 @@
     // Step validation rules
     const stepValidation = {
         1: () => {
-            // Step 1: fullName, mobile, aoRole, firstTimeAOWellness, therapistName required
+            // Step 1: fullName, dateOfBirth, mobile, occupation required
             const fullName = document.getElementById('fullName');
+            const dateOfBirth = document.getElementById('dateOfBirth');
             const mobile = document.getElementById('mobile');
-            const aoRole = document.getElementById('aoRole');
-            const firstTimeAOWellness = document.querySelectorAll('input[name="firstTimeAOWellness"]');
-            const therapistName = document.querySelectorAll('input[name="therapistName"]');
+            const occupation = document.getElementById('occupation');
 
             const nameValid = fullName && fullName.value.trim().length > 0;
+            const dobValid = dateOfBirth && dateOfBirth.value.trim().length > 0;
             const mobileValid = mobile && mobile.value.trim().length > 0;
-            const aoRoleValid = aoRole && aoRole.value.trim().length > 0;
-            const firstTimeValid = Array.from(firstTimeAOWellness).some(r => r.checked);
-            const therapistValid = Array.from(therapistName).some(r => r.checked);
+            const occupationValid = occupation && occupation.value.trim().length > 0;
 
-            // If aoRole is "Other", also require aoRoleOther
-            if (aoRole && aoRole.value === 'Other') {
-                const aoRoleOther = document.getElementById('aoRoleOther');
-                if (!aoRoleOther || !aoRoleOther.value.trim().length) return false;
-            }
-
-            return nameValid && mobileValid && aoRoleValid && firstTimeValid && therapistValid;
+            return nameValid && dobValid && mobileValid && occupationValid;
         },
         2: () => {
             // Step 2: pressure preference required (body map optional)
@@ -218,18 +210,14 @@
         switch (currentStep) {
             case 1: {
                 const fullName = document.getElementById('fullName');
+                const dateOfBirth = document.getElementById('dateOfBirth');
                 const mobile = document.getElementById('mobile');
-                const aoRole = document.getElementById('aoRole');
-                const aoRoleOther = document.getElementById('aoRoleOther');
-                const firstTimeAOWellness = document.querySelectorAll('input[name="firstTimeAOWellness"]');
-                const therapistName = document.querySelectorAll('input[name="therapistName"]');
+                const occupation = document.getElementById('occupation');
 
                 if (!fullName || !fullName.value.trim()) message = 'Please enter your full name.';
-                else if (!mobile || !mobile.value.trim()) message = 'Please enter your mobile number.';
-                else if (!aoRole || !aoRole.value.trim()) message = 'Please select your role at AO.';
-                else if (aoRole.value === 'Other' && (!aoRoleOther || !aoRoleOther.value.trim())) message = 'Please specify your role.';
-                else if (!Array.from(firstTimeAOWellness).some(r => r.checked)) message = 'Please indicate if this is your first time with AO wellness.';
-                else if (!Array.from(therapistName).some(r => r.checked)) message = 'Please select your therapist.';
+                else if (!dateOfBirth || !dateOfBirth.value.trim()) message = 'Please enter your date of birth.';
+                else if (!mobile || !mobile.value.trim()) message = 'Please enter your phone number.';
+                else if (!occupation || !occupation.value.trim()) message = 'Please enter your occupation.';
                 break;
             }
             case 2: {
@@ -316,7 +304,7 @@
             }
             case 4: {
                 const consentAll = document.getElementById('consentAll');
-                if (!consentAll || !consentAll.checked) message = 'Please confirm you have read and agreed to the Terms and consent to treatment.';
+                if (!consentAll || !consentAll.checked) message = 'Please confirm you have read and agreed to the Declaration & Privacy Consent.';
                 break;
             }
         }
