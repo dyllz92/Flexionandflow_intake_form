@@ -122,9 +122,14 @@
                         <label><input type="radio" name="referralSource" value="Google" required> Google</label>
                         <label><input type="radio" name="referralSource" value="Word of mouth"> Word of mouth</label>
                         <label><input type="radio" name="referralSource" value="Advertisement"> Advertisement</label>
-                        <label><input type="radio" name="referralSource" value="Returning client"> Returning client</label>
+                        <label><input type="radio" name="referralSource" value="Friend or Family Member"> Friend or Family Member</label>
                         <label><input type="radio" name="referralSource" value="Referral from another practitioner"> Referral from another practitioner</label>
                     </div>
+                </div>
+
+                <div id="referrerNameSection" class="form-group hidden-field" style="margin-top: 12px;">
+                    <label for="referrerName">Who referred you?</label>
+                    <input type="text" id="referrerName" name="referrerName" placeholder="Name of person or practitioner who referred you" maxlength="100">
                 </div>
 
                 <h3 style="margin-top: 28px; margin-bottom: 16px; font-size: 16px; color: var(--primary-color);">Lifestyle</h3>
@@ -134,33 +139,48 @@
                     <input type="text" id="occupation" name="occupation" placeholder="e.g., Office Worker, Tradie, Student" maxlength="100" required>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group slider-group">
                     <label>How well do you sleep? <span class="required">*</span></label>
-                    <div class="radio-group inline">
-                        <label><input type="radio" name="sleepQuality" value="Terrible" required> Terrible</label>
-                        <label><input type="radio" name="sleepQuality" value="Restless"> Restless</label>
-                        <label><input type="radio" name="sleepQuality" value="Average"> Average</label>
-                        <label><input type="radio" name="sleepQuality" value="Fantastic"> Fantastic!</label>
+                    <div class="slider-container">
+                        <input type="range" id="sleepQuality" name="sleepQuality" min="1" max="5" value="3" class="slider-input" required>
+                        <div class="slider-labels">
+                            <span>1 - Terrible</span>
+                            <span>2</span>
+                            <span>3</span>
+                            <span>4</span>
+                            <span>5 - Fantastic</span>
+                        </div>
+                        <div class="slider-value" id="sleepQualityValue">3</div>
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group slider-group">
                     <label>How are your stress levels? <span class="required">*</span></label>
-                    <div class="radio-group inline">
-                        <label><input type="radio" name="stressLevel" value="High" required> High</label>
-                        <label><input type="radio" name="stressLevel" value="Moderate"> Moderate</label>
-                        <label><input type="radio" name="stressLevel" value="Mild"> Mild</label>
-                        <label><input type="radio" name="stressLevel" value="Low"> Low</label>
+                    <div class="slider-container">
+                        <input type="range" id="stressLevel" name="stressLevel" min="1" max="5" value="3" class="slider-input" required>
+                        <div class="slider-labels">
+                            <span>1 - Low</span>
+                            <span>2</span>
+                            <span>3</span>
+                            <span>4</span>
+                            <span>5 - High</span>
+                        </div>
+                        <div class="slider-value" id="stressLevelValue">3</div>
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group slider-group">
                     <label>How often do you exercise? <span class="required">*</span></label>
-                    <div class="radio-group inline">
-                        <label><input type="radio" name="exerciseFrequency" value="Never" required> Never</label>
-                        <label><input type="radio" name="exerciseFrequency" value="1-2 Days per week"> 1-2 Days/week</label>
-                        <label><input type="radio" name="exerciseFrequency" value="3-4 Days per week"> 3-4 Days/week</label>
-                        <label><input type="radio" name="exerciseFrequency" value="Every Day"> Every Day!</label>
+                    <div class="slider-container">
+                        <input type="range" id="exerciseFrequency" name="exerciseFrequency" min="1" max="5" value="3" class="slider-input" required>
+                        <div class="slider-labels">
+                            <span>1 - Never</span>
+                            <span>2</span>
+                            <span>3</span>
+                            <span>4</span>
+                            <span>5 - Daily</span>
+                        </div>
+                        <div class="slider-value" id="exerciseFrequencyValue">3</div>
                     </div>
                 </div>
 
@@ -395,6 +415,23 @@ My information will remain confidential and will not be disclosed to any third p
 
             injuriesRadios.forEach(r => r.addEventListener('change', updateConditionsVisibility));
             conditionsRadios.forEach(r => r.addEventListener('change', updateConditionsVisibility));
+
+            // Slider value display updates
+            const sliders = [
+                { id: 'sleepQuality', valueId: 'sleepQualityValue' },
+                { id: 'stressLevel', valueId: 'stressLevelValue' },
+                { id: 'exerciseFrequency', valueId: 'exerciseFrequencyValue' }
+            ];
+
+            sliders.forEach(({ id, valueId }) => {
+                const slider = document.getElementById(id);
+                const valueDisplay = document.getElementById(valueId);
+                if (slider && valueDisplay) {
+                    slider.addEventListener('input', () => {
+                        valueDisplay.textContent = slider.value;
+                    });
+                }
+            });
         });
     </script>
 </body>

@@ -36,17 +36,18 @@
             const visitReasons = document.querySelectorAll('input[name="visitReasons"]:checked');
             const referralSource = document.querySelectorAll('input[name="referralSource"]:checked');
             const occupation = document.getElementById('occupation');
-            const sleepQuality = document.querySelectorAll('input[name="sleepQuality"]:checked');
-            const stressLevel = document.querySelectorAll('input[name="stressLevel"]:checked');
-            const exerciseFrequency = document.querySelectorAll('input[name="exerciseFrequency"]:checked');
+            // Sliders always have a value (1-5), so just check they exist
+            const sleepQuality = document.getElementById('sleepQuality');
+            const stressLevel = document.getElementById('stressLevel');
+            const exerciseFrequency = document.getElementById('exerciseFrequency');
             const previousMassage = document.querySelectorAll('input[name="previousMassage"]:checked');
 
             const visitReasonsValid = visitReasons.length > 0;
             const referralSourceValid = referralSource.length > 0;
             const occupationValid = occupation && occupation.value.trim().length > 0;
-            const sleepQualityValid = sleepQuality.length > 0;
-            const stressLevelValid = stressLevel.length > 0;
-            const exerciseFrequencyValid = exerciseFrequency.length > 0;
+            const sleepQualityValid = sleepQuality && sleepQuality.value;
+            const stressLevelValid = stressLevel && stressLevel.value;
+            const exerciseFrequencyValid = exerciseFrequency && exerciseFrequency.value;
             const previousMassageValid = previousMassage.length > 0;
 
             return visitReasonsValid && referralSourceValid && occupationValid && sleepQualityValid && stressLevelValid && exerciseFrequencyValid && previousMassageValid;
@@ -245,17 +246,12 @@
                 const visitReasons = document.querySelectorAll('input[name="visitReasons"]:checked');
                 const referralSource = document.querySelectorAll('input[name="referralSource"]:checked');
                 const occupation = document.getElementById('occupation');
-                const sleepQuality = document.querySelectorAll('input[name="sleepQuality"]:checked');
-                const stressLevel = document.querySelectorAll('input[name="stressLevel"]:checked');
-                const exerciseFrequency = document.querySelectorAll('input[name="exerciseFrequency"]:checked');
+                // Sliders always have a value, so no validation error for them
                 const previousMassage = document.querySelectorAll('input[name="previousMassage"]:checked');
 
                 if (visitReasons.length === 0) message = 'Please select at least one reason for your visit.';
                 else if (referralSource.length === 0) message = 'Please tell us how you heard about us.';
                 else if (!occupation || !occupation.value.trim()) message = 'Please enter your occupation.';
-                else if (sleepQuality.length === 0) message = 'Please rate your sleep quality.';
-                else if (stressLevel.length === 0) message = 'Please rate your stress levels.';
-                else if (exerciseFrequency.length === 0) message = 'Please select how often you exercise.';
                 else if (previousMassage.length === 0) message = 'Please indicate if you have previous massage experience.';
                 break;
             }
