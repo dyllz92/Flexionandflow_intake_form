@@ -395,6 +395,19 @@ textarea {
     text-align: center;
 }
 
+/* Compact button style for Step 2 */
+.radio-group.compact,
+.checkbox-group.compact {
+    gap: 10px;
+}
+
+.radio-group.compact label,
+.checkbox-group.compact label {
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 20px;
+}
+
 .radio-group label:hover,
 .checkbox-group label:hover {
     background: rgba(30, 136, 199, 0.08);

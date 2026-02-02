@@ -215,18 +215,12 @@
                 const email = document.getElementById('email');
                 const mobile = document.getElementById('mobile');
                 const dateOfBirth = document.getElementById('dateOfBirth');
-                const emergencyName = document.getElementById('emergencyName');
-                const emergencyRelationship = document.getElementById('emergencyRelationship');
-                const emergencyPhone = document.getElementById('emergencyPhone');
 
                 if (!firstName || !firstName.value.trim()) message = 'Please enter your first name.';
                 else if (!lastName || !lastName.value.trim()) message = 'Please enter your last name.';
                 else if (!email || !email.value.trim()) message = 'Please enter your email address.';
                 else if (!mobile || !mobile.value.trim()) message = 'Please enter your phone number.';
                 else if (!dateOfBirth || !dateOfBirth.value.trim()) message = 'Please enter your date of birth.';
-                else if (!emergencyName || !emergencyName.value.trim()) message = 'Please enter an emergency contact name.';
-                else if (!emergencyRelationship || !emergencyRelationship.value.trim()) message = 'Please enter the relationship to your emergency contact.';
-                else if (!emergencyPhone || !emergencyPhone.value.trim()) message = 'Please enter your emergency contact phone number.';
                 break;
             }
             case 2: {
