@@ -220,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Ensure selectedBrand is included (from hidden field or localStorage)
         if (!data.selectedBrand && typeof getSelectedBrand === 'function') {
-            data.selectedBrand = getSelectedBrand() || 'hemisphere';
+            data.selectedBrand = getSelectedBrand() || 'flexion';
         }
 
         // Show loading with progress steps

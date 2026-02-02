@@ -9,11 +9,6 @@ const pdfGenerator = require('./utils/pdfGenerator');
 const driveUploader = require('./utils/driveUploader');
 const MetadataStore = require('./utils/metadataStore');
 const MasterFileManager = require('./utils/masterFileManager');
-const AnalyticsService = require('./utils/analyticsService');
-const { authMiddleware, adminMiddleware, login, logout, register } = require('./utils/authMiddleware');
-const UserStore = require('./utils/userStore');
-const emailService = require('./utils/emailService');
-const AnalyticsController = require('./controllers/analyticsController');
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
@@ -63,11 +58,9 @@ requiredDirs.forEach(dir => {
     }
 });
 
-// Initialize analytics modules
+// Initialize modules
 const metadataStore = new MetadataStore(driveUploader);
 const masterFileManager = new MasterFileManager();
-const analyticsService = new AnalyticsService(metadataStore);
-const analyticsController = new AnalyticsController(analyticsService);
 
 // Serve built SPA assets when available
 if (spaDir) {
@@ -95,20 +88,7 @@ app.get('/feedback', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'feedback.html'));
 });
 
-// Auth routes - serve analytics dashboard with hash routing
-app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'analytics.html'));
-});
-
-app.get('/register', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'analytics.html'));
-});
-
 // Static pages
-app.get('/analytics', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'analytics.html'));
-});
-
 app.get('/privacy', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'privacy.html'));
 });
@@ -137,12 +117,6 @@ app.get('/detailed-form', (req, res) => {
 
 app.get('/success', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'success.html'));
-});
-
-// Analytics dashboard page
-app.get('/analytics', (req, res) => {
-    res.set('Cache-Control', 'no-store');
-    res.sendFile(path.join(__dirname, 'views', 'analytics.html'));
 });
 
 // Input validation helpers
@@ -277,273 +251,6 @@ app.post('/api/submit-form', async (req, res) => {
     }
 });
 
-// Wrapper to handle async errors in routes
-const asyncHandler = (fn) => (req, res, next) => {
-    Promise.resolve(fn(req, res, next)).catch(err => {
-        console.error('[Route Error]', req.path, ':', err.message);
-        console.error(err.stack);
-        res.status(500).json({ error: 'Internal server error' });
-    });
-};
-
-// Authentication endpoints
-app.post('/api/auth/login', asyncHandler(login));
-app.post('/api/auth/register', asyncHandler(register));
-app.post('/api/auth/logout', authMiddleware, asyncHandler(logout));
-
-// Admin user management endpoints
-app.get('/api/admin/pending-users', authMiddleware, adminMiddleware, async (req, res) => {
-    try {
-        const userStore = new UserStore();
-        const pendingUsers = await userStore.getPendingUsers();
-
-        // Remove password hashes for security
-        const safeUsers = pendingUsers.map(u => ({
-            id: u.id,
-            email: u.email,
-            firstName: u.firstName,
-            lastName: u.lastName,
-            createdAt: u.createdAt
-        }));
-
-        res.json({ users: safeUsers });
-    } catch (error) {
-        console.error('Error fetching pending users:', error);
-        res.status(500).json({ error: 'Failed to fetch pending users' });
-    }
-});
-
-app.post('/api/admin/approve-user/:userId', authMiddleware, adminMiddleware, async (req, res) => {
-    try {
-        const { userId } = req.params;
-        const userStore = new UserStore();
-
-        // Update user status
-        const user = await userStore.updateUserStatus(userId, 'approved', req.user.userId);
-
-        // Send approval email
-        await emailService.sendApprovalEmail(user.email, user.firstName);
-
-        res.json({
-            success: true,
-            message: `User ${user.firstName} ${user.lastName} approved and notified by email`
-        });
-    } catch (error) {
-        console.error('Error approving user:', error);
-        res.status(500).json({ error: 'Failed to approve user' });
-    }
-});
-
-app.post('/api/admin/reject-user/:userId', authMiddleware, adminMiddleware, async (req, res) => {
-    try {
-        const { userId } = req.params;
-        const { reason } = req.body;
-        const userStore = new UserStore();
-
-        // Update user status
-        const user = await userStore.updateUserStatus(userId, 'rejected', req.user.userId);
-
-        // Send rejection email
-        await emailService.sendRejectionEmail(user.email, user.firstName, reason);
-
-        // Remove rejected user to allow re-registration
-        await userStore.deleteRejectedUser(user.email);
-
-        res.json({
-            success: true,
-            message: `User ${user.firstName} ${user.lastName} rejected and notified by email`
-        });
-    } catch (error) {
-        console.error('Error rejecting user:', error);
-        res.status(500).json({ error: 'Failed to reject user' });
-    }
-});
-
-app.get('/api/admin/all-users', authMiddleware, adminMiddleware, async (req, res) => {
-    try {
-        const userStore = new UserStore();
-        const allUsers = await userStore.getAllUsers();
-
-        // Remove password hashes for security
-        const safeUsers = allUsers.map(u => ({
-            id: u.id,
-            email: u.email,
-            firstName: u.firstName,
-            lastName: u.lastName,
-            role: u.role,
-            status: u.status,
-            createdAt: u.createdAt,
-            approvedAt: u.approvedAt,
-            lastLoginAt: u.lastLoginAt
-        }));
-
-        res.json({ users: safeUsers });
-    } catch (error) {
-        console.error('Error fetching all users:', error);
-        res.status(500).json({ error: 'Failed to fetch users' });
-    }
-});
-
-// Analytics endpoints (all require authentication)
-app.get('/api/analytics/summary', authMiddleware, (req, res) =>
-    analyticsController.getSummary(req, res));
-
-app.get('/api/analytics/trends', authMiddleware, (req, res) =>
-    analyticsController.getTrends(req, res));
-
-app.get('/api/analytics/health-issues', authMiddleware, (req, res) =>
-    analyticsController.getHealthIssues(req, res));
-
-app.get('/api/analytics/therapists', authMiddleware, (req, res) =>
-    analyticsController.getTherapists(req, res));
-
-app.get('/api/analytics/pressure', authMiddleware, (req, res) =>
-    analyticsController.getPressure(req, res));
-
-app.get('/api/analytics/feeling-scores', authMiddleware, (req, res) =>
-    analyticsController.getFeelingScores(req, res));
-
-app.get('/api/analytics/health-notes', authMiddleware, (req, res) =>
-    analyticsController.getHealthNotes(req, res));
-
-app.get('/api/analytics/data-quality', authMiddleware, (req, res) =>
-    analyticsController.getDataQuality(req, res));
-
-app.get('/api/analytics/sessions', authMiddleware, (req, res) =>
-    analyticsController.getSessions(req, res));
-
-// Update data endpoint - rebuilds master files from metadata
-// Works on both local development and Railway deployment
-app.post('/api/analytics/update-data', authMiddleware, async (req, res) => {
-    try {
-        const fs = require('fs');
-        const path = require('path');
-
-        const results = [];
-        const errors = [];
-        const metadataDir = path.join(__dirname, 'metadata');
-        const masterIntakesPath = path.join(__dirname, 'pdfs', 'master_intakes.json');
-        const masterFeedbackPath = path.join(__dirname, 'pdfs', 'master_feedback.json');
-
-        console.log('[UpdateData] Starting data synchronization...');
-
-        // Ensure pdfs directory exists
-        const pdfsDir = path.join(__dirname, 'pdfs');
-        if (!fs.existsSync(pdfsDir)) {
-            fs.mkdirSync(pdfsDir, { recursive: true });
-            console.log('[UpdateData] Created pdfs directory');
-        }
-
-        // Load existing master files
-        let existingFeedback = [];
-        let existingIntakes = [];
-
-        try {
-            if (fs.existsSync(masterFeedbackPath)) {
-                const content = fs.readFileSync(masterFeedbackPath, 'utf8');
-                existingFeedback = JSON.parse(content) || [];
-            }
-        } catch (error) {
-            console.warn('[UpdateData] Failed to load existing master_feedback.json:', error.message);
-        }
-
-        try {
-            if (fs.existsSync(masterIntakesPath)) {
-                const content = fs.readFileSync(masterIntakesPath, 'utf8');
-                existingIntakes = JSON.parse(content) || [];
-            }
-        } catch (error) {
-            console.warn('[UpdateData] Failed to load existing master_intakes.json:', error.message);
-        }
-
-        // Load all metadata files and merge with existing entries
-        const feedbackEntries = [...existingFeedback];
-        const intakeEntries = [...existingIntakes];
-        const existingFilenames = new Set([
-            ...existingFeedback.map(e => e.filename),
-            ...existingIntakes.map(e => e.filename)
-        ]);
-
-        if (fs.existsSync(metadataDir)) {
-            const files = fs.readdirSync(metadataDir).filter(f => f.endsWith('.json'));
-            console.log(`[UpdateData] Found ${files.length} metadata files`);
-            let newEntriesCount = 0;
-
-            for (const file of files) {
-                try {
-                    const content = fs.readFileSync(path.join(metadataDir, file), 'utf8');
-                    const data = JSON.parse(content);
-
-                    // Skip if entry already exists (avoid duplicates)
-                    if (existingFilenames.has(data.filename)) {
-                        console.log(`[UpdateData] Skipping existing entry: ${data.filename}`);
-                        continue;
-                    }
-
-                    if (data.formType === 'feedback') {
-                        feedbackEntries.push(data);
-                    } else {
-                        intakeEntries.push(data);
-                    }
-                    newEntriesCount++;
-                } catch (error) {
-                    console.warn(`[UpdateData] Failed to parse ${file}:`, error.message);
-                    errors.push(`Failed to parse ${file}`);
-                }
-            }
-
-            if (newEntriesCount > 0) {
-                results.push(`✓ Found ${newEntriesCount} new entries to add`);
-            } else {
-                results.push('✓ All metadata entries already in master files');
-            }
-        } else {
-            console.log('[UpdateData] No metadata directory found');
-            results.push('No new submissions to sync');
-        }
-
-        // Write merged master files
-        try {
-            fs.writeFileSync(masterIntakesPath, JSON.stringify(intakeEntries, null, 2), 'utf8');
-            results.push(`✓ Saved master_intakes.json (${intakeEntries.length} total entries)`);
-            console.log(`[UpdateData] Updated master_intakes.json with ${intakeEntries.length} entries`);
-        } catch (error) {
-            errors.push(`Failed to update master_intakes.json: ${error.message}`);
-            console.error('[UpdateData] Failed to write master_intakes.json:', error);
-        }
-
-        try {
-            fs.writeFileSync(masterFeedbackPath, JSON.stringify(feedbackEntries, null, 2), 'utf8');
-            results.push(`✓ Saved master_feedback.json (${feedbackEntries.length} total entries)`);
-            console.log(`[UpdateData] Updated master_feedback.json with ${feedbackEntries.length} entries`);
-        } catch (error) {
-            errors.push(`Failed to update master_feedback.json: ${error.message}`);
-            console.error('[UpdateData] Failed to write master_feedback.json:', error);
-        }
-
-        // Clear analytics cache to force reload
-        analyticsService.clearCache();
-
-        const message = [
-            ...results,
-            ...(errors.length > 0 ? ['', 'Issues encountered:', ...errors] : [])
-        ].join('\n');
-
-        res.json({
-            success: errors.length === 0,
-            message: message,
-            timestamp: new Date().toISOString()
-        });
-
-    } catch (error) {
-        console.error('Update data error:', error);
-        res.status(500).json({
-            success: false,
-            message: `Failed to update data: ${error.message}`
-        });
-    }
-});
-
 // Health check endpoint
 const healthPayload = () => {
     try {
@@ -607,22 +314,10 @@ if (spaDir) {
     });
 }
 
-// Initialize admin account on startup
-async function initializeAdmin() {
-    try {
-        const userStore = new UserStore();
-        await userStore.ensureAdminExists();
-    } catch (error) {
-        console.error('❌ Failed to initialize admin account:', error.message);
-    }
-}
-
 // Log environment configuration for debugging
 console.log('[Init] Environment Configuration:');
 console.log(`  NODE_ENV: ${process.env.NODE_ENV || 'development'}`);
 console.log(`  PORT: ${PORT}`);
-console.log(`  ADMIN_EMAIL configured: ${!!process.env.ADMIN_EMAIL}`);
-console.log(`  ADMIN_PASSWORD configured: ${!!process.env.ADMIN_PASSWORD}`);
 console.log(`  Google Drive configured: ${driveUploader.isConfigured()}`);
 console.log(`  Public directory exists: ${fs.existsSync(publicDir)}`);
 
@@ -654,28 +349,17 @@ const server = app.listen(PORT, '0.0.0.0', () => {
 
     const ip = getLocalIPv4();
     console.log(`\n${'='.repeat(50)}`);
-    console.log(`🌟 Hemisphere Wellness Intake Form Server`);
+    console.log(`Flexion and Flow Intake Form Server`);
     console.log(`${'='.repeat(50)}`);
-    console.log(`\n📍 Server running at:`);
+    console.log(`\n Server running at:`);
     console.log(`   Local:   http://localhost:${PORT}`);
     console.log(`   Network: http://${ip ?? 'localhost'}:${PORT}`);
-    console.log(`\n💡 To access from mobile devices:`);
+    console.log(`\n To access from mobile devices:`);
     console.log(`   1. Make sure your phone is on the same WiFi`);
     console.log(`   2. Find your computer's IP address`);
     console.log(`   3. Open http://${ip ?? 'localhost'}:${PORT} on your phone`);
-    console.log(`\n🔗 For internet access, use ngrok or Cloudflare Tunnel`);
+    console.log(`\n For internet access, use ngrok or Cloudflare Tunnel`);
     console.log(`\n${'='.repeat(50)}\n`);
-
-    // Initialize admin account in background (non-blocking)
-    // This prevents blocking the event loop on startup
-    console.log('[Init] Starting background admin initialization...');
-    initializeAdmin()
-        .then(() => {
-            console.log('[Init] Background admin initialization completed successfully');
-        })
-        .catch(error => {
-            console.error('⚠️  Background admin initialization failed:', error.message);
-        });
 
     console.log('[Init] Server is fully initialized and ready to accept requests');
 });

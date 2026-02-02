@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" data-brand="hemisphere">
+<html lang="en" data-brand="flexion">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Massage Intake - Hemisphere Wellness</title>
+    <title>Massage Intake - Flexion &amp; Flow</title>
     <link rel="stylesheet" href="/css/styles.css?v=20260129-v20">
     <link rel="stylesheet" href="/css/forms.css?v=20260129-v20">
     <script src="/js/brand.js?v=20260127"></script>
 </head>
-<body data-brand="hemisphere">
+<body data-brand="flexion">
     <div class="container">
         <div class="form-header">
-            <img src="/js/Wellcorp_Logo.png?v=20260129" alt="Hemisphere Wellness Logo" class="logo-small">
+            <img src="/js/Wellcorp_Logo.png?v=20260129" alt="Flexion &amp; Flow Logo" class="logo-small">
             <h1 id="formTitle">Seated Chair Massage Intake</h1>
         </div>
 
@@ -37,7 +37,7 @@
 
         <form id="intakeForm" class="intake-form wizard-form">
             <!-- Hidden fields for selected brand and form type -->
-            <input type="hidden" id="selectedBrand" name="selectedBrand" value="hemisphere">
+            <input type="hidden" id="selectedBrand" name="selectedBrand" value="flexion">
             <input type="hidden" id="formType" name="formType" value="seated">
 
             <!-- Step 1: Details -->
@@ -70,7 +70,7 @@
 
                 <div class="form-group">
                     <label for="aoRole">Your role at AO: <span class="required">*</span></label>
-                    <select id="aoRole" name="aoRole" required style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:8px; font-size:16px; background:#000000;">
+                    <select id="aoRole" name="aoRole" required style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:12px; font-size:16px; background:var(--input-bg);">
                         <option value="">-- Select your role --</option>
                         <option value="Player">Player</option>
                         <option value="Coach">Coach</option>
@@ -118,8 +118,8 @@
                     </div>
                 </div>
 
-                <div style="margin-top:24px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.1); text-align:center;">
-                    <p style="font-size:13px; color:rgba(255,255,255,0.7); margin:0;">All details filled in? Click <strong>Next</strong> to continue.</p>
+                <div style="margin-top:24px; padding-top:16px; border-top:1px solid var(--border-color); text-align:center;">
+                    <p style="font-size:13px; color:var(--text-light); margin:0;">All details filled in? Click <strong>Next</strong> to continue.</p>
                 </div>
             </div>
 
@@ -175,8 +175,8 @@
                     </div>
                 </div>
 
-                <div style="margin-top:24px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.1); text-align:center;">
-                    <p style="font-size:13px; color:rgba(255,255,255,0.7); margin:0;">Selected your focus areas? Click <strong>Next</strong> to continue.</p>
+                <div style="margin-top:24px; padding-top:16px; border-top:1px solid var(--border-color); text-align:center;">
+                    <p style="font-size:13px; color:var(--text-light); margin:0;">Selected your focus areas? Click <strong>Next</strong> to continue.</p>
                 </div>
             </div>
 
@@ -260,7 +260,7 @@
                     </div>
                 </div>
 
-                <div id="healthBanner" class="info-box hidden-field" style="background:transparent; border:2px solid #2196F3; margin-top:20px;">
+                <div id="healthBanner" class="info-box hidden-field" style="background:rgba(30,136,199,0.06); border:2px solid var(--accent-color); margin-top:20px;">
                     <p><strong>Please provide more details:</strong></p>
                     <div class="form-group" style="margin-top:10px;">
                         <label for="reviewNote">Additional information: <span class="required">*</span></label>
@@ -272,13 +272,13 @@
                     </div>
                 </div>
 
-                <div style="margin-top:24px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.1); text-align:center;">
-                    <p style="font-size:13px; color:rgba(255,255,255,0.7); margin:0;">Health check complete? Click <strong>Next</strong> to continue.</p>
+                <div style="margin-top:24px; padding-top:16px; border-top:1px solid var(--border-color); text-align:center;">
+                    <p style="font-size:13px; color:var(--text-light); margin:0;">Health check complete? Click <strong>Next</strong> to continue.</p>
                 </div>
             </div>
 
             <!-- Step 4: Consent & Signature -->
-            <div class="wizard-step form-section consent-section" data-step="4" style="border:2px solid #2196F3; padding:20px; border-radius:8px;">
+            <div class="wizard-step form-section consent-section" data-step="4" style="border:2px solid var(--accent-color); padding:20px; border-radius:12px;">
                 <h2>Step 4 — Consent & Signature</h2>
 
                 <div class="info-box">
@@ -325,8 +325,8 @@
                     <input type="hidden" id="signedAt" name="signedAt">
                 </div>
 
-                <div style="margin-top:24px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.1); text-align:center;">
-                    <p style="font-size:13px; color:rgba(255,255,255,0.7); margin:0;">Everything complete? Click <strong>Submit Intake</strong> to finish.</p>
+                <div style="margin-top:24px; padding-top:16px; border-top:1px solid var(--border-color); text-align:center;">
+                    <p style="font-size:13px; color:var(--text-light); margin:0;">Everything complete? Click <strong>Submit Intake</strong> to finish.</p>
                 </div>
             </div>
 
@@ -423,7 +423,7 @@ I agree that selecting the consent checkbox(es) and providing a drawn or typed s
     <script src="/js/intake-form.js?v=20260128" defer></script>
 
     <script>
-        // Initialize form type on intake form (Hemisphere Wellness only)
+        // Initialize form type on intake form (Flexion & Flow)
         document.addEventListener('DOMContentLoaded', () => {
             // Get form type from URL parameter or localStorage
             const urlParams = new URLSearchParams(window.location.search);
@@ -471,7 +471,7 @@ I agree that selecting the consent checkbox(es) and providing a drawn or typed s
             const formTitle = document.getElementById('formTitle');
             const formTypeDisplay = getFormTypeDisplayName(formType);
 
-            document.title = formTypeDisplay + ' - Hemisphere Wellness';
+            document.title = formTypeDisplay + ' - Flexion & Flow';
             if (formTitle) {
                 const titleText = formType === 'table' ? 'Table Massage Intake' : 'Seated Chair Massage Intake';
                 formTitle.innerHTML = titleText;

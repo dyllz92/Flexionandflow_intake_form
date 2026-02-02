@@ -1,23 +1,23 @@
-// Brand Theming for Hemisphere Wellness
+// Brand Theming for Flexion & Flow
 // Simplified - single brand only
 
 const FORM_TYPE_STORAGE_KEY = 'selectedFormType';
 
 /**
- * Get the brand (always returns 'hemisphere')
- * @returns {'hemisphere'}
+ * Get the brand (always returns 'flexion')
+ * @returns {'flexion'}
  */
 function getSelectedBrand() {
-    return 'hemisphere';
+    return 'flexion';
 }
 
 /**
  * Apply brand theming to the page
- * Always applies Hemisphere theme
+ * Always applies Flexion & Flow theme
  */
 function applyBrandTheme() {
-    document.body.setAttribute('data-brand', 'hemisphere');
-    document.documentElement.setAttribute('data-brand', 'hemisphere');
+    document.body.setAttribute('data-brand', 'flexion');
+    document.documentElement.setAttribute('data-brand', 'flexion');
 }
 
 /**
@@ -25,16 +25,16 @@ function applyBrandTheme() {
  * @returns {string}
  */
 function getBrandDisplayName() {
-    return 'Hemisphere Wellness';
+    return 'Flexion & Flow';
 }
 
 /**
  * Initialize brand theming on page load
- * @returns {'hemisphere'}
+ * @returns {'flexion'}
  */
 function initBrandTheme() {
     applyBrandTheme();
-    return 'hemisphere';
+    return 'flexion';
 }
 
 /**
@@ -88,7 +88,7 @@ function getFormTypeDisplayName(formType) {
     }
 }
 
-// Auto-initialize Hemisphere theme on DOMContentLoaded
+// Auto-initialize Flexion & Flow theme on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
     applyBrandTheme();
 });

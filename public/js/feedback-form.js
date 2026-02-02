@@ -178,7 +178,7 @@
             }
 
             if (!Array.from(recommendRadios).some(r => r.checked)) {
-                showToast('Please indicate if you would recommend AO Wellness.', 'error');
+                showToast('Please indicate if you would recommend Flexion & Flow.', 'error');
                 return;
             }
 
@@ -195,7 +195,7 @@
             data.createdAt = nowIso;
             data.updatedAt = nowIso;
             data.formType = 'feedback';
-            data.selectedBrand = 'hemisphere';
+            data.selectedBrand = 'flexion';
 
             // Use shared utilities if available, otherwise use fallback
             const showLoadingFn = window.FormUtils ? window.FormUtils.showLoading : fallbackShowLoading;

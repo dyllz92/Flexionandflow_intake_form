@@ -21,9 +21,9 @@ async function generatePDF(formData) {
             doc.on('end', () => resolve(Buffer.concat(chunks)));
             doc.on('error', reject);
 
-            // Brand name and colors (Hemisphere Wellness only)
-            const brandName = 'Hemisphere Wellness';
-            const brandColor = '#9D4EDD'; // Hemisphere purple
+            // Brand name and colors
+            const brandName = 'Flexion and Flow';
+            const brandColor = '#9D4EDD'; // Purple theme
 
             // Determine form type title
             const formType = formData.formType || 'seated';
