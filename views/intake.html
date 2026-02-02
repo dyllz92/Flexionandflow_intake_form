@@ -78,21 +78,21 @@
                     <input type="date" id="dateOfBirth" name="dateOfBirth" required style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:12px; font-size:16px; background:var(--input-bg);">
                 </div>
 
-                <h3 style="margin-top: 28px; margin-bottom: 16px; font-size: 16px; color: var(--primary-color);">Emergency Contact</h3>
+                <h3 style="margin-top: 28px; margin-bottom: 16px; font-size: 16px; color: var(--primary-color);">Emergency Contact <span style="font-weight: normal; font-size: 13px; color: var(--text-light);">(Optional)</span></h3>
 
                 <div class="form-group">
-                    <label for="emergencyName">Emergency Contact Name: <span class="required">*</span></label>
-                    <input type="text" id="emergencyName" name="emergencyName" required>
+                    <label for="emergencyName">Emergency Contact Name:</label>
+                    <input type="text" id="emergencyName" name="emergencyName">
                 </div>
 
                 <div class="form-group">
-                    <label for="emergencyRelationship">Relationship: <span class="required">*</span></label>
-                    <input type="text" id="emergencyRelationship" name="emergencyRelationship" placeholder="e.g., Partner, Parent, Friend" required>
+                    <label for="emergencyRelationship">Relationship:</label>
+                    <input type="text" id="emergencyRelationship" name="emergencyRelationship" placeholder="e.g., Partner, Parent, Friend">
                 </div>
 
                 <div class="form-group">
-                    <label for="emergencyPhone">Emergency Contact Phone: <span class="required">*</span></label>
-                    <input type="tel" id="emergencyPhone" name="emergencyPhone" placeholder="e.g., 0412 345 678" required>
+                    <label for="emergencyPhone">Emergency Contact Phone:</label>
+                    <input type="tel" id="emergencyPhone" name="emergencyPhone" placeholder="e.g., 0412 345 678">
                 </div>
 
                 <div style="margin-top:24px; padding-top:16px; border-top:1px solid var(--border-color); text-align:center;">
@@ -142,45 +142,38 @@
                 <div class="form-group slider-group">
                     <label>How well do you sleep? <span class="required">*</span></label>
                     <div class="slider-container">
-                        <input type="range" id="sleepQuality" name="sleepQuality" min="1" max="5" value="3" class="slider-input" required>
+                        <input type="range" id="sleepQuality" name="sleepQuality" min="1" max="10" value="5" class="slider-input" required>
                         <div class="slider-labels">
                             <span>1 - Terrible</span>
-                            <span>2</span>
-                            <span>3</span>
-                            <span>4</span>
-                            <span>5 - Fantastic</span>
+                            <span>5</span>
+                            <span>10 - Fantastic</span>
                         </div>
-                        <div class="slider-value" id="sleepQualityValue">3</div>
+                        <div class="slider-value" id="sleepQualityValue">5</div>
                     </div>
                 </div>
 
                 <div class="form-group slider-group">
                     <label>How are your stress levels? <span class="required">*</span></label>
                     <div class="slider-container">
-                        <input type="range" id="stressLevel" name="stressLevel" min="1" max="5" value="3" class="slider-input" required>
+                        <input type="range" id="stressLevel" name="stressLevel" min="1" max="10" value="5" class="slider-input" required>
                         <div class="slider-labels">
                             <span>1 - Low</span>
-                            <span>2</span>
-                            <span>3</span>
-                            <span>4</span>
-                            <span>5 - High</span>
+                            <span>5</span>
+                            <span>10 - High</span>
                         </div>
-                        <div class="slider-value" id="stressLevelValue">3</div>
+                        <div class="slider-value" id="stressLevelValue">5</div>
                     </div>
                 </div>
 
-                <div class="form-group slider-group">
+                <div class="form-group">
                     <label>How often do you exercise? <span class="required">*</span></label>
-                    <div class="slider-container">
-                        <input type="range" id="exerciseFrequency" name="exerciseFrequency" min="1" max="5" value="3" class="slider-input" required>
-                        <div class="slider-labels">
-                            <span>1 - Never</span>
-                            <span>2</span>
-                            <span>3</span>
-                            <span>4</span>
-                            <span>5 - Daily</span>
-                        </div>
-                        <div class="slider-value" id="exerciseFrequencyValue">3</div>
+                    <div class="radio-group">
+                        <label><input type="radio" name="exerciseFrequency" value="Never" required> Never</label>
+                        <label><input type="radio" name="exerciseFrequency" value="Rarely (few times a month)"> Rarely (few times a month)</label>
+                        <label><input type="radio" name="exerciseFrequency" value="1-2 days per week"> 1-2 days per week</label>
+                        <label><input type="radio" name="exerciseFrequency" value="3-4 days per week"> 3-4 days per week</label>
+                        <label><input type="radio" name="exerciseFrequency" value="5+ days per week"> 5+ days per week</label>
+                        <label><input type="radio" name="exerciseFrequency" value="Daily"> Daily</label>
                     </div>
                 </div>
 
@@ -247,16 +240,30 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Do you have any medical conditions we need to be aware of? <span class="required">*</span></label>
-                    <div class="radio-group inline">
-                        <label><input type="radio" name="hasMedicalConditions" value="Yes" required> Yes</label>
-                        <label><input type="radio" name="hasMedicalConditions" value="No"> No</label>
+                    <label>Do you have any of the following? <span class="required">*</span></label>
+                    <p style="font-size: 13px; color: var(--text-light); margin: 4px 0 12px 0;">Select all that apply. This helps me tailor your treatment safely.</p>
+                    <div class="checkbox-group">
+                        <label style="background: linear-gradient(135deg, rgba(92,184,92,0.15) 0%, rgba(92,184,92,0.08) 100%); border-color: var(--success-color);"><input type="checkbox" name="medicalConditions" value="I Feel Fine Today"> I Feel Fine Today</label>
+                        <label><input type="checkbox" name="medicalConditions" value="Arthritis"> Arthritis</label>
+                        <label><input type="checkbox" name="medicalConditions" value="Asthma / Respiratory conditions"> Asthma / Respiratory conditions</label>
+                        <label><input type="checkbox" name="medicalConditions" value="Blood clots / DVT"> Blood clots / DVT</label>
+                        <label><input type="checkbox" name="medicalConditions" value="Cancer (current or history)"> Cancer (current or history)</label>
+                        <label><input type="checkbox" name="medicalConditions" value="Chronic pain"> Chronic pain</label>
+                        <label><input type="checkbox" name="medicalConditions" value="Diabetes"> Diabetes</label>
+                        <label><input type="checkbox" name="medicalConditions" value="Epilepsy / Seizures"> Epilepsy / Seizures</label>
+                        <label><input type="checkbox" name="medicalConditions" value="Fibromyalgia"> Fibromyalgia</label>
+                        <label><input type="checkbox" name="medicalConditions" value="Heart condition"> Heart condition</label>
+                        <label><input type="checkbox" name="medicalConditions" value="High / Low blood pressure"> High / Low blood pressure</label>
+                        <label><input type="checkbox" name="medicalConditions" value="Migraines / Headaches"> Migraines / Headaches</label>
+                        <label><input type="checkbox" name="medicalConditions" value="Osteoporosis"> Osteoporosis</label>
+                        <label><input type="checkbox" name="medicalConditions" value="Skin conditions (eczema, psoriasis, etc.)"> Skin conditions (eczema, psoriasis, etc.)</label>
+                        <label><input type="checkbox" name="medicalConditions" value="Other"> Other</label>
                     </div>
                 </div>
 
                 <div id="conditionsDetailsSection" class="form-group hidden-field" style="margin-top: 12px;">
-                    <label for="conditionsDetails">Please provide details here (with dates or years if you can): <span class="required">*</span></label>
-                    <textarea id="conditionsDetails" name="conditionsDetails" rows="3" maxlength="1000" placeholder="e.g., Lower back injury from 2023, ongoing shoulder issues, diabetes diagnosed 2020, etc."></textarea>
+                    <label for="conditionsDetails">Please provide more details about your condition(s):</label>
+                    <textarea id="conditionsDetails" name="conditionsDetails" rows="3" maxlength="1000" placeholder="e.g., Diagnosed with diabetes in 2020, currently managed with medication..."></textarea>
                 </div>
 
                 <div class="form-group">
@@ -395,16 +402,37 @@ My information will remain confidential and will not be disclosed to any third p
             setupConditionalField('takingMedications', 'medicationsSection', 'Yes');
             setupConditionalField('hasAllergies', 'allergiesSection', 'Yes');
 
-            // Injuries OR conditions show the details section
+            // Referrer name field - show when Friend/Family or Practitioner referral selected
+            const referralRadios = document.querySelectorAll('input[name="referralSource"]');
+            const referrerSection = document.getElementById('referrerNameSection');
+
+            referralRadios.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    const showReferrer = radio.value === 'Friend or Family Member' || radio.value === 'Referral from another practitioner';
+                    if (showReferrer && radio.checked) {
+                        referrerSection.classList.remove('hidden-field');
+                        referrerSection.style.display = 'block';
+                    } else if (radio.checked) {
+                        referrerSection.classList.add('hidden-field');
+                        referrerSection.style.display = 'none';
+                        document.getElementById('referrerName').value = '';
+                    }
+                });
+            });
+
+            // Injuries show the details section
             const injuriesRadios = document.querySelectorAll('input[name="hasRecentInjuries"]');
-            const conditionsRadios = document.querySelectorAll('input[name="hasMedicalConditions"]');
             const detailsSection = document.getElementById('conditionsDetailsSection');
+
+            // Medical conditions checkboxes - show details when conditions other than "I Feel Fine Today" are checked
+            const conditionCheckboxes = document.querySelectorAll('input[name="medicalConditions"]');
 
             function updateConditionsVisibility() {
                 const injuriesYes = document.querySelector('input[name="hasRecentInjuries"][value="Yes"]')?.checked;
-                const conditionsYes = document.querySelector('input[name="hasMedicalConditions"][value="Yes"]')?.checked;
+                const checkedConditions = document.querySelectorAll('input[name="medicalConditions"]:checked');
+                const hasConditions = Array.from(checkedConditions).some(cb => cb.value !== 'I Feel Fine Today');
 
-                if (injuriesYes || conditionsYes) {
+                if (injuriesYes || hasConditions) {
                     detailsSection.classList.remove('hidden-field');
                     detailsSection.style.display = 'block';
                 } else {
@@ -414,13 +442,12 @@ My information will remain confidential and will not be disclosed to any third p
             }
 
             injuriesRadios.forEach(r => r.addEventListener('change', updateConditionsVisibility));
-            conditionsRadios.forEach(r => r.addEventListener('change', updateConditionsVisibility));
+            conditionCheckboxes.forEach(cb => cb.addEventListener('change', updateConditionsVisibility));
 
             // Slider value display updates
             const sliders = [
                 { id: 'sleepQuality', valueId: 'sleepQualityValue' },
-                { id: 'stressLevel', valueId: 'stressLevelValue' },
-                { id: 'exerciseFrequency', valueId: 'exerciseFrequencyValue' }
+                { id: 'stressLevel', valueId: 'stressLevelValue' }
             ];
 
             sliders.forEach(({ id, valueId }) => {

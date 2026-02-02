@@ -10,36 +10,31 @@
     // Step validation rules
     const stepValidation = {
         1: () => {
-            // Step 1: firstName, lastName, email, mobile, dateOfBirth, emergencyName, emergencyRelationship, emergencyPhone required
+            // Step 1: firstName, lastName, email, mobile, dateOfBirth required (emergency contact optional)
             const firstName = document.getElementById('firstName');
             const lastName = document.getElementById('lastName');
             const email = document.getElementById('email');
             const mobile = document.getElementById('mobile');
             const dateOfBirth = document.getElementById('dateOfBirth');
-            const emergencyName = document.getElementById('emergencyName');
-            const emergencyRelationship = document.getElementById('emergencyRelationship');
-            const emergencyPhone = document.getElementById('emergencyPhone');
 
             const firstNameValid = firstName && firstName.value.trim().length > 0;
             const lastNameValid = lastName && lastName.value.trim().length > 0;
             const emailValid = email && email.value.trim().length > 0;
             const mobileValid = mobile && mobile.value.trim().length > 0;
             const dobValid = dateOfBirth && dateOfBirth.value.trim().length > 0;
-            const emergencyNameValid = emergencyName && emergencyName.value.trim().length > 0;
-            const emergencyRelationshipValid = emergencyRelationship && emergencyRelationship.value.trim().length > 0;
-            const emergencyPhoneValid = emergencyPhone && emergencyPhone.value.trim().length > 0;
 
-            return firstNameValid && lastNameValid && emailValid && mobileValid && dobValid && emergencyNameValid && emergencyRelationshipValid && emergencyPhoneValid;
+            return firstNameValid && lastNameValid && emailValid && mobileValid && dobValid;
         },
         2: () => {
             // Step 2: visitReasons (at least one), referralSource, occupation, sleepQuality, stressLevel, exerciseFrequency, previousMassage required
             const visitReasons = document.querySelectorAll('input[name="visitReasons"]:checked');
             const referralSource = document.querySelectorAll('input[name="referralSource"]:checked');
             const occupation = document.getElementById('occupation');
-            // Sliders always have a value (1-5), so just check they exist
+            // Sliders always have a value (1-10), so just check they exist
             const sleepQuality = document.getElementById('sleepQuality');
             const stressLevel = document.getElementById('stressLevel');
-            const exerciseFrequency = document.getElementById('exerciseFrequency');
+            // Exercise frequency is now radio buttons
+            const exerciseFrequency = document.querySelectorAll('input[name="exerciseFrequency"]:checked');
             const previousMassage = document.querySelectorAll('input[name="previousMassage"]:checked');
 
             const visitReasonsValid = visitReasons.length > 0;
@@ -47,28 +42,27 @@
             const occupationValid = occupation && occupation.value.trim().length > 0;
             const sleepQualityValid = sleepQuality && sleepQuality.value;
             const stressLevelValid = stressLevel && stressLevel.value;
-            const exerciseFrequencyValid = exerciseFrequency && exerciseFrequency.value;
+            const exerciseFrequencyValid = exerciseFrequency.length > 0;
             const previousMassageValid = previousMassage.length > 0;
 
             return visitReasonsValid && referralSourceValid && occupationValid && sleepQualityValid && stressLevelValid && exerciseFrequencyValid && previousMassageValid;
         },
         3: () => {
-            // Step 3: takingMedications, hasAllergies, hasRecentInjuries, hasMedicalConditions, seenOtherProvider, pregnantBreastfeeding required
+            // Step 3: takingMedications, hasAllergies, hasRecentInjuries, medicalConditions (checkboxes), seenOtherProvider, pregnantBreastfeeding required
             // If Yes to medications, medicationsList required
             // If Yes to allergies, allergiesList required
-            // If Yes to injuries OR conditions, conditionsDetails required
             const takingMedications = document.querySelectorAll('input[name="takingMedications"]:checked');
             const hasAllergies = document.querySelectorAll('input[name="hasAllergies"]:checked');
             const hasRecentInjuries = document.querySelectorAll('input[name="hasRecentInjuries"]:checked');
-            const hasMedicalConditions = document.querySelectorAll('input[name="hasMedicalConditions"]:checked');
+            const medicalConditions = document.querySelectorAll('input[name="medicalConditions"]:checked');
             const seenOtherProvider = document.querySelectorAll('input[name="seenOtherProvider"]:checked');
             const pregnantBreastfeeding = document.querySelectorAll('input[name="pregnantBreastfeeding"]:checked');
 
-            // Base validation - all radio groups must have selection
+            // Base validation - all radio groups must have selection, and at least one condition checkbox
             if (takingMedications.length === 0) return false;
             if (hasAllergies.length === 0) return false;
             if (hasRecentInjuries.length === 0) return false;
-            if (hasMedicalConditions.length === 0) return false;
+            if (medicalConditions.length === 0) return false;
             if (seenOtherProvider.length === 0) return false;
             if (pregnantBreastfeeding.length === 0) return false;
 
@@ -83,13 +77,6 @@
             if (allergiesYes) {
                 const allergiesList = document.getElementById('allergiesList');
                 if (!allergiesList || !allergiesList.value.trim().length) return false;
-            }
-
-            const injuriesYes = document.querySelector('input[name="hasRecentInjuries"][value="Yes"]')?.checked;
-            const conditionsYes = document.querySelector('input[name="hasMedicalConditions"][value="Yes"]')?.checked;
-            if (injuriesYes || conditionsYes) {
-                const conditionsDetails = document.getElementById('conditionsDetails');
-                if (!conditionsDetails || !conditionsDetails.value.trim().length) return false;
             }
 
             return true;
@@ -246,12 +233,14 @@
                 const visitReasons = document.querySelectorAll('input[name="visitReasons"]:checked');
                 const referralSource = document.querySelectorAll('input[name="referralSource"]:checked');
                 const occupation = document.getElementById('occupation');
-                // Sliders always have a value, so no validation error for them
+                // Exercise frequency is radio buttons
+                const exerciseFrequency = document.querySelectorAll('input[name="exerciseFrequency"]:checked');
                 const previousMassage = document.querySelectorAll('input[name="previousMassage"]:checked');
 
                 if (visitReasons.length === 0) message = 'Please select at least one reason for your visit.';
                 else if (referralSource.length === 0) message = 'Please tell us how you heard about us.';
                 else if (!occupation || !occupation.value.trim()) message = 'Please enter your occupation.';
+                else if (exerciseFrequency.length === 0) message = 'Please select how often you exercise.';
                 else if (previousMassage.length === 0) message = 'Please indicate if you have previous massage experience.';
                 break;
             }
@@ -259,14 +248,14 @@
                 const takingMedications = document.querySelectorAll('input[name="takingMedications"]:checked');
                 const hasAllergies = document.querySelectorAll('input[name="hasAllergies"]:checked');
                 const hasRecentInjuries = document.querySelectorAll('input[name="hasRecentInjuries"]:checked');
-                const hasMedicalConditions = document.querySelectorAll('input[name="hasMedicalConditions"]:checked');
+                const medicalConditions = document.querySelectorAll('input[name="medicalConditions"]:checked');
                 const seenOtherProvider = document.querySelectorAll('input[name="seenOtherProvider"]:checked');
                 const pregnantBreastfeeding = document.querySelectorAll('input[name="pregnantBreastfeeding"]:checked');
 
                 if (takingMedications.length === 0) message = 'Please indicate if you are taking any medications.';
                 else if (hasAllergies.length === 0) message = 'Please indicate if you have any allergies.';
                 else if (hasRecentInjuries.length === 0) message = 'Please indicate if you have had recent accidents, injuries or surgeries.';
-                else if (hasMedicalConditions.length === 0) message = 'Please indicate if you have any medical conditions.';
+                else if (medicalConditions.length === 0) message = 'Please select at least one option from the medical conditions list.';
                 else if (seenOtherProvider.length === 0) message = 'Please indicate if you have seen another healthcare provider.';
                 else if (pregnantBreastfeeding.length === 0) message = 'Please indicate if you are pregnant or breastfeeding.';
                 else {
@@ -286,15 +275,6 @@
                         if (!allergiesList || !allergiesList.value.trim()) {
                             message = 'Please list your allergies.';
                             break;
-                        }
-                    }
-
-                    const injuriesYes = document.querySelector('input[name="hasRecentInjuries"][value="Yes"]')?.checked;
-                    const conditionsYes = document.querySelector('input[name="hasMedicalConditions"][value="Yes"]')?.checked;
-                    if (injuriesYes || conditionsYes) {
-                        const conditionsDetails = document.getElementById('conditionsDetails');
-                        if (!conditionsDetails || !conditionsDetails.value.trim()) {
-                            message = 'Please provide details about your injuries or medical conditions.';
                         }
                     }
                 }
