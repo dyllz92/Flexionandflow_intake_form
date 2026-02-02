@@ -10,71 +10,91 @@
     // Step validation rules
     const stepValidation = {
         1: () => {
-            // Step 1: fullName, dateOfBirth, mobile, occupation required
-            const fullName = document.getElementById('fullName');
-            const dateOfBirth = document.getElementById('dateOfBirth');
+            // Step 1: firstName, lastName, email, mobile, dateOfBirth, emergencyName, emergencyRelationship, emergencyPhone required
+            const firstName = document.getElementById('firstName');
+            const lastName = document.getElementById('lastName');
+            const email = document.getElementById('email');
             const mobile = document.getElementById('mobile');
-            const occupation = document.getElementById('occupation');
+            const dateOfBirth = document.getElementById('dateOfBirth');
+            const emergencyName = document.getElementById('emergencyName');
+            const emergencyRelationship = document.getElementById('emergencyRelationship');
+            const emergencyPhone = document.getElementById('emergencyPhone');
 
-            const nameValid = fullName && fullName.value.trim().length > 0;
-            const dobValid = dateOfBirth && dateOfBirth.value.trim().length > 0;
+            const firstNameValid = firstName && firstName.value.trim().length > 0;
+            const lastNameValid = lastName && lastName.value.trim().length > 0;
+            const emailValid = email && email.value.trim().length > 0;
             const mobileValid = mobile && mobile.value.trim().length > 0;
-            const occupationValid = occupation && occupation.value.trim().length > 0;
+            const dobValid = dateOfBirth && dateOfBirth.value.trim().length > 0;
+            const emergencyNameValid = emergencyName && emergencyName.value.trim().length > 0;
+            const emergencyRelationshipValid = emergencyRelationship && emergencyRelationship.value.trim().length > 0;
+            const emergencyPhoneValid = emergencyPhone && emergencyPhone.value.trim().length > 0;
 
-            return nameValid && dobValid && mobileValid && occupationValid;
+            return firstNameValid && lastNameValid && emailValid && mobileValid && dobValid && emergencyNameValid && emergencyRelationshipValid && emergencyPhoneValid;
         },
         2: () => {
-            // Step 2: pressure preference required (body map optional)
-            const pressureInputs = document.querySelectorAll('input[name="pressurePreference"]');
-            const pressureValid = Array.from(pressureInputs).some(p => p.checked);
+            // Step 2: visitReasons (at least one), referralSource, occupation, sleepQuality, stressLevel, exerciseFrequency, previousMassage required
+            const visitReasons = document.querySelectorAll('input[name="visitReasons"]:checked');
+            const referralSource = document.querySelectorAll('input[name="referralSource"]:checked');
+            const occupation = document.getElementById('occupation');
+            const sleepQuality = document.querySelectorAll('input[name="sleepQuality"]:checked');
+            const stressLevel = document.querySelectorAll('input[name="stressLevel"]:checked');
+            const exerciseFrequency = document.querySelectorAll('input[name="exerciseFrequency"]:checked');
+            const previousMassage = document.querySelectorAll('input[name="previousMassage"]:checked');
 
-            if (!pressureValid) return false;
+            const visitReasonsValid = visitReasons.length > 0;
+            const referralSourceValid = referralSource.length > 0;
+            const occupationValid = occupation && occupation.value.trim().length > 0;
+            const sleepQualityValid = sleepQuality.length > 0;
+            const stressLevelValid = stressLevel.length > 0;
+            const exerciseFrequencyValid = exerciseFrequency.length > 0;
+            const previousMassageValid = previousMassage.length > 0;
 
-            // If table form, check table-specific fields
-            const formType = document.getElementById('formType')?.value || (typeof getSelectedFormType === 'function' ? getSelectedFormType() : 'seated') || 'seated';
-            if (formType === 'table') {
-                // Check oil preference
-                const oilInputs = document.querySelectorAll('input[name="tableOilPreference"]');
-                const oilValid = Array.from(oilInputs).some(p => p.checked);
-                if (!oilValid) return false;
+            return visitReasonsValid && referralSourceValid && occupationValid && sleepQualityValid && stressLevelValid && exerciseFrequencyValid && previousMassageValid;
+        },
+        3: () => {
+            // Step 3: takingMedications, hasAllergies, hasRecentInjuries, hasMedicalConditions, seenOtherProvider, pregnantBreastfeeding required
+            // If Yes to medications, medicationsList required
+            // If Yes to allergies, allergiesList required
+            // If Yes to injuries OR conditions, conditionsDetails required
+            const takingMedications = document.querySelectorAll('input[name="takingMedications"]:checked');
+            const hasAllergies = document.querySelectorAll('input[name="hasAllergies"]:checked');
+            const hasRecentInjuries = document.querySelectorAll('input[name="hasRecentInjuries"]:checked');
+            const hasMedicalConditions = document.querySelectorAll('input[name="hasMedicalConditions"]:checked');
+            const seenOtherProvider = document.querySelectorAll('input[name="seenOtherProvider"]:checked');
+            const pregnantBreastfeeding = document.querySelectorAll('input[name="pregnantBreastfeeding"]:checked');
 
-                // If sensitive, check allergy details
-                const sensitiveRadio = document.querySelector('input[name="tableOilPreference"][value="sensitive"]');
-                if (sensitiveRadio && sensitiveRadio.checked) {
-                    const allergyDetails = document.getElementById('tableOilAllergyDetails');
-                    if (!allergyDetails || !allergyDetails.value.trim().length) return false;
-                }
+            // Base validation - all radio groups must have selection
+            if (takingMedications.length === 0) return false;
+            if (hasAllergies.length === 0) return false;
+            if (hasRecentInjuries.length === 0) return false;
+            if (hasMedicalConditions.length === 0) return false;
+            if (seenOtherProvider.length === 0) return false;
+            if (pregnantBreastfeeding.length === 0) return false;
 
-                // Check position comfort
-                const positionInputs = document.querySelectorAll('input[name="tablePositionComfort"]');
-                const positionValid = Array.from(positionInputs).some(p => p.checked);
-                if (!positionValid) return false;
+            // Conditional validations
+            const medicationsYes = document.querySelector('input[name="takingMedications"][value="Yes"]')?.checked;
+            if (medicationsYes) {
+                const medicationsList = document.getElementById('medicationsList');
+                if (!medicationsList || !medicationsList.value.trim().length) return false;
+            }
 
-                // If trouble, check position details
-                const troubleRadio = document.querySelector('input[name="tablePositionComfort"][value="trouble"]');
-                if (troubleRadio && troubleRadio.checked) {
-                    const positionDetails = document.getElementById('tablePositionDetails');
-                    if (!positionDetails || !positionDetails.value.trim().length) return false;
-                }
+            const allergiesYes = document.querySelector('input[name="hasAllergies"][value="Yes"]')?.checked;
+            if (allergiesYes) {
+                const allergiesList = document.getElementById('allergiesList');
+                if (!allergiesList || !allergiesList.value.trim().length) return false;
+            }
+
+            const injuriesYes = document.querySelector('input[name="hasRecentInjuries"][value="Yes"]')?.checked;
+            const conditionsYes = document.querySelector('input[name="hasMedicalConditions"][value="Yes"]')?.checked;
+            if (injuriesYes || conditionsYes) {
+                const conditionsDetails = document.getElementById('conditionsDetails');
+                if (!conditionsDetails || !conditionsDetails.value.trim().length) return false;
             }
 
             return true;
         },
-        3: () => {
-            // Step 3: if any health issues selected (except "no health issues"), additional info is required
-            const healthChecks = Array.from(document.querySelectorAll('input[name="healthChecks"]:checked'));
-            const noHealthIssues = document.getElementById('noHealthIssues');
-            const reviewNote = document.getElementById('reviewNote');
-
-            // If no issues selected OR only "no health issues" is selected, step is valid
-            if (healthChecks.length === 0) return true;
-            if (healthChecks.length === 1 && healthChecks[0].id === 'noHealthIssues') return true;
-
-            // If health issues are selected, reviewNote is required
-            return reviewNote && reviewNote.value.trim().length > 0;
-        },
         4: () => {
-            // Step 4: combined consent required (signature optional)
+            // Step 4: consent required (signature optional)
             const consentAll = document.getElementById('consentAll');
             return consentAll && consentAll.checked;
         }
@@ -148,17 +168,10 @@
 
         updateButtonStates();
 
-        // Update textual step count (e.g., "Step 2 of 6")
+        // Update textual step count (e.g., "Step 2 of 4")
         const stepCountEl = document.getElementById('stepCount');
         if (stepCountEl) {
             stepCountEl.textContent = `Step ${currentStep} of ${TOTAL_STEPS}`;
-        }
-
-        // Ensure muscle map redraw on step 2 (if muscleMap instance exists)
-        if (currentStep === 2 && window.muscleMap && typeof window.muscleMap.redrawDots === 'function') {
-            setTimeout(() => {
-                try { window.muscleMap.redrawDots(); } catch (e) { /* ignore */ }
-            }, 100);
         }
 
         // Ensure signature pad is resized/available on step 4 (signature step)
@@ -209,96 +222,85 @@
 
         switch (currentStep) {
             case 1: {
-                const fullName = document.getElementById('fullName');
-                const dateOfBirth = document.getElementById('dateOfBirth');
+                const firstName = document.getElementById('firstName');
+                const lastName = document.getElementById('lastName');
+                const email = document.getElementById('email');
                 const mobile = document.getElementById('mobile');
-                const occupation = document.getElementById('occupation');
+                const dateOfBirth = document.getElementById('dateOfBirth');
+                const emergencyName = document.getElementById('emergencyName');
+                const emergencyRelationship = document.getElementById('emergencyRelationship');
+                const emergencyPhone = document.getElementById('emergencyPhone');
 
-                if (!fullName || !fullName.value.trim()) message = 'Please enter your full name.';
-                else if (!dateOfBirth || !dateOfBirth.value.trim()) message = 'Please enter your date of birth.';
+                if (!firstName || !firstName.value.trim()) message = 'Please enter your first name.';
+                else if (!lastName || !lastName.value.trim()) message = 'Please enter your last name.';
+                else if (!email || !email.value.trim()) message = 'Please enter your email address.';
                 else if (!mobile || !mobile.value.trim()) message = 'Please enter your phone number.';
-                else if (!occupation || !occupation.value.trim()) message = 'Please enter your occupation.';
+                else if (!dateOfBirth || !dateOfBirth.value.trim()) message = 'Please enter your date of birth.';
+                else if (!emergencyName || !emergencyName.value.trim()) message = 'Please enter an emergency contact name.';
+                else if (!emergencyRelationship || !emergencyRelationship.value.trim()) message = 'Please enter the relationship to your emergency contact.';
+                else if (!emergencyPhone || !emergencyPhone.value.trim()) message = 'Please enter your emergency contact phone number.';
                 break;
             }
             case 2: {
-                // Step 2 can have different validation messages based on form type
-                const pressureInputs = document.querySelectorAll('input[name="pressurePreference"]');
-                const pressureValid = Array.from(pressureInputs).some(p => p.checked);
+                const visitReasons = document.querySelectorAll('input[name="visitReasons"]:checked');
+                const referralSource = document.querySelectorAll('input[name="referralSource"]:checked');
+                const occupation = document.getElementById('occupation');
+                const sleepQuality = document.querySelectorAll('input[name="sleepQuality"]:checked');
+                const stressLevel = document.querySelectorAll('input[name="stressLevel"]:checked');
+                const exerciseFrequency = document.querySelectorAll('input[name="exerciseFrequency"]:checked');
+                const previousMassage = document.querySelectorAll('input[name="previousMassage"]:checked');
 
-                if (!pressureValid) {
-                    message = 'Please select a pressure preference.';
-                    break;
-                }
-
-                const formType = document.getElementById('formType')?.value || (typeof getSelectedFormType === 'function' ? getSelectedFormType() : 'seated') || 'seated';
-                if (formType === 'table') {
-                    // Table-specific validation
-                    const oilInputs = document.querySelectorAll('input[name="tableOilPreference"]');
-                    const oilValid = Array.from(oilInputs).some(p => p.checked);
-                    if (!oilValid) {
-                        message = 'Please select an oil/skin contact preference.';
-                        break;
-                    }
-
-                    const sensitiveRadio = document.querySelector('input[name="tableOilPreference"][value="sensitive"]');
-                    if (sensitiveRadio && sensitiveRadio.checked) {
-                        const allergyDetails = document.getElementById('tableOilAllergyDetails');
-                        const allergyError = document.getElementById('error-tableOilAllergyDetails');
-                        if (!allergyDetails || !allergyDetails.value.trim()) {
-                            message = 'Please provide allergy/sensitivity details.';
-                            if (allergyError) {
-                                allergyError.textContent = message;
-                                allergyError.style.display = 'block';
-                            }
-                            break;
-                        }
-                    }
-
-                    const positionInputs = document.querySelectorAll('input[name="tablePositionComfort"]');
-                    const positionValid = Array.from(positionInputs).some(p => p.checked);
-                    if (!positionValid) {
-                        message = 'Please select position comfort preference.';
-                        break;
-                    }
-
-                    const troubleRadio = document.querySelector('input[name="tablePositionComfort"][value="trouble"]');
-                    if (troubleRadio && troubleRadio.checked) {
-                        const positionDetails = document.getElementById('tablePositionDetails');
-                        const positionError = document.getElementById('error-tablePositionDetails');
-                        if (!positionDetails || !positionDetails.value.trim()) {
-                            message = 'Please provide position details.';
-                            if (positionError) {
-                                positionError.textContent = message;
-                                positionError.style.display = 'block';
-                            }
-                            break;
-                        }
-                    }
-                }
+                if (visitReasons.length === 0) message = 'Please select at least one reason for your visit.';
+                else if (referralSource.length === 0) message = 'Please tell us how you heard about us.';
+                else if (!occupation || !occupation.value.trim()) message = 'Please enter your occupation.';
+                else if (sleepQuality.length === 0) message = 'Please rate your sleep quality.';
+                else if (stressLevel.length === 0) message = 'Please rate your stress levels.';
+                else if (exerciseFrequency.length === 0) message = 'Please select how often you exercise.';
+                else if (previousMassage.length === 0) message = 'Please indicate if you have previous massage experience.';
                 break;
             }
             case 3: {
-                // Check if any health issues are indicated
-                const healthChecks = Array.from(document.querySelectorAll('input[name="healthChecks"]:checked'));
-                const noHealthIssues = document.getElementById('noHealthIssues');
-                const reviewNote = document.getElementById('reviewNote');
-                const errorReviewNote = document.getElementById('error-reviewNote');
+                const takingMedications = document.querySelectorAll('input[name="takingMedications"]:checked');
+                const hasAllergies = document.querySelectorAll('input[name="hasAllergies"]:checked');
+                const hasRecentInjuries = document.querySelectorAll('input[name="hasRecentInjuries"]:checked');
+                const hasMedicalConditions = document.querySelectorAll('input[name="hasMedicalConditions"]:checked');
+                const seenOtherProvider = document.querySelectorAll('input[name="seenOtherProvider"]:checked');
+                const pregnantBreastfeeding = document.querySelectorAll('input[name="pregnantBreastfeeding"]:checked');
 
-                // Clear previous error
-                if (errorReviewNote) errorReviewNote.textContent = '';
-
-                // If any health issues are checked (except "no issues"), reviewNote is required
-                const hasHealthIssues = healthChecks.length > 0 && !(healthChecks.length === 1 && healthChecks[0].id === 'noHealthIssues');
-
-                if (hasHealthIssues && reviewNote && !reviewNote.value.trim()) {
-                    message = 'Please provide additional information about your health concerns.';
-                    if (errorReviewNote) {
-                        errorReviewNote.textContent = message;
-                        errorReviewNote.style.display = 'block';
+                if (takingMedications.length === 0) message = 'Please indicate if you are taking any medications.';
+                else if (hasAllergies.length === 0) message = 'Please indicate if you have any allergies.';
+                else if (hasRecentInjuries.length === 0) message = 'Please indicate if you have had recent accidents, injuries or surgeries.';
+                else if (hasMedicalConditions.length === 0) message = 'Please indicate if you have any medical conditions.';
+                else if (seenOtherProvider.length === 0) message = 'Please indicate if you have seen another healthcare provider.';
+                else if (pregnantBreastfeeding.length === 0) message = 'Please indicate if you are pregnant or breastfeeding.';
+                else {
+                    // Check conditional fields
+                    const medicationsYes = document.querySelector('input[name="takingMedications"][value="Yes"]')?.checked;
+                    if (medicationsYes) {
+                        const medicationsList = document.getElementById('medicationsList');
+                        if (!medicationsList || !medicationsList.value.trim()) {
+                            message = 'Please list your medications.';
+                            break;
+                        }
                     }
-                    // Focus on the field and scroll into view
-                    reviewNote.focus();
-                    reviewNote.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                    const allergiesYes = document.querySelector('input[name="hasAllergies"][value="Yes"]')?.checked;
+                    if (allergiesYes) {
+                        const allergiesList = document.getElementById('allergiesList');
+                        if (!allergiesList || !allergiesList.value.trim()) {
+                            message = 'Please list your allergies.';
+                            break;
+                        }
+                    }
+
+                    const injuriesYes = document.querySelector('input[name="hasRecentInjuries"][value="Yes"]')?.checked;
+                    const conditionsYes = document.querySelector('input[name="hasMedicalConditions"][value="Yes"]')?.checked;
+                    if (injuriesYes || conditionsYes) {
+                        const conditionsDetails = document.getElementById('conditionsDetails');
+                        if (!conditionsDetails || !conditionsDetails.value.trim()) {
+                            message = 'Please provide details about your injuries or medical conditions.';
+                        }
+                    }
                 }
                 break;
             }
@@ -362,10 +364,10 @@
         // Previous button: hidden on step 1
         prevBtn.style.display = currentStep === 1 ? 'none' : 'block';
 
-        // Next button: visible on steps 1-4, hidden on step 5
+        // Next button: visible on steps 1-3, hidden on step 4
         nextBtn.style.display = currentStep < TOTAL_STEPS ? 'block' : 'none';
 
-        // Submit button: visible only on step 5
+        // Submit button: visible only on step 4
         submitBtn.style.display = currentStep === TOTAL_STEPS ? 'block' : 'none';
 
         // Enable/disable next button based on validation

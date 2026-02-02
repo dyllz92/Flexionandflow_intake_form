@@ -144,16 +144,37 @@ app.post('/api/submit-form', async (req, res) => {
         const formData = req.body;
         const isFeedbackForm = formData.formType === 'feedback';
 
-        // Validate and sanitize name
-        const name = sanitizeString(formData.name || formData.fullName, 100);
-        if (!name || name.length < 2) {
-            return res.status(400).json({
-                success: false,
-                message: 'Please provide a valid name (at least 2 characters)'
-            });
+        // Validate and sanitize name (support both firstName/lastName and legacy fullName)
+        let fullName;
+        if (formData.firstName && formData.lastName) {
+            const firstName = sanitizeString(formData.firstName, 50);
+            const lastName = sanitizeString(formData.lastName, 50);
+            if (!firstName || firstName.length < 1) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Please provide a valid first name'
+                });
+            }
+            if (!lastName || lastName.length < 1) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Please provide a valid last name'
+                });
+            }
+            formData.firstName = firstName;
+            formData.lastName = lastName;
+            fullName = `${firstName} ${lastName}`;
+        } else {
+            fullName = sanitizeString(formData.name || formData.fullName, 100);
+            if (!fullName || fullName.length < 2) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Please provide a valid name (at least 2 characters)'
+                });
+            }
         }
-        formData.fullName = name;
-        formData.name = name;
+        formData.fullName = fullName;
+        formData.name = fullName;
 
         // Validate email format (if provided)
         if (formData.email && !isValidEmail(formData.email)) {
@@ -177,7 +198,13 @@ app.post('/api/submit-form', async (req, res) => {
         formData.reviewNote = sanitizeString(formData.reviewNote, 1000);
         formData.otherHealthConcernText = sanitizeString(formData.otherHealthConcernText, 500);
         formData.comments = sanitizeString(formData.comments, 2000);
-        formData.aoRoleOther = sanitizeString(formData.aoRoleOther, 100);
+        formData.occupation = sanitizeString(formData.occupation, 100);
+        formData.medicationsList = sanitizeString(formData.medicationsList, 1000);
+        formData.allergiesList = sanitizeString(formData.allergiesList, 1000);
+        formData.conditionsDetails = sanitizeString(formData.conditionsDetails, 2000);
+        formData.emergencyName = sanitizeString(formData.emergencyName, 100);
+        formData.emergencyRelationship = sanitizeString(formData.emergencyRelationship, 100);
+        formData.emergencyPhone = sanitizeString(formData.emergencyPhone, 20);
 
         // Require consent: support newer `consentAll` or legacy `termsAccepted`+`treatmentConsent`
         // Feedback forms don't require consent checkbox (just signature)
@@ -206,14 +233,12 @@ app.post('/api/submit-form', async (req, res) => {
         const MM = String(now.getMinutes()).padStart(2, '0');
         const ss = String(now.getSeconds()).padStart(2, '0');
 
-        const formType = formData.formType || 'seated';
+        const formType = formData.formType || 'intake';
         let formName;
         if (formType === 'feedback') {
             formName = 'Post_Session_Feedback';
-        } else if (formType === 'table') {
-            formName = 'Table_Massage';
         } else {
-            formName = 'Seated_Chair_Massage';
+            formName = 'Client_Intake';
         }
         const filename = `${formName}_${clientName}_${yyyy}-${mm}-${dd}_${HH}${MM}${ss}.pdf`;
         

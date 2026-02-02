@@ -26,14 +26,12 @@ async function generatePDF(formData) {
             const brandColor = '#9D4EDD'; // Purple theme
 
             // Determine form type title
-            const formType = formData.formType || 'seated';
+            const formType = formData.formType || 'intake';
             let formTypeTitle;
             if (formType === 'feedback') {
-                formTypeTitle = 'AO Wellness - Post-Session Feedback';
-            } else if (formType === 'table') {
-                formTypeTitle = 'Table Massage Intake Form';
+                formTypeTitle = 'Post-Session Feedback';
             } else {
-                formTypeTitle = 'Seated Chair Massage Intake Form';
+                formTypeTitle = 'Client Intake Form';
             }
 
             // Header

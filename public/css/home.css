@@ -143,6 +143,7 @@
     font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
+    font-family: var(--font-display);
 }
 
 .hero-section h1 {
