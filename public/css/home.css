@@ -15,6 +15,7 @@
     --card-border: rgba(30, 136, 199, 0.12);
     --shadow-strong: 0 20px 40px rgba(30, 136, 199, 0.15);
     --shadow-soft: 0 4px 20px rgba(30, 136, 199, 0.08);
+    --top-bar-offset: 240px;
 }
 
 /* Overall Page Layout */
@@ -28,17 +29,22 @@ html, body {
     flex-direction: column;
     min-height: 100vh;
     background: linear-gradient(180deg, #FFFFFF 0%, var(--brand-bg-start) 30%, var(--brand-bg-end) 100%);
+    padding-top: var(--top-bar-offset);
 }
 
 /* Header - Clean minimal design */
 .top-bar {
-    background: transparent;
-    border-bottom: none;
+    background: rgba(255, 255, 255, 0.96);
+    border-bottom: 1px solid rgba(30, 136, 199, 0.08);
     padding: 32px 30px 24px;
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     z-index: 50;
-    box-shadow: none;
+    box-shadow: 0 2px 6px rgba(30, 136, 199, 0.12);
     flex-shrink: 0;
+    backdrop-filter: blur(10px);
 }
 
 .top-bar-content {
@@ -108,7 +114,7 @@ html, body {
 }
 
 .hero-section h1 {
-    font-size: 2.6rem;
+    font-size: 3.4rem;
     font-weight: 700;
     color: var(--text-primary);
     margin: 0 0 16px 0;
@@ -339,6 +345,10 @@ html, body {
 
 /* Tablets */
 @media (max-width: 1024px) {
+    :root {
+        --top-bar-offset: 210px;
+    }
+
     .service-grid {
         gap: 24px;
     }
@@ -348,7 +358,7 @@ html, body {
     }
 
     .hero-section h1 {
-        font-size: 2.2rem;
+        font-size: 2.9rem;
     }
 
     .logo-large {
@@ -359,6 +369,10 @@ html, body {
 
 /* Mobile */
 @media (max-width: 768px) {
+    :root {
+        --top-bar-offset: 185px;
+    }
+
     .top-bar {
         padding: 24px 16px 16px;
     }
@@ -378,7 +392,7 @@ html, body {
     }
 
     .hero-section h1 {
-        font-size: 1.9rem;
+        font-size: 2.4rem;
     }
 
     .tagline {
@@ -427,6 +441,10 @@ html, body {
 
 /* Small screens */
 @media (max-width: 480px) {
+    :root {
+        --top-bar-offset: 160px;
+    }
+
     .top-bar {
         padding: 20px 12px 12px;
     }
@@ -441,7 +459,7 @@ html, body {
     }
 
     .hero-section h1 {
-        font-size: 1.6rem;
+        font-size: 2rem;
     }
 
     .tagline {
