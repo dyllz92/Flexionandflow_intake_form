@@ -2064,3 +2064,132 @@ button[type="button"]#clearSignature {
         display: none;
     }
 }
+
+/* SOAP Note Generator */
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.soap-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+}
+
+.soap-card {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 6px 16px rgba(30, 79, 111, 0.08);
+}
+
+.soap-card h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    color: var(--primary-color);
+    font-size: 16px;
+}
+
+.prompt-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.prompt-option {
+    display: grid;
+    grid-template-columns: 20px 1fr;
+    gap: 12px;
+    align-items: start;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    background: #ffffff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.prompt-option input {
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+}
+
+.prompt-text {
+    display: block;
+}
+
+.prompt-title {
+    display: block;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text-dark);
+}
+
+.prompt-note {
+    display: block;
+    font-size: 12px;
+    color: var(--text-light);
+    margin-top: 3px;
+}
+
+.prompt-option:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 10px rgba(30, 79, 111, 0.12);
+}
+
+.prompt-option:has(input:checked) {
+    background: rgba(30, 136, 199, 0.12);
+    border-color: var(--primary-color);
+}
+
+.prompt-option:has(input:checked) .prompt-title {
+    color: var(--primary-color);
+}
+
+.soap-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 12px;
+}
+
+#soapOutput {
+    min-height: 220px;
+}
+
+@media (max-width: 640px) {
+    .soap-toolbar .btn-primary,
+    .soap-toolbar .btn-secondary {
+        width: 100%;
+        min-width: 0;
+    }
+}
+
+[data-brand="hemisphere"] .soap-card {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+[data-brand="hemisphere"] .prompt-option {
+    background: #000000;
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+[data-brand="hemisphere"] .prompt-option:has(input:checked) {
+    background: rgba(157, 78, 221, 0.18);
+    border-color: #9D4EDD;
+}
+
+[data-brand="hemisphere"] .prompt-title {
+    color: #FFFFFF;
+}
+
+[data-brand="hemisphere"] .prompt-note {
+    color: rgba(255, 255, 255, 0.6);
+}

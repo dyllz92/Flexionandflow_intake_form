@@ -88,6 +88,11 @@ app.get('/feedback', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'feedback.html'));
 });
 
+app.get('/soap', (req, res) => {
+    res.set('Cache-Control', 'no-store');
+    res.sendFile(path.join(__dirname, 'views', 'soap.html'));
+});
+
 // Static pages
 app.get('/privacy', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'privacy.html'));
@@ -138,7 +143,148 @@ function isValidPhone(phone) {
     return phoneRegex.test(phone);
 }
 
-// API endpoint - Submit form
+function normalizeList(value, maxItems = 24, maxLength = 120) {
+    const list = Array.isArray(value) ? value : (value ? [value] : []);
+    return list
+        .map(item => sanitizeString(String(item), maxLength))
+        .filter(Boolean)
+        .slice(0, maxItems);
+}
+
+function formatList(label, items) {
+    if (!items || items.length === 0) return `${label}: NR`;
+    return `${label}: ${items.join(', ')}`;
+}
+
+function extractOpenAIText(payload) {
+    if (!payload) return '';
+    if (typeof payload.output_text === 'string' && payload.output_text.trim()) {
+        return payload.output_text.trim();
+    }
+    if (Array.isArray(payload.output)) {
+        const text = payload.output
+            .flatMap(item => item.content || [])
+            .filter(part => part && part.type === 'output_text' && part.text)
+            .map(part => part.text)
+            .join('\n')
+            .trim();
+        if (text) return text;
+    }
+    return '';
+}
+
+// API endpoint - Generate SOAP note
+app.post('/api/generate-soap', async (req, res) => {
+    try {
+        if (!process.env.OPENAI_API_KEY) {
+            return res.status(503).json({
+                success: false,
+                message: 'AI generation is not configured. Please set OPENAI_API_KEY.'
+            });
+        }
+
+        const payload = req.body || {};
+
+        const clientName = sanitizeString(payload.clientName, 100) || 'NR';
+        const sessionDate = sanitizeString(payload.sessionDate, 40) || 'NR';
+        const sessionDuration = sanitizeString(payload.sessionDuration, 40) || 'NR';
+
+        let sessionType = sanitizeString(payload.sessionType, 60);
+        const sessionTypeOtherText = sanitizeString(payload.sessionTypeOtherText, 120);
+        if (sessionType === 'Other' && sessionTypeOtherText) {
+            sessionType = sessionTypeOtherText;
+        }
+        sessionType = sessionType || 'NR';
+
+        const freeText = sanitizeString(payload.freeText, 3000) || 'NR';
+        const subjectiveNotes = sanitizeString(payload.subjectiveNotes, 800) || 'NR';
+        const objectiveNotes = sanitizeString(payload.objectiveNotes, 800) || 'NR';
+        const assessmentNotes = sanitizeString(payload.assessmentNotes, 800) || 'NR';
+        const planNotes = sanitizeString(payload.planNotes, 800) || 'NR';
+
+        const painScale = Number(payload.painScale || 0);
+        const painScaleText = Number.isFinite(painScale) && painScale > 0 ? `${painScale}/10` : 'NR';
+
+        const subjectiveSymptoms = normalizeList(payload.subjectiveSymptoms);
+        const aggravatingFactors = normalizeList(payload.aggravatingFactors);
+        const relievingFactors = normalizeList(payload.relievingFactors);
+        const objectiveFindings = normalizeList(payload.objectiveFindings);
+        const assessmentImpression = normalizeList(payload.assessmentImpression);
+        const treatmentProvided = normalizeList(payload.treatmentProvided);
+        const homeCare = normalizeList(payload.homeCare);
+
+        const promptLines = [
+            'Session info:',
+            `- Client: ${clientName}`,
+            `- Date: ${sessionDate}`,
+            `- Type: ${sessionType}`,
+            `- Duration: ${sessionDuration}`,
+            '',
+            'Freeform summary:',
+            freeText,
+            '',
+            'Quick prompts:',
+            formatList('Subjective symptoms', subjectiveSymptoms),
+            `Pain scale: ${painScaleText}`,
+            formatList('Aggravating factors', aggravatingFactors),
+            formatList('Relieving factors', relievingFactors),
+            `Subjective notes: ${subjectiveNotes}`,
+            formatList('Objective findings', objectiveFindings),
+            `Objective notes: ${objectiveNotes}`,
+            formatList('Assessment impression', assessmentImpression),
+            `Assessment notes: ${assessmentNotes}`,
+            formatList('Treatment provided', treatmentProvided),
+            formatList('Home care', homeCare),
+            `Plan notes: ${planNotes}`
+        ];
+
+        const instructions = [
+            'You are a clinical documentation assistant for massage therapy notes.',
+            'Create a concise SOAP note in medical shorthand using only the provided information.',
+            'Do not add new symptoms, diagnoses, vitals, or medications.',
+            'If something is not provided, use NR (not reported).',
+            'Output exactly 4 lines labeled S:, O:, A:, P:.',
+            'Keep it brief and editable, no markdown or extra commentary.'
+        ].join(' ');
+
+        const model = process.env.OPENAI_MODEL || 'gpt-5.2';
+
+        const response = await fetch('https://api.openai.com/v1/responses', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
+            },
+            body: JSON.stringify({
+                model,
+                instructions,
+                input: promptLines.join('\n'),
+                max_output_tokens: 500,
+                temperature: 0.2
+            })
+        });
+
+        const result = await response.json();
+        if (!response.ok) {
+            const message = result?.error?.message || 'AI request failed';
+            return res.status(500).json({ success: false, message });
+        }
+
+        const soapNote = extractOpenAIText(result);
+        if (!soapNote) {
+            return res.status(500).json({ success: false, message: 'AI response was empty. Please try again.' });
+        }
+
+        return res.json({ success: true, soapNote });
+    } catch (error) {
+        console.error('SOAP generation error:', error.message);
+        return res.status(500).json({
+            success: false,
+            message: 'An error occurred while generating the SOAP note.'
+        });
+    }
+});
+
 app.post('/api/submit-form', async (req, res) => {
     try {
         const formData = req.body;

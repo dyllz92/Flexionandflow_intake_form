@@ -1,0 +1,292 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-brand="flexion">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOAP Note Generator - Flexion &amp; Flow</title>
+    <link rel="stylesheet" href="/css/styles.css?v=20260203">
+    <link rel="stylesheet" href="/css/forms.css?v=20260203">
+    <script src="/js/brand.js?v=20260127"></script>
+</head>
+<body data-brand="flexion">
+    <div class="container">
+        <div class="form-header">
+            <img src="/img/Flexion_Flow_Logo.png" alt="Flexion &amp; Flow Logo" class="logo-small">
+            <h1>SOAP Note Generator</h1>
+            <p class="subtitle">Draft concise SOAP notes fast using a paragraph or quick prompts.</p>
+        </div>
+
+        <div class="info-box" style="margin-bottom: 24px;">
+            <p style="margin: 0 0 10px 0;"><strong>How to use:</strong></p>
+            <p style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-light);">Write a short paragraph or tick the quick prompts below. The AI will draft a SOAP note in medical shorthand.</p>
+            <p style="margin: 0; font-size: 13px; color: var(--text-light);">Always review and edit before saving to records. Avoid including any sensitive details you do not want sent to the AI service.</p>
+        </div>
+
+        <form id="soapForm" class="intake-form">
+            <input type="hidden" id="selectedBrand" name="selectedBrand" value="flexion">
+
+            <div class="form-section">
+                <h2>Session Snapshot</h2>
+                <div class="form-row">
+                    <div class="form-group" style="flex: 1;">
+                        <label for="clientName">Client Name <span class="optional">(Optional)</span></label>
+                        <input type="text" id="clientName" name="clientName" maxlength="100" placeholder="e.g., Alex T.">
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label for="sessionDate">Session Date <span class="optional">(Optional)</span></label>
+                        <input type="date" id="sessionDate" name="sessionDate">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="flex: 1;">
+                        <label for="sessionType">Session Type <span class="optional">(Optional)</span></label>
+                        <select id="sessionType" name="sessionType">
+                            <option value="">Select</option>
+                            <option value="Remedial">Remedial</option>
+                            <option value="Relaxation">Relaxation</option>
+                            <option value="Sports">Sports</option>
+                            <option value="Pregnancy">Pregnancy</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label for="sessionDuration">Duration <span class="optional">(Optional)</span></label>
+                        <select id="sessionDuration" name="sessionDuration">
+                            <option value="">Select</option>
+                            <option value="30 min">30 min</option>
+                            <option value="45 min">45 min</option>
+                            <option value="60 min">60 min</option>
+                            <option value="75 min">75 min</option>
+                            <option value="90 min">90 min</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="sessionTypeOther" class="form-group hidden-field" style="margin-top: 12px;">
+                    <label for="sessionTypeOtherText">If other, specify <span class="optional">(Optional)</span></label>
+                    <input type="text" id="sessionTypeOtherText" name="sessionTypeOtherText" maxlength="120" placeholder="e.g., Post-event recovery">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Paragraph Prompt</h2>
+                <p class="section-note">If you have capacity, write a short paragraph. If not, skip and use the quick prompts below.</p>
+                <div class="form-group">
+                    <label for="freeText">Session Summary <span class="optional">(Optional)</span></label>
+                    <textarea id="freeText" name="freeText" rows="5" maxlength="3000" placeholder="Example: Client c/o R shoulder tightness x2 wks, 6/10. Worse after desk work, better w/ heat. TTP upper traps, ROM slightly limited. Treated w/ deep tissue + stretching. HEP: doorway stretch, hydration."></textarea>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Quick Prompts</h2>
+                <p class="section-note">Check what applies. These prompts help build a usable SOAP note even without a paragraph.</p>
+
+                <div class="soap-grid">
+                    <div class="soap-card">
+                        <h3>Subjective</h3>
+                        <div class="prompt-list">
+                            <label class="prompt-option">
+                                <input type="checkbox" name="subjectiveSymptoms" value="Pain/tightness">
+                                <span class="prompt-text"><span class="prompt-title">Pain / tightness</span><span class="prompt-note">Primary complaint reported by client.</span></span>
+                            </label>
+                            <label class="prompt-option">
+                                <input type="checkbox" name="subjectiveSymptoms" value="Headache">
+                                <span class="prompt-text"><span class="prompt-title">Headache</span><span class="prompt-note">Client reports headache or head pressure.</span></span>
+                            </label>
+                            <label class="prompt-option">
+                                <input type="checkbox" name="subjectiveSymptoms" value="Stress/anxiety">
+                                <span class="prompt-text"><span class="prompt-title">Stress / anxiety</span><span class="prompt-note">Reports increased stress levels.</span></span>
+                            </label>
+                            <label class="prompt-option">
+                                <input type="checkbox" name="subjectiveSymptoms" value="Sleep disturbance">
+                                <span class="prompt-text"><span class="prompt-title">Sleep disturbance</span><span class="prompt-note">Trouble falling or staying asleep.</span></span>
+                            </label>
+                            <label class="prompt-option">
+                                <input type="checkbox" name="subjectiveSymptoms" value="Post-activity soreness">
+                                <span class="prompt-text"><span class="prompt-title">Post-activity soreness</span><span class="prompt-note">Soreness after work or exercise.</span></span>
+                            </label>
+                        </div>
+
+                        <div class="form-group slider-group">
+                            <label for="painScale">Pain Scale (0-10) <span class="optional">(Optional)</span></label>
+                            <div class="slider-container">
+                                <input type="range" id="painScale" name="painScale" min="0" max="10" value="0" class="slider-input">
+                                <div class="slider-labels">
+                                    <span>0</span>
+                                    <span>5</span>
+                                    <span>10</span>
+                                </div>
+                                <div class="slider-value" id="painScaleValue">0</div>
+                            </div>
+                        </div>
+
+                        <div class="prompt-list">
+                            <label class="prompt-option">
+                                <input type="checkbox" name="aggravatingFactors" value="Desk work / posture">
+                                <span class="prompt-text"><span class="prompt-title">Aggravated by desk work / posture</span><span class="prompt-note">Symptoms increase with static posture.</span></span>
+                            </label>
+                            <label class="prompt-option">
+                                <input type="checkbox" name="aggravatingFactors" value="Exercise / lifting">
+                                <span class="prompt-text"><span class="prompt-title">Aggravated by exercise / lifting</span><span class="prompt-note">Symptoms increase after training or lifting.</span></span>
+                            </label>
+                            <label class="prompt-option">
+                                <input type="checkbox" name="relievingFactors" value="Heat / self-care">
+                                <span class="prompt-text"><span class="prompt-title">Relieved by heat / self-care</span><span class="prompt-note">Reports relief with heat or self-care.</span></span>
+                            </label>
+                            <label class="prompt-option">
+                                <input type="checkbox" name="relievingFactors" value="Rest">
+                                <span class="prompt-text"><span class="prompt-title">Relieved by rest</span><span class="prompt-note">Improves with rest.</span></span>
+                            </label>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 16px;">
+                            <label for="subjectiveNotes">Subjective Notes <span class="optional">(Optional)</span></label>
+                            <textarea id="subjectiveNotes" name="subjectiveNotes" rows="3" maxlength="800" placeholder="Add onset, duration, or other client-reported details."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="soap-card">
+                        <h3>Objective</h3>
+                        <div class="prompt-list">
+                            <label class="prompt-option">
+                                <input type="checkbox" name="objectiveFindings" value="TTP / tenderness">
+                                <span class="prompt-text"><span class="prompt-title">TTP / tenderness</span><span class="prompt-note">Tenderness on palpation.</span></span>
+                            </label>
+                            <label class="prompt-option">
+                                <input type="checkbox" name="objectiveFindings" value="Hypertonicity">
+                                <span class="prompt-text"><span class="prompt-title">Hypertonicity</span><span class="prompt-note">Increased muscle tone noted.</span></span>
+                            </label>
+                            <label class="prompt-option">
+                                <input type="checkbox" name="objectiveFindings" value="Trigger points">
+                                <span class="prompt-text"><span class="prompt-title">Trigger points</span><span class="prompt-note">Active or latent trigger points.</span></span>
+                            </label>
+                            <label class="prompt-option">
+                                <input type="checkbox" name="objectiveFindings" value="ROM limited">
+                                <span class="prompt-text"><span class="prompt-title">ROM limited</span><span class="prompt-note">Range of motion restricted.</span></span>
+                            </label>
+                            <label class="prompt-option">
+                                <input type="checkbox" name="objectiveFindings" value="Postural imbalance">
+                                <span class="prompt-text"><span class="prompt-title">Postural imbalance</span><span class="prompt-note">Posture deviations observed.</span></span>
+                            </label>
+                            <label class="prompt-option">
+                                <input type="checkbox" name="objectiveFindings" value="No red flags">
+                                <span class="prompt-text"><span class="prompt-title">No red flags</span><span class="prompt-note">No concerning findings noted.</span></span>
+                            </label>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 16px;">
+                            <label for="objectiveNotes">Objective Notes <span class="optional">(Optional)</span></label>
+                            <textarea id="objectiveNotes" name="objectiveNotes" rows="3" maxlength="800" placeholder="Add locations, ROM details, or other findings."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="soap-card">
+                        <h3>Assessment</h3>
+                        <div class="prompt-list">
+                            <label class="prompt-option">
+                                <input type="checkbox" name="assessmentImpression" value="Myofascial tightness">
+                                <span class="prompt-text"><span class="prompt-title">Myofascial tightness</span><span class="prompt-note">Likely soft-tissue restriction.</span></span>
+                            </label>
+                            <label class="prompt-option">
+                                <input type="checkbox" name="assessmentImpression" value="Overuse / strain">
+                                <span class="prompt-text"><span class="prompt-title">Overuse / strain</span><span class="prompt-note">Symptoms consistent with overuse.</span></span>
+                            </label>
+                            <label class="prompt-option">
+                                <input type="checkbox" name="assessmentImpression" value="Postural stress">
+                                <span class="prompt-text"><span class="prompt-title">Postural stress</span><span class="prompt-note">Likely related to posture.</span></span>
+                            </label>
+                            <label class="prompt-option">
+                                <input type="checkbox" name="assessmentImpression" value="Stress-related tension">
+                                <span class="prompt-text"><span class="prompt-title">Stress-related tension</span><span class="prompt-note">Tension likely stress-mediated.</span></span>
+                            </label>
+                            <label class="prompt-option">
+                                <input type="checkbox" name="assessmentImpression" value="Improving">
+                                <span class="prompt-text"><span class="prompt-title">Improving</span><span class="prompt-note">Symptoms improving since last visit.</span></span>
+                            </label>
+                            <label class="prompt-option">
+                                <input type="checkbox" name="assessmentImpression" value="No change">
+                                <span class="prompt-text"><span class="prompt-title">No change</span><span class="prompt-note">Minimal change since last visit.</span></span>
+                            </label>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 16px;">
+                            <label for="assessmentNotes">Assessment Notes <span class="optional">(Optional)</span></label>
+                            <textarea id="assessmentNotes" name="assessmentNotes" rows="3" maxlength="800" placeholder="Add clinical impression or response to treatment."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="soap-card">
+                        <h3>Plan</h3>
+                        <div class="prompt-list">
+                            <label class="prompt-option">
+                                <input type="checkbox" name="treatmentProvided" value="Swedish / relaxation">
+                                <span class="prompt-text"><span class="prompt-title">Swedish / relaxation</span><span class="prompt-note">General relaxation techniques.</span></span>
+                            </label>
+                            <label class="prompt-option">
+                                <input type="checkbox" name="treatmentProvided" value="Deep tissue">
+                                <span class="prompt-text"><span class="prompt-title">Deep tissue</span><span class="prompt-note">Deeper pressure applied.</span></span>
+                            </label>
+                            <label class="prompt-option">
+                                <input type="checkbox" name="treatmentProvided" value="Trigger point work">
+                                <span class="prompt-text"><span class="prompt-title">Trigger point work</span><span class="prompt-note">Focused trigger point release.</span></span>
+                            </label>
+                            <label class="prompt-option">
+                                <input type="checkbox" name="treatmentProvided" value="Myofascial release">
+                                <span class="prompt-text"><span class="prompt-title">Myofascial release</span><span class="prompt-note">Fascial techniques used.</span></span>
+                            </label>
+                            <label class="prompt-option">
+                                <input type="checkbox" name="treatmentProvided" value="Stretching / mobility">
+                                <span class="prompt-text"><span class="prompt-title">Stretching / mobility</span><span class="prompt-note">Active or passive stretching.</span></span>
+                            </label>
+                            <label class="prompt-option">
+                                <input type="checkbox" name="treatmentProvided" value="Cupping">
+                                <span class="prompt-text"><span class="prompt-title">Cupping</span><span class="prompt-note">Cupping applied as indicated.</span></span>
+                            </label>
+                        </div>
+
+                        <div class="prompt-list" style="margin-top: 14px;">
+                            <label class="prompt-option">
+                                <input type="checkbox" name="homeCare" value="Hydration">
+                                <span class="prompt-text"><span class="prompt-title">Home care: Hydration</span><span class="prompt-note">Encouraged hydration post-session.</span></span>
+                            </label>
+                            <label class="prompt-option">
+                                <input type="checkbox" name="homeCare" value="Stretching">
+                                <span class="prompt-text"><span class="prompt-title">Home care: Stretching</span><span class="prompt-note">Gentle stretches prescribed.</span></span>
+                            </label>
+                            <label class="prompt-option">
+                                <input type="checkbox" name="homeCare" value="Heat">
+                                <span class="prompt-text"><span class="prompt-title">Home care: Heat</span><span class="prompt-note">Heat advised for symptom relief.</span></span>
+                            </label>
+                            <label class="prompt-option">
+                                <input type="checkbox" name="homeCare" value="Rest / activity modification">
+                                <span class="prompt-text"><span class="prompt-title">Home care: Rest / activity modification</span><span class="prompt-note">Advised rest or modified activity.</span></span>
+                            </label>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 16px;">
+                            <label for="planNotes">Plan Notes <span class="optional">(Optional)</span></label>
+                            <textarea id="planNotes" name="planNotes" rows="3" maxlength="800" placeholder="Add areas treated, follow-up, or referral notes."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>AI Draft Output</h2>
+                <div class="form-group">
+                    <label for="soapOutput">SOAP Note (Editable)</label>
+                    <textarea id="soapOutput" name="soapOutput" rows="10" placeholder="AI-generated SOAP note will appear here."></textarea>
+                </div>
+                <div class="soap-toolbar">
+                    <button type="button" id="generateSoapBtn" class="btn-primary">Generate SOAP Note</button>
+                    <button type="button" id="copySoapBtn" class="btn-secondary">Copy</button>
+                    <button type="button" id="clearSoapBtn" class="btn-secondary">Clear</button>
+                </div>
+                <p class="section-note">Output is a draft. Review for accuracy and completeness.</p>
+            </div>
+        </form>
+    </div>
+
+    <script src="/js/form-utils.js?v=20260128" defer></script>
+    <script src="/js/soap-form.js?v=20260203" defer></script>
+</body>
+</html>
