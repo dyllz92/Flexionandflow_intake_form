@@ -2,7 +2,7 @@
 
 **Project Goal:** Build a locally-hosted web app for clients to complete intake forms via mobile browser, with secure PDF storage in Google Drive.
 
-**Last Updated:** January 23, 2026
+**Last Updated:** February 5, 2026
 
 ---
 
@@ -38,7 +38,33 @@
 
 ---
 
-## 📋 Next Priorities (No Deadlines)
+## ð Next Priorities (No Deadlines)
+
+### February 2026 ? UX & Content Fixes (Track Progress)
+
+High Priority
+- [ ] Fix "FOOTSGRAY" typo on landing page badge (should be "FOOTSCRAY")
+- [ ] Replace date-of-birth picker with a historical-friendly input (typed date or day/month/year selects)
+- [ ] Resolve feedback form step indicator (remove or implement actual steps)
+- [ ] Clarify "I Feel Fine Today" logic (mutually exclusive or explanatory copy)
+- [ ] Add disabled button feedback (inline validation or highlight missing required fields)
+
+Medium Priority
+- [ ] Remove slider defaults or require deliberate interaction (sleep/stress/feeling)
+- [ ] Compact button groups (exercise frequency and similar multi-choice sections)
+- [ ] Improve health conditions layout (multi-column or categorized list)
+- [ ] Improve consent text readability (line-height, bullets, or summary + full link)
+- [ ] Make entire landing page cards clickable (not just icon/button)
+- [ ] Ensure section naming matches content (e.g., "About You & Your Visit")
+- [ ] Declaration/consent viewing: open modal or inline expand instead of navigating away
+
+Low Priority
+- [ ] Add subtle hover states for interactive elements
+- [ ] Pre-fill feedback form from intake when same session
+- [ ] Add signature canvas guidance ("Sign here" cue + empty state)
+- [ ] Add smooth transitions between steps
+- [ ] Add confirmation/success screens after submission
+
 
 ### Priority 1 — IMMEDIATE
 
