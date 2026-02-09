@@ -57,6 +57,8 @@
                 const referralSourceInputs = document.querySelectorAll('input[name="referralSource"]');
                 const referralSource = document.querySelectorAll('input[name="referralSource"]:checked');
                 const occupation = document.getElementById('occupation');
+                const sleepQuality = document.getElementById('sleepQuality');
+                const stressLevel = document.getElementById('stressLevel');
                 const exerciseFrequencyInputs = document.querySelectorAll('input[name="exerciseFrequency"]');
                 const exerciseFrequency = document.querySelectorAll('input[name="exerciseFrequency"]:checked');
                 const previousMassageInputs = document.querySelectorAll('input[name="previousMassage"]');
@@ -66,6 +68,8 @@
                 if (visitReasonsInputs.length && visitReasons.length === 0) invalidate(visitReasonsInputs[0], 'Please select at least one reason for your visit.');
                 else if (referralSourceInputs.length && referralSource.length === 0) invalidate(referralSourceInputs[0], 'Please tell us how you heard about us.');
                 else if (!occupation || !occupation.value.trim()) invalidate(occupation, 'Please enter your occupation.');
+                else if (sleepQuality && sleepQuality.hasAttribute('required') && (!sleepQuality.value || sleepQuality.value === '')) invalidate(sleepQuality, 'Please indicate your sleep quality.');
+                else if (stressLevel && stressLevel.hasAttribute('required') && (!stressLevel.value || stressLevel.value === '')) invalidate(stressLevel, 'Please indicate your stress levels.');
                 else if (exerciseFrequencyInputs.length && exerciseFrequency.length === 0) invalidate(exerciseFrequencyInputs[0], 'Please select how often you exercise.');
                 else if (previousMassageInputs.length && previousMassage.length === 0) invalidate(previousMassageInputs[0], 'Please indicate if you have previous massage experience.');
                 else if (lastTreatmentDate && lastTreatmentDate.value.trim() && !isValidDateInput(lastTreatmentDate)) {
