@@ -1,352 +1,1055 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" data-brand="flexion">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Client Intake Form - Flexion &amp; Flow</title>
-    <link rel="stylesheet" href="/css/styles.css?v=20260203">
-    <link rel="stylesheet" href="/css/forms.css?v=20260203">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="/css/styles.css?v=20260203" />
+    <link rel="stylesheet" href="/css/forms.css?v=20260203" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
     <script src="/js/brand.js?v=20260127"></script>
-</head>
-<body data-brand="flexion">
-    <div class="container">
-        <div class="form-header">
-            <img src="/img/Flexion_Flow_Logo.png" alt="Flexion &amp; Flow Logo" class="logo-small">
-            <h1 id="formTitle">Client Intake Form</h1>
+  </head>
+  <body data-brand="flexion">
+    <div class="container" data-testid="app-shell">
+      <div class="form-header">
+        <img
+          src="/img/Flexion_Flow_Logo.png"
+          alt="Flexion &amp; Flow Logo"
+          class="logo-small"
+        />
+        <h1 id="formTitle">Client Intake Form</h1>
+      </div>
+
+      <!-- Intro Text -->
+      <div
+        class="info-box"
+        style="
+          margin-bottom: 24px;
+          background: linear-gradient(
+            135deg,
+            rgba(157, 78, 221, 0.08) 0%,
+            rgba(30, 136, 199, 0.08) 100%
+          );
+        "
+      >
+        <p style="margin: 0 0 12px 0">
+          <strong>Thanks for booking with Flexion &amp; Flow</strong>
+        </p>
+        <p
+          style="margin: 0 0 12px 0; font-size: 14px; color: var(--text-light)"
+        >
+          The information you provide helps me understand your needs, tailor
+          your treatment, and make the most of our time together.
+        </p>
+        <p
+          style="margin: 0 0 12px 0; font-size: 14px; color: var(--text-light)"
+        >
+          Your comfort, safety, and consent are always my top priority. Please
+          let me know if there is anything you would prefer to chat about in
+          person.
+        </p>
+        <p style="margin: 0; font-size: 14px; color: var(--text-light)">
+          If you have any questions before your appointment, feel free to reach
+          out on <strong>0420 435 950</strong>.
+        </p>
+      </div>
+
+      <!-- Step Indicator -->
+      <div id="stepIndicator" class="step-indicator">
+        <div class="step active" data-step="1">
+          <span class="step-number">1</span>
+          <span class="step-label">Your Details</span>
+        </div>
+        <div class="step" data-step="2">
+          <span class="step-number">2</span>
+          <span class="step-label">About Your Visit</span>
+        </div>
+        <div class="step" data-step="3">
+          <span class="step-number">3</span>
+          <span class="step-label">Health History</span>
+        </div>
+        <div class="step" data-step="4">
+          <span class="step-number">4</span>
+          <span class="step-label">Consent &amp; Sign</span>
+        </div>
+      </div>
+      <div id="stepCount" class="step-count" aria-live="polite">
+        Step 1 of 4
+      </div>
+      <div
+        id="stepValidationMessage"
+        class="step-validation-message"
+        role="status"
+        aria-live="polite"
+      ></div>
+
+      <form
+        id="intakeForm"
+        class="intake-form wizard-form"
+        data-testid="intake-form"
+      >
+        <!-- Hidden field for selected brand -->
+        <input
+          type="hidden"
+          id="selectedBrand"
+          name="selectedBrand"
+          value="flexion"
+        />
+
+        <!-- Step 1: Your Details -->
+        <div class="wizard-step form-section" data-step="1">
+          <h2>Step 1 - Your Details</h2>
+
+          <div class="form-row" style="display: flex; gap: 12px">
+            <div class="form-group" style="flex: 1">
+              <label for="firstName"
+                >First Name: <span class="required">*</span></label
+              >
+              <input
+                type="text"
+                id="firstName"
+                name="firstName"
+                data-testid="firstName"
+                required
+              />
+            </div>
+            <div class="form-group" style="flex: 1">
+              <label for="lastName"
+                >Last Name: <span class="required">*</span></label
+              >
+              <input
+                type="text"
+                id="lastName"
+                name="lastName"
+                data-testid="lastName"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email: <span class="required">*</span></label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              data-testid="email"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="mobile">Phone: <span class="required">*</span></label>
+            <input
+              type="tel"
+              id="mobile"
+              name="mobile"
+              data-testid="mobile"
+              placeholder="Phone will format automatically"
+              required
+            />
+            <div class="form-error" id="error-mobile"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="dateOfBirth"
+              >Date of Birth: <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="dateOfBirth"
+              name="dateOfBirth"
+              data-testid="dateOfBirth"
+              class="date-input"
+              placeholder="DD/MM/YYYY"
+              inputmode="numeric"
+              autocomplete="bday"
+              data-max-date="today"
+              required
+              style="
+                width: 100%;
+                padding: 12px;
+                border: 1px solid var(--border-color);
+                border-radius: 12px;
+                font-size: 16px;
+                background: var(--input-bg);
+              "
+            />
+          </div>
+
+          <h3
+            style="
+              margin-top: 28px;
+              margin-bottom: 16px;
+              font-size: 16px;
+              color: var(--primary-color);
+            "
+          >
+            Emergency Contact
+            <span
+              style="
+                font-weight: normal;
+                font-size: 13px;
+                color: var(--text-light);
+              "
+              >(Optional)</span
+            >
+          </h3>
+
+          <div class="form-group">
+            <label for="emergencyName">Emergency Contact Name:</label>
+            <input type="text" id="emergencyName" name="emergencyName" />
+          </div>
+
+          <div class="form-group">
+            <label for="emergencyRelationship">Relationship:</label>
+            <input
+              type="text"
+              id="emergencyRelationship"
+              name="emergencyRelationship"
+              placeholder="e.g., Partner, Parent, Friend"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="emergencyPhone">Emergency Contact Phone:</label>
+            <input
+              type="tel"
+              id="emergencyPhone"
+              name="emergencyPhone"
+              placeholder="e.g., 0412 345 678"
+            />
+          </div>
+
+          <div
+            style="
+              margin-top: 24px;
+              padding-top: 16px;
+              border-top: 1px solid var(--border-color);
+              text-align: center;
+            "
+          >
+            <p style="font-size: 13px; color: var(--text-light); margin: 0">
+              All details filled in? Click <strong>Next</strong> to continue.
+            </p>
+          </div>
         </div>
 
-        <!-- Intro Text -->
-        <div class="info-box" style="margin-bottom: 24px; background: linear-gradient(135deg, rgba(157,78,221,0.08) 0%, rgba(30,136,199,0.08) 100%);">
-            <p style="margin: 0 0 12px 0;"><strong>Thanks for booking with Flexion &amp; Flow</strong></p>
-            <p style="margin: 0 0 12px 0; font-size: 14px; color: var(--text-light);">The information you provide helps me understand your needs, tailor your treatment, and make the most of our time together.</p>
-            <p style="margin: 0 0 12px 0; font-size: 14px; color: var(--text-light);">Your comfort, safety, and consent are always my top priority. Please let me know if there is anything you would prefer to chat about in person.</p>
-            <p style="margin: 0; font-size: 14px; color: var(--text-light);">If you have any questions before your appointment, feel free to reach out on <strong>0420 435 950</strong>.</p>
+        <!-- Step 2: About Your Visit & Lifestyle -->
+        <div class="wizard-step form-section" data-step="2">
+          <h2>Step 2 - About Your Visit</h2>
+
+          <div class="form-group">
+            <label
+              >What brings you to see me today?
+              <span class="required">*</span></label
+            >
+            <p
+              style="
+                font-size: 13px;
+                color: var(--text-light);
+                margin: 4px 0 12px 0;
+              "
+            >
+              Select all that apply
+            </p>
+            <div class="checkbox-group compact">
+              <label
+                ><input
+                  type="checkbox"
+                  name="visitReasons"
+                  value="Relieve pain / tension"
+                />
+                Relieve pain / tension</label
+              >
+              <label
+                ><input
+                  type="checkbox"
+                  name="visitReasons"
+                  value="Relieve stress / anxiety"
+                />
+                Relieve stress / anxiety</label
+              >
+              <label
+                ><input
+                  type="checkbox"
+                  name="visitReasons"
+                  value="Improve mobility"
+                />
+                Improve mobility</label
+              >
+              <label
+                ><input
+                  type="checkbox"
+                  name="visitReasons"
+                  value="Improve quality of life (sleep, mood, etc.)"
+                />
+                Improve quality of life (sleep, mood, etc.)</label
+              >
+              <label
+                ><input
+                  type="checkbox"
+                  name="visitReasons"
+                  value="Relaxation"
+                />
+                Relaxation</label
+              >
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label
+              >How did you hear about me? <span class="required">*</span></label
+            >
+            <div class="radio-group compact">
+              <label
+                ><input
+                  type="radio"
+                  name="referralSource"
+                  value="Google"
+                  required
+                />
+                Google</label
+              >
+              <label
+                ><input
+                  type="radio"
+                  name="referralSource"
+                  value="Word of mouth"
+                />
+                Word of mouth</label
+              >
+              <label
+                ><input
+                  type="radio"
+                  name="referralSource"
+                  value="Advertisement"
+                />
+                Advertisement</label
+              >
+              <label
+                ><input
+                  type="radio"
+                  name="referralSource"
+                  value="Friend or Family Member"
+                />
+                Friend or Family Member</label
+              >
+              <label
+                ><input
+                  type="radio"
+                  name="referralSource"
+                  value="Referral from another practitioner"
+                />
+                Referral from another practitioner</label
+              >
+            </div>
+          </div>
+
+          <div
+            id="referrerNameSection"
+            class="form-group hidden-field slide-field"
+            style="margin-top: 12px"
+          >
+            <label for="referrerName"
+              >Who referred you? <span class="optional">(Optional)</span></label
+            >
+            <input
+              type="text"
+              id="referrerName"
+              name="referrerName"
+              placeholder="Name of person or practitioner who referred you"
+              maxlength="100"
+            />
+          </div>
+
+          <h3
+            style="
+              margin-top: 28px;
+              margin-bottom: 16px;
+              font-size: 16px;
+              color: var(--primary-color);
+            "
+          >
+            Lifestyle
+          </h3>
+
+          <div class="form-group">
+            <label for="occupation"
+              >What do you do for work? <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="occupation"
+              name="occupation"
+              data-testid="occupation"
+              placeholder="e.g., Office Worker, Tradie, Student"
+              maxlength="100"
+              required
+            />
+          </div>
+
+          <div class="form-group slider-group">
+            <label
+              >How well do you sleep? <span class="required">*</span></label
+            >
+            <div class="slider-container">
+              <input
+                type="range"
+                id="sleepQuality"
+                name="sleepQuality"
+                min="1"
+                max="10"
+                value="5"
+                class="slider-input"
+                required
+                data-testid="sleepQuality"
+              />
+              <div class="slider-labels">
+                <span>1 - Terrible</span>
+                <span>5</span>
+                <span>10 - Fantastic</span>
+              </div>
+              <div class="slider-value" id="sleepQualityValue">5</div>
+            </div>
+          </div>
+
+          <div class="form-group slider-group">
+            <label
+              >How are your stress levels?
+              <span class="required">*</span></label
+            >
+            <div class="slider-container">
+              <input
+                type="range"
+                id="stressLevel"
+                name="stressLevel"
+                min="1"
+                max="10"
+                value="5"
+                class="slider-input"
+                required
+                data-testid="stressLevel"
+              />
+              <div class="slider-labels">
+                <span>1 - Low</span>
+                <span>5</span>
+                <span>10 - High</span>
+              </div>
+              <div class="slider-value" id="stressLevelValue">5</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label
+              >How often do you exercise? <span class="required">*</span></label
+            >
+            <div class="radio-group compact">
+              <label
+                ><input
+                  type="radio"
+                  name="exerciseFrequency"
+                  value="Never"
+                  required
+                />
+                Never</label
+              >
+              <label
+                ><input
+                  type="radio"
+                  name="exerciseFrequency"
+                  value="Rarely (few times a month)"
+                />
+                Rarely (few times a month)</label
+              >
+              <label
+                ><input
+                  type="radio"
+                  name="exerciseFrequency"
+                  value="1-2 days per week"
+                />
+                1-2 days per week</label
+              >
+              <label
+                ><input
+                  type="radio"
+                  name="exerciseFrequency"
+                  value="3-4 days per week"
+                />
+                3-4 days per week</label
+              >
+              <label
+                ><input
+                  type="radio"
+                  name="exerciseFrequency"
+                  value="5+ days per week"
+                />
+                5+ days per week</label
+              >
+              <label
+                ><input type="radio" name="exerciseFrequency" value="Daily" />
+                Daily</label
+              >
+            </div>
+          </div>
+
+          <h3
+            style="
+              margin-top: 28px;
+              margin-bottom: 16px;
+              font-size: 16px;
+              color: var(--primary-color);
+            "
+          >
+            Previous Massage Experience
+          </h3>
+
+          <div class="form-group">
+            <label
+              >Do you have any previous experience with Massage Therapy?
+              <span class="required">*</span></label
+            >
+            <div class="radio-group inline compact">
+              <label
+                ><input
+                  type="radio"
+                  name="previousMassage"
+                  value="Yes"
+                  required
+                />
+                Yes</label
+              >
+              <label
+                ><input type="radio" name="previousMassage" value="No" />
+                No</label
+              >
+            </div>
+          </div>
+
+          <div
+            id="lastTreatmentSection"
+            class="form-group hidden-field slide-field"
+            style="margin-top: 12px"
+          >
+            <label for="lastTreatmentDate"
+              >When was your last treatment?
+              <span class="optional">(Optional)</span></label
+            >
+            <input
+              type="text"
+              id="lastTreatmentDate"
+              name="lastTreatmentDate"
+              class="date-input"
+              placeholder="DD/MM/YYYY"
+              inputmode="numeric"
+              data-max-date="today"
+              style="
+                width: 100%;
+                padding: 12px;
+                border: 1px solid var(--border-color);
+                border-radius: 12px;
+                font-size: 16px;
+                background: var(--input-bg);
+              "
+            />
+            <p
+              style="
+                font-size: 12px;
+                color: var(--text-light);
+                margin-top: 4px;
+                font-style: italic;
+              "
+            >
+              If unsure, please leave blank.
+            </p>
+          </div>
+
+          <div
+            style="
+              margin-top: 24px;
+              padding-top: 16px;
+              border-top: 1px solid var(--border-color);
+              text-align: center;
+            "
+          >
+            <p style="font-size: 13px; color: var(--text-light); margin: 0">
+              Click <strong>Next</strong> to continue.
+            </p>
+          </div>
         </div>
 
-        <!-- Step Indicator -->
-        <div id="stepIndicator" class="step-indicator">
-            <div class="step active" data-step="1">
-                <span class="step-number">1</span>
-                <span class="step-label">Your Details</span>
+        <!-- Step 3: Health & Medical History -->
+        <div class="wizard-step form-section" data-step="3">
+          <h2>Step 3 - Health History</h2>
+          <p class="section-note">
+            This information helps ensure your safety and allows me to tailor
+            your treatment.
+          </p>
+
+          <div class="form-group">
+            <label
+              >Are you taking any medications?
+              <span class="required">*</span></label
+            >
+            <div class="radio-group inline">
+              <label
+                ><input
+                  type="radio"
+                  name="takingMedications"
+                  value="Yes"
+                  required
+                />
+                Yes</label
+              >
+              <label
+                ><input type="radio" name="takingMedications" value="No" />
+                No</label
+              >
             </div>
-            <div class="step" data-step="2">
-                <span class="step-number">2</span>
-                <span class="step-label">About Your Visit</span>
+          </div>
+
+          <div
+            id="medicationsSection"
+            class="form-group hidden-field slide-field"
+            style="margin-top: 12px"
+          >
+            <label for="medicationsList"
+              >Please list medications here:
+              <span class="required">*</span></label
+            >
+            <textarea
+              id="medicationsList"
+              name="medicationsList"
+              rows="2"
+              maxlength="500"
+              placeholder="e.g., Blood pressure medication, pain relievers, etc."
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <label
+              >Do you have any allergies? <span class="required">*</span></label
+            >
+            <div class="radio-group inline">
+              <label
+                ><input type="radio" name="hasAllergies" value="Yes" required />
+                Yes</label
+              >
+              <label
+                ><input type="radio" name="hasAllergies" value="No" /> No</label
+              >
             </div>
-            <div class="step" data-step="3">
-                <span class="step-number">3</span>
-                <span class="step-label">Health History</span>
+          </div>
+
+          <div
+            id="allergiesSection"
+            class="form-group hidden-field slide-field"
+            style="margin-top: 12px"
+          >
+            <label for="allergiesList"
+              >Please list allergies here:
+              <span class="required">*</span></label
+            >
+            <textarea
+              id="allergiesList"
+              name="allergiesList"
+              rows="2"
+              maxlength="500"
+              placeholder="e.g., Nuts, latex, fragrances, certain oils, etc."
+            ></textarea>
+          </div>
+
+          <h3
+            style="
+              margin-top: 28px;
+              margin-bottom: 16px;
+              font-size: 16px;
+              color: var(--primary-color);
+            "
+          >
+            Accidents, Injuries, Surgeries &amp; Conditions
+          </h3>
+
+          <div class="form-group">
+            <label
+              >Have you had any recent accidents, injuries or surgeries?
+              <span class="required">*</span></label
+            >
+            <div class="radio-group inline">
+              <label
+                ><input
+                  type="radio"
+                  name="hasRecentInjuries"
+                  value="Yes"
+                  required
+                />
+                Yes</label
+              >
+              <label
+                ><input type="radio" name="hasRecentInjuries" value="No" />
+                No</label
+              >
             </div>
-            <div class="step" data-step="4">
-                <span class="step-number">4</span>
-                <span class="step-label">Consent &amp; Sign</span>
+          </div>
+
+          <div class="form-group">
+            <label
+              >Do you have any of the following?
+              <span class="required">*</span></label
+            >
+            <p
+              style="
+                font-size: 13px;
+                color: var(--text-light);
+                margin: 4px 0 12px 0;
+              "
+            >
+              Select all that apply. This helps me tailor your treatment safely.
+            </p>
+            <div class="checkbox-group">
+              <label
+                ><input
+                  type="checkbox"
+                  name="medicalConditions"
+                  value="I Feel Fine Today"
+                />
+                I Feel Fine Today</label
+              >
+              <label
+                ><input
+                  type="checkbox"
+                  name="medicalConditions"
+                  value="Arthritis"
+                />
+                Arthritis</label
+              >
+              <label
+                ><input
+                  type="checkbox"
+                  name="medicalConditions"
+                  value="Asthma / Respiratory conditions"
+                />
+                Asthma / Respiratory conditions</label
+              >
+              <label
+                ><input
+                  type="checkbox"
+                  name="medicalConditions"
+                  value="Blood clots / DVT"
+                />
+                Blood clots / DVT</label
+              >
+              <label
+                ><input
+                  type="checkbox"
+                  name="medicalConditions"
+                  value="Cancer (current or history)"
+                />
+                Cancer (current or history)</label
+              >
+              <label
+                ><input
+                  type="checkbox"
+                  name="medicalConditions"
+                  value="Chronic pain"
+                />
+                Chronic pain</label
+              >
+              <label
+                ><input
+                  type="checkbox"
+                  name="medicalConditions"
+                  value="Diabetes"
+                />
+                Diabetes</label
+              >
+              <label
+                ><input
+                  type="checkbox"
+                  name="medicalConditions"
+                  value="Epilepsy / Seizures"
+                />
+                Epilepsy / Seizures</label
+              >
+              <label
+                ><input
+                  type="checkbox"
+                  name="medicalConditions"
+                  value="Fibromyalgia"
+                />
+                Fibromyalgia</label
+              >
+              <label
+                ><input
+                  type="checkbox"
+                  name="medicalConditions"
+                  value="Heart condition"
+                />
+                Heart condition</label
+              >
+              <label
+                ><input
+                  type="checkbox"
+                  name="medicalConditions"
+                  value="High / Low blood pressure"
+                />
+                High / Low blood pressure</label
+              >
+              <label
+                ><input
+                  type="checkbox"
+                  name="medicalConditions"
+                  value="Migraines / Headaches"
+                />
+                Migraines / Headaches</label
+              >
+              <label
+                ><input
+                  type="checkbox"
+                  name="medicalConditions"
+                  value="Osteoporosis"
+                />
+                Osteoporosis</label
+              >
+              <label
+                ><input
+                  type="checkbox"
+                  name="medicalConditions"
+                  value="Skin conditions (eczema, psoriasis, etc.)"
+                />
+                Skin conditions (eczema, psoriasis, etc.)</label
+              >
+              <label
+                ><input
+                  type="checkbox"
+                  name="medicalConditions"
+                  value="Other"
+                />
+                Other</label
+              >
             </div>
+          </div>
+
+          <div
+            id="conditionsDetailsSection"
+            class="form-group hidden-field slide-field"
+            style="margin-top: 12px"
+          >
+            <label for="conditionsDetails"
+              >Please provide more details about your condition(s):
+              <span class="optional">(Optional)</span></label
+            >
+            <textarea
+              id="conditionsDetails"
+              name="conditionsDetails"
+              rows="3"
+              maxlength="1000"
+              placeholder="e.g., Diagnosed with diabetes in 2020, currently managed with medication..."
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <label
+              >Have you seen any other healthcare provider for this?
+              <span class="required">*</span></label
+            >
+            <div class="radio-group inline">
+              <label
+                ><input
+                  type="radio"
+                  name="seenOtherProvider"
+                  value="Yes"
+                  required
+                />
+                Yes</label
+              >
+              <label
+                ><input type="radio" name="seenOtherProvider" value="No" />
+                No</label
+              >
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label
+              >Are you pregnant or breastfeeding?
+              <span class="required">*</span></label
+            >
+            <div class="radio-group inline">
+              <label
+                ><input
+                  type="radio"
+                  name="pregnantBreastfeeding"
+                  value="Yes"
+                  required
+                />
+                Yes</label
+              >
+              <label
+                ><input type="radio" name="pregnantBreastfeeding" value="No" />
+                No</label
+              >
+              <label
+                ><input
+                  type="radio"
+                  name="pregnantBreastfeeding"
+                  value="Not applicable"
+                />
+                Not applicable</label
+              >
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 20px">
+            <label for="additionalHealthInfo"
+              >Please provide any additional information that you feel is
+              relevant to your health history:
+              <span class="optional">(Optional)</span></label
+            >
+            <textarea
+              id="additionalHealthInfo"
+              name="additionalHealthInfo"
+              rows="3"
+              maxlength="1000"
+              placeholder="Any other information you'd like to share..."
+            ></textarea>
+          </div>
+
+          <div
+            style="
+              margin-top: 24px;
+              padding-top: 16px;
+              border-top: 1px solid var(--border-color);
+              text-align: center;
+            "
+          >
+            <p style="font-size: 13px; color: var(--text-light); margin: 0">
+              Health history complete? Click <strong>Next</strong> to continue.
+            </p>
+          </div>
         </div>
-        <div id="stepCount" class="step-count" aria-live="polite">Step 1 of 4</div>
-        <div id="stepValidationMessage" class="step-validation-message" role="status" aria-live="polite"></div>
 
-        <form id="intakeForm" class="intake-form wizard-form">
-            <!-- Hidden field for selected brand -->
-            <input type="hidden" id="selectedBrand" name="selectedBrand" value="flexion">
+        <!-- Step 4: Consent & Signature -->
+        <div
+          class="wizard-step form-section consent-section"
+          data-step="4"
+          style="
+            border: 2px solid var(--accent-color);
+            padding: 20px;
+            border-radius: 12px;
+          "
+        >
+          <h2>Step 4 - Consent &amp; Signature</h2>
 
-            <!-- Step 1: Your Details -->
-            <div class="wizard-step form-section" data-step="1">
-                <h2>Step 1 - Your Details</h2>
+          <div style="margin-bottom: 12px">
+            <button
+              type="button"
+              id="viewTermsBtn"
+              class="btn-secondary"
+              style="width: 100%"
+              aria-label="View Declaration and Privacy Consent"
+            >
+              View Declaration &amp; Privacy Consent
+            </button>
+          </div>
 
-                <div class="form-row" style="display: flex; gap: 12px;">
-                    <div class="form-group" style="flex: 1;">
-                        <label for="firstName">First Name: <span class="required">*</span></label>
-                        <input type="text" id="firstName" name="firstName" required>
-                    </div>
-                    <div class="form-group" style="flex: 1;">
-                        <label for="lastName">Last Name: <span class="required">*</span></label>
-                        <input type="text" id="lastName" name="lastName" required>
-                    </div>
+          <div class="consent-checkbox">
+            <label>
+              <input
+                type="checkbox"
+                name="consentAll"
+                id="consentAll"
+                required
+              />
+              <span id="consentText"
+                >By ticking this box, I confirm that I have read, understood,
+                and agree to the Declaration &amp; Privacy Consent. This tick
+                serves as my digital signature and consent to the collection,
+                storage, and use of my personal information for the stated
+                purposes. <span class="required">*</span></span
+              >
+            </label>
+          </div>
+
+          <div class="consent-checkbox">
+            <label>
+              <input type="checkbox" name="emailOptIn" id="emailOptIn" /> I
+              consent to receive email communication regarding my bookings and
+              occasional updates from Flexion &amp; Flow.
+            </label>
+          </div>
+
+          <div class="signature-area">
+            <h3 style="margin-top: 24px; margin-bottom: 12px">Signature</h3>
+            <p class="section-note">
+              Draw your signature below using your finger or mouse.
+            </p>
+
+            <div class="signature-draw">
+              <div class="signature-container">
+                <div class="signature-pad-frame">
+                  <canvas id="signatureCanvas" class="signature-pad"></canvas>
                 </div>
-
-                <div class="form-group">
-                    <label for="email">Email: <span class="required">*</span></label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="mobile">Phone: <span class="required">*</span></label>
-                    <input type="tel" id="mobile" name="mobile" placeholder="Phone will format automatically" required>
-                    <div class="form-error" id="error-mobile"></div>
-                </div>
-
-                <div class="form-group">
-                    <label for="dateOfBirth">Date of Birth: <span class="required">*</span></label>
-                    <input type="text" id="dateOfBirth" name="dateOfBirth" class="date-input" placeholder="DD/MM/YYYY" inputmode="numeric" autocomplete="bday" data-max-date="today" required style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:12px; font-size:16px; background:var(--input-bg);">
-                </div>
-
-                <h3 style="margin-top: 28px; margin-bottom: 16px; font-size: 16px; color: var(--primary-color);">Emergency Contact <span style="font-weight: normal; font-size: 13px; color: var(--text-light);">(Optional)</span></h3>
-
-                <div class="form-group">
-                    <label for="emergencyName">Emergency Contact Name:</label>
-                    <input type="text" id="emergencyName" name="emergencyName">
-                </div>
-
-                <div class="form-group">
-                    <label for="emergencyRelationship">Relationship:</label>
-                    <input type="text" id="emergencyRelationship" name="emergencyRelationship" placeholder="e.g., Partner, Parent, Friend">
-                </div>
-
-                <div class="form-group">
-                    <label for="emergencyPhone">Emergency Contact Phone:</label>
-                    <input type="tel" id="emergencyPhone" name="emergencyPhone" placeholder="e.g., 0412 345 678">
-                </div>
-
-                <div style="margin-top:24px; padding-top:16px; border-top:1px solid var(--border-color); text-align:center;">
-                    <p style="font-size:13px; color:var(--text-light); margin:0;">All details filled in? Click <strong>Next</strong> to continue.</p>
-                </div>
+                <button type="button" id="clearSignature" class="btn-secondary">
+                  Clear Signature
+                </button>
+              </div>
             </div>
 
-            <!-- Step 2: About Your Visit & Lifestyle -->
-            <div class="wizard-step form-section" data-step="2">
-                <h2>Step 2 - About Your Visit</h2>
+            <input type="hidden" id="signatureData" name="signature" />
+            <input type="hidden" id="signedAt" name="signedAt" />
+          </div>
 
-                <div class="form-group">
-                    <label>What brings you to see me today? <span class="required">*</span></label>
-                    <p style="font-size: 13px; color: var(--text-light); margin: 4px 0 12px 0;">Select all that apply</p>
-                    <div class="checkbox-group compact">
-                        <label><input type="checkbox" name="visitReasons" value="Relieve pain / tension"> Relieve pain / tension</label>
-                        <label><input type="checkbox" name="visitReasons" value="Relieve stress / anxiety"> Relieve stress / anxiety</label>
-                        <label><input type="checkbox" name="visitReasons" value="Improve mobility"> Improve mobility</label>
-                        <label><input type="checkbox" name="visitReasons" value="Improve quality of life (sleep, mood, etc.)"> Improve quality of life (sleep, mood, etc.)</label>
-                        <label><input type="checkbox" name="visitReasons" value="Relaxation"> Relaxation</label>
-                    </div>
-                </div>
+          <div
+            style="
+              margin-top: 24px;
+              padding-top: 16px;
+              border-top: 1px solid var(--border-color);
+              text-align: center;
+            "
+          >
+            <p style="font-size: 13px; color: var(--text-light); margin: 0">
+              Everything complete? Click <strong>Submit</strong> to finish.
+            </p>
+          </div>
+        </div>
 
-                <div class="form-group">
-                    <label>How did you hear about me? <span class="required">*</span></label>
-                    <div class="radio-group compact">
-                        <label><input type="radio" name="referralSource" value="Google" required> Google</label>
-                        <label><input type="radio" name="referralSource" value="Word of mouth"> Word of mouth</label>
-                        <label><input type="radio" name="referralSource" value="Advertisement"> Advertisement</label>
-                        <label><input type="radio" name="referralSource" value="Friend or Family Member"> Friend or Family Member</label>
-                        <label><input type="radio" name="referralSource" value="Referral from another practitioner"> Referral from another practitioner</label>
-                    </div>
-                </div>
-
-                <div id="referrerNameSection" class="form-group hidden-field slide-field" style="margin-top: 12px;">
-                    <label for="referrerName">Who referred you? <span class="optional">(Optional)</span></label>
-                    <input type="text" id="referrerName" name="referrerName" placeholder="Name of person or practitioner who referred you" maxlength="100">
-                </div>
-
-                <h3 style="margin-top: 28px; margin-bottom: 16px; font-size: 16px; color: var(--primary-color);">Lifestyle</h3>
-
-                <div class="form-group">
-                    <label for="occupation">What do you do for work? <span class="required">*</span></label>
-                    <input type="text" id="occupation" name="occupation" placeholder="e.g., Office Worker, Tradie, Student" maxlength="100" required>
-                </div>
-
-                <div class="form-group slider-group">
-                    <label>How well do you sleep? <span class="required">*</span></label>
-                    <div class="slider-container">
-                        <input type="range" id="sleepQuality" name="sleepQuality" min="1" max="10" value="5" class="slider-input" required>
-                        <div class="slider-labels">
-                            <span>1 - Terrible</span>
-                            <span>5</span>
-                            <span>10 - Fantastic</span>
-                        </div>
-                        <div class="slider-value" id="sleepQualityValue">5</div>
-                    </div>
-                </div>
-
-                <div class="form-group slider-group">
-                    <label>How are your stress levels? <span class="required">*</span></label>
-                    <div class="slider-container">
-                        <input type="range" id="stressLevel" name="stressLevel" min="1" max="10" value="5" class="slider-input" required>
-                        <div class="slider-labels">
-                            <span>1 - Low</span>
-                            <span>5</span>
-                            <span>10 - High</span>
-                        </div>
-                        <div class="slider-value" id="stressLevelValue">5</div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>How often do you exercise? <span class="required">*</span></label>
-                    <div class="radio-group compact">
-                        <label><input type="radio" name="exerciseFrequency" value="Never" required> Never</label>
-                        <label><input type="radio" name="exerciseFrequency" value="Rarely (few times a month)"> Rarely (few times a month)</label>
-                        <label><input type="radio" name="exerciseFrequency" value="1-2 days per week"> 1-2 days per week</label>
-                        <label><input type="radio" name="exerciseFrequency" value="3-4 days per week"> 3-4 days per week</label>
-                        <label><input type="radio" name="exerciseFrequency" value="5+ days per week"> 5+ days per week</label>
-                        <label><input type="radio" name="exerciseFrequency" value="Daily"> Daily</label>
-                    </div>
-                </div>
-
-                <h3 style="margin-top: 28px; margin-bottom: 16px; font-size: 16px; color: var(--primary-color);">Previous Massage Experience</h3>
-
-                <div class="form-group">
-                    <label>Do you have any previous experience with Massage Therapy? <span class="required">*</span></label>
-                    <div class="radio-group inline compact">
-                        <label><input type="radio" name="previousMassage" value="Yes" required> Yes</label>
-                        <label><input type="radio" name="previousMassage" value="No"> No</label>
-                    </div>
-                </div>
-
-                <div id="lastTreatmentSection" class="form-group hidden-field slide-field" style="margin-top: 12px;">
-                    <label for="lastTreatmentDate">When was your last treatment? <span class="optional">(Optional)</span></label>
-                    <input type="text" id="lastTreatmentDate" name="lastTreatmentDate" class="date-input" placeholder="DD/MM/YYYY" inputmode="numeric" data-max-date="today" style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:12px; font-size:16px; background:var(--input-bg);">
-                    <p style="font-size: 12px; color: var(--text-light); margin-top: 4px; font-style: italic;">If unsure, please leave blank.</p>
-                </div>
-
-                <div style="margin-top:24px; padding-top:16px; border-top:1px solid var(--border-color); text-align:center;">
-                    <p style="font-size:13px; color:var(--text-light); margin:0;">Click <strong>Next</strong> to continue.</p>
-                </div>
-            </div>
-
-            <!-- Step 3: Health & Medical History -->
-            <div class="wizard-step form-section" data-step="3">
-                <h2>Step 3 - Health History</h2>
-                <p class="section-note">This information helps ensure your safety and allows me to tailor your treatment.</p>
-
-                <div class="form-group">
-                    <label>Are you taking any medications? <span class="required">*</span></label>
-                    <div class="radio-group inline">
-                        <label><input type="radio" name="takingMedications" value="Yes" required> Yes</label>
-                        <label><input type="radio" name="takingMedications" value="No"> No</label>
-                    </div>
-                </div>
-
-                <div id="medicationsSection" class="form-group hidden-field slide-field" style="margin-top: 12px;">
-                    <label for="medicationsList">Please list medications here: <span class="required">*</span></label>
-                    <textarea id="medicationsList" name="medicationsList" rows="2" maxlength="500" placeholder="e.g., Blood pressure medication, pain relievers, etc."></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label>Do you have any allergies? <span class="required">*</span></label>
-                    <div class="radio-group inline">
-                        <label><input type="radio" name="hasAllergies" value="Yes" required> Yes</label>
-                        <label><input type="radio" name="hasAllergies" value="No"> No</label>
-                    </div>
-                </div>
-
-                <div id="allergiesSection" class="form-group hidden-field slide-field" style="margin-top: 12px;">
-                    <label for="allergiesList">Please list allergies here: <span class="required">*</span></label>
-                    <textarea id="allergiesList" name="allergiesList" rows="2" maxlength="500" placeholder="e.g., Nuts, latex, fragrances, certain oils, etc."></textarea>
-                </div>
-
-                <h3 style="margin-top: 28px; margin-bottom: 16px; font-size: 16px; color: var(--primary-color);">Accidents, Injuries, Surgeries &amp; Conditions</h3>
-
-                <div class="form-group">
-                    <label>Have you had any recent accidents, injuries or surgeries? <span class="required">*</span></label>
-                    <div class="radio-group inline">
-                        <label><input type="radio" name="hasRecentInjuries" value="Yes" required> Yes</label>
-                        <label><input type="radio" name="hasRecentInjuries" value="No"> No</label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Do you have any of the following? <span class="required">*</span></label>
-                    <p style="font-size: 13px; color: var(--text-light); margin: 4px 0 12px 0;">Select all that apply. This helps me tailor your treatment safely.</p>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" name="medicalConditions" value="I Feel Fine Today"> I Feel Fine Today</label>
-                        <label><input type="checkbox" name="medicalConditions" value="Arthritis"> Arthritis</label>
-                        <label><input type="checkbox" name="medicalConditions" value="Asthma / Respiratory conditions"> Asthma / Respiratory conditions</label>
-                        <label><input type="checkbox" name="medicalConditions" value="Blood clots / DVT"> Blood clots / DVT</label>
-                        <label><input type="checkbox" name="medicalConditions" value="Cancer (current or history)"> Cancer (current or history)</label>
-                        <label><input type="checkbox" name="medicalConditions" value="Chronic pain"> Chronic pain</label>
-                        <label><input type="checkbox" name="medicalConditions" value="Diabetes"> Diabetes</label>
-                        <label><input type="checkbox" name="medicalConditions" value="Epilepsy / Seizures"> Epilepsy / Seizures</label>
-                        <label><input type="checkbox" name="medicalConditions" value="Fibromyalgia"> Fibromyalgia</label>
-                        <label><input type="checkbox" name="medicalConditions" value="Heart condition"> Heart condition</label>
-                        <label><input type="checkbox" name="medicalConditions" value="High / Low blood pressure"> High / Low blood pressure</label>
-                        <label><input type="checkbox" name="medicalConditions" value="Migraines / Headaches"> Migraines / Headaches</label>
-                        <label><input type="checkbox" name="medicalConditions" value="Osteoporosis"> Osteoporosis</label>
-                        <label><input type="checkbox" name="medicalConditions" value="Skin conditions (eczema, psoriasis, etc.)"> Skin conditions (eczema, psoriasis, etc.)</label>
-                        <label><input type="checkbox" name="medicalConditions" value="Other"> Other</label>
-                    </div>
-                </div>
-
-                <div id="conditionsDetailsSection" class="form-group hidden-field slide-field" style="margin-top: 12px;">
-                    <label for="conditionsDetails">Please provide more details about your condition(s): <span class="optional">(Optional)</span></label>
-                    <textarea id="conditionsDetails" name="conditionsDetails" rows="3" maxlength="1000" placeholder="e.g., Diagnosed with diabetes in 2020, currently managed with medication..."></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label>Have you seen any other healthcare provider for this? <span class="required">*</span></label>
-                    <div class="radio-group inline">
-                        <label><input type="radio" name="seenOtherProvider" value="Yes" required> Yes</label>
-                        <label><input type="radio" name="seenOtherProvider" value="No"> No</label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Are you pregnant or breastfeeding? <span class="required">*</span></label>
-                    <div class="radio-group inline">
-                        <label><input type="radio" name="pregnantBreastfeeding" value="Yes" required> Yes</label>
-                        <label><input type="radio" name="pregnantBreastfeeding" value="No"> No</label>
-                        <label><input type="radio" name="pregnantBreastfeeding" value="Not applicable"> Not applicable</label>
-                    </div>
-                </div>
-
-                <div class="form-group" style="margin-top: 20px;">
-                    <label for="additionalHealthInfo">Please provide any additional information that you feel is relevant to your health history: <span class="optional">(Optional)</span></label>
-                    <textarea id="additionalHealthInfo" name="additionalHealthInfo" rows="3" maxlength="1000" placeholder="Any other information you'd like to share..."></textarea>
-                </div>
-
-                <div style="margin-top:24px; padding-top:16px; border-top:1px solid var(--border-color); text-align:center;">
-                    <p style="font-size:13px; color:var(--text-light); margin:0;">Health history complete? Click <strong>Next</strong> to continue.</p>
-                </div>
-            </div>
-
-            <!-- Step 4: Consent & Signature -->
-            <div class="wizard-step form-section consent-section" data-step="4" style="border:2px solid var(--accent-color); padding:20px; border-radius:12px;">
-                <h2>Step 4 - Consent &amp; Signature</h2>
-
-                <div style="margin-bottom:12px;">
-                    <button type="button" id="viewTermsBtn" class="btn-secondary" style="width:100%;" aria-label="View Declaration and Privacy Consent">View Declaration &amp; Privacy Consent</button>
-                </div>
-
-                <div class="consent-checkbox">
-                    <label>
-                        <input type="checkbox" name="consentAll" id="consentAll" required>
-                        <span id="consentText">By ticking this box, I confirm that I have read, understood, and agree to the Declaration &amp; Privacy Consent. This tick serves as my digital signature and consent to the collection, storage, and use of my personal information for the stated purposes. <span class="required">*</span></span>
-                    </label>
-                </div>
-
-                <div class="consent-checkbox">
-                    <label>
-                        <input type="checkbox" name="emailOptIn" id="emailOptIn"> I consent to receive email communication regarding my bookings and occasional updates from Flexion &amp; Flow.
-                    </label>
-                </div>
-
-                <div class="signature-area">
-                    <h3 style="margin-top: 24px; margin-bottom: 12px;">Signature</h3>
-                    <p class="section-note">Draw your signature below using your finger or mouse.</p>
-
-                    <div class="signature-draw">
-                        <div class="signature-container">
-                            <div class="signature-pad-frame">
-                                <canvas id="signatureCanvas" class="signature-pad"></canvas>
-                            </div>
-                            <button type="button" id="clearSignature" class="btn-secondary">Clear Signature</button>
-                        </div>
-                    </div>
-
-                    <input type="hidden" id="signatureData" name="signature">
-                    <input type="hidden" id="signedAt" name="signedAt">
-                </div>
-
-                <div style="margin-top:24px; padding-top:16px; border-top:1px solid var(--border-color); text-align:center;">
-                    <p style="font-size:13px; color:var(--text-light); margin:0;">Everything complete? Click <strong>Submit</strong> to finish.</p>
-                </div>
-            </div>
-
-            <!-- Sticky Action Bar (wizard controls) -->
-            <div id="stepStatus" class="step-status" aria-live="polite"></div>
-            <div class="form-actions sticky-actions wizard-bottom-bar" style="align-items:center;">
-                <button type="button" id="prevBtn" class="btn-secondary">Back</button>
-                <button type="button" id="nextBtn" class="btn-primary">Next</button>
-                <button type="submit" id="submitBtn" class="btn-primary" style="display:none;">Submit</button>
-            </div>
-        </form>
+        <!-- Sticky Action Bar (wizard controls) -->
+        <div id="stepStatus" class="step-status" aria-live="polite"></div>
+        <div
+          class="form-actions sticky-actions wizard-bottom-bar"
+          style="align-items: center"
+        >
+          <button
+            type="button"
+            id="prevBtn"
+            class="btn-secondary"
+            data-testid="prev-step-btn"
+          >
+            Back
+          </button>
+          <button
+            type="button"
+            id="nextBtn"
+            class="btn-primary"
+            data-testid="next-step-btn"
+          >
+            Next
+          </button>
+          <button
+            type="submit"
+            id="submitBtn"
+            class="btn-primary"
+            style="display: none"
+            data-testid="submit-intake"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
     </div>
 
     <script src="/js/auPhoneFormatter.js?v=20260127" defer></script>
@@ -356,21 +1059,45 @@
     <script src="/js/wizard.js?v=20260203" defer></script>
 
     <!-- Terms + Privacy Modal -->
-    <div id="termsModal" class="terms-modal hidden-field" role="dialog" aria-modal="true" aria-labelledby="termsModalTitle">
-        <div class="terms-backdrop"></div>
-        <div class="terms-content" role="document">
-            <div class="terms-header">
-                <h2 id="termsModalTitle">Declaration &amp; Privacy Consent</h2>
-                <button type="button" id="closeTermsBtn" class="btn-secondary" aria-label="Close">Close</button>
-            </div>
-            <div class="terms-body">
-                <div style="white-space:pre-wrap; line-height:1.6;">I confirm that the information I have provided in this form is true and complete to the best of my knowledge. I understand that it is my responsibility to inform the practitioner of any changes to my health or medical history that may affect my treatment.
-
-I acknowledge that my personal and health information is collected for the purpose of delivering safe and effective massage therapy. This information will be stored securely within Flexion &amp; Flow's authorised systems, including Google Workspace and Carepatron, in accordance with the Privacy Act 1988 (Cth) and the Australian Privacy Principles.
-
-My information will remain confidential and will not be disclosed to any third party without my consent, except where disclosure is required or authorised by law. I understand that I may request access to, or correction of, my records at any time by contacting Dylan Ennis, Owner of Flexion &amp; Flow.</div>
-            </div>
+    <div
+      id="termsModal"
+      class="terms-modal hidden-field"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="termsModalTitle"
+    >
+      <div class="terms-backdrop"></div>
+      <div class="terms-content" role="document">
+        <div class="terms-header">
+          <h2 id="termsModalTitle">Declaration &amp; Privacy Consent</h2>
+          <button
+            type="button"
+            id="closeTermsBtn"
+            class="btn-secondary"
+            aria-label="Close"
+          >
+            Close
+          </button>
         </div>
+        <div class="terms-body">
+          <div style="white-space: pre-wrap; line-height: 1.6">
+            I confirm that the information I have provided in this form is true
+            and complete to the best of my knowledge. I understand that it is my
+            responsibility to inform the practitioner of any changes to my
+            health or medical history that may affect my treatment. I
+            acknowledge that my personal and health information is collected for
+            the purpose of delivering safe and effective massage therapy. This
+            information will be stored securely within Flexion &amp; Flow's
+            authorised systems, including Google Workspace and Carepatron, in
+            accordance with the Privacy Act 1988 (Cth) and the Australian
+            Privacy Principles. My information will remain confidential and will
+            not be disclosed to any third party without my consent, except where
+            disclosure is required or authorised by law. I understand that I may
+            request access to, or correction of, my records at any time by
+            contacting Dylan Ennis, Owner of Flexion &amp; Flow.
+          </div>
+        </div>
+      </div>
     </div>
 
     <script src="/js/termsModal.js?v=20260125" defer></script>
@@ -378,105 +1105,130 @@ My information will remain confidential and will not be disclosed to any third p
     <script src="/js/intake-form.js?v=20260203" defer></script>
 
     <script>
-        // Initialize intake form conditional fields
-        document.addEventListener('DOMContentLoaded', () => {
-            function animateReveal(section) {
-                if (!section) return;
-                section.classList.remove('slide-down');
-                void section.offsetWidth;
-                section.classList.add('slide-down');
-            }
+      // Initialize intake form conditional fields
+      document.addEventListener("DOMContentLoaded", () => {
+        function animateReveal(section) {
+          if (!section) return;
+          section.classList.remove("slide-down");
+          void section.offsetWidth;
+          section.classList.add("slide-down");
+        }
 
-            // Toggle conditional field visibility based on Yes/No selections
-            function setupConditionalField(radioName, conditionalSectionId, showOnValue = 'Yes') {
-                const radios = document.querySelectorAll(`input[name="${radioName}"]`);
-                const section = document.getElementById(conditionalSectionId);
+        // Toggle conditional field visibility based on Yes/No selections
+        function setupConditionalField(
+          radioName,
+          conditionalSectionId,
+          showOnValue = "Yes",
+        ) {
+          const radios = document.querySelectorAll(
+            `input[name="${radioName}"]`,
+          );
+          const section = document.getElementById(conditionalSectionId);
 
-                if (!radios.length || !section) return;
+          if (!radios.length || !section) return;
 
-                radios.forEach(radio => {
-                    radio.addEventListener('change', () => {
-                        if (radio.value === showOnValue && radio.checked) {
-                            section.classList.remove('hidden-field');
-                            section.style.display = 'block';
-                            animateReveal(section);
-                        } else if (radio.checked) {
-                            section.classList.add('hidden-field');
-                            section.style.display = 'none';
-                            // Clear the field when hiding
-                            const inputs = section.querySelectorAll('input, textarea');
-                            inputs.forEach(input => input.value = '');
-                        }
-                    });
-                });
-            }
-
-            // Setup all conditional fields
-            setupConditionalField('previousMassage', 'lastTreatmentSection', 'Yes');
-            setupConditionalField('takingMedications', 'medicationsSection', 'Yes');
-            setupConditionalField('hasAllergies', 'allergiesSection', 'Yes');
-
-            // Referrer name field - show when Friend/Family or Practitioner referral selected
-            const referralRadios = document.querySelectorAll('input[name="referralSource"]');
-            const referrerSection = document.getElementById('referrerNameSection');
-
-            referralRadios.forEach(radio => {
-                radio.addEventListener('change', () => {
-                    const showReferrer = radio.value === 'Friend or Family Member' || radio.value === 'Referral from another practitioner';
-                    if (showReferrer && radio.checked) {
-                        referrerSection.classList.remove('hidden-field');
-                        referrerSection.style.display = 'block';
-                        animateReveal(referrerSection);
-                    } else if (radio.checked) {
-                        referrerSection.classList.add('hidden-field');
-                        referrerSection.style.display = 'none';
-                        document.getElementById('referrerName').value = '';
-                    }
-                });
+          radios.forEach((radio) => {
+            radio.addEventListener("change", () => {
+              if (radio.value === showOnValue && radio.checked) {
+                section.classList.remove("hidden-field");
+                section.style.display = "block";
+                animateReveal(section);
+              } else if (radio.checked) {
+                section.classList.add("hidden-field");
+                section.style.display = "none";
+                // Clear the field when hiding
+                const inputs = section.querySelectorAll("input, textarea");
+                inputs.forEach((input) => (input.value = ""));
+              }
             });
+          });
+        }
 
-            // Injuries show the details section
-            const injuriesRadios = document.querySelectorAll('input[name="hasRecentInjuries"]');
-            const detailsSection = document.getElementById('conditionsDetailsSection');
+        // Setup all conditional fields
+        setupConditionalField("previousMassage", "lastTreatmentSection", "Yes");
+        setupConditionalField("takingMedications", "medicationsSection", "Yes");
+        setupConditionalField("hasAllergies", "allergiesSection", "Yes");
 
-            // Medical conditions checkboxes - show details when conditions other than "I Feel Fine Today" are checked
-            const conditionCheckboxes = document.querySelectorAll('input[name="medicalConditions"]');
+        // Referrer name field - show when Friend/Family or Practitioner referral selected
+        const referralRadios = document.querySelectorAll(
+          'input[name="referralSource"]',
+        );
+        const referrerSection = document.getElementById("referrerNameSection");
 
-            function updateConditionsVisibility() {
-                const injuriesYes = document.querySelector('input[name="hasRecentInjuries"][value="Yes"]')?.checked;
-                const checkedConditions = document.querySelectorAll('input[name="medicalConditions"]:checked');
-                const hasConditions = Array.from(checkedConditions).some(cb => cb.value !== 'I Feel Fine Today');
-
-                if (injuriesYes || hasConditions) {
-                    detailsSection.classList.remove('hidden-field');
-                    detailsSection.style.display = 'block';
-                    animateReveal(detailsSection);
-                } else {
-                    detailsSection.classList.add('hidden-field');
-                    detailsSection.style.display = 'none';
-                }
+        referralRadios.forEach((radio) => {
+          radio.addEventListener("change", () => {
+            const showReferrer =
+              radio.value === "Friend or Family Member" ||
+              radio.value === "Referral from another practitioner";
+            if (showReferrer && radio.checked) {
+              referrerSection.classList.remove("hidden-field");
+              referrerSection.style.display = "block";
+              animateReveal(referrerSection);
+            } else if (radio.checked) {
+              referrerSection.classList.add("hidden-field");
+              referrerSection.style.display = "none";
+              document.getElementById("referrerName").value = "";
             }
-
-            injuriesRadios.forEach(r => r.addEventListener('change', updateConditionsVisibility));
-            conditionCheckboxes.forEach(cb => cb.addEventListener('change', updateConditionsVisibility));
-
-            // Slider value display updates
-            const sliders = [
-                { id: 'sleepQuality', valueId: 'sleepQualityValue' },
-                { id: 'stressLevel', valueId: 'stressLevelValue' }
-            ];
-
-            sliders.forEach(({ id, valueId }) => {
-                const slider = document.getElementById(id);
-                const valueDisplay = document.getElementById(valueId);
-                if (slider && valueDisplay) {
-                    slider.addEventListener('input', () => {
-                        valueDisplay.textContent = slider.value;
-                    });
-                }
-            });
+          });
         });
-    </script>
-</body>
-</html>
 
+        // Injuries show the details section
+        const injuriesRadios = document.querySelectorAll(
+          'input[name="hasRecentInjuries"]',
+        );
+        const detailsSection = document.getElementById(
+          "conditionsDetailsSection",
+        );
+
+        // Medical conditions checkboxes - show details when conditions other than "I Feel Fine Today" are checked
+        const conditionCheckboxes = document.querySelectorAll(
+          'input[name="medicalConditions"]',
+        );
+
+        function updateConditionsVisibility() {
+          const injuriesYes = document.querySelector(
+            'input[name="hasRecentInjuries"][value="Yes"]',
+          )?.checked;
+          const checkedConditions = document.querySelectorAll(
+            'input[name="medicalConditions"]:checked',
+          );
+          const hasConditions = Array.from(checkedConditions).some(
+            (cb) => cb.value !== "I Feel Fine Today",
+          );
+
+          if (injuriesYes || hasConditions) {
+            detailsSection.classList.remove("hidden-field");
+            detailsSection.style.display = "block";
+            animateReveal(detailsSection);
+          } else {
+            detailsSection.classList.add("hidden-field");
+            detailsSection.style.display = "none";
+          }
+        }
+
+        injuriesRadios.forEach((r) =>
+          r.addEventListener("change", updateConditionsVisibility),
+        );
+        conditionCheckboxes.forEach((cb) =>
+          cb.addEventListener("change", updateConditionsVisibility),
+        );
+
+        // Slider value display updates
+        const sliders = [
+          { id: "sleepQuality", valueId: "sleepQualityValue" },
+          { id: "stressLevel", valueId: "stressLevelValue" },
+        ];
+
+        sliders.forEach(({ id, valueId }) => {
+          const slider = document.getElementById(id);
+          const valueDisplay = document.getElementById(valueId);
+          if (slider && valueDisplay) {
+            slider.addEventListener("input", () => {
+              valueDisplay.textContent = slider.value;
+            });
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

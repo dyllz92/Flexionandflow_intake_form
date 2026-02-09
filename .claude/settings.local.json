@@ -42,7 +42,11 @@
       "Bash(npm test:*)",
       "Bash(railway status:*)",
       "Bash(git remote:*)",
-      "Bash(del \"c:\\\\Users\\\\dylan\\\\Dev\\\\GitHub\\\\Flexionandflow_intake_form\\\\views\\\\analytics.html\")"
+      "Bash(del \"c:\\\\Users\\\\dylan\\\\Dev\\\\GitHub\\\\Flexionandflow_intake_form\\\\views\\\\analytics.html\")",
+      "Bash(timeout 10 bash -c 'until curl -s http://localhost:3001/intake > /dev/null 2>&1; do echo \"\"Waiting for server...\"\"; done')",
+      "Bash(BASE_URL=http://localhost:3001 npm test:*)",
+      "Bash(BASE_URL=http://localhost:3001 npx playwright test:*)",
+      "Bash(SKIP_SERVER_START=true BASE_URL=http://localhost:3001 npx playwright test:*)"
     ]
   }
 }

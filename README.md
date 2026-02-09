@@ -23,11 +23,13 @@ npm install
 ### 2. Configure Environment
 
 Copy `.env.example` to `.env`:
+
 ```bash
 cp .env.example .env
 ```
 
 Edit `.env` with your settings:
+
 ```env
 PORT=3000
 GOOGLE_DRIVE_FOLDER_ID=your-folder-id
@@ -41,6 +43,7 @@ npm start
 ```
 
 For development with auto-restart:
+
 ```bash
 npm run dev
 ```
@@ -49,7 +52,7 @@ npm run dev
 
 - **Local**: http://localhost:3000 (or your configured `PORT`)
 - **Network**: http://YOUR_LOCAL_IP:3000 (find your IP with `ipconfig` on Windows)
- - **App URL (Railway)**: https://intake-form.up.railway.app
+- **App URL (Railway)**: https://intake-form.up.railway.app
 
 ## Google Drive Setup (Optional)
 
@@ -109,6 +112,7 @@ For clients to access from anywhere (not just local WiFi):
 ### Option 3: Deploy to Cloud
 
 Deploy to:
+
 - **Heroku**: https://heroku.com
 - **Railway**: https://railway.app
 - **Render**: https://render.com
@@ -155,21 +159,22 @@ Seated-Massage-Intake-Form/
 To use detailed body diagrams on the muscle map:
 
 - Preferred location: place PNGs in `public/img`
-	- `public/img/Male Body Map.png`
-	- `public/img/Female Body Map.png`
+  - `public/img/Male Body Map.png`
+  - `public/img/Female Body Map.png`
 - Alternative location: `public/js` (next to the SVGs)
-	- `public/js/Male Body Map.png`
-	- `public/js/Female Body Map.png`
+  - `public/js/Male Body Map.png`
+  - `public/js/Female Body Map.png`
 
 Notes:
+
 - The app auto-selects the image based on the selected gender.
 - If PNGs are missing or fail to load, the app falls back to a simple outline so users can still place dots.
 - Coordinates are stored in the hidden `muscleMapMarks` field for submission and PDF generation.
 
-
 ## Form Types
 
 ### Quick Form (60 seconds)
+
 - Basic contact information
 - Treatment areas (up to 2)
 - Pressure preference
@@ -177,6 +182,7 @@ Notes:
 - Consent and signature
 
 ### Detailed Form (Comprehensive)
+
 - Complete client details
 - Work information
 - Emergency contact
@@ -200,17 +206,20 @@ By default, local PDF fallback is disabled to avoid local persistence. For local
 ## Troubleshooting
 
 ### Can't access from phone
+
 - Ensure phone and computer are on the same WiFi network
 - Check firewall settings allow incoming connections on port 3000
 - Use your computer's actual IP address, not `localhost`
 
 ### Google Drive upload fails
+
 - Verify credentials file exists: `google-credentials.json`
 - Check service account has access to the folder
 - Ensure Drive API is enabled in Google Cloud Console
 - If `ALLOW_LOCAL_PDF_FALLBACK=true`, PDFs will save locally as fallback; otherwise submissions will error until Drive is configured.
 
 ### Signature not appearing in PDF
+
 - Ensure signature canvas is signed before submission
 - Check browser console for errors
 - Try clearing browser cache
@@ -218,26 +227,92 @@ By default, local PDF fallback is disabled to avoid local persistence. For local
 ## Development
 
 ### Install development dependencies
+
 ```bash
 npm install --save-dev nodemon
 ```
 
 ### Run in development mode
+
 ```bash
 npm run dev
+```
+
+## Testing
+
+This project includes comprehensive Playwright smoke tests that automatically adapt to the application's routes and flows.
+
+### Prerequisites
+
+Tests require the development server to be running:
+
+```bash
+npm start
+```
+
+### Running Tests
+
+```bash
+# Run all tests headlessly
+npm test
+
+# Run tests with UI for debugging
+npm test:ui
+
+# Run tests in headed mode (see browser)
+npm run test:headed
+
+# Show test report
+npm run test:report
+```
+
+### Test Configuration
+
+Tests are driven by configuration in [tests/smoke.config.ts](tests/smoke.config.ts):
+
+- **Routes**: Automatically tests all public routes (`/`, `/intake`, `/feedback`, etc.)
+- **Page Assertions**: Verifies key elements load correctly on each page
+- **User Flows**: End-to-end testing of the complete intake form submission
+
+### E2E Safe Mode
+
+Tests automatically run in E2E mode to prevent real form submissions:
+
+- Form validation works normally
+- Submissions are mocked and don't create real PDFs or Google Drive uploads
+- Success flow is tested without side effects
+
+To update test configuration when routes change:
+
+1. Edit `tests/smoke.config.ts`
+2. Add new routes to `routesToCheck` array
+3. Add page assertions for new routes
+4. Update user flows if needed
+
+### Environment Variables for Testing
+
+```bash
+# Set custom base URL (optional)
+BASE_URL=http://localhost:3001
+
+# Enable E2E mode manually (optional - tests set this automatically)
+E2E_MODE=true
 ```
 
 ## Support
 
 For issues or questions:
+
 - Check the ROADMAP.md for project status
 - Review the troubleshooting section above
 - Check console logs for error messages
 
 ## Deployment
+
 - Deployments are handled by Railway; pushing to `main` triggers a Railway build when configured in the Railway dashboard.
 
 ### Recommended config files
+
 This project includes a set of recommended config files to make builds and deployments deterministic:
 
 - `.nvmrc` ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â pins Node version to `18`.
@@ -248,11 +323,11 @@ This project includes a set of recommended config files to make builds and deplo
 - `.github/workflows/ci.yml` ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â basic CI workflow for GitHub Actions.
 
 ### Deployment tips for Railway
+
 - Build command: `npm ci --omit=dev`
 - Start command: `npm start`
 - Ensure the `packageManager` field in `package.json` is set to `npm@9` or the appropriate version.
 - Add required environment variables in Railway project settings (see `.env.example`).
-
 
 ## License
 

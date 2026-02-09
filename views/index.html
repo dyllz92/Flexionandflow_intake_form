@@ -1,97 +1,161 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" data-brand="flexion">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flexion &amp; Flow - Intake Form</title>
-  <link rel="stylesheet" href="/css/styles.css?v=20260129-v20">
-  <link rel="stylesheet" href="/css/home.css?v=20260201">
-  <script src="/js/brand.js?v=20260127"></script>
-</head>
-<body data-brand="flexion">
-  <div class="page">
-    <!-- Header Bar with Logo -->
-    <header class="top-bar">
-      <div class="top-bar-content" style="justify-content: center;">
-        <div class="logo-container" style="text-align: center;">
-          <a href="https://www.flexionandflow.com.au/">
-            <img src="/img/Flexion_Flow_Logo.png" alt="Flexion &amp; Flow Logo" class="logo-large" style="max-width: 300px; height: auto;">
-          </a>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flexion &amp; Flow - Intake Form</title>
+    <link rel="stylesheet" href="/css/styles.css?v=20260129-v20" />
+    <link rel="stylesheet" href="/css/home.css?v=20260201" />
+    <script src="/js/brand.js?v=20260127"></script>
+  </head>
+  <body data-brand="flexion">
+    <div class="page" data-testid="app-shell">
+      <!-- Header Bar with Logo -->
+      <header class="top-bar">
+        <div class="top-bar-content" style="justify-content: center">
+          <div class="logo-container" style="text-align: center">
+            <a href="https://www.flexionandflow.com.au/">
+              <img
+                src="/img/Flexion_Flow_Logo.png"
+                alt="Flexion &amp; Flow Logo"
+                class="logo-large"
+                style="max-width: 300px; height: auto"
+              />
+            </a>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
 
-    <!-- Main Content Area - Centered -->
-    <main class="main-content">
-      <!-- Hero Section -->
-      <div class="hero-section">
-        <img src="/img/Welcome.png" alt="Welcome to Flexion &amp; Flow" class="welcome-image">
-      </div>
+      <!-- Main Content Area - Centered -->
+      <main class="main-content">
+        <!-- Hero Section -->
+        <div class="hero-section">
+          <img
+            src="/img/Welcome.png"
+            alt="Welcome to Flexion &amp; Flow"
+            class="welcome-image"
+          />
+        </div>
 
-      <!-- Service Cards Grid -->
-      <div class="service-grid">
-      <!-- Client Intake Form Card -->
-      <article class="service-card" aria-labelledby="intake-title">
-        <div class="card-icon" aria-hidden="true">
-          <img src="/img/Table_Icon.png" alt="Client Intake" class="icon-image">
-        </div>
-        <h2 id="intake-title">Client Intake Form</h2>
-        <p class="card-description">New clients, please complete this form before your first session.</p>
-        <div class="card-benefit" aria-label="Takes about 2-3 minutes">
-          <span class="benefit-icon" aria-hidden="true">✓</span>
-          <span class="benefit-text">Takes about 2-3 minutes.</span>
-        </div>
-        <p class="card-explainer">Answer a few quick questions so we can tailor your session.</p>
-        <a href="/intake" target="_blank" rel="noopener noreferrer" class="btn btn-primary" title="Start client intake form">Start Intake Form</a>
-      </article>
+        <!-- Service Cards Grid -->
+        <div class="service-grid">
+          <!-- Client Intake Form Card -->
+          <article class="service-card" aria-labelledby="intake-title">
+            <div class="card-icon" aria-hidden="true">
+              <img
+                src="/img/Table_Icon.png"
+                alt="Client Intake"
+                class="icon-image"
+              />
+            </div>
+            <h2 id="intake-title">Client Intake Form</h2>
+            <p class="card-description">
+              New clients, please complete this form before your first session.
+            </p>
+            <div class="card-benefit" aria-label="Takes about 2-3 minutes">
+              <span class="benefit-icon" aria-hidden="true">✓</span>
+              <span class="benefit-text">Takes about 2-3 minutes.</span>
+            </div>
+            <p class="card-explainer">
+              Answer a few quick questions so we can tailor your session.
+            </p>
+            <a
+              href="/intake"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-primary"
+              title="Start client intake form"
+              data-testid="start-intake-link"
+              >Start Intake Form</a
+            >
+          </article>
 
-      <!-- Feedback Card -->
-      <article class="service-card" aria-labelledby="feedback-title">
-        <div class="card-icon" aria-hidden="true">
-          <img src="/img/Feedback_Icon.png" alt="Post-Session Feedback" class="icon-image">
-        </div>
-        <h2 id="feedback-title">Post-Session Feedback</h2>
-        <p class="card-description">Share how you feel before or after your session.</p>
-        <div class="card-benefit" aria-label="Takes less than 1 minute">
-          <span class="benefit-icon" aria-hidden="true">⏱</span>
-          <span class="benefit-text">Takes less than 1 minute.</span>
-        </div>
-        <p class="card-explainer">Help us improve by sharing your wellness experience.</p>
-        <a href="/feedback" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" title="Open feedback form">Give Feedback</a>
-      </article>
+          <!-- Feedback Card -->
+          <article class="service-card" aria-labelledby="feedback-title">
+            <div class="card-icon" aria-hidden="true">
+              <img
+                src="/img/Feedback_Icon.png"
+                alt="Post-Session Feedback"
+                class="icon-image"
+              />
+            </div>
+            <h2 id="feedback-title">Post-Session Feedback</h2>
+            <p class="card-description">
+              Share how you feel before or after your session.
+            </p>
+            <div class="card-benefit" aria-label="Takes less than 1 minute">
+              <span class="benefit-icon" aria-hidden="true">⏱</span>
+              <span class="benefit-text">Takes less than 1 minute.</span>
+            </div>
+            <p class="card-explainer">
+              Help us improve by sharing your wellness experience.
+            </p>
+            <a
+              href="/feedback"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-secondary"
+              title="Open feedback form"
+              >Give Feedback</a
+            >
+          </article>
 
-      <!-- SOAP Note Generator Card -->
-      <article class="service-card" aria-labelledby="soap-title">
-        <div class="card-icon" aria-hidden="true">
-          <svg class="icon-image" viewBox="0 0 64 64" fill="none" stroke="#1E88C7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="SOAP notes">
-            <rect x="14" y="10" width="36" height="44" rx="6"></rect>
-            <path d="M24 10h16a4 4 0 0 1 4 4v2H20v-2a4 4 0 0 1 4-4z"></path>
-            <path d="M22 26h20"></path>
-            <path d="M22 34h20"></path>
-            <path d="M22 42h14"></path>
-          </svg>
+          <!-- SOAP Note Generator Card -->
+          <article class="service-card" aria-labelledby="soap-title">
+            <div class="card-icon" aria-hidden="true">
+              <svg
+                class="icon-image"
+                viewBox="0 0 64 64"
+                fill="none"
+                stroke="#1E88C7"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                role="img"
+                aria-label="SOAP notes"
+              >
+                <rect x="14" y="10" width="36" height="44" rx="6"></rect>
+                <path d="M24 10h16a4 4 0 0 1 4 4v2H20v-2a4 4 0 0 1 4-4z"></path>
+                <path d="M22 26h20"></path>
+                <path d="M22 34h20"></path>
+                <path d="M22 42h14"></path>
+              </svg>
+            </div>
+            <h2 id="soap-title">SOAP Note Generator</h2>
+            <p class="card-description">
+              Draft SOAP notes quickly with AI assistance.
+            </p>
+            <div
+              class="card-benefit"
+              aria-label="Use a paragraph or quick prompts"
+            >
+              <span class="benefit-icon" aria-hidden="true">âœ“</span>
+              <span class="benefit-text">Paragraph or quick prompts.</span>
+            </div>
+            <p class="card-explainer">
+              Generate medical shorthand and edit as needed.
+            </p>
+            <a
+              href="/soap"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-primary"
+              title="Open SOAP note generator"
+              >Open SOAP Tool</a
+            >
+          </article>
         </div>
-        <h2 id="soap-title">SOAP Note Generator</h2>
-        <p class="card-description">Draft SOAP notes quickly with AI assistance.</p>
-        <div class="card-benefit" aria-label="Use a paragraph or quick prompts">
-          <span class="benefit-icon" aria-hidden="true">âœ“</span>
-          <span class="benefit-text">Paragraph or quick prompts.</span>
-        </div>
-        <p class="card-explainer">Generate medical shorthand and edit as needed.</p>
-        <a href="/soap" target="_blank" rel="noopener noreferrer" class="btn btn-primary" title="Open SOAP note generator">Open SOAP Tool</a>
-      </article>
-      </div>
-    </main>
+      </main>
 
-    <!-- Footer -->
-    <footer class="footer-section" data-brand="flexion">
-      <p>&copy; 2026 Flexion &amp; Flow. All rights reserved.</p>
-      <p class="footer-links">
-        <a href="/privacy">Privacy Policy</a>
-        <span aria-hidden="true"> · </span>
-        <a href="/terms">Terms of Service</a>
-      </p>
-    </footer>
-  </div>
-</body>
+      <!-- Footer -->
+      <footer class="footer-section" data-brand="flexion">
+        <p>&copy; 2026 Flexion &amp; Flow. All rights reserved.</p>
+        <p class="footer-links">
+          <a href="/privacy">Privacy Policy</a>
+          <span aria-hidden="true"> · </span>
+          <a href="/terms">Terms of Service</a>
+        </p>
+      </footer>
+    </div>
+  </body>
 </html>

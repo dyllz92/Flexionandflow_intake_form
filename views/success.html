@@ -1,35 +1,65 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" data-brand="flexion">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Success - Flexion &amp; Flow</title>
-    <link rel="stylesheet" href="/css/styles.css?v=20260129-v11">
-    <link rel="stylesheet" href="/css/forms.css?v=20260129-v11">
+    <link rel="stylesheet" href="/css/styles.css?v=20260129-v11" />
+    <link rel="stylesheet" href="/css/forms.css?v=20260129-v11" />
     <script src="/js/brand.js?v=20260127"></script>
-</head>
-<body data-brand="flexion">
-    <div class="container">
-        <div class="success-card">
-            <div class="success-message">
-                <div class="icon" aria-hidden="true">
-                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="12" cy="12" r="10" fill="#5cb85c"/>
-                        <path d="M8 12.5L10.5 15L16 9.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </div>
-                <h2>Thank You!</h2>
-                <p style="font-size: 0.9rem; color: #6B8CA8; margin:12px 0 0 0;">Your intake form has been submitted successfully and saved securely. If you need to update anything, please let us know before your session.</p>
-                <p style="font-size: 0.9rem; color: #6B8CA8; margin:12px 0 0 0;">We look forward to seeing you!</p>
-                <p></p>
+  </head>
+  <body data-brand="flexion">
+    <div class="container" data-testid="app-shell">
+      <div class="success-card" data-testid="intake-success">
+        <div class="success-message">
+          <div class="icon" aria-hidden="true">
+            <svg
+              width="64"
+              height="64"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="12" cy="12" r="10" fill="#5cb85c" />
+              <path
+                d="M8 12.5L10.5 15L16 9.5"
+                stroke="white"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <h2>Thank You!</h2>
+          <p style="font-size: 0.9rem; color: #6b8ca8; margin: 12px 0 0 0">
+            Your intake form has been submitted successfully and saved securely.
+            If you need to update anything, please let us know before your
+            session.
+          </p>
+          <p style="font-size: 0.9rem; color: #6b8ca8; margin: 12px 0 0 0">
+            We look forward to seeing you!
+          </p>
+          <p></p>
 
-                <div style="margin-top: 10px; display: flex; justify-content: center;">
-                    <a href="/" class="btn-secondary" style="width: 100%; max-width: 300px; text-align: center; display: inline-block; margin-top:32px; box-shadow: 0 6px 12px rgba(0,0,0,0.2);" aria-label="Submit another form">
-                        Submit Another Form
-                    </a>
-                </div>
-            </div>
+          <div style="margin-top: 10px; display: flex; justify-content: center">
+            <a
+              href="/"
+              class="btn-secondary"
+              style="
+                width: 100%;
+                max-width: 300px;
+                text-align: center;
+                display: inline-block;
+                margin-top: 32px;
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+              "
+              aria-label="Submit another form"
+            >
+              Submit Another Form
+            </a>
+          </div>
         </div>
+      </div>
     </div>
-</body>
+  </body>
 </html>

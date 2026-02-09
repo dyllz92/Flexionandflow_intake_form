@@ -43,16 +43,21 @@ test.describe('Intake Form Submission Flow', () => {
     await page.click('#nextBtn');
 
     // Verify we're on Step 2
-    await page.waitForSelector('[data-step="2"].active', { timeout: 5000 });
+    await page.waitForSelector('.wizard-step[data-step="2"].active', { timeout: 5000 });
     const stepCount = await page.textContent('#stepCount');
     expect(stepCount).toContain('Step 2 of 4');
 
-    // Fill in visit reasons (select at least one checkbox)
-    await page.check('input[name="visitReasons"][value="Relieve pain / tension"]');
+    // IMPORTANT: Checkboxes are hidden with CSS (display: none)
+    // Click on the visible labels instead of the hidden inputs
+
+    // Fill in visit reasons by clicking the visible label
+    const painReasonLabel = page.locator('.checkbox-group.compact label:has(input[name="visitReasons"][value="Relieve pain / tension"])');
+    await painReasonLabel.click();
     await page.waitForTimeout(100);
 
-    // Fill in referral source (select a radio button)
-    await page.check('input[name="referralSource"][value="Google"]');
+    // Fill in referral source by clicking the visible label
+    const googleLabel = page.locator('.radio-group.compact label:has(input[name="referralSource"][value="Google"])');
+    await googleLabel.click();
     await page.waitForTimeout(100);
 
     // Fill in occupation
@@ -77,12 +82,14 @@ test.describe('Intake Form Submission Flow', () => {
     });
     await page.waitForTimeout(100);
 
-    // Fill in exercise frequency (select a radio button)
-    await page.check('input[name="exerciseFrequency"][value="3-4 days per week"]');
+    // Fill in exercise frequency by clicking the visible label
+    const exerciseLabel = page.locator('.radio-group.compact label:has(input[name="exerciseFrequency"][value="3-4 days per week"])');
+    await exerciseLabel.click();
     await page.waitForTimeout(100);
 
-    // Fill in previous massage experience
-    await page.check('input[name="previousMassage"][value="Yes"]');
+    // Fill in previous massage experience by clicking the visible label
+    const massageLabel = page.locator('.radio-group.inline.compact label:has(input[name="previousMassage"][value="Yes"])');
+    await massageLabel.click();
     await page.waitForTimeout(100);
 
     // Trigger validation update by calling wizard's update function
@@ -103,7 +110,7 @@ test.describe('Intake Form Submission Flow', () => {
     await page.click('#nextBtn');
 
     // Verify we're on Step 3
-    await page.waitForSelector('[data-step="3"].active', { timeout: 5000 });
+    await page.waitForSelector('.wizard-step[data-step="3"].active', { timeout: 5000 });
     const newStepCount = await page.textContent('#stepCount');
     expect(newStepCount).toContain('Step 3 of 4');
   });
@@ -117,11 +124,16 @@ test.describe('Intake Form Submission Flow', () => {
     await page.fill('#dateOfBirth', '10/01/1992');
 
     await page.click('#nextBtn');
-    await page.waitForSelector('[data-step="2"].active');
+    await page.waitForSelector('.wizard-step[data-step="2"].active');
 
     // Step 2: About Your Visit
-    await page.check('input[name="visitReasons"][value="Relieve stress / anxiety"]');
-    await page.check('input[name="referralSource"][value="Word of mouth"]');
+    // Click visible labels instead of hidden inputs
+    const reasonLabel = page.locator('.checkbox-group.compact label:has(input[name="visitReasons"][value="Relieve stress / anxiety"])');
+    await reasonLabel.click();
+
+    const referralLabel = page.locator('.radio-group.compact label:has(input[name="referralSource"][value="Word of mouth"])');
+    await referralLabel.click();
+
     await page.fill('#occupation', 'Designer');
 
     // Set sliders using evaluate to ensure proper event dispatch
@@ -137,24 +149,40 @@ test.describe('Intake Form Submission Flow', () => {
       el.dispatchEvent(new Event('change', { bubbles: true }));
     });
 
-    await page.check('input[name="exerciseFrequency"][value="1-2 days per week"]');
-    await page.check('input[name="previousMassage"][value="No"]');
+    const exerciseLabel = page.locator('.radio-group.compact label:has(input[name="exerciseFrequency"][value="1-2 days per week"])');
+    await exerciseLabel.click();
+
+    const noMassageLabel = page.locator('.radio-group.inline.compact label:has(input[name="previousMassage"][value="No"])');
+    await noMassageLabel.click();
 
     await page.waitForTimeout(750);
     await page.click('#nextBtn');
-    await page.waitForSelector('[data-step="3"].active');
+    await page.waitForSelector('.wizard-step[data-step="3"].active');
 
     // Step 3: Health History
-    await page.check('input[name="takingMedications"][value="No"]');
-    await page.check('input[name="hasAllergies"][value="No"]');
-    await page.check('input[name="hasRecentInjuries"][value="No"]');
-    await page.check('input[name="medicalConditions"][value="I Feel Fine Today"]');
-    await page.check('input[name="seenOtherProvider"][value="No"]');
-    await page.check('input[name="pregnantBreastfeeding"][value="Not applicable"]');
+    // Click visible labels for radio buttons
+    const noMedsLabel = page.locator('.radio-group.inline label:has(input[name="takingMedications"][value="No"])');
+    await noMedsLabel.click();
+
+    const noAllergiesLabel = page.locator('.radio-group.inline label:has(input[name="hasAllergies"][value="No"])');
+    await noAllergiesLabel.click();
+
+    const noInjuriesLabel = page.locator('.radio-group.inline label:has(input[name="hasRecentInjuries"][value="No"])');
+    await noInjuriesLabel.click();
+
+    // Click the "I Feel Fine Today" checkbox label
+    const fineLabel = page.locator('.checkbox-group label:has(input[name="medicalConditions"][value="I Feel Fine Today"])');
+    await fineLabel.click();
+
+    const noProviderLabel = page.locator('.radio-group.inline label:has(input[name="seenOtherProvider"][value="No"])');
+    await noProviderLabel.click();
+
+    const notApplicableLabel = page.locator('.radio-group.inline label:has(input[name="pregnantBreastfeeding"][value="Not applicable"])');
+    await notApplicableLabel.click();
 
     await page.waitForTimeout(750);
     await page.click('#nextBtn');
-    await page.waitForSelector('[data-step="4"].active');
+    await page.waitForSelector('.wizard-step[data-step="4"].active');
 
     // Step 4: Consent & Signature
     // Agree to the consent
@@ -177,14 +205,9 @@ test.describe('Intake Form Submission Flow', () => {
 
     await page.waitForTimeout(500);
 
-    // Submit the form
+    // Verify submit button is enabled
     const submitBtn = page.locator('#submitBtn');
     await expect(submitBtn).toBeEnabled();
-
-    // Mock the API response for the submission
-    await page.route('**/api/submit-form', route => {
-      route.abort('blockedbyclient');
-    });
 
     // Note: actual submission might fail without a real backend
     // This test verifies the form is fillable and ready for submission

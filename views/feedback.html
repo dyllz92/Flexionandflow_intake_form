@@ -1,461 +1,552 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" data-brand="flexion">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Post-Session Feedback - Flexion &amp; Flow</title>
-    <link rel="stylesheet" href="/css/styles.css?v=20260129-v20">
-    <link rel="stylesheet" href="/css/forms.css?v=20260129-v20">
+    <link rel="stylesheet" href="/css/styles.css?v=20260129-v20" />
+    <link rel="stylesheet" href="/css/forms.css?v=20260129-v20" />
     <script src="/js/brand.js?v=20260127"></script>
     <style>
-        body {
-            background: var(--page-gradient);
-            color: var(--text-dark);
-            font-family: var(--font-body);
-            min-height: 100vh;
+      body {
+        background: var(--page-gradient);
+        color: var(--text-dark);
+        font-family: var(--font-body);
+        min-height: 100vh;
+      }
+      .feedback-container {
+        max-width: 700px;
+        margin: 0 auto;
+        padding: 40px 20px;
+      }
+      .feedback-header {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+      .feedback-header img {
+        max-height: 100px;
+        margin-bottom: 20px;
+        background: #ffffff;
+        border-radius: 50%;
+        padding: 15px;
+        width: 140px;
+        height: 140px;
+        object-fit: contain;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        border: 2px solid var(--primary-color);
+      }
+      .feedback-header h1 {
+        color: var(--primary-color);
+        font-size: 28px;
+        margin-bottom: 12px;
+        font-weight: 700;
+        font-family: var(--font-display);
+        letter-spacing: 0.02em;
+      }
+      .feedback-header p {
+        color: var(--text-light);
+        font-size: 15px;
+      }
+      /* Step Indicators */
+      .step-indicators {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 40px;
+        gap: 10px;
+      }
+      .step {
+        flex: 1;
+        text-align: center;
+      }
+      .step-number {
+        width: 40px;
+        height: 40px;
+        background: var(--primary-color);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 16px;
+        margin: 0 auto 8px;
+        border: 2px solid var(--primary-color);
+        box-shadow: 0 4px 10px rgba(30, 136, 199, 0.25);
+      }
+      .step.active .step-number {
+        background: var(--secondary-color);
+        border-color: var(--secondary-color);
+        box-shadow: 0 0 0 3px rgba(30, 136, 199, 0.2);
+      }
+      .step.completed .step-number {
+        background: var(--accent-color);
+      }
+      .step-label {
+        color: var(--text-light);
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .step.active .step-label {
+        color: var(--primary-color);
+      }
+      .feedback-form {
+        background: transparent;
+        border-radius: 0;
+        padding: 0;
+        box-shadow: none;
+      }
+      .feedback-form .form-group {
+        margin-bottom: 28px;
+      }
+      .feedback-form label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: var(--text-dark);
+        font-size: 15px;
+      }
+      .feedback-form input[type="text"],
+      .feedback-form input[type="tel"],
+      .feedback-form input[type="email"],
+      .feedback-form textarea {
+        width: 100%;
+        padding: 14px 16px;
+        background: #ffffff;
+        border: 2px solid var(--border-color);
+        border-radius: 14px;
+        font-size: 16px;
+        color: var(--text-dark);
+        transition:
+          border-color 0.2s ease,
+          box-shadow 0.2s ease;
+        box-sizing: border-box;
+        font-family: inherit;
+      }
+      .feedback-form input[type="text"]::placeholder,
+      .feedback-form input[type="tel"]::placeholder,
+      .feedback-form input[type="email"]::placeholder,
+      .feedback-form textarea::placeholder {
+        color: var(--text-light);
+      }
+      .feedback-form input:focus,
+      .feedback-form textarea:focus {
+        border-color: var(--primary-color);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(30, 136, 199, 0.15);
+      }
+      .feedback-form textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+      .radio-group {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .radio-group label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 600;
+        cursor: pointer;
+        padding: 12px 20px;
+        border: 2px solid var(--border-color);
+        background: #ffffff;
+        border-radius: 26px;
+        color: var(--text-dark);
+        transition: all 0.3s ease;
+        flex: 0 1 auto;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      }
+      .radio-group label:hover {
+        border-color: var(--primary-color);
+        background: rgba(30, 136, 199, 0.08);
+      }
+      .radio-group input[type="radio"] {
+        width: 18px;
+        height: 18px;
+        accent-color: var(--primary-color);
+        cursor: pointer;
+      }
+      .radio-group label:has(input[type="radio"]:checked) {
+        border-color: var(--primary-color);
+        background: var(--primary-color);
+        color: #ffffff;
+      }
+      .slider-container {
+        padding: 15px 0;
+      }
+      .slider-container input[type="range"] {
+        width: 100%;
+        height: 8px;
+        -webkit-appearance: none;
+        background: linear-gradient(to right, #d6e7f3, var(--primary-color));
+        border-radius: 4px;
+        outline: none;
+      }
+      .slider-container input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 26px;
+        height: 26px;
+        background: var(--primary-color);
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(30, 136, 199, 0.4);
+      }
+      .slider-container input[type="range"]::-moz-range-thumb {
+        width: 26px;
+        height: 26px;
+        background: var(--primary-color);
+        border-radius: 50%;
+        cursor: pointer;
+        border: none;
+        box-shadow: 0 4px 10px rgba(30, 136, 199, 0.4);
+      }
+      .slider-labels {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+        font-size: 12px;
+        color: var(--text-light);
+      }
+      .slider-value {
+        text-align: center;
+        font-size: 40px;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-top: 12px;
+      }
+      .signature-section {
+        margin-top: 40px;
+        padding-top: 28px;
+        border-top: 1px solid var(--border-color);
+      }
+      .signature-section label {
+        color: var(--text-dark);
+      }
+      .signature-section p {
+        color: var(--text-light);
+      }
+      .signature-container {
+        border: 2px solid var(--border-color);
+        border-radius: 14px;
+        background: #ffffff;
+        position: relative;
+        min-height: 150px;
+      }
+      .signature-canvas {
+        width: 100%;
+        height: 150px;
+        display: block;
+        touch-action: none;
+        border-radius: 12px;
+      }
+      .signature-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 12px;
+      }
+      .btn-clear {
+        background: #ffffff;
+        color: var(--primary-color);
+        border: 2px solid var(--primary-color);
+        padding: 10px 20px;
+        border-radius: 24px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      }
+      .btn-clear:hover {
+        background: rgba(30, 136, 199, 0.08);
+      }
+      .submit-section {
+        margin-top: 40px;
+        text-align: center;
+      }
+      .btn-submit {
+        background: linear-gradient(180deg, #3a99d3 0%, #2685bb 100%);
+        color: #fff;
+        border: none;
+        padding: 16px 48px;
+        border-radius: 28px;
+        font-size: 18px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+      .btn-submit:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.28);
+        transform: translateY(-2px);
+      }
+      .btn-submit:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      .back-link {
+        display: inline-block;
+        margin-top: 24px;
+        color: var(--primary-color);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        transition: color 0.3s ease;
+      }
+      .back-link:hover {
+        color: var(--secondary-color);
+        text-decoration: underline;
+      }
+      .required {
+        color: #d9534f;
+      }
+      .optional {
+        color: var(--text-light);
+        font-weight: normal;
+        font-size: 12px;
+      }
+      .loading-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(43, 79, 111, 0.55);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+      }
+      .loading-overlay.active {
+        display: flex;
+      }
+      .loading-spinner {
+        text-align: center;
+        color: #ffffff;
+      }
+      .spinner {
+        width: 50px;
+        height: 50px;
+        border: 4px solid rgba(255, 255, 255, 0.4);
+        border-top-color: #ffffff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 15px;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
         }
+      }
+      @media (max-width: 600px) {
         .feedback-container {
-            max-width: 700px;
-            margin: 0 auto;
-            padding: 40px 20px;
+          padding: 30px 16px;
         }
-        .feedback-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        .feedback-header img {
-            max-height: 100px;
-            margin-bottom: 20px;
-            background: #ffffff;
-            border-radius: 50%;
-            padding: 15px;
-            width: 140px;
-            height: 140px;
-            object-fit: contain;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-            border: 2px solid var(--primary-color);
-        }
-        .feedback-header h1 {
-            color: var(--primary-color);
-            font-size: 28px;
-            margin-bottom: 12px;
-            font-weight: 700;
-            font-family: var(--font-display);
-            letter-spacing: 0.02em;
-        }
-        .feedback-header p {
-            color: var(--text-light);
-            font-size: 15px;
-        }
-        /* Step Indicators */
         .step-indicators {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 40px;
-            gap: 10px;
-        }
-        .step {
-            flex: 1;
-            text-align: center;
-        }
-        .step-number {
-            width: 40px;
-            height: 40px;
-            background: var(--primary-color);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 16px;
-            margin: 0 auto 8px;
-            border: 2px solid var(--primary-color);
-            box-shadow: 0 4px 10px rgba(30, 136, 199, 0.25);
-        }
-        .step.active .step-number {
-            background: var(--secondary-color);
-            border-color: var(--secondary-color);
-            box-shadow: 0 0 0 3px rgba(30, 136, 199, 0.2);
-        }
-        .step.completed .step-number {
-            background: var(--accent-color);
+          margin-bottom: 30px;
         }
         .step-label {
-            color: var(--text-light);
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-        }
-        .step.active .step-label {
-            color: var(--primary-color);
-        }
-        .feedback-form {
-            background: transparent;
-            border-radius: 0;
-            padding: 0;
-            box-shadow: none;
-        }
-        .feedback-form .form-group {
-            margin-bottom: 28px;
-        }
-        .feedback-form label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: var(--text-dark);
-            font-size: 15px;
-        }
-        .feedback-form input[type="text"],
-        .feedback-form input[type="tel"],
-        .feedback-form input[type="email"],
-        .feedback-form textarea {
-            width: 100%;
-            padding: 14px 16px;
-            background: #ffffff;
-            border: 2px solid var(--border-color);
-            border-radius: 14px;
-            font-size: 16px;
-            color: var(--text-dark);
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
-            box-sizing: border-box;
-            font-family: inherit;
-        }
-        .feedback-form input[type="text"]::placeholder,
-        .feedback-form input[type="tel"]::placeholder,
-        .feedback-form input[type="email"]::placeholder,
-        .feedback-form textarea::placeholder {
-            color: var(--text-light);
-        }
-        .feedback-form input:focus,
-        .feedback-form textarea:focus {
-            border-color: var(--primary-color);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(30, 136, 199, 0.15);
-        }
-        .feedback-form textarea {
-            min-height: 100px;
-            resize: vertical;
+          font-size: 10px;
         }
         .radio-group {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
+          gap: 12px;
         }
         .radio-group label {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            padding: 12px 20px;
-            border: 2px solid var(--border-color);
-            background: #ffffff;
-            border-radius: 26px;
-            color: var(--text-dark);
-            transition: all 0.3s ease;
-            flex: 0 1 auto;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-        }
-        .radio-group label:hover {
-            border-color: var(--primary-color);
-            background: rgba(30, 136, 199, 0.08);
-        }
-        .radio-group input[type="radio"] {
-            width: 18px;
-            height: 18px;
-            accent-color: var(--primary-color);
-            cursor: pointer;
-        }
-        .radio-group label:has(input[type="radio"]:checked) {
-            border-color: var(--primary-color);
-            background: var(--primary-color);
-            color: #ffffff;
-        }
-        .slider-container {
-            padding: 15px 0;
-        }
-        .slider-container input[type="range"] {
-            width: 100%;
-            height: 8px;
-            -webkit-appearance: none;
-            background: linear-gradient(to right, #D6E7F3, var(--primary-color));
-            border-radius: 4px;
-            outline: none;
-        }
-        .slider-container input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 26px;
-            height: 26px;
-            background: var(--primary-color);
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(30, 136, 199, 0.4);
-        }
-        .slider-container input[type="range"]::-moz-range-thumb {
-            width: 26px;
-            height: 26px;
-            background: var(--primary-color);
-            border-radius: 50%;
-            cursor: pointer;
-            border: none;
-            box-shadow: 0 4px 10px rgba(30, 136, 199, 0.4);
-        }
-        .slider-labels {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-            font-size: 12px;
-            color: var(--text-light);
+          flex: 1 1 calc(50% - 6px);
+          padding: 10px 16px;
         }
         .slider-value {
-            text-align: center;
-            font-size: 40px;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-top: 12px;
+          font-size: 32px;
         }
-        .signature-section {
-            margin-top: 40px;
-            padding-top: 28px;
-            border-top: 1px solid var(--border-color);
-        }
-        .signature-section label {
-            color: var(--text-dark);
-        }
-        .signature-section p {
-            color: var(--text-light);
-        }
-        .signature-container {
-            border: 2px solid var(--border-color);
-            border-radius: 14px;
-            background: #ffffff;
-            position: relative;
-            min-height: 150px;
-        }
-        .signature-canvas {
-            width: 100%;
-            height: 150px;
-            display: block;
-            touch-action: none;
-            border-radius: 12px;
-        }
-        .signature-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 12px;
-        }
-        .btn-clear {
-            background: #ffffff;
-            color: var(--primary-color);
-            border: 2px solid var(--primary-color);
-            padding: 10px 20px;
-            border-radius: 24px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-        }
-        .btn-clear:hover {
-            background: rgba(30, 136, 199, 0.08);
-        }
-        .submit-section {
-            margin-top: 40px;
-            text-align: center;
-        }
-        .btn-submit {
-            background: linear-gradient(180deg, #3A99D3 0%, #2685BB 100%);
-            color: #fff;
-            border: none;
-            padding: 16px 48px;
-            border-radius: 28px;
-            font-size: 18px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-        }
-        .btn-submit:hover {
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.28);
-            transform: translateY(-2px);
-        }
-        .btn-submit:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        .back-link {
-            display: inline-block;
-            margin-top: 24px;
-            color: var(--primary-color);
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 600;
-            transition: color 0.3s ease;
-        }
-        .back-link:hover {
-            color: var(--secondary-color);
-            text-decoration: underline;
-        }
-        .required {
-            color: #d9534f;
-        }
-        .optional {
-            color: var(--text-light);
-            font-weight: normal;
-            font-size: 12px;
-        }
-        .loading-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(43, 79, 111, 0.55);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        .loading-overlay.active {
-            display: flex;
-        }
-        .loading-spinner {
-            text-align: center;
-            color: #ffffff;
-        }
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid rgba(255, 255, 255, 0.4);
-            border-top-color: #ffffff;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 15px;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        @media (max-width: 600px) {
-            .feedback-container {
-                padding: 30px 16px;
-            }
-            .step-indicators {
-                margin-bottom: 30px;
-            }
-            .step-label {
-                font-size: 10px;
-            }
-            .radio-group {
-                gap: 12px;
-            }
-            .radio-group label {
-                flex: 1 1 calc(50% - 6px);
-                padding: 10px 16px;
-            }
-            .slider-value {
-                font-size: 32px;
-            }
-        }
+      }
     </style>
-</head>
-<body data-brand="flexion">
-    <div class="feedback-container">
-        <div class="feedback-header">
-            <img src="/img/Flexion_Flow_Logo.png" alt="Flexion &amp; Flow Logo">
-            <h1>Post-Session Feedback</h1>
-            <p>We'd love to hear how you're feeling after your massage</p>
+  </head>
+  <body data-brand="flexion">
+    <div class="feedback-container" data-testid="app-shell">
+      <div class="feedback-header">
+        <img src="/img/Flexion_Flow_Logo.png" alt="Flexion &amp; Flow Logo" />
+        <h1>Post-Session Feedback</h1>
+        <p>We'd love to hear how you're feeling after your massage</p>
+      </div>
+
+      <!-- Step Indicators -->
+      <div class="step-indicators">
+        <div class="step completed">
+          <div class="step-number">1</div>
+          <div class="step-label">Details</div>
+        </div>
+        <div class="step active">
+          <div class="step-number">2</div>
+          <div class="step-label">Your Response</div>
+        </div>
+      </div>
+
+      <form id="feedbackForm" class="feedback-form">
+        <input type="hidden" id="formType" name="formType" value="feedback" />
+        <input type="hidden" id="signatureData" name="signature" value="" />
+        <input type="hidden" id="signedAt" name="signedAt" value="" />
+
+        <div class="form-group">
+          <label for="fullName"
+            >Full Name <span class="required">*</span></label
+          >
+          <input
+            type="text"
+            id="fullName"
+            name="fullName"
+            required
+            placeholder="Enter your full name"
+          />
         </div>
 
-        <!-- Step Indicators -->
-        <div class="step-indicators">
-            <div class="step completed">
-                <div class="step-number">1</div>
-                <div class="step-label">Details</div>
-            </div>
-            <div class="step active">
-                <div class="step-number">2</div>
-                <div class="step-label">Your Response</div>
-            </div>
+        <div class="form-group">
+          <label for="mobile"
+            >Mobile <span class="optional">(optional)</span></label
+          >
+          <input
+            type="tel"
+            id="mobile"
+            name="mobile"
+            placeholder="0400 000 000"
+          />
         </div>
 
-        <form id="feedbackForm" class="feedback-form">
-            <input type="hidden" id="formType" name="formType" value="feedback">
-            <input type="hidden" id="signatureData" name="signature" value="">
-            <input type="hidden" id="signedAt" name="signedAt" value="">
+        <div class="form-group">
+          <label for="email"
+            >Email <span class="optional">(optional)</span></label
+          >
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="your@email.com"
+          />
+        </div>
 
-            <div class="form-group">
-                <label for="fullName">Full Name <span class="required">*</span></label>
-                <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name">
-            </div>
+        <div class="form-group">
+          <label
+            >Who was your therapist today?
+            <span class="required">*</span></label
+          >
+          <div class="radio-group">
+            <label
+              ><input
+                type="radio"
+                name="therapistName"
+                value="Dylan"
+                required
+              />
+              Dylan</label
+            >
+            <label
+              ><input
+                type="radio"
+                name="therapistName"
+                value="Adriana"
+                required
+              />
+              Adriana</label
+            >
+          </div>
+        </div>
 
-            <div class="form-group">
-                <label for="mobile">Mobile <span class="optional">(optional)</span></label>
-                <input type="tel" id="mobile" name="mobile" placeholder="0400 000 000">
+        <div class="form-group">
+          <label for="feelingPost"
+            >How are you feeling now (post-massage)?
+            <span class="required">*</span></label
+          >
+          <div class="slider-container">
+            <input
+              type="range"
+              id="feelingPost"
+              name="feelingPost"
+              min="1"
+              max="10"
+              value="5"
+            />
+            <div class="slider-labels">
+              <span>1 - Not great</span>
+              <span>10 - Amazing!</span>
             </div>
+            <div class="slider-value" id="feelingPostValue">5</div>
+          </div>
+        </div>
 
-            <div class="form-group">
-                <label for="email">Email <span class="optional">(optional)</span></label>
-                <input type="email" id="email" name="email" placeholder="your@email.com">
-            </div>
+        <div class="form-group">
+          <label
+            >Would you recommend Flexion &amp; Flow to a colleague?
+            <span class="required">*</span></label
+          >
+          <div class="radio-group">
+            <label
+              ><input type="radio" name="wouldRecommend" value="Yes" required />
+              Yes</label
+            >
+            <label
+              ><input type="radio" name="wouldRecommend" value="No" required />
+              No</label
+            >
+            <label
+              ><input
+                type="radio"
+                name="wouldRecommend"
+                value="Maybe"
+                required
+              />
+              Maybe</label
+            >
+          </div>
+        </div>
 
-            <div class="form-group">
-                <label>Who was your therapist today? <span class="required">*</span></label>
-                <div class="radio-group">
-                    <label><input type="radio" name="therapistName" value="Dylan" required> Dylan</label>
-                    <label><input type="radio" name="therapistName" value="Adriana" required> Adriana</label>
-                </div>
-            </div>
+        <div class="form-group">
+          <label for="feedbackComments"
+            >Any additional comments?
+            <span class="optional">(optional)</span></label
+          >
+          <textarea
+            id="feedbackComments"
+            name="feedbackComments"
+            placeholder="Tell us more about your experience..."
+          ></textarea>
+        </div>
 
-            <div class="form-group">
-                <label for="feelingPost">How are you feeling now (post-massage)? <span class="required">*</span></label>
-                <div class="slider-container">
-                    <input type="range" id="feelingPost" name="feelingPost" min="1" max="10" value="5">
-                    <div class="slider-labels">
-                        <span>1 - Not great</span>
-                        <span>10 - Amazing!</span>
-                    </div>
-                    <div class="slider-value" id="feelingPostValue">5</div>
-                </div>
-            </div>
+        <div class="signature-section">
+          <label>Signature <span class="optional">(optional)</span></label>
+          <p
+            style="
+              font-size: 13px;
+              color: rgba(255, 255, 255, 0.7);
+              margin-bottom: 10px;
+            "
+          >
+            You may optionally sign below
+          </p>
+          <div class="signature-container">
+            <canvas id="signatureCanvas" class="signature-canvas"></canvas>
+          </div>
+          <div class="signature-actions">
+            <button type="button" id="clearSignature" class="btn-clear">
+              Clear Signature
+            </button>
+          </div>
+        </div>
 
-            <div class="form-group">
-                <label>Would you recommend Flexion &amp; Flow to a colleague? <span class="required">*</span></label>
-                <div class="radio-group">
-                    <label><input type="radio" name="wouldRecommend" value="Yes" required> Yes</label>
-                    <label><input type="radio" name="wouldRecommend" value="No" required> No</label>
-                    <label><input type="radio" name="wouldRecommend" value="Maybe" required> Maybe</label>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="feedbackComments">Any additional comments? <span class="optional">(optional)</span></label>
-                <textarea id="feedbackComments" name="feedbackComments" placeholder="Tell us more about your experience..."></textarea>
-            </div>
-
-            <div class="signature-section">
-                <label>Signature <span class="optional">(optional)</span></label>
-                <p style="font-size: 13px; color: rgba(255, 255, 255, 0.7); margin-bottom: 10px;">You may optionally sign below</p>
-                <div class="signature-container">
-                    <canvas id="signatureCanvas" class="signature-canvas"></canvas>
-                </div>
-                <div class="signature-actions">
-                    <button type="button" id="clearSignature" class="btn-clear">Clear Signature</button>
-                </div>
-            </div>
-
-            <div class="submit-section">
-                <button type="submit" id="submitBtn" class="btn-submit">Submit Feedback</button>
-                <br>
-                <a href="/" class="back-link">&larr; Back to Home</a>
-            </div>
-        </form>
+        <div class="submit-section">
+          <button type="submit" id="submitBtn" class="btn-submit">
+            Submit Feedback
+          </button>
+          <br />
+          <a href="/" class="back-link">&larr; Back to Home</a>
+        </div>
+      </form>
     </div>
 
     <script src="/js/form-utils.js?v=20260128" defer></script>
     <script src="/js/feedback-form.js?v=20260128" defer></script>
-</body>
+  </body>
 </html>
