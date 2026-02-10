@@ -45,6 +45,15 @@ app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use(express.static(publicDir));
 
+// Serve a favicon to avoid 404 noise from browsers
+app.get("/favicon.ico", (req, res) => {
+  try {
+    return res.sendFile(path.join(publicDir, "img", "Flexion_Flow_Logo.png"));
+  } catch (err) {
+    return res.status(204).end();
+  }
+});
+
 // Ensure required directories exist
 const requiredDirs = [
   path.join(__dirname, "metadata"),
@@ -283,12 +292,10 @@ app.post("/api/generate-soap", async (req, res) => {
 
     const soapNote = extractOpenAIText(result);
     if (!soapNote) {
-      return res
-        .status(500)
-        .json({
-          success: false,
-          message: "AI response was empty. Please try again.",
-        });
+      return res.status(500).json({
+        success: false,
+        message: "AI response was empty. Please try again.",
+      });
     }
 
     return res.json({ success: true, soapNote });
