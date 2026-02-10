@@ -48,7 +48,141 @@ document.querySelectorAll('input[name="medicalConditions"]').forEach((cb) => {
 updateSeenOtherProviderVisibility();
 // Intake Form Validation and Submission
 document.addEventListener("DOMContentLoaded", () => {
+  // Handle pronouns self-describe conditional visibility
+  const pronounsSelect = document.getElementById("pronouns");
+  const pronounsSelfDescribeGroup = document.getElementById(
+    "pronounsSelfDescribeGroup",
+  );
+  const pronounsSelfDescribeInput = document.getElementById(
+    "pronounsSelfDescribe",
+  );
+
+  function updatePronounsSelfDescribeVisibility() {
+    if (pronounsSelect && pronounsSelfDescribeGroup) {
+      const showSelfDescribe = pronounsSelect.value === "Self-describe";
+      pronounsSelfDescribeGroup.style.display = showSelfDescribe
+        ? "block"
+        : "none";
+      if (pronounsSelfDescribeInput) {
+        if (showSelfDescribe) {
+          pronounsSelfDescribeInput.setAttribute("required", "");
+        } else {
+          pronounsSelfDescribeInput.removeAttribute("required");
+          pronounsSelfDescribeInput.value = "";
+        }
+      }
+    }
+  }
+
+  if (pronounsSelect) {
+    pronounsSelect.addEventListener(
+      "change",
+      updatePronounsSelfDescribeVisibility,
+    );
+    updatePronounsSelfDescribeVisibility();
+  }
+
+  // Handle gender self-describe conditional visibility
+  const genderRadios = document.querySelectorAll('input[name="gender"]');
+  const genderSelfDescribeGroup = document.getElementById(
+    "genderSelfDescribeGroup",
+  );
+  const genderSelfDescribeInput = document.getElementById("genderSelfDescribe");
+
+  function updateGenderSelfDescribeVisibility() {
+    const selectedGender = Array.from(genderRadios).find(
+      (r) => r.checked,
+    )?.value;
+    const showSelfDescribe = selectedGender === "Self-describe";
+    if (genderSelfDescribeGroup) {
+      genderSelfDescribeGroup.style.display = showSelfDescribe
+        ? "block"
+        : "none";
+      if (genderSelfDescribeInput) {
+        if (showSelfDescribe) {
+          genderSelfDescribeInput.setAttribute("required", "");
+        } else {
+          genderSelfDescribeInput.removeAttribute("required");
+          genderSelfDescribeInput.value = "";
+        }
+      }
+    }
+  }
+
+  genderRadios.forEach((radio) => {
+    radio.addEventListener("change", updateGenderSelfDescribeVisibility);
+  });
+  updateGenderSelfDescribeVisibility();
+  // Handle conditional required for medications
+  const takingMedicationsRadios = document.querySelectorAll(
+    'input[name="takingMedications"]',
+  );
+  const medicationsSection = document.getElementById("medicationsSection");
+  const medicationsList = document.getElementById("medicationsList");
+
+  function updateMedicationsVisibility() {
+    const takesYes = document.querySelector(
+      'input[name="takingMedications"][value="Yes"]:checked',
+    );
+    if (medicationsSection) {
+      if (takesYes) {
+        medicationsSection.classList.remove("hidden-field");
+        medicationsSection.style.display = "block";
+        if (medicationsList) {
+          medicationsList.setAttribute("required", "");
+        }
+      } else {
+        medicationsSection.classList.add("hidden-field");
+        medicationsSection.style.display = "none";
+        if (medicationsList) {
+          medicationsList.removeAttribute("required");
+          medicationsList.value = "";
+        }
+      }
+    }
+  }
+
+  takingMedicationsRadios.forEach((radio) => {
+    radio.addEventListener("change", updateMedicationsVisibility);
+  });
+  updateMedicationsVisibility();
+
+  // Handle conditional required for allergies
+  const hasAllergiesRadios = document.querySelectorAll(
+    'input[name="hasAllergies"]',
+  );
+  const allergiesSection = document.getElementById("allergiesSection");
+  const allergiesList = document.getElementById("allergiesList");
+
+  function updateAllergiesVisibility() {
+    const allergiesYes = document.querySelector(
+      'input[name="hasAllergies"][value="Yes"]:checked',
+    );
+    if (allergiesSection) {
+      if (allergiesYes) {
+        allergiesSection.classList.remove("hidden-field");
+        allergiesSection.style.display = "block";
+        if (allergiesList) {
+          allergiesList.setAttribute("required", "");
+        }
+      } else {
+        allergiesSection.classList.add("hidden-field");
+        allergiesSection.style.display = "none";
+        if (allergiesList) {
+          allergiesList.removeAttribute("required");
+          allergiesList.value = "";
+        }
+      }
+    }
+  }
+
+  hasAllergiesRadios.forEach((radio) => {
+    radio.addEventListener("change", updateAllergiesVisibility);
+  });
+  updateAllergiesVisibility();
+
   // (Wizard step navigation logic removed; handled by wizard.js)
+
   // Hide health conditions and remove required if 'I Feel Fine Today' is checked
   const medicalConditionsCheckboxes = document.querySelectorAll(
     'input[name="medicalConditions"]',
@@ -116,6 +250,50 @@ document.addEventListener("DOMContentLoaded", () => {
       feelWellToggle.classList.add("active");
     }
   }
+
+  // Handle pain level slider with display of current value
+  const painSlider = document.getElementById("painLevel");
+  const painLevelValue = document.getElementById("painLevelValue");
+  const painNotSureCheckbox = document.querySelector(
+    'input[name="painNotSure"]',
+  );
+
+  function updatePainSliderDisplay() {
+    if (painSlider && painLevelValue) {
+      const value = painSlider.value;
+      if (value === "") {
+        painLevelValue.textContent = "";
+        painSlider.style.opacity = "0.5";
+      } else {
+        painLevelValue.textContent = `Currently: ${value}/10`;
+        painSlider.style.opacity = "1";
+      }
+    }
+  }
+
+  if (painSlider) {
+    painSlider.addEventListener("input", updatePainSliderDisplay);
+    updatePainSliderDisplay();
+  }
+
+  // Handle "Not sure" checkbox for pain level - clear slider when checked
+  if (painNotSureCheckbox) {
+    painNotSureCheckbox.addEventListener("change", () => {
+      if (painNotSureCheckbox.checked) {
+        if (painSlider) {
+          painSlider.value = "";
+          painSlider.disabled = true;
+          updatePainSliderDisplay();
+        }
+      } else {
+        if (painSlider) {
+          painSlider.disabled = false;
+          updatePainSliderDisplay();
+        }
+      }
+    });
+  }
+
   const form = document.getElementById("intakeForm");
   const submitBtn = document.getElementById("submitBtn");
 

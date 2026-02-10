@@ -21,6 +21,10 @@ export default defineConfig({
     baseURL: process.env.BASE_URL || "http://localhost:3000",
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
+    /* Screenshot on failure only to keep artifacts small */
+    screenshot: "only-on-failure",
+    /* Video on failure only */
+    video: "retain-on-failure",
   },
 
   /* Configure projects for major browsers */
@@ -62,9 +66,11 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  webServer: process.env.SKIP_SERVER_START ? undefined : {
-    command: "npm start",
-    url: "http://localhost:3000",
-    reuseExistingServer: !process.env.CI,
-  },
+  webServer: process.env.SKIP_SERVER_START
+    ? undefined
+    : {
+        command: "npm start",
+        url: "http://localhost:3000",
+        reuseExistingServer: !process.env.CI,
+      },
 });

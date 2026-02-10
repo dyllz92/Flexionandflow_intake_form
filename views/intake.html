@@ -85,7 +85,7 @@
         />
 
         <!-- Step 1: Your Details -->
-        <div class="wizard-step form-section active" data-step="1">
+        <div class="wizard-step form-section active" data-step="1" data-testid="intake-step-1">
           <h2>Step 1 - Your Details</h2>
 
           <div class="form-row" style="display: flex; gap: 12px">
@@ -116,6 +116,74 @@
           </div>
 
           <div class="form-group">
+            <label for="preferredName"
+              >Preferred name
+              <span style="font-weight: normal; font-size: 13px; color: var(--text-light);">(optional)</span></label
+            >
+            <input
+              type="text"
+              id="preferredName"
+              name="preferredName"
+              placeholder="What would you like to be called?"
+              maxlength="50"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="pronouns"
+              >Pronouns
+              <span style="font-weight: normal; font-size: 13px; color: var(--text-light);">(optional)</span></label
+            >
+            <select id="pronouns" name="pronouns" style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 12px; font-size: 16px; background: var(--input-bg);">
+              <option value="">Select pronouns...</option>
+              <option value="She/Her">She/Her</option>
+              <option value="He/Him">He/Him</option>
+              <option value="They/Them">They/Them</option>
+              <option value="Self-describe">Self-describe</option>
+            </select>
+          </div>
+
+          <div class="form-group hidden-field" id="pronounsSelfDescribeGroup" style="display: none;">
+            <label for="pronounsSelfDescribe"
+              >Please describe your pronouns:</label
+            >
+            <input
+              type="text"
+              id="pronounsSelfDescribe"
+              name="pronounsSelfDescribe"
+              placeholder="e.g., Ze/Zir, or any other pronouns you prefer"
+              maxlength="50"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="gender"
+              >Gender
+              <span style="font-weight: normal; font-size: 13px; color: var(--text-light);">(optional)</span></label
+            >
+            <div class="radio-group inline compact">
+              <label><input type="radio" name="gender" value="Male" />Male</label>
+              <label><input type="radio" name="gender" value="Female" />Female</label>
+              <label><input type="radio" name="gender" value="Non-binary" />Non-binary</label>
+              <label><input type="radio" name="gender" value="Prefer not to say" />Prefer not to say</label>
+              <label><input type="radio" name="gender" value="Self-describe" />Self-describe</label>
+            </div>
+          </div>
+
+          <div class="form-group hidden-field" id="genderSelfDescribeGroup" style="display: none;">
+            <label for="genderSelfDescribe"
+              >Please describe your gender:</label
+            >
+            <input
+              type="text"
+              id="genderSelfDescribe"
+              name="genderSelfDescribe"
+              placeholder="e.g., Genderqueer, Agender, or your preferred term"
+              maxlength="50"
+            />
+          </div>
+
+          <div class="form-group">
             <label for="email">Email: <span class="required">*</span></label>
             <input
               type="email"
@@ -133,7 +201,7 @@
               id="mobile"
               name="mobile"
               data-testid="mobile"
-              placeholder="Phone will format automatically"
+              placeholder="e.g. 0412 345 678"
               required
             />
             <div class="form-error" id="error-mobile"></div>
@@ -163,6 +231,9 @@
                 background: var(--input-bg);
               "
             />
+            <p style="font-size: 13px; color: var(--text-light); margin-top: 4px;">
+              Used to confirm identity and tailor treatment.
+            </p>
           </div>
 
           <h3
@@ -224,7 +295,7 @@
         </div>
 
         <!-- Step 2: About Your Visit & Lifestyle -->
-        <div class="wizard-step form-section" data-step="2">
+        <div class="wizard-step form-section" data-step="2" data-testid="intake-step-2">
           <h2>Step 2 - About Your Visit</h2>
 
           <div class="form-group">
@@ -494,6 +565,65 @@
             </div>
           </div>
 
+          <div class="form-group slider-group">
+            <label>Pain or discomfort level today (optional)</label>
+            <div class="slider-container">
+              <input
+                type="range"
+                id="painLevel"
+                name="painLevel"
+                min="0"
+                max="10"
+                value=""
+                class="slider-input"
+                data-testid="pain-slider"
+              />
+              <div class="slider-labels">
+                <span>0 - None</span>
+                <span>5</span>
+                <span>10 - Worst</span>
+              </div>
+              <div class="slider-value" id="painLevelValue"></div>
+            </div>
+            <div style="margin-top: 8px;">
+              <label style="display: flex; align-items: center; font-weight: normal;">
+                <input type="checkbox" name="painNotSure" data-testid="pain-not-sure" /> Not sure
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Is today worse than usual? (optional)</label>
+            <div class="radio-group inline compact" data-testid="worse-than-usual">
+              <label><input type="radio" name="worseToday" value="Yes" /> Yes</label>
+              <label><input type="radio" name="worseToday" value="No" /> No</label>
+              <label><input type="radio" name="worseToday" value="Not sure" /> Not sure</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Pressure preference (optional)</label>
+            <div class="radio-group inline compact" data-testid="pressure-preference">
+              <label><input type="radio" name="pressurePreference" value="Light" /> Light</label>
+              <label><input type="radio" name="pressurePreference" value="Medium" /> Medium</label>
+              <label><input type="radio" name="pressurePreference" value="Firm" /> Firm</label>
+              <label><input type="radio" name="pressurePreference" value="Not sure" /> Not sure</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="areasToAvoid">Any areas you'd prefer I avoid? (optional)</label>
+            <textarea
+              id="areasToAvoid"
+              name="areasToAvoid"
+              data-testid="areas-to-avoid"
+              rows="2"
+              maxlength="500"
+              placeholder="e.g., Lower back due to recent strain, neck is sensitive..."
+              style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 12px; font-size: 16px; font-family: inherit;"
+            ></textarea>
+          </div>
+
               <!-- Body Diagram Section -->
               <h3 style="margin-bottom: 10px; color: var(--primary-color); font-size: 1.1em;">Where are you experiencing discomfort?</h3>
               <div class="muscle-map-container">
@@ -576,7 +706,7 @@
         </div>
 
         <!-- Step 3: Health & Medical History -->
-        <div class="wizard-step form-section" data-step="3">
+        <div class="wizard-step form-section" data-step="3" data-testid="intake-step-3">
           <h2>Step 3 - Health History</h2>
           <p class="section-note">
             This information helps ensure your safety and allows me to tailor
@@ -925,6 +1055,7 @@
         <div
           class="wizard-step form-section consent-section"
           data-step="4"
+          data-testid="intake-step-4"
           style="
             border: 2px solid var(--accent-color);
             padding: 20px;
@@ -951,24 +1082,30 @@
                 type="checkbox"
                 name="consentAll"
                 id="consentAll"
+                data-testid="consent-care"
                 required
               />
               <span id="consentText"
-                >By ticking this box, I confirm that I have read, understood,
-                and agree to the Declaration &amp; Privacy Consent. This tick
-                serves as my digital signature and consent to the collection,
-                storage, and use of my personal information for the stated
-                purposes. <span class="required">*</span></span
+                >I have read and understood the Declaration &amp; Privacy Consent, and I consent to the collection and use of my personal information for treatment and administrative purposes. <span class="required">*</span></span
               >
             </label>
           </div>
 
           <div class="consent-checkbox">
             <label>
-              <input type="checkbox" name="emailOptIn" id="emailOptIn" /> I
-              consent to receive email communication regarding my bookings and
-              occasional updates from Flexion &amp; Flow.
+              <input type="checkbox" name="medicalCareDisclaimer" id="medicalCareDisclaimer" data-testid="medical-disclaimer" required />
+              <span>I understand that massage is not a substitute for medical care. If I have concerns about my health, I will seek appropriate medical advice. <span class="required">*</span></span>
             </label>
+          </div>
+
+          <div class="consent-checkbox">
+            <label>
+              <input type="checkbox" name="emailOptIn" id="emailOptIn" data-testid="consent-marketing" /> I consent to receive email communication about bookings and updates from Flexion &amp; Flow.
+            </label>
+            <p style="font-size: 12px; color: var(--text-light); margin-top: 4px; margin-left: 24px;">
+              You can withdraw this consent at any time using the unsubscribe link in emails or by contacting us.
+            </p>
+          </div>
           </div>
 
           <div class="signature-area">
@@ -1016,7 +1153,7 @@
             type="button"
             id="prevBtn"
             class="btn-secondary"
-            data-testid="prev-step-btn"
+            data-testid="wizard-back"
           >
             Back
           </button>
@@ -1024,7 +1161,7 @@
             type="button"
             id="nextBtn"
             class="btn-primary"
-            data-testid="next-step-btn"
+            data-testid="wizard-next"
           >
             Next
           </button>

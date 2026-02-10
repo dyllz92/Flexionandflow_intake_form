@@ -363,6 +363,19 @@ app.post("/api/submit-form", async (req, res) => {
     }
     formData.mobile = sanitizeString(formData.mobile, 20);
 
+    // NEW: Sanitize pronouns and gender fields
+    formData.pronouns = sanitizeString(formData.pronouns, 50);
+    formData.pronounsSelfDescribe = sanitizeString(
+      formData.pronounsSelfDescribe,
+      50,
+    );
+    formData.gender = sanitizeString(formData.gender, 50);
+    formData.genderSelfDescribe = sanitizeString(
+      formData.genderSelfDescribe,
+      50,
+    );
+    formData.preferredName = sanitizeString(formData.preferredName, 50);
+
     // Sanitize text fields
     formData.reviewNote = sanitizeString(formData.reviewNote, 1000);
     formData.otherHealthConcernText = sanitizeString(
@@ -383,6 +396,21 @@ app.post("/api/submit-form", async (req, res) => {
       100,
     );
     formData.emergencyPhone = sanitizeString(formData.emergencyPhone, 20);
+
+    // Sanitize new Step 2 fields
+    formData.painLevel = formData.painLevel
+      ? parseInt(formData.painLevel, 10)
+      : null;
+    formData.painNotSure = !!formData.painNotSure; // Convert to boolean
+    formData.worseToday = sanitizeString(formData.worseToday, 20);
+    formData.pressurePreference = sanitizeString(
+      formData.pressurePreference,
+      20,
+    );
+    formData.areasToAvoid = sanitizeString(formData.areasToAvoid, 500);
+
+    // Sanitize new Step 4 field
+    formData.medicalCareDisclaimer = !!formData.medicalCareDisclaimer; // Convert to boolean
 
     // Require consent: support newer `consentAll` or legacy `termsAccepted`+`treatmentConsent`
     // Feedback forms don't require consent checkbox (just signature)

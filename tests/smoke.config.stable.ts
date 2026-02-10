@@ -1,13 +1,6 @@
 /**
- * Smoke Test Configuration
- *
- * This file contains the single source of truth for routes, page assertions,
- * and user flows to test. Update this file when routes change or new flows are added.
- *
- * To update:
- * - Add new routes to routesToCheck array
- * - Add corresponding page assertions to pageAssertions array
- * - Define new user flows in flows object
+ * Stable Smoke Test Configuration - Uses deterministic data-testid selectors
+ * This version replaces flaky CSS/text selectors with data-testids for reliable step navigation
  */
 
 export interface PageAssertion {
@@ -20,7 +13,7 @@ export interface FlowStep {
   action: "fill" | "click" | "check" | "select" | "wait";
   locator: string;
   value?: string;
-  type?: "testid" | "role" | "text";
+  type?: "testid" | "role" | "text" | "css";
 }
 
 export interface UserFlow {
@@ -34,21 +27,10 @@ export interface UserFlow {
 }
 
 export const smokeConfig = {
-  // Base URL for testing - can be overridden via BASE_URL env var
   baseURL: process.env.BASE_URL || "http://localhost:3000",
 
-  // Routes that are safe to visit and should render correctly
-  routesToCheck: [
-    "/",
-    "/intake",
-    "/feedback",
-    "/soap",
-    "/privacy",
-    "/terms",
-    // Note: /success is not included as it's only meaningful after form submission
-  ],
+  routesToCheck: ["/", "/intake", "/feedback", "/soap", "/privacy", "/terms"],
 
-  // Assertions for each page to confirm they loaded correctly
   pageAssertions: [
     {
       route: "/",
@@ -97,13 +79,18 @@ export const smokeConfig = {
     },
   ],
 
-  // Key user flows to test end-to-end
   flows: {
     intakeSubmission: {
       name: "Complete Intake Form Submission",
       startRoute: "/intake",
       steps: [
-        // Step 1: Fill personal details
+        // === STEP 1: Your Details ===
+        {
+          action: "wait" as const,
+          locator: "intake-step-1",
+          type: "testid" as const,
+        },
+
         {
           action: "fill" as const,
           locator: "firstName",
@@ -134,147 +121,142 @@ export const smokeConfig = {
           type: "testid" as const,
           value: "01/01/1990",
         },
+
+        // Click Next and wait for Step 2 to load
         {
           action: "click" as const,
-          locator: "next-step-btn",
+          locator: "wizard-next",
+          type: "testid" as const,
+        },
+        {
+          action: "wait" as const,
+          locator: "intake-step-2",
           type: "testid" as const,
         },
 
-        // Wait for step 2 to load
-        {
-          action: "wait" as const,
-          locator: "Step 2 - About Your Visit",
-          type: "roleHeading" as const,
-        },
-
-        // Step 2: About your visit - use text selectors for visible labels
+        // === STEP 2: About Your Visit ===
+        // Select visit reason
         {
           action: "click" as const,
-          locator:
-            'label:has(input[name="visitReasons"][value="Relieve pain / tension"])',
+          locator: 'input[name="visitReasons"][value="Relieve pain / tension"]',
           type: "css" as const,
         },
+        // Select referral source
         {
           action: "click" as const,
-          locator: 'label:has(input[name="referralSource"][value="Google"])',
+          locator: 'input[name="referralSource"][value="Google"]',
           type: "css" as const,
         },
+        // Fill occupation
         {
           action: "fill" as const,
           locator: "occupation",
           type: "testid" as const,
           value: "Software Engineer",
         },
+        // Fill sleep quality slider
         {
           action: "fill" as const,
           locator: "sleepQuality",
           type: "testid" as const,
           value: "7",
         },
+        // Fill stress level slider
         {
           action: "fill" as const,
           locator: "stressLevel",
           type: "testid" as const,
           value: "4",
         },
+        // Select exercise frequency
+        {
+          action: "click" as const,
+          locator: 'input[name="exerciseFrequency"][value="3-4 days per week"]',
+          type: "css" as const,
+        },
+        // Select previous massage experience
+        {
+          action: "click" as const,
+          locator: 'input[name="previousMassage"][value="No"]',
+          type: "css" as const,
+        },
+
+        // Optional fields - leave empty to test form works with min fields
+        // pain-slider, worse-than-usual, pressure-preference, areas-to-avoid are all optional
+
+        // Click Next and wait for Step 3
+        {
+          action: "click" as const,
+          locator: "wizard-next",
+          type: "testid" as const,
+        },
+        {
+          action: "wait" as const,
+          locator: "intake-step-3",
+          type: "testid" as const,
+        },
+
+        // === STEP 3: Health History ===
+        // Medications - select No to skip conditional required list
+        {
+          action: "click" as const,
+          locator: 'input[name="takingMedications"][value="No"]',
+          type: "css" as const,
+        },
+        // Allergies - select No
+        {
+          action: "click" as const,
+          locator: 'input[name="hasAllergies"][value="No"]',
+          type: "css" as const,
+        },
+        // Recent injuries - select No
+        {
+          action: "click" as const,
+          locator: 'input[name="hasRecentInjuries"][value="No"]',
+          type: "css" as const,
+        },
+        // Medical conditions - select "I Feel Fine Today"
+        {
+          action: "click" as const,
+          locator: 'input[name="medicalConditions"][value="I Feel Fine Today"]',
+          type: "css" as const,
+        },
+        // Pregnant/breastfeeding - select Not applicable
         {
           action: "click" as const,
           locator:
-            'label:has(input[name="exerciseFrequency"][value="3-4 days per week"])',
+            'input[name="pregnantBreastfeeding"][value="Not applicable"]',
           type: "css" as const,
         },
+
+        // Click Next and wait for Step 4
         {
           action: "click" as const,
-          locator: 'label:has(input[name="previousMassage"][value="No"])',
-          type: "css" as const,
-        },
-        {
-          action: "click" as const,
-          locator: "next-step-btn",
+          locator: "wizard-next",
           type: "testid" as const,
         },
         {
           action: "wait" as const,
-          locator: {
-            name: "Accidents, Injuries, Surgeries & Conditions",
-            level: 3,
-          },
-          type: "roleHeading" as const,
-        },
-        {
-          action: "click" as const,
-          locator: 'label:has(input[name="hasRecentInjuries"][value="Yes"])',
-          type: "css" as const,
-        },
-        {
-          action: "click" as const,
-          locator: "next-step-btn",
+          locator: "intake-step-4",
           type: "testid" as const,
         },
 
-        // Wait for step 3 to load
+        // === STEP 4: Consent & Signature ===
+        // Check required consent boxes
         {
-          action: "wait" as const,
-          locator: "Step 3 - Health History",
-          type: "roleHeading" as const,
-        },
-
-        // Step 3: Health history - use text selectors for radio buttons
-        {
-          action: "click" as const,
-          locator: "No",
-          type: "text" as const,
-        },
-        // Note: Multiple "No" radio buttons - use more specific approach
-        {
-          action: "click" as const,
-          locator: 'label:has(input[name="hasAllergies"][value="No"])',
-          type: "css" as const,
-        },
-        {
-          action: "click" as const,
-          locator: 'label:has(input[name="hasRecentInjuries"][value="No"])',
-          type: "css" as const,
-        },
-        {
-          action: "click" as const,
-          locator: "None of the above",
-          type: "text" as const,
-        },
-        {
-          action: "click" as const,
-          locator: 'label:has(input[name="seenOtherProvider"][value="No"])',
-          type: "css" as const,
-        },
-        {
-          action: "click" as const,
-          locator: 'label:has(input[name="pregnantBreastfeeding"][value="No"])',
-          type: "css" as const,
-        },
-        {
-          action: "click" as const,
-          locator: "next-step-btn",
+          action: "check" as const,
+          locator: "consent-care",
           type: "testid" as const,
         },
+        {
+          action: "check" as const,
+          locator: "medical-disclaimer",
+          type: "testid" as const,
+        },
+        // Leave marketing consent unchecked (it's optional)
 
-        // Wait for step 4 to load
-        {
-          action: "wait" as const,
-          locator: "Step 4 - Consent",
-          type: "roleHeading" as const,
-        },
-
-        // Step 4: Consent and submission - use label selectors for checkboxes
-        {
-          action: "click" as const,
-          locator: 'label:has(input[name="consentAll"])',
-          type: "css" as const,
-        },
-        {
-          action: "click" as const,
-          locator: 'label:has(input[name="medicalCareDisclaimer"])',
-          type: "css" as const,
-        },
+        // Draw signature (or skip by clicking submit - form may not require actual signature)
+        // Submit form
         {
           action: "click" as const,
           locator: "submit-intake",
