@@ -133,6 +133,10 @@
         stepStatusEl = document.getElementById('stepStatus');
         if (stepStatusEl) stepStatusEl.classList.add('is-hidden');
 
+        console.log('[wizard.js] init called');
+        console.log('[wizard.js] steps found:', steps.length);
+        console.log('[wizard.js] stepIndicators found:', stepIndicators.length);
+
         if (!steps.length || !stepIndicators.length) {
             console.warn('Wizard elements not found');
             return;
@@ -163,6 +167,7 @@
         document.addEventListener('signature:changed', updateButtonStates);
 
         // Initial state
+        console.log('[wizard.js] Calling showStep(1)');
         showStep(1);
         updateButtonStates();
     }
@@ -187,6 +192,7 @@
     // Show specific step
     function showStep(stepNum) {
         currentStep = stepNum;
+        console.log('[wizard.js] showStep called with stepNum:', stepNum);
 
         // Hide all steps, show current
         steps.forEach((step, index) => {
@@ -194,9 +200,11 @@
             if (stepNumber === currentStep) {
                 step.classList.add('active');
                 step.style.display = 'block';
+                console.log(`[wizard.js] Step ${stepNumber} set to active and display:block`);
             } else {
                 step.classList.remove('active');
                 step.style.display = 'none';
+                console.log(`[wizard.js] Step ${stepNumber} set to inactive and display:none`);
             }
         });
 
@@ -207,8 +215,10 @@
 
             if (indicatorStep === currentStep) {
                 indicator.classList.add('active');
+                console.log(`[wizard.js] Indicator ${indicatorStep} set to active`);
             } else if (indicatorStep < currentStep) {
                 indicator.classList.add('completed');
+                console.log(`[wizard.js] Indicator ${indicatorStep} set to completed`);
             }
         });
 
@@ -216,6 +226,7 @@
         const formHeader = document.querySelector('.form-header');
         if (formHeader) {
             formHeader.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            console.log('[wizard.js] Scrolled to form header');
         }
 
         if (stepStatusEl) {

@@ -1,5 +1,6 @@
 // Intake Form Validation and Submission
 document.addEventListener("DOMContentLoaded", () => {
+  // (Wizard step navigation logic removed; handled by wizard.js)
   // Hide health conditions and remove required if 'I Feel Fine Today' is checked
   const medicalConditionsCheckboxes = document.querySelectorAll(
     'input[name="medicalConditions"]',
