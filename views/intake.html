@@ -241,47 +241,27 @@
             >
               Select all that apply
             </p>
-            <div class="checkbox-group compact two-column">
-              <label
-                ><input
-                  type="checkbox"
-                  name="visitReasons"
-                  value="Relieve pain / tension"
-                />
-                Relieve pain / tension</label
-              >
-              <label
-                ><input
-                  type="checkbox"
-                  name="visitReasons"
-                  value="Relieve stress / anxiety"
-                />
-                Relieve stress / anxiety</label
-              >
-              <label
-                ><input
-                  type="checkbox"
-                  name="visitReasons"
-                  value="Improve mobility"
-                />
-                Improve mobility</label
-              >
-              <label
-                ><input
-                  type="checkbox"
-                  name="visitReasons"
-                  value="Improve quality of life (sleep, mood, etc.)"
-                />
-                Improve quality of life (sleep, mood, etc.)</label
-              >
-              <label
-                ><input
-                  type="checkbox"
-                  name="visitReasons"
-                  value="Relaxation"
-                />
-                Relaxation</label
-              >
+            <div class="checkbox-group compact two-column grid-2col">
+              <label>
+                <input type="checkbox" name="visitReasons" value="Relieve pain / tension" />
+                Relieve pain / tension
+              </label>
+              <label>
+                <input type="checkbox" name="visitReasons" value="Relieve stress / anxiety" />
+                Relieve stress / anxiety
+              </label>
+              <label>
+                <input type="checkbox" name="visitReasons" value="Improve mobility" />
+                Improve mobility
+              </label>
+              <label>
+                <input type="checkbox" name="visitReasons" value="Improve quality of life (sleep, mood, etc.)" />
+                Improve quality of life (sleep, mood, etc.)
+              </label>
+              <label>
+                <input type="checkbox" name="visitReasons" value="Relaxation" />
+                Relaxation
+              </label>
             </div>
           </div>
 
@@ -289,7 +269,7 @@
             <label
               >How did you hear about me? <span class="required">*</span></label
             >
-            <div class="radio-group compact two-column">
+            <div class="radio-group compact two-column grid-2col">
               <label
                 ><input
                   type="radio"
@@ -515,6 +495,7 @@
           </div>
 
               <!-- Body Diagram Section -->
+              <h3 style="margin-bottom: 10px; color: var(--primary-color); font-size: 1.1em;">Where are you experiencing discomfort?</h3>
               <div class="muscle-map-container">
                 <canvas id="muscleMapCanvas" class="muscle-map-canvas"></canvas>
                 <button type="button" id="clearMuscleMap" class="btn-secondary">Clear Muscle Map</button>
@@ -864,25 +845,20 @@
             ></textarea>
           </div>
 
-          <div class="form-group">
-            <label
-              >Have you seen any other healthcare provider for this?
-              <span class="required">*</span></label
-            >
+          <div class="form-group" id="seenOtherProviderGroup" style="display:none;">
+            <label>
+              Have you seen any other healthcare provider for this?
+              <span class="required">*</span>
+            </label>
             <div class="radio-group inline">
-              <label
-                ><input
-                  type="radio"
-                  name="seenOtherProvider"
-                  value="Yes"
-                  required
-                />
-                Yes</label
-              >
-              <label
-                ><input type="radio" name="seenOtherProvider" value="No" />
-                No</label
-              >
+              <label>
+                <input type="radio" name="seenOtherProvider" value="Yes" />
+                Yes
+              </label>
+              <label>
+                <input type="radio" name="seenOtherProvider" value="No" />
+                No
+              </label>
             </div>
           </div>
 

@@ -1,3 +1,9 @@
+/* Two-column grid for grouped options */
+.grid-2col {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 24px;
+}
 .checkbox-group.compact.two-column,
 .radio-group.compact.two-column {
   display: flex;
