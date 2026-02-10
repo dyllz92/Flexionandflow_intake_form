@@ -2,7 +2,7 @@
 class SignaturePad {
     constructor(canvas) {
         this.canvas = canvas;
-        this.ctx = canvas.getContext('2d');
+        this.ctx = canvas.getContext('2d', { willReadFrequently: true });
         this.isDrawing = false;
         this.hasSignature = false;
 

@@ -1,5 +1,42 @@
 // Intake Form Validation and Submission
 document.addEventListener("DOMContentLoaded", () => {
+    // Hide health conditions and remove required if 'I Feel Fine Today' is checked
+    const medicalConditionsCheckboxes = document.querySelectorAll('input[name="medicalConditions"]');
+    const feelFineCheckbox = Array.from(medicalConditionsCheckboxes).find(cb => cb.value === "I Feel Fine Today");
+    const healthSections = [
+      ...document.querySelectorAll('.checkbox-group label:not(:first-child)'), // all health conditions except 'I Feel Fine Today'
+      document.getElementById('conditionsDetailsSection'),
+      document.getElementById('injuriesSection'),
+      ...document.querySelectorAll('input[name="hasRecentInjuries"]'),
+      ...document.querySelectorAll('input[name="medicalConditions"]:not([value="I Feel Fine Today"])'),
+    ];
+    function updateHealthVisibility() {
+      if (feelFineCheckbox && feelFineCheckbox.checked) {
+        healthSections.forEach(section => {
+          if (section) {
+            section.style.display = 'none';
+            if (section.hasAttribute && section.hasAttribute('required')) section.removeAttribute('required');
+            if (section.querySelectorAll) {
+              section.querySelectorAll('[required]').forEach(el => el.removeAttribute('required'));
+            }
+          }
+        });
+      } else {
+        healthSections.forEach(section => {
+          if (section) {
+            section.style.display = '';
+            if (section.hasAttribute && section.hasAttribute('required')) section.setAttribute('required', '');
+            if (section.querySelectorAll) {
+              section.querySelectorAll('[data-original-required="true"]').forEach(el => el.setAttribute('required', ''));
+            }
+          }
+        });
+      }
+    }
+    if (feelFineCheckbox) {
+      feelFineCheckbox.addEventListener('change', updateHealthVisibility);
+      updateHealthVisibility();
+    }
   // Allow unselecting the 'I feel well today' button
   const feelWellRadio = document.getElementById("feelWellRadio");
   const feelWellToggle = document.getElementById("feelWellToggle");
@@ -20,6 +57,19 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   const form = document.getElementById("intakeForm");
   const submitBtn = document.getElementById("submitBtn");
+
+  // Auto-format DOB input: insert '/' as user types
+  const dobInput = document.getElementById("dateOfBirth");
+  if (dobInput) {
+    dobInput.addEventListener("input", (e) => {
+      let v = dobInput.value.replace(/[^0-9]/g, "");
+      if (v.length > 8) v = v.slice(0, 8);
+      let formatted = v;
+      if (v.length > 4) formatted = v.slice(0, 2) + "/" + v.slice(2, 4) + "/" + v.slice(4);
+      else if (v.length > 2) formatted = v.slice(0, 2) + "/" + v.slice(2);
+      dobInput.value = formatted;
+    });
+  }
 
   if (!form) return;
 
@@ -118,6 +168,30 @@ document.addEventListener("DOMContentLoaded", () => {
   loadDraft();
 
   // Progressive disclosure for Other fields (checkboxes)
+
+  // Step validation message for missing fields
+  const stepValidationMessage = document.getElementById("stepValidationMessage");
+  // Remove red highlight from circles (steps)
+  const steps = document.querySelectorAll(".step");
+  steps.forEach((step) => {
+    step.classList.remove("step-error");
+    step.style.borderColor = "";
+  });
+  // Show message if required fields missing
+  form.addEventListener("submit", function(e) {
+    const requiredFields = form.querySelectorAll("[required]");
+    let missing = [];
+    requiredFields.forEach((field) => {
+      if (!field.value) missing.push(field.name || field.id);
+    });
+    if (missing.length > 0 && stepValidationMessage) {
+      e.preventDefault();
+      stepValidationMessage.textContent = "Please fill in all required fields before submitting.";
+      stepValidationMessage.style.color = "#d9534f";
+      stepValidationMessage.style.fontWeight = "bold";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  });
   // Health red-flag banner and 'no issues' mutual exclusivity
   const healthChecks = Array.from(
     document.querySelectorAll('input[name="healthChecks"]'),
