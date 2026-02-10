@@ -530,10 +530,38 @@
             </div>
           </div>
 
+              <!-- Body Diagram Section -->
+              <div class="muscle-map-container">
+                <canvas id="muscleMapCanvas" class="muscle-map-canvas"></canvas>
+                <button type="button" id="clearMuscleMap" class="btn-secondary">Clear Muscle Map</button>
+                <button type="button" id="expandBodyMap" class="btn-secondary">Expand Body Map</button>
+                <input type="hidden" id="muscleMapMarks" name="muscleMapMarks" value="[]">
+              </div>
           <div
             id="lastTreatmentSection"
             class="form-group hidden-field slide-field"
             style="margin-top: 12px"
+                    <!-- Body Map Expand Modal -->
+                    <div id="bodyMapModal" class="body-map-modal hidden-field" role="dialog" aria-modal="true" aria-labelledby="bodyMapModalTitle">
+                      <div class="body-map-backdrop"></div>
+                      <div class="body-map-content" role="document">
+                        <div class="body-map-header">
+                          <h2 id="bodyMapModalTitle">Body Map - Tap to mark areas of discomfort</h2>
+                          <button type="button" id="closeBodyMapBtn" class="btn-secondary" aria-label="Close Body Map">Close</button>
+                        </div>
+                        <div class="body-map-body">
+                          <div id="muscleMapContainerExpanded"></div>
+                          <div class="body-map-controls">
+                            <button type="button" id="zoomInBtn" class="btn-secondary">Zoom In (+)</button>
+                            <button type="button" id="zoomOutBtn" class="btn-secondary">Zoom Out (-)</button>
+                            <button type="button" id="resetZoomBtn" class="btn-secondary">Reset View</button>
+                            <button type="button" id="clearMuscleMapExpanded" class="btn-secondary">Clear All</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <script src="/js/muscleMap.js?v=20260203" defer></script>
+                    <script src="/js/bodyMapModal.js?v=20260203" defer></script>
           >
             <label for="lastTreatmentDate"
               >When was your last treatment?
