@@ -33,38 +33,22 @@
             rgba(157, 78, 221, 0.08) 0%,
             rgba(30, 136, 199, 0.08) 100%
           );
-          <!-- Move this block below the medical conditions section -->
-                    <h3
-                      style="
-                        margin-top: 28px;
-                        margin-bottom: 16px;
-                        font-size: 16px;
-                        color: var(--primary-color);
-                      "
-                    >
-                      Accidents, Injuries, Surgeries &amp; Conditions
-                    </h3>
-                    <div class="form-group" id="injuriesSection">
-                      <label
-                        >Have you had any recent accidents, injuries or surgeries?
-                        <span class="required">*</span></label
-                      >
-                      <div class="radio-group inline">
-                        <label
-                          ><input
-                            type="radio"
-                            name="hasRecentInjuries"
-                            value="Yes"
-                            required
-                          />
-                          Yes</label
-                        >
-                        <label
-                          ><input type="radio" name="hasRecentInjuries" value="No" />
-                          No</label
-                        >
-                      </div>
-                    </div>
+          padding: 16px;
+          border-radius: 12px;
+        "
+      >
+        <p style="margin: 0; font-size: 14px; color: var(--text-dark); line-height: 1.5;">
+          Welcome! Please complete this intake form to help us provide you with the best possible service.
+        </p>
+      </div>
+
+      <!-- Step Indicator -->
+      <div id="stepIndicator" class="step-indicator">
+        <div class="step active" data-step="1">
+          <span class="step-number">1</span>
+          <span class="step-label">Your Details</span>
+        </div>
+        <div class="step" data-step="2">
           <span class="step-number">2</span>
           <span class="step-label">About Your Visit</span>
         </div>
