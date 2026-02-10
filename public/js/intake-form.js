@@ -1,34 +1,51 @@
-  // Show/hide 'seenOtherProvider' based on medical conditions
-  const seenOtherProviderGroup = document.getElementById("seenOtherProviderGroup");
-  const seenOtherProviderInputs = document.getElementsByName("seenOtherProvider");
-  function updateSeenOtherProviderVisibility() {
-    // List of conditions that should trigger the question (customize as needed)
-    const triggerKeywords = [
-      "pain", "injury", "injuries", "surgery", "surgeries", "condition", "chronic", "diagnosed", "treatment", "therapy", "illness", "disease"
-    ];
-    const checkedConditions = Array.from(document.querySelectorAll('input[name="medicalConditions"]:checked'));
-    const shouldShow = checkedConditions.some(cb =>
-      triggerKeywords.some(word => (cb.value || "").toLowerCase().includes(word))
-    );
-    if (seenOtherProviderGroup) {
-      seenOtherProviderGroup.style.display = shouldShow ? "block" : "none";
-      // Remove required if hidden
-      seenOtherProviderInputs.forEach(input => {
-        if (shouldShow) {
-          input.setAttribute("required", "");
-        } else {
-          input.removeAttribute("required");
-          input.checked = false;
-        }
-      });
-    }
+// Show/hide 'seenOtherProvider' based on medical conditions
+const seenOtherProviderGroup = document.getElementById(
+  "seenOtherProviderGroup",
+);
+const seenOtherProviderInputs = document.getElementsByName("seenOtherProvider");
+function updateSeenOtherProviderVisibility() {
+  // List of conditions that should trigger the question (customize as needed)
+  const triggerKeywords = [
+    "pain",
+    "injury",
+    "injuries",
+    "surgery",
+    "surgeries",
+    "condition",
+    "chronic",
+    "diagnosed",
+    "treatment",
+    "therapy",
+    "illness",
+    "disease",
+  ];
+  const checkedConditions = Array.from(
+    document.querySelectorAll('input[name="medicalConditions"]:checked'),
+  );
+  const shouldShow = checkedConditions.some((cb) =>
+    triggerKeywords.some((word) =>
+      (cb.value || "").toLowerCase().includes(word),
+    ),
+  );
+  if (seenOtherProviderGroup) {
+    seenOtherProviderGroup.style.display = shouldShow ? "block" : "none";
+    // Remove required if hidden
+    seenOtherProviderInputs.forEach((input) => {
+      if (shouldShow) {
+        input.setAttribute("required", "");
+      } else {
+        input.removeAttribute("required");
+        input.checked = false;
+      }
+    });
   }
-  // Attach to all medicalConditions checkboxes
-  document.querySelectorAll('input[name="medicalConditions"]').forEach(cb => {
-    cb.addEventListener("change", updateSeenOtherProviderVisibility);
-  });
-  // Run on load
-  updateSeenOtherProviderVisibility();
+}
+// Attach to all medicalConditions checkboxes
+document.querySelectorAll('input[name="medicalConditions"]').forEach((cb) => {
+  cb.addEventListener("change", updateSeenOtherProviderVisibility);
+});
+// Run on load
+updateSeenOtherProviderVisibility();
 // Intake Form Validation and Submission
 document.addEventListener("DOMContentLoaded", () => {
   // (Wizard step navigation logic removed; handled by wizard.js)
