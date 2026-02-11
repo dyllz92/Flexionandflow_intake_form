@@ -46,7 +46,7 @@
       <div id="stepIndicator" class="step-indicator">
         <div class="step active" data-step="1">
           <span class="step-number">1</span>
-          <span class="step-label">Your Details</span>
+          <span class="step-label">About you</span>
         </div>
         <div class="step" data-step="2">
           <span class="step-number">2</span>
@@ -54,15 +54,15 @@
         </div>
         <div class="step" data-step="3">
           <span class="step-number">3</span>
-          <span class="step-label">Health History</span>
+          <span class="step-label">About your health</span>
         </div>
         <div class="step" data-step="4">
           <span class="step-number">4</span>
-          <span class="step-label">Pain &amp; Signals</span>
+          <span class="step-label">About your pain</span>
         </div>
         <div class="step" data-step="5">
           <span class="step-number">5</span>
-          <span class="step-label">Consents</span>
+          <span class="step-label">Your consent</span>
         </div>
       </div>
       <div id="stepCount" class="step-count" aria-live="polite">
@@ -119,33 +119,6 @@
             </div>
           </div>
 
-          <div class="form-group">
-            <label for="preferredName"
-              >Preferred name
-              <span style="font-weight: normal; font-size: 13px; color: var(--text-light);">(optional)</span></label
-            >
-            <input
-              type="text"
-              id="preferredName"
-              name="preferredName"
-              placeholder="What would you like to be called?"
-              maxlength="50"
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="pronouns"
-              >Pronouns
-              <span style="font-weight: normal; font-size: 13px; color: var(--text-light);">(optional)</span></label
-            >
-            <select id="pronouns" name="pronouns" style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 12px; font-size: 16px; background: var(--input-bg);">
-              <option value="">Select pronouns...</option>
-              <option value="She/Her">She/Her</option>
-              <option value="He/Him">He/Him</option>
-              <option value="They/Them">They/Them</option>
-            </select>
-          </div>
-
           <div class="form-group hidden-field" id="pronounsSelfDescribeGroup" style="display: none;">
             <label for="pronounsSelfDescribe"
               >Please describe your pronouns:</label>
@@ -162,6 +135,8 @@
               <label><input type="radio" name="gender" value="Non-binary" />Non-binary</label>
             </div>
           </div>
+
+          <div style="margin: 24px 0; border-top: 1px solid var(--border-color);"></div>
 
           <div class="form-group">
             <label for="email">Email: <span class="required">*</span></label>
@@ -186,6 +161,8 @@
             />
             <div class="form-error" id="error-mobile"></div>
           </div>
+
+          <div style="margin: 24px 0; border-top: 1px solid var(--border-color);"></div>
 
           <div class="form-group">
             <label for="dateOfBirth"
@@ -212,32 +189,49 @@
               "
             />
             <p style="font-size: 13px; color: var(--text-light); margin-top: 4px;">
-              Used to confirm identity and tailor treatment.
             </p>
           </div>
 
+          <div style="margin: 24px 0; border-top: 1px solid var(--border-color);"></div>
+
+          <div class="form-group">
+            <label for="occupation"
+              >What do you do for work? <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="occupation"
+              name="occupation"
+              data-testid="occupation"
+              placeholder="e.g., Office Worker, Tradie, Student"
+              maxlength="100"
+              required
+            />
+          </div>
+
+          <div style="margin: 28px 0; border-top: 1px solid var(--border-color);"></div>
+
           <h3
             style="
-              margin-top: 28px;
+              margin-top: 8px;
               margin-bottom: 16px;
               font-size: 16px;
               color: var(--primary-color);
             "
-          >
-            Emergency Contact
-            <span
+          ><span
               style="
                 font-weight: normal;
                 font-size: 13px;
                 color: var(--text-light);
               "
-              >(Optional)</span
+              ></span
             >
           </h3>
 
           <div class="form-group">
-            <label for="emergencyName">Emergency Contact Name:</label>
+            <label for="emergencyName">Emergency Contact:</label>
             <input type="text" id="emergencyName" name="emergencyName" />
+            
           </div>
 
           <div class="form-group">
@@ -259,19 +253,6 @@
               placeholder="e.g., 0412 345 678"
             />
           </div>
-
-          <div
-            style="
-              margin-top: 24px;
-              padding-top: 16px;
-              border-top: 1px solid var(--border-color);
-              text-align: center;
-            "
-          >
-            <p style="font-size: 13px; color: var(--text-light); margin: 0">
-              All details filled in? Click <strong>Next</strong> to continue.
-            </p>
-          </div>
         </div>
 
         <!-- Step 2: About Your Visit & Lifestyle -->
@@ -292,7 +273,7 @@
             >
               Select all that apply
             </p>
-            <div class="radio-group grid-3-4" style="margin-bottom: 12px;">
+            <div class="radio-group grid-3-2" style="margin-bottom: 12px;">
               <div class="grid-left">
                 <label>
                   <input type="radio" name="visitGoals" value="Pain / Tension relief" />
@@ -338,7 +319,7 @@
             <label
               >How did you hear about me? <span class="required">*</span></label
             >
-            <div class="radio-group grid-2-3">
+            <div class="radio-group grid-3-2">
               <div class="grid-left">
                 <label>
                   <input
@@ -407,21 +388,6 @@
           >
             Lifestyle
           </h3>
-
-          <div class="form-group">
-            <label for="occupation"
-              >What do you do for work? <span class="required">*</span></label
-            >
-            <input
-              type="text"
-              id="occupation"
-              name="occupation"
-              data-testid="occupation"
-              placeholder="e.g., Office Worker, Tradie, Student"
-              maxlength="100"
-              required
-            />
-          </div>
 
           <div class="form-group slider-group">
             <label

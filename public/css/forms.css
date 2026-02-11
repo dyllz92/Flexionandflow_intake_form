@@ -238,7 +238,7 @@ textarea:focus {
 label {
   color: var(--text-dark);
   margin-bottom: 7px;
-  font-size: 1.04rem;
+  font-size: 0.95rem;
 }
 input,
 textarea {
