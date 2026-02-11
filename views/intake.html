@@ -244,350 +244,163 @@
         <div class="wizard-step form-section" data-step="2" data-testid="intake-step-2">
           <h2>Step 2 - About Your Visit</h2>
 
-          <div class="form-group">
-            <label
-              >What brings you to see me today?
-              <span class="required">*</span></label
-            >
-            <p
-              style="
-                font-size: 13px;
-                color: var(--text-light);
-                margin: 4px 0 12px 0;
-              "
-            >
-              Select all that apply
-            </p>
-            <div class="radio-group grid-3-2" style="margin-bottom: 12px;">
-              <div class="grid-left">
-                <label>
-                  <input type="radio" name="visitGoals" value="Pain / Tension relief" />
-                  Pain / Tension relief
-                </label>
-                <label>
-                  <input type="radio" name="visitGoals" value="Injury recovery" />
-                  Injury recovery
-                </label>
-                <label>
-                  <input type="radio" name="visitGoals" value="Improve mobility" />
-                  Improve mobility
-                </label>
+          <div class="step-section">
+            <h3>Visit Details</h3>
+            <div class="form-group">
+              <label>What brings you to see me today? <span class="required">*</span></label>
+              <p class="form-help">Select all that apply</p>
+              <input type="checkbox" name="visitGoals" value="Pain / Tension relief" style="display:none;">
+              <input type="checkbox" name="visitGoals" value="Injury recovery" style="display:none;">
+              <input type="checkbox" name="visitGoals" value="Improve mobility" style="display:none;">
+              <input type="checkbox" name="visitGoals" value="Relieve stress" style="display:none;">
+              <input type="checkbox" name="visitGoals" value="Training for an event" style="display:none;">
+              <input type="checkbox" name="visitGoals" value="Improve sleep" style="display:none;">
+              <div class="button-grid">
+                <button type="button" class="visit-btn" data-value="Pain / Tension relief">Pain / Tension relief</button>
+                <button type="button" class="visit-btn" data-value="Injury recovery">Injury recovery</button>
+                <button type="button" class="visit-btn" data-value="Improve mobility">Improve mobility</button>
+                <button type="button" class="visit-btn" data-value="Relieve stress">Relieve stress</button>
+                <button type="button" class="visit-btn" data-value="Training for an event">Training for an event</button>
+                <button type="button" class="visit-btn" data-value="Improve sleep">Improve sleep</button>
               </div>
-              <div class="grid-right">
-                <label>
-                  <input type="radio" name="visitGoals" value="Releive Stress" />
-                  Releive stress
-                </label>
-                <label>
-                  <input type="radio" name="visitGoals" value="Training for an event" />
-                  Training for an event
-                </label>
-                <label>
-                  <input type="radio" name="visitGoals" value="Improve sleep" />
-                  Improve sleep
-                </label>
+              <div class="form-group hidden-field" style="margin-top: 16px;">
+                <label for="visitGoalOther">Anything else? <span class="optional">(Optional)</span></label>
+                <input
+                  type="text"
+                  id="visitGoalOther"
+                  name="visitGoalOther"
+                  placeholder="Please tell me what brings you in today"
+                  maxlength="200"
+                />
               </div>
             </div>
-            <div class="form-group hidden-field" style="margin-top: 12px;">
-              <label for="visitGoalOther">Anything else? (optional)</label>
+
+            <div class="form-group">
+              <label>How did you hear about me? <span class="required">*</span></label>
+              <input type="radio" name="referralSource" value="Google" style="display:none;" required>
+              <input type="radio" name="referralSource" value="Word of mouth" style="display:none;">
+              <input type="radio" name="referralSource" value="Advertisement" style="display:none;">
+              <input type="radio" name="referralSource" value="I was referred by someone" style="display:none;">
+              <div class="button-grid">
+                <button type="button" class="referral-btn" data-value="Google">Google</button>
+                <button type="button" class="referral-btn" data-value="Word of mouth">Word of mouth</button>
+                <button type="button" class="referral-btn" data-value="Advertisement">Advertisement</button>
+                <button type="button" class="referral-btn" data-value="I was referred by someone">I was referred by someone</button>
+              </div>
+            </div>
+
+            <div id="referralPersonSection" class="form-group hidden-field slide-field">
+              <label for="referral_person">Who referred you? <span class="optional">(Optional)</span></label>
               <input
                 type="text"
-                id="visitGoalOther"
-                name="visitGoalOther"
-                placeholder="Please tell me what brings you in today"
-                maxlength="200"
+                id="referral_person"
+                name="referral_person"
+                placeholder="Name of person or practitioner who referred you"
+                maxlength="100"
               />
             </div>
           </div>
 
-          <div class="form-group">
-            <label
-              >How did you hear about me? <span class="required">*</span></label
-            >
-            <div class="radio-group grid-3-2">
-              <div class="grid-left">
-                <label>
-                  <input
-                    type="radio"
-                    name="referralSource"
-                    value="Google"
-                    required
-                  />
-                  Google
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="referralSource"
-                    value="Word of mouth"
-                  />
-                  Word of mouth
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="referralSource"
-                    value="Advertisement"
-                  />
-                  Advertisement
-                </label>
-              </div>
-              <div class="grid-right">
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="referralSource"
-                    value="I was referred by someone"
-                  />
-                  I was referred by someone
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div
-            id="referralPersonSection"
-            class="form-group hidden-field slide-field"
-            style="margin-top: 12px"
-          >
-            <label for="referral_person"
-              >Who referred you? <span class="optional">(Optional)</span></label
-            >
-            <input
-              type="text"
-              id="referral_person"
-              name="referral_person"
-              placeholder="Name of person or practitioner who referred you"
-              maxlength="100"
-            />
-          </div>
-
-          <h3
-            style="
-              margin-top: 28px;
-              margin-bottom: 16px;
-              font-size: 16px;
-              color: var(--primary-color);
-            "
-          >
-            Lifestyle
-          </h3>
-
-          <div class="form-group slider-group">
-            <label
-              >How well do you sleep? <span class="required">*</span></label
-            >
-            <div class="slider-container">
-              <input
-                type="range"
-                id="sleepQuality"
-                name="sleepQuality"
-                min="1"
-                max="10"
-                value=""
-                class="slider-input"
-                required
-                data-testid="sleepQuality"
-              />
-              <div class="slider-labels">
-                <span>1 - Terrible</span>
-                <span>10 - Fantastic</span>
-              </div>
-              <div class="slider-value" id="sleepQualityValue"></div>
-            </div>
-          </div>
-
-          <div class="form-group slider-group">
-            <label
-              >How are your stress levels?
-              <span class="required">*</span></label
-            >
-            <div class="slider-container">
-              <input
-                type="range"
-                id="stressLevel"
-                name="stressLevel"
-                min="1"
-                max="10"
-                value=""
-                class="slider-input"
-                required
-                data-testid="stressLevel"
-              />
-              <div class="slider-labels">
-                <span>1 - Low</span>
-                <span>10 - High</span>
-              </div>
-              <div class="slider-value" id="stressLevelValue"></div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label
-              >How often do you exercise? <span class="required">*</span></label
-            >
-            <div class="radio-group compact grid-3-3">
-              <div class="grid-left">
-                <label
-                  ><input
-                    type="radio"
-                    name="exerciseFrequency"
-                    value="Never"
-                    required
-                  />
-                  Never</label
-                >
-                <label
-                  ><input
-                    type="radio"
-                    name="exerciseFrequency"
-                    value="Rarely (few times a month)"
-                  />
-                  Rarely (few times a month)</label
-                >
-                <label
-                  ><input
-                    type="radio"
-                    name="exerciseFrequency"
-                    value="1-2 days per week"
-                  />
-                  1-2 days per week</label
-                >
-              </div>
-              <div class="grid-right">
-                <label
-                  ><input
-                    type="radio"
-                    name="exerciseFrequency"
-                    value="3-4 days per week"
-                  />
-                  3-4 days per week</label
-                >
-                <label
-                  ><input
-                    type="radio"
-                    name="exerciseFrequency"
-                    value="5+ days per week"
-                  />
-                  5+ days per week</label
-                >
-                <label
-                  ><input type="radio" name="exerciseFrequency" value="Daily" />
-                  Daily</label
-                >
-              </div>
-            </div>
-          </div>
-
-          <div
-            id="exerciseDetailsSection"
-            class="form-group hidden-field slide-field"
-            style="margin-top: 12px"
-          >
-            <label for="exerciseDetails"
-              >Tell me more about your exercise routine
-              <span class="optional">(Optional)</span></label
-            >
-            <input
-              type="text"
-              id="exerciseDetails"
-              name="exerciseDetails"
-              placeholder="e.g., Soccer 3x/week, Gym workouts, Running, Yoga classes"
-              maxlength="150"
-            />
-          </div>
-
-          <h3
-            style="
-              margin-top: 28px;
-              margin-bottom: 16px;
-              font-size: 16px;
-              color: var(--primary-color);
-            "
-          >
-            Previous Massage Experience
-          </h3>
-
-          <div class="form-group">
-            <label
-              >Do you have any previous experience with Massage Therapy?
-              <span class="required">*</span></label
-            >
-            <div class="radio-group inline compact">
-              <label
-                ><input
-                  type="radio"
-                  name="previousMassage"
-                  value="Yes"
+          <div class="step-section">
+            <h3>Lifestyle Information</h3>
+            <div class="form-group slider-group">
+              <label>How well do you sleep? <span class="required">*</span></label>
+              <div class="slider-container">
+                <input
+                  type="range"
+                  id="sleepQuality"
+                  name="sleepQuality"
+                  min="1"
+                  max="10"
+                  value=""
+                  class="slider-input"
                   required
+                  data-testid="sleepQuality"
                 />
-                Yes</label
-              >
-              <label
-                ><input type="radio" name="previousMassage" value="No" />
-                No</label
-              >
+                <div class="slider-labels">
+                  <span>1 - Terrible</span>
+                  <span>10 - Fantastic</span>
+                </div>
+                <div class="slider-value" id="sleepQualityValue"></div>
+              </div>
+            </div>
+
+            <div class="form-group slider-group">
+              <label>How are your stress levels? <span class="required">*</span></label>
+              <div class="slider-container">
+                <input
+                  type="range"
+                  id="stressLevel"
+                  name="stressLevel"
+                  min="1"
+                  max="10"
+                  value=""
+                  class="slider-input"
+                  required
+                  data-testid="stressLevel"
+                />
+                <div class="slider-labels">
+                  <span>1 - Low</span>
+                  <span>10 - High</span>
+                </div>
+                <div class="slider-value" id="stressLevelValue"></div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>How often do you exercise? <span class="required">*</span></label>
+              <input type="radio" name="exerciseFrequency" value="Never / Rarely" style="display:none;" required>
+              <input type="radio" name="exerciseFrequency" value="1-3 days per week" style="display:none;">
+              <input type="radio" name="exerciseFrequency" value="4-6 days per week" style="display:none;">
+              <input type="radio" name="exerciseFrequency" value="Daily" style="display:none;">
+              <div class="button-grid exercise-grid">
+                <button type="button" class="exercise-btn" data-value="Never / Rarely">Never / Rarely</button>
+                <button type="button" class="exercise-btn" data-value="1-3 days per week">1-3 days per week</button>
+                <button type="button" class="exercise-btn" data-value="4-6 days per week">4-6 days per week</button>
+                <button type="button" class="exercise-btn" data-value="Daily">Daily</button>
+              </div>
+            </div>
+
+            <div id="exerciseDetailsSection" class="form-group hidden-field slide-field">
+              <label for="exerciseDetails">Tell me more about your exercise routine <span class="optional">(Optional)</span></label>
+              <textarea
+                id="exerciseDetails"
+                name="exerciseDetails"
+                placeholder="e.g., Weight training 3x/week, yoga on weekends, swimming 30min daily"
+                maxlength="150"
+                rows="3"
+              ></textarea>
             </div>
           </div>
 
-          <div
-            id="lastTreatmentSection"
-            class="form-group hidden-field slide-field"
-            style="margin-top: 12px"
-          >
-            <label
-              >When was your last treatment?
-              <span class="optional">(Optional)</span></label
-            >
-            <div class="radio-group compact grid-3-2">
-              <div class="grid-left">
-                <label
-                  ><input
-                    type="radio"
-                    name="last_treatment_when"
-                    value="2-3 weeks ago"
-                  />
-                  2-3 weeks ago</label
-                >
-                <label
-                  ><input
-                    type="radio"
-                    name="last_treatment_when"
-                    value="About a month ago"
-                  />
-                  About a month ago</label
-                >
-                <label
-                  ><input
-                    type="radio"
-                    name="last_treatment_when"
-                    value="A few months ago"
-                  />
-                  A few months ago</label
-                >
+          <div class="step-section">
+            <h3>Previous Massage Experience</h3>
+            <div class="form-group">
+              <label>Do you have any previous experience with Massage Therapy? <span class="required">*</span></label>
+              <input type="radio" name="previousMassage" value="Yes" style="display:none;" required>
+              <input type="radio" name="previousMassage" value="No" style="display:none;">
+              <div class="toggle-buttons">
+                <button type="button" class="toggle-btn" data-value="Yes">Yes</button>
+                <button type="button" class="toggle-btn" data-value="No">No</button>
               </div>
-              <div class="grid-right">
-                <label
-                  ><input
-                    type="radio"
-                    name="last_treatment_when"
-                    value="A long time ago"
-                  />
-                  A long time ago</label
-                >
-                <label
-                  ><input
-                    type="radio"
-                    name="last_treatment_when"
-                    value="I'm embarrassed to say"
-                  />
-                  I'm embarrassed to say</label
-                >
+            </div>
+
+            <div id="lastTreatmentSection" class="form-group hidden-field slide-field">
+              <label>When was your last treatment? <span class="optional">(Optional)</span></label>
+              <input type="radio" name="last_treatment_when" value="2-3 weeks ago" style="display:none;">
+              <input type="radio" name="last_treatment_when" value="About a month ago" style="display:none;">
+              <input type="radio" name="last_treatment_when" value="A few months ago" style="display:none;">
+              <input type="radio" name="last_treatment_when" value="A long time ago" style="display:none;">
+              <input type="radio" name="last_treatment_when" value="I'm embarrassed to say" style="display:none;">
+              <div class="button-grid">
+                <button type="button" class="treatment-btn" data-value="2-3 weeks ago">2-3 weeks ago</button>
+                <button type="button" class="treatment-btn" data-value="About a month ago">About a month ago</button>
+                <button type="button" class="treatment-btn" data-value="A few months ago">A few months ago</button>
+                <button type="button" class="treatment-btn" data-value="A long time ago">A long time ago</button>
+                <button type="button" class="treatment-btn" data-value="I'm embarrassed to say">I'm embarrassed to say</button>
               </div>
             </div>
           </div>
-
 
         </div>
 
@@ -774,21 +587,11 @@
               >Are you taking any medications?
               <span class="required">*</span></label
             >
-            <div class="radio-group inline">
-              <label
-                ><input
-                  type="radio"
-                  name="takingMedications"
-                  value="Yes"
-                  required
-                />
-                Yes</label
-              >
-              <label
-                ><input type="radio" name="takingMedications" value="No" />
-                No</label
-              >
+            <div class="toggle-btn-group">
+              <button type="button" class="toggle-btn" data-value="Yes" data-name="takingMedications">Yes</button>
+              <button type="button" class="toggle-btn" data-value="No" data-name="takingMedications">No</button>
             </div>
+            <input type="hidden" name="takingMedications" required />
           </div>
 
           <div
@@ -813,15 +616,11 @@
             <label
               >Do you have any allergies? <span class="required">*</span></label
             >
-            <div class="radio-group inline">
-              <label
-                ><input type="radio" name="hasAllergies" value="Yes" required />
-                Yes</label
-              >
-              <label
-                ><input type="radio" name="hasAllergies" value="No" /> No</label
-              >
+            <div class="toggle-btn-group">
+              <button type="button" class="toggle-btn" data-value="Yes" data-name="hasAllergies">Yes</button>
+              <button type="button" class="toggle-btn" data-value="No" data-name="hasAllergies">No</button>
             </div>
+            <input type="hidden" name="hasAllergies" required />
           </div>
 
           <div
@@ -838,7 +637,8 @@
               name="allergiesList"
               rows="2"
               maxlength="500"
-              placeholder="e.g., Nuts, latex, fragrances, certain oils, etc."
+              placeholder="e.g., Nuts, latex, fragrances, certain oils, specific medications"
+              style="height: 80px;"
             ></textarea>
           </div>
 
@@ -1468,10 +1268,49 @@
             valueDisplay.textContent = "";
             slider.value = "";
             slider.addEventListener("input", () => {
-              valueDisplay.textContent = slider.value;
+              const value = slider.value;
+              valueDisplay.textContent = value;
+              // Color coding
+              if (id === "sleepQuality") {
+                if (value <= 4) valueDisplay.style.color = "#EF4444"; // red
+                else if (value <= 7) valueDisplay.style.color = "#F59E0B"; // yellow
+                else valueDisplay.style.color = "#10B981"; // green
+              } else if (id === "stressLevel") {
+                if (value <= 4) valueDisplay.style.color = "#10B981"; // green
+                else if (value <= 7) valueDisplay.style.color = "#F59E0B"; // yellow
+                else valueDisplay.style.color = "#EF4444"; // red
+              }
             });
           }
         });
+
+        // Step 2 button handling
+        function setupButtonGroup(buttonClass, inputName, isRadio = false) {
+          const buttons = document.querySelectorAll(`.${buttonClass}`);
+          buttons.forEach(button => {
+            button.addEventListener('click', () => {
+              const value = button.getAttribute('data-value');
+              if (isRadio) {
+                // For radio, unselect all, select this
+                buttons.forEach(btn => btn.classList.remove('selected'));
+                button.classList.add('selected');
+                const input = document.querySelector(`input[name="${inputName}"][value="${value}"]`);
+                if (input) input.checked = true;
+              } else {
+                // For checkbox, toggle
+                button.classList.toggle('selected');
+                const input = document.querySelector(`input[name="${inputName}"][value="${value}"]`);
+                if (input) input.checked = !input.checked;
+              }
+            });
+          });
+        }
+
+        setupButtonGroup('visit-btn', 'visitGoals');
+        setupButtonGroup('referral-btn', 'referralSource', true);
+        setupButtonGroup('exercise-btn', 'exerciseFrequency', true);
+        setupButtonGroup('toggle-btn', 'previousMassage', true);
+        setupButtonGroup('treatment-btn', 'last_treatment_when', true);
 
         // Pain descriptors "I'd rather tell you in person" logic
         const painDescriptorCheckboxes = document.querySelectorAll('input[name="painDescriptors"]');
