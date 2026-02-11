@@ -7,3 +7,5 @@ utils/users.json
 google-credentials.json
 nul
 amplified-alpha-485305-u5-8deb1fe12e2a.json
+test-results/
+playwright-report/
