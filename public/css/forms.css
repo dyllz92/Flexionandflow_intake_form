@@ -981,7 +981,7 @@ textarea {
 [data-step="3"] .required,
 [data-step="4"] .required,
 [data-step="5"] .required {
-  color: #EF4444;
+  color: #ef4444;
   font-size: 16px;
 }
 
@@ -1019,9 +1019,9 @@ textarea {
 [data-step="3"] .toggle-btn.selected,
 [data-step="4"] .toggle-btn.selected,
 [data-step="5"] .toggle-btn.selected {
-  background: #2563EB;
+  background: #2563eb;
   color: white;
-  border-color: #2563EB;
+  border-color: #2563eb;
   font-weight: 600;
   box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
 }
@@ -1030,7 +1030,7 @@ textarea {
 [data-step="4"] .toggle-btn:not(.selected),
 [data-step="5"] .toggle-btn:not(.selected) {
   background: white;
-  border-color: #D1D5DB;
+  border-color: #d1d5db;
   color: #374151;
 }
 
@@ -1054,8 +1054,8 @@ textarea {
 [data-step="4"] textarea,
 [data-step="5"] textarea {
   height: 100px;
-  background: #F9FAFB;
-  border: 1.5px solid #D1D5DB;
+  background: #f9fafb;
+  border: 1.5px solid #d1d5db;
   border-radius: 8px;
   padding: 12px;
   font-size: 16px;
@@ -1068,7 +1068,7 @@ textarea {
 [data-step="4"] textarea:focus,
 [data-step="5"] textarea:focus {
   outline: none;
-  border-color: #2563EB;
+  border-color: #2563eb;
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 

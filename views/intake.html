@@ -642,177 +642,63 @@
             ></textarea>
           </div>
 
-          <h3
-            style="
-              margin-top: 28px;
-              margin-bottom: 16px;
-              font-size: 16px;
-              color: var(--primary-color);
-            "
-          >
-            Accidents, Injuries, Surgeries &amp; Conditions
-          </h3>
+          <h3>Health Conditions</h3>
 
           <div class="form-group">
-            <label
-              >Have you had any recent accidents, injuries or surgeries?
-              <span class="required">*</span></label
-            >
-            <div class="radio-group inline">
-              <label
-                ><input
-                  type="radio"
-                  name="hasRecentInjuries"
-                  value="Yes"
-                  required
-                />
-                Yes</label
-              >
-              <label
-                ><input type="radio" name="hasRecentInjuries" value="No" />
-                No</label
-              >
+            <input
+              type="text"
+              id="healthSearch"
+              placeholder="Search conditions..."
+              style="width: 100%; padding: 12px; border: 1.5px solid #D1D5DB; border-radius: 8px; font-size: 16px; margin-bottom: 24px;"
+            />
+          </div>
+
+          <div class="health-category">
+            <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 16px; color: var(--primary-color);">Cardiovascular</h4>
+            <div class="toggle-btn-group health-conditions-grid">
+              <button type="button" class="toggle-btn condition-btn" data-value="Heart condition">Heart condition</button>
+              <button type="button" class="toggle-btn condition-btn" data-value="Blood clots/DVT">Blood clots/DVT</button>
+              <button type="button" class="toggle-btn condition-btn" data-value="High/Low blood pressure">High/Low blood pressure</button>
             </div>
           </div>
 
-          <div class="form-group">
-            <label
-              >Do you have any of the following?
-              <span class="required">*</span></label
-            >
-            <p
-              style="
-                font-size: 13px;
-                color: var(--text-light);
-                margin: 4px 0 12px 0;
-              "
-            >
-              Select all that apply. This helps me tailor your treatment safely.
-            </p>
-            <div class="checkbox-group">
-              <label
-                ><input
-                  type="checkbox"
-                  name="medicalConditions"
-                  value="Arthritis"
-                />
-                Arthritis</label
-              >
-              <label
-                ><input
-                  type="checkbox"
-                  name="medicalConditions"
-                  value="Asthma / Respiratory conditions"
-                />
-                Asthma / Respiratory conditions</label
-              >
-              <label
-                ><input
-                  type="checkbox"
-                  name="medicalConditions"
-                  value="Blood clots / DVT"
-                />
-                Blood clots / DVT</label
-              >
-              <label
-                ><input
-                  type="checkbox"
-                  name="medicalConditions"
-                  value="Cancer (current or history)"
-                />
-                Cancer (current or history)</label
-              >
-              <label
-                ><input
-                  type="checkbox"
-                  name="medicalConditions"
-                  value="Chronic pain"
-                />
-                Chronic pain</label
-              >
-              <label
-                ><input
-                  type="checkbox"
-                  name="medicalConditions"
-                  value="Diabetes"
-                />
-                Diabetes</label
-              >
-              <label
-                ><input
-                  type="checkbox"
-                  name="medicalConditions"
-                  value="Epilepsy / Seizures"
-                />
-                Epilepsy / Seizures</label
-              >
-              <label
-                ><input
-                  type="checkbox"
-                  name="medicalConditions"
-                  value="Fibromyalgia"
-                />
-                Fibromyalgia</label
-              >
-              <label
-                ><input
-                  type="checkbox"
-                  name="medicalConditions"
-                  value="Heart condition"
-                />
-                Heart condition</label
-              >
-              <label
-                ><input
-                  type="checkbox"
-                  name="medicalConditions"
-                  value="High / Low blood pressure"
-                />
-                High / Low blood pressure</label
-              >
-              <label
-                ><input
-                  type="checkbox"
-                  name="medicalConditions"
-                  value="Migraines / Headaches"
-                />
-                Migraines / Headaches</label
-              >
-              <label
-                ><input
-                  type="checkbox"
-                  name="medicalConditions"
-                  value="Osteoporosis"
-                />
-                Osteoporosis</label
-              >
-              <label
-                ><input
-                  type="checkbox"
-                  name="medicalConditions"
-                  value="Skin conditions (eczema, psoriasis, etc.)"
-                />
-                Skin conditions (eczema, psoriasis, etc.)</label
-              >
-              <label
-                ><input
-                  type="checkbox"
-                  name="medicalConditions"
-                  value="Other"
-                />
-                Other</label
-              >
-              <label
-                ><input
-                  type="checkbox"
-                  name="medicalConditions"
-                  value="None of the above"
-                  data-testid="none-of-the-above"
-                />
-                None of the above</label
-              >
+          <div class="health-category">
+            <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 16px; color: var(--primary-color);">Respiratory</h4>
+            <div class="toggle-btn-group">
+              <button type="button" class="toggle-btn condition-btn" data-value="Asthma/Respiratory conditions">Asthma/Respiratory conditions</button>
             </div>
           </div>
+
+          <div class="health-category">
+            <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 16px; color: var(--primary-color);">Chronic Pain</h4>
+            <div class="toggle-btn-group health-conditions-grid">
+              <button type="button" class="toggle-btn condition-btn" data-value="Arthritis">Arthritis</button>
+              <button type="button" class="toggle-btn condition-btn" data-value="Chronic pain">Chronic pain</button>
+              <button type="button" class="toggle-btn condition-btn" data-value="Fibromyalgia">Fibromyalgia</button>
+              <button type="button" class="toggle-btn condition-btn" data-value="Osteoporosis">Osteoporosis</button>
+            </div>
+          </div>
+
+          <div class="health-category">
+            <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 16px; color: var(--primary-color);">Neurological</h4>
+            <div class="toggle-btn-group health-conditions-grid">
+              <button type="button" class="toggle-btn condition-btn" data-value="Epilepsy/Seizures">Epilepsy/Seizures</button>
+              <button type="button" class="toggle-btn condition-btn" data-value="Migraines/Headaches">Migraines/Headaches</button>
+            </div>
+          </div>
+
+          <div class="health-category">
+            <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 16px; color: var(--primary-color);">Other</h4>
+            <div class="toggle-btn-group health-conditions-grid">
+              <button type="button" class="toggle-btn condition-btn" data-value="Cancer (current/history)">Cancer (current/history)</button>
+              <button type="button" class="toggle-btn condition-btn" data-value="Diabetes">Diabetes</button>
+              <button type="button" class="toggle-btn condition-btn" data-value="Skin conditions">Skin conditions</button>
+              <button type="button" class="toggle-btn condition-btn" data-value="Other">Other</button>
+              <button type="button" class="toggle-btn condition-btn" data-value="None of the above">None of the above</button>
+            </div>
+          </div>
+
+          <input type="hidden" name="medicalConditions" id="medicalConditionsHidden" />
 
           <div
             id="conditionsDetailsSection"
