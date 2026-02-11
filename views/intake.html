@@ -58,11 +58,15 @@
         </div>
         <div class="step" data-step="4">
           <span class="step-number">4</span>
-          <span class="step-label">Consent &amp; Sign</span>
+          <span class="step-label">Pain &amp; Signals</span>
+        </div>
+        <div class="step" data-step="5">
+          <span class="step-number">5</span>
+          <span class="step-label">Consents</span>
         </div>
       </div>
       <div id="stepCount" class="step-count" aria-live="polite">
-        Step 1 of 4
+        Step 1 of 5
       </div>
       <div
         id="stepValidationMessage"
@@ -165,22 +169,7 @@
               <label><input type="radio" name="gender" value="Male" />Male</label>
               <label><input type="radio" name="gender" value="Female" />Female</label>
               <label><input type="radio" name="gender" value="Non-binary" />Non-binary</label>
-              <label><input type="radio" name="gender" value="Prefer not to say" />Prefer not to say</label>
-              <label><input type="radio" name="gender" value="Self-describe" />Self-describe</label>
             </div>
-          </div>
-
-          <div class="form-group hidden-field" id="genderSelfDescribeGroup" style="display: none;">
-            <label for="genderSelfDescribe"
-              >Please describe your gender:</label
-            >
-            <input
-              type="text"
-              id="genderSelfDescribe"
-              name="genderSelfDescribe"
-              placeholder="e.g., Genderqueer, Agender, or your preferred term"
-              maxlength="50"
-            />
           </div>
 
           <div class="form-group">
@@ -312,27 +301,45 @@
             >
               Select all that apply
             </p>
-            <div class="checkbox-group compact two-column grid-2col">
-              <label>
-                <input type="checkbox" name="visitReasons" value="Relieve pain / tension" />
-                Relieve pain / tension
+            <div class="chip-group" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
+              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
+                <input type="checkbox" name="visitGoals" value="Relieve pain" style="margin-right: 6px;" />
+                Relieve pain
               </label>
-              <label>
-                <input type="checkbox" name="visitReasons" value="Relieve stress / anxiety" />
-                Relieve stress / anxiety
+              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
+                <input type="checkbox" name="visitGoals" value="Relieve tension" style="margin-right: 6px;" />
+                Relieve tension
               </label>
-              <label>
-                <input type="checkbox" name="visitReasons" value="Improve mobility" />
-                Improve mobility
-              </label>
-              <label>
-                <input type="checkbox" name="visitReasons" value="Improve quality of life (sleep, mood, etc.)" />
-                Improve quality of life (sleep, mood, etc.)
-              </label>
-              <label>
-                <input type="checkbox" name="visitReasons" value="Relaxation" />
+              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
+                <input type="checkbox" name="visitGoals" value="Relaxation" style="margin-right: 6px;" />
                 Relaxation
               </label>
+              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
+                <input type="checkbox" name="visitGoals" value="I'm overdue for a massage" style="margin-right: 6px;" />
+                I'm overdue for a massage
+              </label>
+              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
+                <input type="checkbox" name="visitGoals" value="Self-care day" style="margin-right: 6px;" />
+                Self-care day
+              </label>
+              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
+                <input type="checkbox" name="visitGoals" value="Relieve stress" style="margin-right: 6px;" />
+                Relieve stress
+              </label>
+              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
+                <input type="checkbox" name="visitGoals" value="Improve sleep" style="margin-right: 6px;" />
+                Improve sleep
+              </label>
+            </div>
+            <div class="form-group hidden-field" style="margin-top: 12px;">
+              <label for="visitGoalOther">Anything else? (optional)</label>
+              <input
+                type="text"
+                id="visitGoalOther"
+                name="visitGoalOther"
+                placeholder="Please tell me what brings you in today"
+                maxlength="200"
+              />
             </div>
           </div>
 
@@ -340,63 +347,68 @@
             <label
               >How did you hear about me? <span class="required">*</span></label
             >
-            <div class="radio-group compact two-column grid-2col">
-              <label
-                ><input
+            <div class="radio-group" style="display: flex; flex-wrap: wrap; gap: 8px;">
+              <label style="display: inline-flex; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; background-color: transparent; cursor: pointer; transition: all 0.2s ease;">
+                <input
                   type="radio"
                   name="referralSource"
                   value="Google"
                   required
+                  style="margin-right: 6px;"
                 />
-                Google</label
-              >
-              <label
-                ><input
+                Google
+              </label>
+              <label style="display: inline-flex; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; background-color: transparent; cursor: pointer; transition: all 0.2s ease;">
+                <input
                   type="radio"
                   name="referralSource"
                   value="Word of mouth"
+                  style="margin-right: 6px;"
                 />
-                Word of mouth</label
-              >
-              <label
-                ><input
+                Word of mouth
+              </label>
+              <label style="display: inline-flex; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; background-color: transparent; cursor: pointer; transition: all 0.2s ease;">
+                <input
                   type="radio"
                   name="referralSource"
                   value="Advertisement"
+                  style="margin-right: 6px;"
                 />
-                Advertisement</label
-              >
-              <label
-                ><input
+                Advertisement
+              </label>
+              <label style="display: inline-flex; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; background-color: transparent; cursor: pointer; transition: all 0.2s ease;">
+                <input
                   type="radio"
                   name="referralSource"
                   value="Friend or Family Member"
+                  style="margin-right: 6px;"
                 />
-                Friend or Family Member</label
-              >
-              <label
-                ><input
+                Friend or Family Member
+              </label>
+              <label style="display: inline-flex; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; background-color: transparent; cursor: pointer; transition: all 0.2s ease;">
+                <input
                   type="radio"
                   name="referralSource"
                   value="Referral from another practitioner"
+                  style="margin-right: 6px;"
                 />
-                Referral from another practitioner</label
-              >
+                Referral from another practitioner
+              </label>
             </div>
           </div>
 
           <div
-            id="referrerNameSection"
+            id="referralPersonSection"
             class="form-group hidden-field slide-field"
             style="margin-top: 12px"
           >
-            <label for="referrerName"
+            <label for="referral_person"
               >Who referred you? <span class="optional">(Optional)</span></label
             >
             <input
               type="text"
-              id="referrerName"
-              name="referrerName"
+              id="referral_person"
+              name="referral_person"
               placeholder="Name of person or practitioner who referred you"
               maxlength="100"
             />
@@ -532,6 +544,43 @@
             </div>
           </div>
 
+          <div
+            id="exerciseTypesSection"
+            class="form-group hidden-field slide-field"
+            style="margin-top: 12px"
+          >
+            <label
+              >What types of exercise do you do?
+              <span class="optional">(Optional)</span></label
+            >
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+              <label style="display: inline-flex; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; background-color: transparent; cursor: pointer; transition: all 0.2s ease;">
+                <input type="checkbox" name="exercise_types" value="Cardio" style="margin-right: 6px;" />
+                Cardio
+              </label>
+              <label style="display: inline-flex; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; background-color: transparent; cursor: pointer; transition: all 0.2s ease;">
+                <input type="checkbox" name="exercise_types" value="Strength training" style="margin-right: 6px;" />
+                Strength training
+              </label>
+              <label style="display: inline-flex; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; background-color: transparent; cursor: pointer; transition: all 0.2s ease;">
+                <input type="checkbox" name="exercise_types" value="Yoga" style="margin-right: 6px;" />
+                Yoga
+              </label>
+              <label style="display: inline-flex; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; background-color: transparent; cursor: pointer; transition: all 0.2s ease;">
+                <input type="checkbox" name="exercise_types" value="Pilates" style="margin-right: 6px;" />
+                Pilates
+              </label>
+              <label style="display: inline-flex; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; background-color: transparent; cursor: pointer; transition: all 0.2s ease;">
+                <input type="checkbox" name="exercise_types" value="Stretching" style="margin-right: 6px;" />
+                Stretching
+              </label>
+              <label style="display: inline-flex; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; background-color: transparent; cursor: pointer; transition: all 0.2s ease;">
+                <input type="checkbox" name="exercise_types" value="Sport" style="margin-right: 6px;" />
+                Sport
+              </label>
+            </div>
+          </div>
+
           <h3
             style="
               margin-top: 28px;
@@ -632,31 +681,11 @@
                 <button type="button" id="expandBodyMap" class="btn-secondary">Expand Body Map</button>
                 <input type="hidden" id="muscleMapMarks" name="muscleMapMarks" value="[]">
               </div>
+
           <div
             id="lastTreatmentSection"
             class="form-group hidden-field slide-field"
             style="margin-top: 12px"
-                    <!-- Body Map Expand Modal -->
-                    <div id="bodyMapModal" class="body-map-modal hidden-field" role="dialog" aria-modal="true" aria-labelledby="bodyMapModalTitle">
-                      <div class="body-map-backdrop"></div>
-                      <div class="body-map-content" role="document">
-                        <div class="body-map-header">
-                          <h2 id="bodyMapModalTitle">Body Map - Tap to mark areas of discomfort</h2>
-                          <button type="button" id="closeBodyMapBtn" class="btn-secondary" aria-label="Close Body Map">Close</button>
-                        </div>
-                        <div class="body-map-body">
-                          <div id="muscleMapContainerExpanded"></div>
-                          <div class="body-map-controls">
-                            <button type="button" id="zoomInBtn" class="btn-secondary">Zoom In (+)</button>
-                            <button type="button" id="zoomOutBtn" class="btn-secondary">Zoom Out (-)</button>
-                            <button type="button" id="resetZoomBtn" class="btn-secondary">Reset View</button>
-                            <button type="button" id="clearMuscleMapExpanded" class="btn-secondary">Clear All</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <script src="/js/muscleMap.js?v=20260203" defer></script>
-                    <script src="/js/bodyMapModal.js?v=20260203" defer></script>
           >
             <label for="lastTreatmentDate"
               >When was your last treatment?
@@ -704,6 +733,109 @@
             </p>
           </div>
         </div>
+
+        <!-- Step 4: Pain & Signals -->
+        <div class="wizard-step form-section" data-step="4" data-testid="intake-step-4">
+          <h2>Step 4 - Pain &amp; Signals</h2>
+          <p class="section-note">
+            Help me understand what's going on with your body today.
+          </p>
+
+          <div class="form-group slider-group">
+            <label>Pain or discomfort level today <span class="optional">(Optional)</span></label>
+            <div class="slider-container">
+              <input
+                type="range"
+                id="painLevel"
+                name="painLevel"
+                min="0"
+                max="10"
+                value=""
+                class="slider-input"
+                data-testid="pain-slider"
+              />
+              <div class="slider-labels">
+                <span>0 - None</span>
+                <span>5</span>
+                <span>10 - Worst</span>
+              </div>
+              <div class="slider-value" id="painLevelValue"></div>
+            </div>
+            <div style="margin-top: 8px;">
+              <label style="display: flex; align-items: center; font-weight: normal;">
+                <input type="checkbox" name="painNotSure" data-testid="pain-not-sure" /> Not sure
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Is today worse than usual? <span class="optional">(Optional)</span></label>
+            <div class="radio-group inline compact" data-testid="worse-than-usual">
+              <label><input type="radio" name="worseToday" value="Yes" /> Yes</label>
+              <label><input type="radio" name="worseToday" value="No" /> No</label>
+              <label><input type="radio" name="worseToday" value="Not sure" /> Not sure</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Pressure preference <span class="optional">(Optional)</span></label>
+            <div class="radio-group inline compact" data-testid="pressure-preference">
+              <label><input type="radio" name="pressurePreference" value="Light" /> Light</label>
+              <label><input type="radio" name="pressurePreference" value="Medium" /> Medium</label>
+              <label><input type="radio" name="pressurePreference" value="Firm" /> Firm</label>
+              <label><input type="radio" name="pressurePreference" value="Not sure" /> Not sure</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="areasToAvoid">Any areas you'd prefer I avoid? <span class="optional">(Optional)</span></label>
+            <textarea
+              id="areasToAvoid"
+              name="areasToAvoid"
+              data-testid="areas-to-avoid"
+              rows="2"
+              maxlength="500"
+              placeholder="e.g., Lower back due to recent strain, neck is sensitive..."
+              style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 12px; font-size: 16px; font-family: inherit;"
+            ></textarea>
+          </div>
+
+          <h3 style="margin-top: 20px; margin-bottom: 10px; color: var(--primary-color); font-size: 1.1em;">Where are you experiencing discomfort?</h3>
+          <div class="muscle-map-container">
+            <canvas id="muscleMapCanvas" class="muscle-map-canvas"></canvas>
+            <button type="button" id="clearMuscleMap" class="btn-secondary">Clear Muscle Map</button>
+            <button type="button" id="expandBodyMap" class="btn-secondary">Expand Body Map</button>
+            <input type="hidden" id="muscleMapMarks" name="muscleMapMarks" value="[]">
+          </div>
+
+          <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border-color); text-align: center;">
+            <p style="font-size: 13px; color: var(--text-light); margin: 0">
+              Click <strong>Next</strong> to continue.
+            </p>
+          </div>
+        </div>
+
+        <!-- Body Map Expand Modal -->
+        <div id="bodyMapModal" class="body-map-modal hidden-field" role="dialog" aria-modal="true" aria-labelledby="bodyMapModalTitle">
+          <div class="body-map-backdrop"></div>
+          <div class="body-map-content" role="document">
+            <div class="body-map-header">
+              <h2 id="bodyMapModalTitle">Body Map - Tap to mark areas of discomfort</h2>
+              <button type="button" id="closeBodyMapBtn" class="btn-secondary" aria-label="Close Body Map">Close</button>
+            </div>
+            <div class="body-map-body">
+              <div id="muscleMapContainerExpanded"></div>
+              <div class="body-map-controls">
+                <button type="button" id="zoomInBtn" class="btn-secondary">Zoom In (+)</button>
+                <button type="button" id="zoomOutBtn" class="btn-secondary">Zoom Out (-)</button>
+                <button type="button" id="resetZoomBtn" class="btn-secondary">Reset View</button>
+                <button type="button" id="clearMuscleMapExpanded" class="btn-secondary">Clear All</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <script src="/js/muscleMap.js?v=20260203" defer></script>
+        <script src="/js/bodyMapModal.js?v=20260203" defer></script>
 
         <!-- Step 3: Health & Medical History -->
         <div class="wizard-step form-section" data-step="3" data-testid="intake-step-3">
@@ -1022,6 +1154,26 @@
             </div>
           </div>
 
+          <div
+            id="pregnancyWeeksSection"
+            class="form-group hidden-field slide-field"
+            style="margin-top: 12px"
+          >
+            <label for="pregnancy_weeks"
+              >How many weeks along are you?
+              <span class="optional">(Optional)</span></label
+            >
+            <input
+              type="number"
+              id="pregnancy_weeks"
+              name="pregnancy_weeks"
+              min="0"
+              max="40"
+              placeholder="e.g., 20"
+              maxlength="2"
+            />
+          </div>
+
           <div class="form-group" style="margin-top: 20px">
             <label for="additionalHealthInfo"
               >Please provide any additional information that you feel is
@@ -1051,18 +1203,18 @@
           </div>
         </div>
 
-        <!-- Step 4: Consent & Signature -->
+        <!-- Step 5: Consent & Signature -->
         <div
           class="wizard-step form-section consent-section"
-          data-step="4"
-          data-testid="intake-step-4"
+          data-step="5"
+          data-testid="intake-step-5"
           style="
             border: 2px solid var(--accent-color);
             padding: 20px;
             border-radius: 12px;
           "
         >
-          <h2>Step 4 - Consent &amp; Signature</h2>
+          <h2>Step 5 - Consent &amp; Signature</h2>
 
           <div style="margin-bottom: 12px">
             <button
@@ -1275,25 +1427,26 @@
         setupConditionalField("takingMedications", "medicationsSection", "Yes");
         setupConditionalField("hasAllergies", "allergiesSection", "Yes");
 
-        // Referrer name field - show when Friend/Family or Practitioner referral selected
+        // Referral person field - show when Word of mouth / Friend/Family or Practitioner referral selected
         const referralRadios = document.querySelectorAll(
           'input[name="referralSource"]',
         );
-        const referrerSection = document.getElementById("referrerNameSection");
+        const referralPersonSection = document.getElementById("referralPersonSection");
 
         referralRadios.forEach((radio) => {
           radio.addEventListener("change", () => {
-            const showReferrer =
+            const showReferralPerson =
+              radio.value === "Word of mouth" ||
               radio.value === "Friend or Family Member" ||
               radio.value === "Referral from another practitioner";
-            if (showReferrer && radio.checked) {
-              referrerSection.classList.remove("hidden-field");
-              referrerSection.style.display = "block";
-              animateReveal(referrerSection);
+            if (showReferralPerson && radio.checked) {
+              referralPersonSection.classList.remove("hidden-field");
+              referralPersonSection.style.display = "block";
+              animateReveal(referralPersonSection);
             } else if (radio.checked) {
-              referrerSection.classList.add("hidden-field");
-              referrerSection.style.display = "none";
-              document.getElementById("referrerName").value = "";
+              referralPersonSection.classList.add("hidden-field");
+              referralPersonSection.style.display = "none";
+              document.getElementById("referral_person").value = "";
             }
           });
         });
