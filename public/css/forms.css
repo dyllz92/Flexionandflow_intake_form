@@ -591,7 +591,7 @@ textarea {
 [data-step="2"] .checkbox-group.grid-4-3 {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  gap: 16px;
+  gap: 12px;
   align-items: start;
 }
 
@@ -605,6 +605,12 @@ textarea {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+[data-step="2"] .checkbox-group.grid-4-3 .grid-left label,
+[data-step="2"] .checkbox-group.grid-4-3 .grid-right label {
+  width: 100%;
+  margin: 0;
 }
 
 [data-step="2"] .radio-group.grid-3-2 {
@@ -644,6 +650,68 @@ textarea {
   gap: 8px;
 }
 
+/* Step 3 multi-column layout for medical conditions */
+[data-step="3"] .checkbox-group:not(.inline) {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+[data-step="3"] .checkbox-group:not(.inline) label {
+  margin: 0;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  [data-step="3"] .checkbox-group:not(.inline) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+[data-step="3"] .radio-group.inline {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+[data-step="3"] .radio-group.inline label {
+  flex: 0 0 auto;
+  min-width: auto;
+  padding: 12px 24px;
+}
+
+/* Step 3 checkbox styling */
+[data-step="3"] .checkbox-group label:hover {
+  background: rgba(30, 136, 199, 0.08);
+  border-color: var(--primary-color);
+  box-shadow: 0 4px 10px rgba(30, 136, 199, 0.16);
+  transform: translateY(-1px);
+}
+
+[data-step="3"] .checkbox-group label:has(input[type="checkbox"]:checked) {
+  background: linear-gradient(135deg, var(--primary-color), #2b8fc9);
+  border-color: var(--primary-color);
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 6px 14px rgba(30, 136, 199, 0.3);
+}
+
+[data-step="3"] .radio-group.inline label:hover {
+  background: rgba(30, 136, 199, 0.08);
+  border-color: var(--primary-color);
+  box-shadow: 0 4px 10px rgba(30, 136, 199, 0.16);
+  transform: translateY(-1px);
+}
+
+[data-step="3"] .radio-group.inline label:has(input[type="radio"]:checked) {
+  background: linear-gradient(135deg, var(--primary-color), #2b8fc9);
+  border-color: var(--primary-color);
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 6px 14px rgba(30, 136, 199, 0.3);
+}
+
 @media (max-width: 768px) {
   [data-step="2"] .checkbox-group.grid-4-3,
   [data-step="2"] .radio-group.grid-3-2,
@@ -660,6 +728,19 @@ textarea {
   [data-step="2"] .radio-group.grid-3-3 .grid-left,
   [data-step="2"] .radio-group.grid-3-3 .grid-right {
     display: contents;
+  }
+  
+  [data-step="3"] .checkbox-group:not(.inline) {
+    grid-template-columns: 1fr;
+  }
+  
+  [data-step="3"] .radio-group.inline {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  [data-step="3"] .radio-group.inline label {
+    width: 100%;
   }
 }
 
