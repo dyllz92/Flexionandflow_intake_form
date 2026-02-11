@@ -593,6 +593,9 @@ textarea {
   grid-template-columns: 2fr 1fr;
   gap: 16px;
   align-items: start;
+}
+
+[data-step="2"] .checkbox-group.grid-4-3 .grid-left {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
@@ -622,9 +625,29 @@ textarea {
   gap: 8px;
 }
 
+/* Exercise frequency 3x3 grid layout */
+[data-step="2"] .radio-group.grid-3-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+[data-step="2"] .radio-group.grid-3-3 .grid-left {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+[data-step="2"] .radio-group.grid-3-3 .grid-right {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 @media (max-width: 768px) {
   [data-step="2"] .checkbox-group.grid-4-3,
-  [data-step="2"] .radio-group.grid-3-2 {
+  [data-step="2"] .radio-group.grid-3-2,
+  [data-step="2"] .radio-group.grid-3-3 {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
@@ -633,7 +656,9 @@ textarea {
   [data-step="2"] .checkbox-group.grid-4-3 .grid-left,
   [data-step="2"] .checkbox-group.grid-4-3 .grid-right,
   [data-step="2"] .radio-group.grid-3-2 .grid-left,
-  [data-step="2"] .radio-group.grid-3-2 .grid-right {
+  [data-step="2"] .radio-group.grid-3-2 .grid-right,
+  [data-step="2"] .radio-group.grid-3-3 .grid-left,
+  [data-step="2"] .radio-group.grid-3-3 .grid-right {
     display: contents;
   }
 }
