@@ -15,9 +15,7 @@
     "ALLOW_LOCAL_PDF_FALLBACK": "false",
     "APP_NAME": "Flexion & Flow"
   },
-  "environmentVariablesRequired": [
-    "GOOGLE_SERVICE_ACCOUNT_KEY"
-  ],
+  "environmentVariablesRequired": ["GOOGLE_SERVICE_ACCOUNT_KEY"],
   "healthcheck": {
     "path": "/health",
     "timeout": 30000,
