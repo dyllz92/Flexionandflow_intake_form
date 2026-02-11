@@ -297,17 +297,34 @@ document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("intakeForm");
   const submitBtn = document.getElementById("submitBtn");
 
-  // Auto-format DOB input: insert '/' as user types
+  // Auto-format DOB input: insert '/' as user types (only for numeric input)
   const dobInput = document.getElementById("dateOfBirth");
   if (dobInput) {
     dobInput.addEventListener("input", (e) => {
-      let v = dobInput.value.replace(/[^0-9]/g, "");
+      // Only auto-format if the user is typing digits
+      // Don't interfere if they're using other separators (-, ., space)
+      const value = dobInput.value;
+      
+      // Skip auto-formatting if the value contains non-slash separators
+      // This allows the blur handler to process various formats
+      if (/[\-\.\s]/.test(value)) {
+        return;
+      }
+      
+      let v = value.replace(/[^0-9]/g, "");
       if (v.length > 8) v = v.slice(0, 8);
       let formatted = v;
       if (v.length > 4)
         formatted = v.slice(0, 2) + "/" + v.slice(2, 4) + "/" + v.slice(4);
       else if (v.length > 2) formatted = v.slice(0, 2) + "/" + v.slice(2);
       dobInput.value = formatted;
+    });
+
+    // Auto-format DOB on blur to support multiple date formats
+    dobInput.addEventListener("blur", (e) => {
+      if (typeof autoFormatDateInput === "function") {
+        autoFormatDateInput(dobInput);
+      }
     });
   }
 
