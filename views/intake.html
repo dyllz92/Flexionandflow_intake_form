@@ -301,35 +301,39 @@
             >
               Select all that apply
             </p>
-            <div class="chip-group" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
-              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
-                <input type="checkbox" name="visitGoals" value="Relieve pain" style="margin-right: 6px;" />
-                Relieve pain
-              </label>
-              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
-                <input type="checkbox" name="visitGoals" value="Relieve tension" style="margin-right: 6px;" />
-                Relieve tension
-              </label>
-              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
-                <input type="checkbox" name="visitGoals" value="Relaxation" style="margin-right: 6px;" />
-                Relaxation
-              </label>
-              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
-                <input type="checkbox" name="visitGoals" value="I'm overdue for a massage" style="margin-right: 6px;" />
-                I'm overdue for a massage
-              </label>
-              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
-                <input type="checkbox" name="visitGoals" value="Self-care day" style="margin-right: 6px;" />
-                Self-care day
-              </label>
-              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
-                <input type="checkbox" name="visitGoals" value="Relieve stress" style="margin-right: 6px;" />
-                Relieve stress
-              </label>
-              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
-                <input type="checkbox" name="visitGoals" value="Improve sleep" style="margin-right: 6px;" />
-                Improve sleep
-              </label>
+            <div class="checkbox-group grid-4-3" style="margin-bottom: 12px;">
+              <div class="grid-left">
+                <label>
+                  <input type="checkbox" name="visitGoals" value="Relieve pain" />
+                  Relieve pain
+                </label>
+                <label>
+                  <input type="checkbox" name="visitGoals" value="Relieve tension" />
+                  Relieve tension
+                </label>
+                <label>
+                  <input type="checkbox" name="visitGoals" value="Relaxation" />
+                  Relaxation
+                </label>
+                <label>
+                  <input type="checkbox" name="visitGoals" value="I'm overdue for a massage" />
+                  I'm overdue for a massage
+                </label>
+              </div>
+              <div class="grid-right">
+                <label>
+                  <input type="checkbox" name="visitGoals" value="Self-care day" />
+                  Self-care day
+                </label>
+                <label>
+                  <input type="checkbox" name="visitGoals" value="Relieve stress" />
+                  Relieve stress
+                </label>
+                <label>
+                  <input type="checkbox" name="visitGoals" value="Improve sleep" />
+                  Improve sleep
+                </label>
+              </div>
             </div>
             <div class="form-group hidden-field" style="margin-top: 12px;">
               <label for="visitGoalOther">Anything else? (optional)</label>
@@ -347,53 +351,52 @@
             <label
               >How did you hear about me? <span class="required">*</span></label
             >
-            <div class="radio-group" style="display: flex; flex-wrap: wrap; gap: 8px;">
-              <label style="display: inline-flex; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; background-color: transparent; cursor: pointer; transition: all 0.2s ease;">
-                <input
-                  type="radio"
-                  name="referralSource"
-                  value="Google"
-                  required
-                  style="margin-right: 6px;"
-                />
-                Google
-              </label>
-              <label style="display: inline-flex; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; background-color: transparent; cursor: pointer; transition: all 0.2s ease;">
-                <input
-                  type="radio"
-                  name="referralSource"
-                  value="Word of mouth"
-                  style="margin-right: 6px;"
-                />
-                Word of mouth
-              </label>
-              <label style="display: inline-flex; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; background-color: transparent; cursor: pointer; transition: all 0.2s ease;">
-                <input
-                  type="radio"
-                  name="referralSource"
-                  value="Advertisement"
-                  style="margin-right: 6px;"
-                />
-                Advertisement
-              </label>
-              <label style="display: inline-flex; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; background-color: transparent; cursor: pointer; transition: all 0.2s ease;">
-                <input
-                  type="radio"
-                  name="referralSource"
-                  value="Friend or Family Member"
-                  style="margin-right: 6px;"
-                />
-                Friend or Family Member
-              </label>
-              <label style="display: inline-flex; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; background-color: transparent; cursor: pointer; transition: all 0.2s ease;">
-                <input
-                  type="radio"
-                  name="referralSource"
-                  value="Referral from another practitioner"
-                  style="margin-right: 6px;"
-                />
-                Referral from another practitioner
-              </label>
+            <div class="radio-group grid-3-2">
+              <div class="grid-left">
+                <label>
+                  <input
+                    type="radio"
+                    name="referralSource"
+                    value="Google"
+                    required
+                  />
+                  Google
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="referralSource"
+                    value="Word of mouth"
+                  />
+                  Word of mouth
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="referralSource"
+                    value="Advertisement"
+                  />
+                  Advertisement
+                </label>
+              </div>
+              <div class="grid-right">
+                <label>
+                  <input
+                    type="radio"
+                    name="referralSource"
+                    value="Friend or Family Member"
+                  />
+                  Friend or Family Member
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="referralSource"
+                    value="Referral from another practitioner"
+                  />
+                  Referral from another practitioner
+                </label>
+              </div>
             </div>
           </div>
 
@@ -543,6 +546,24 @@
           </div>
 
           <div
+            id="exerciseDetailsSection"
+            class="form-group hidden-field slide-field"
+            style="margin-top: 12px"
+          >
+            <label for="exerciseDetails"
+              >Tell me more about your exercise routine
+              <span class="optional">(Optional)</span></label
+            >
+            <input
+              type="text"
+              id="exerciseDetails"
+              name="exerciseDetails"
+              placeholder="e.g., Soccer 3x/week, Gym workouts, Running, Yoga classes"
+              maxlength="150"
+            />
+          </div>
+
+          <div
             id="exerciseTypesSection"
             class="form-group hidden-field slide-field"
             style="margin-top: 12px"
@@ -551,29 +572,29 @@
               >What types of exercise do you do?
               <span class="optional">(Optional)</span></label
             >
-            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-              <label style="display: inline-flex; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; background-color: transparent; cursor: pointer; transition: all 0.2s ease;">
-                <input type="checkbox" name="exercise_types" value="Cardio" style="margin-right: 6px;" />
+            <div class="checkbox-group">
+              <label>
+                <input type="checkbox" name="exercise_types" value="Cardio" />
                 Cardio
               </label>
-              <label style="display: inline-flex; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; background-color: transparent; cursor: pointer; transition: all 0.2s ease;">
-                <input type="checkbox" name="exercise_types" value="Strength training" style="margin-right: 6px;" />
+              <label>
+                <input type="checkbox" name="exercise_types" value="Strength training" />
                 Strength training
               </label>
-              <label style="display: inline-flex; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; background-color: transparent; cursor: pointer; transition: all 0.2s ease;">
-                <input type="checkbox" name="exercise_types" value="Yoga" style="margin-right: 6px;" />
+              <label>
+                <input type="checkbox" name="exercise_types" value="Yoga" />
                 Yoga
               </label>
-              <label style="display: inline-flex; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; background-color: transparent; cursor: pointer; transition: all 0.2s ease;">
-                <input type="checkbox" name="exercise_types" value="Pilates" style="margin-right: 6px;" />
+              <label>
+                <input type="checkbox" name="exercise_types" value="Pilates" />
                 Pilates
               </label>
-              <label style="display: inline-flex; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; background-color: transparent; cursor: pointer; transition: all 0.2s ease;">
-                <input type="checkbox" name="exercise_types" value="Stretching" style="margin-right: 6px;" />
+              <label>
+                <input type="checkbox" name="exercise_types" value="Stretching" />
                 Stretching
               </label>
-              <label style="display: inline-flex; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; background-color: transparent; cursor: pointer; transition: all 0.2s ease;">
-                <input type="checkbox" name="exercise_types" value="Sport" style="margin-right: 6px;" />
+              <label>
+                <input type="checkbox" name="exercise_types" value="Sport" />
                 Sport
               </label>
             </div>
@@ -621,62 +642,55 @@
               >When was your last treatment?
               <span class="optional">(Optional)</span></label
             >
-            <div class="radio-group compact">
-              <label
-                ><input
-                  type="radio"
-                  name="last_treatment_when"
-                  value="2-3 weeks ago"
-                />
-                2-3 weeks ago</label
-              >
-              <label
-                ><input
-                  type="radio"
-                  name="last_treatment_when"
-                  value="About a month ago"
-                />
-                About a month ago</label
-              >
-              <label
-                ><input
-                  type="radio"
-                  name="last_treatment_when"
-                  value="A few months ago"
-                />
-                A few months ago</label
-              >
-              <label
-                ><input
-                  type="radio"
-                  name="last_treatment_when"
-                  value="A long time ago"
-                />
-                A long time ago</label
-              >
-              <label
-                ><input
-                  type="radio"
-                  name="last_treatment_when"
-                  value="I'm embarrassed to say"
-                />
-                I'm embarrassed to say</label
-              >
+            <div class="radio-group compact grid-3-2">
+              <div class="grid-left">
+                <label
+                  ><input
+                    type="radio"
+                    name="last_treatment_when"
+                    value="2-3 weeks ago"
+                  />
+                  2-3 weeks ago</label
+                >
+                <label
+                  ><input
+                    type="radio"
+                    name="last_treatment_when"
+                    value="About a month ago"
+                  />
+                  About a month ago</label
+                >
+                <label
+                  ><input
+                    type="radio"
+                    name="last_treatment_when"
+                    value="A few months ago"
+                  />
+                  A few months ago</label
+                >
+              </div>
+              <div class="grid-right">
+                <label
+                  ><input
+                    type="radio"
+                    name="last_treatment_when"
+                    value="A long time ago"
+                  />
+                  A long time ago</label
+                >
+                <label
+                  ><input
+                    type="radio"
+                    name="last_treatment_when"
+                    value="I'm embarrassed to say"
+                  />
+                  I'm embarrassed to say</label
+                >
+              </div>
             </div>
           </div>
 
-          <div
-            style="
-              margin-top: 24px;
-              padding-top: 16px;
-              border-top: 1px solid var(--border-color);
-              text-align: center;
-            "
-          >
-            <p style="font-size: 13px; color: var(--text-light); margin: 0">
-              Click <strong>Next</strong> to continue.
-            </p>
-          </div>
+
         </div>
 
         <!-- Step 4: Pain & Signals -->

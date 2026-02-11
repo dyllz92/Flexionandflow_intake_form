@@ -21,6 +21,12 @@ class ConditionalFields {
         show: "exerciseTypesSection",
         condition: (val) => val !== "Never",
       },
+      // Exercise details - show when exercise frequency is not "Never"
+      exerciseDetails: {
+        trigger: 'input[name="exerciseFrequency"]',
+        show: "exerciseDetailsSection",
+        condition: (val) => val !== "Never",
+      },
       // Pregnancy weeks - show when pregnant/breastfeeding = "Yes"
       pregnancyWeeks: {
         trigger: 'input[name="pregnantBreastfeeding"]',

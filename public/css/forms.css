@@ -587,6 +587,99 @@ textarea {
   text-align: center;
 }
 
+/* Step 2 grid layouts for organized button arrangement */
+[data-step="2"] .checkbox-group.grid-4-3 {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+  align-items: start;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+[data-step="2"] .checkbox-group.grid-4-3 .grid-right {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+[data-step="2"] .radio-group.grid-3-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+[data-step="2"] .radio-group.grid-3-2 .grid-left {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+[data-step="2"] .radio-group.grid-3-2 .grid-right {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+@media (max-width: 768px) {
+  [data-step="2"] .checkbox-group.grid-4-3,
+  [data-step="2"] .radio-group.grid-3-2 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  [data-step="2"] .checkbox-group.grid-4-3 .grid-left,
+  [data-step="2"] .checkbox-group.grid-4-3 .grid-right,
+  [data-step="2"] .radio-group.grid-3-2 .grid-left,
+  [data-step="2"] .radio-group.grid-3-2 .grid-right {
+    display: contents;
+  }
+}
+
+/* Step 2 specific styling for compact chip-style layout */
+[data-step="2"] .radio-group,
+[data-step="2"] .checkbox-group {
+  gap: 8px;
+}
+
+[data-step="2"] .radio-group label,
+[data-step="2"] .checkbox-group label {
+  padding: 10px 16px;
+  font-size: 14px;
+  border-radius: 20px;
+  font-weight: 500;
+  min-height: unset;
+  border: 2px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.9);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-step="2"] .radio-group label:hover,
+[data-step="2"] .checkbox-group label:hover {
+  background: rgba(30, 136, 199, 0.1);
+  border-color: var(--primary-color);
+  box-shadow: 0 4px 12px rgba(30, 136, 199, 0.2);
+  transform: translateY(-1px);
+}
+
+[data-step="2"] .radio-group label:has(input[type="radio"]:checked),
+[data-step="2"] .checkbox-group label:has(input[type="checkbox"]:checked) {
+  background: linear-gradient(135deg, var(--primary-color), #2b8fc9);
+  border-color: var(--primary-color);
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 6px 16px rgba(30, 136, 199, 0.35);
+  transform: translateY(-2px);
+}
+
+[data-step="2"] .radio-group label:active,
+[data-step="2"] .checkbox-group label:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(30, 136, 199, 0.2);
+}
+
 /* Compact button style for Step 2 */
 .radio-group.compact,
 .checkbox-group.compact {
@@ -2200,79 +2293,119 @@ button[type="button"]#clearSignature {
 
 /* Slider Styles */
 .slider-group {
-  margin-bottom: 24px;
+  margin-bottom: 32px;
+  background: rgba(30, 136, 199, 0.05);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 2px solid rgba(30, 136, 199, 0.1);
+  transition: all 0.3s ease;
+}
+
+.slider-group:hover {
+  background: rgba(30, 136, 199, 0.08);
+  border-color: rgba(30, 136, 199, 0.2);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
 }
 
 .slider-container {
-  padding: 12px 0;
+  padding: 16px 0;
+  position: relative;
 }
 
 .slider-input {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
-  height: 8px;
-  border-radius: 4px;
+  height: 12px;
+  border-radius: 8px;
   background: linear-gradient(
     to right,
-    var(--border-color) 0%,
-    var(--border-color) 100%
+    rgba(30, 136, 199, 0.15) 0%,
+    rgba(30, 136, 199, 0.25) 100%
   );
   outline: none;
-  margin: 16px 0;
+  margin: 20px 0;
   cursor: pointer;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.slider-input:hover {
+  background: linear-gradient(
+    to right,
+    rgba(30, 136, 199, 0.2) 0%,
+    rgba(30, 136, 199, 0.35) 100%
+  );
 }
 
 .slider-input::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  background: linear-gradient(180deg, #3a99d3 0%, #2685bb 100%);
+  background: linear-gradient(135deg, #3a99d3 0%, #2685bb 50%, #1e7ab1 100%);
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(30, 136, 199, 0.4);
-  border: 3px solid #fff;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+  box-shadow:
+    0 6px 16px rgba(30, 136, 199, 0.4),
+    0 2px 4px rgba(0, 0, 0, 0.2);
+  border: 4px solid #fff;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
 }
 
 .slider-input::-webkit-slider-thumb:hover {
-  transform: scale(1.1);
-  box-shadow: 0 6px 14px rgba(30, 136, 199, 0.5);
+  transform: scale(1.15);
+  box-shadow:
+    0 8px 24px rgba(30, 136, 199, 0.6),
+    0 4px 8px rgba(0, 0, 0, 0.3);
+  border-width: 5px;
+}
+
+.slider-input::-webkit-slider-thumb:active {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(30, 136, 199, 0.5);
 }
 
 .slider-input::-moz-range-thumb {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  background: linear-gradient(180deg, #3a99d3 0%, #2685bb 100%);
+  background: linear-gradient(135deg, #3a99d3 0%, #2685bb 50%, #1e7ab1 100%);
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(30, 136, 199, 0.4);
-  border: 3px solid #fff;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+  box-shadow:
+    0 6px 16px rgba(30, 136, 199, 0.4),
+    0 2px 4px rgba(0, 0, 0, 0.2);
+  border: 4px solid #fff;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .slider-input::-moz-range-thumb:hover {
-  transform: scale(1.1);
-  box-shadow: 0 6px 14px rgba(30, 136, 199, 0.5);
+  transform: scale(1.15);
+  box-shadow:
+    0 8px 24px rgba(30, 136, 199, 0.6),
+    0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .slider-labels {
   display: flex;
   justify-content: space-between;
-  font-size: 12px;
-  color: var(--text-light);
-  margin-top: 8px;
-  padding: 0 4px;
+  font-size: 13px;
+  color: var(--text-primary);
+  font-weight: 500;
+  margin-top: 12px;
+  padding: 0 8px;
 }
 
 .slider-labels span {
   text-align: center;
   flex: 1;
+  padding: 4px 8px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .slider-labels span:first-child {
@@ -2285,10 +2418,15 @@ button[type="button"]#clearSignature {
 
 .slider-value {
   text-align: center;
-  font-size: 24px;
-  font-weight: 700;
+  font-size: 28px;
+  font-weight: 800;
   color: var(--primary-color);
-  margin-top: 8px;
+  margin-top: 16px;
+  background: linear-gradient(135deg, var(--primary-color), #2b8fc9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 4px rgba(30, 136, 199, 0.3);
 }
 
 /* Hemisphere theme slider */
