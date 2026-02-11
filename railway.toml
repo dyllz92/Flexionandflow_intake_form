@@ -3,12 +3,20 @@ builder = "nixpacks"
 
 [deploy]
 startCommand = "npm start"
+restartPolicyType = "always"
+restartPolicyMaxRetries = 5
 
-# Health check settings - very generous timeouts to prevent false kills
-healthcheckPath = "/health"
-healthcheckTimeout = 30000
-healthcheckInterval = 30000
+[deploy.healthcheck]
+path = "/health"
+interval = 30000
+timeout = 30000
 startupTimeout = 60000
 
-restartPolicyType = "always"
-drainingSeconds = 10
+[env]
+NODE_ENV = "production"
+PORT = "3000"
+GOOGLE_DRIVE_FOLDER_ID = "10iOVUY8J-h9GI9B14lmZ-QX42WyGQE4x"
+ALLOW_LOCAL_PDF_FALLBACK = "false"
+APP_NAME = "Flexion & Flow"
+
+# Note: GOOGLE_SERVICE_ACCOUNT_KEY must be added as a Raw Secret in Railway dashboard

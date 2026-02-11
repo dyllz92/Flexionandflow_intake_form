@@ -1,0 +1,27 @@
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "builder": "nixpacks"
+  },
+  "deploy": {
+    "startCommand": "npm start",
+    "restartPolicyType": "always",
+    "restartPolicyMaxRetries": 5
+  },
+  "environmentVariables": {
+    "NODE_ENV": "production",
+    "PORT": "3000",
+    "GOOGLE_DRIVE_FOLDER_ID": "10iOVUY8J-h9GI9B14lmZ-QX42WyGQE4x",
+    "ALLOW_LOCAL_PDF_FALLBACK": "false",
+    "APP_NAME": "Flexion & Flow"
+  },
+  "environmentVariablesRequired": [
+    "GOOGLE_SERVICE_ACCOUNT_KEY"
+  ],
+  "healthcheck": {
+    "path": "/health",
+    "timeout": 30000,
+    "interval": 30000,
+    "startupTimeout": 60000
+  }
+}
