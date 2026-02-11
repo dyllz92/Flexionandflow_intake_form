@@ -15,12 +15,6 @@ class ConditionalFields {
           val === "Friend or Family Member" ||
           val === "Referral from another practitioner",
       },
-      // Exercise types - show when exercise frequency is not "Never"
-      exerciseTypes: {
-        trigger: 'input[name="exerciseFrequency"]',
-        show: "exerciseTypesSection",
-        condition: (val) => val !== "Never",
-      },
       // Exercise details - show when exercise frequency is not "Never"
       exerciseDetails: {
         trigger: 'input[name="exerciseFrequency"]',
