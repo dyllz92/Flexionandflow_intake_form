@@ -409,6 +409,25 @@ app.post("/api/submit-form", async (req, res) => {
     );
     formData.areasToAvoid = sanitizeString(formData.areasToAvoid, 500);
 
+    // Sanitize new pain-related fields
+    formData.painCause = sanitizeString(formData.painCause, 20);
+    formData.painDescriptorOther = sanitizeString(
+      formData.painDescriptorOther,
+      500,
+    );
+
+    // Sanitize referral person field
+    formData.referral_person = sanitizeString(formData.referral_person, 100);
+
+    // Sanitize last treatment when field
+    formData.last_treatment_when = sanitizeString(
+      formData.last_treatment_when,
+      50,
+    );
+
+    // Sanitize pregnancy weeks
+    formData.pregnancy_weeks = sanitizeString(formData.pregnancy_weeks, 10);
+
     // Sanitize new Step 4 field
     formData.medicalCareDisclaimer = !!formData.medicalCareDisclaimer; // Convert to boolean
 

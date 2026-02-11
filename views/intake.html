@@ -458,7 +458,6 @@
               />
               <div class="slider-labels">
                 <span>1 - Terrible</span>
-                <span>5</span>
                 <span>10 - Fantastic</span>
               </div>
               <div class="slider-value" id="sleepQualityValue"></div>
@@ -484,7 +483,6 @@
               />
               <div class="slider-labels">
                 <span>1 - Low</span>
-                <span>5</span>
                 <span>10 - High</span>
               </div>
               <div class="slider-value" id="stressLevelValue"></div>
@@ -614,110 +612,57 @@
             </div>
           </div>
 
-          <div class="form-group slider-group">
-            <label>Pain or discomfort level today (optional)</label>
-            <div class="slider-container">
-              <input
-                type="range"
-                id="painLevel"
-                name="painLevel"
-                min="0"
-                max="10"
-                value=""
-                class="slider-input"
-                data-testid="pain-slider"
-              />
-              <div class="slider-labels">
-                <span>0 - None</span>
-                <span>5</span>
-                <span>10 - Worst</span>
-              </div>
-              <div class="slider-value" id="painLevelValue"></div>
-            </div>
-            <div style="margin-top: 8px;">
-              <label style="display: flex; align-items: center; font-weight: normal;">
-                <input type="checkbox" name="painNotSure" data-testid="pain-not-sure" /> Not sure
-              </label>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Is today worse than usual? (optional)</label>
-            <div class="radio-group inline compact" data-testid="worse-than-usual">
-              <label><input type="radio" name="worseToday" value="Yes" /> Yes</label>
-              <label><input type="radio" name="worseToday" value="No" /> No</label>
-              <label><input type="radio" name="worseToday" value="Not sure" /> Not sure</label>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Pressure preference (optional)</label>
-            <div class="radio-group inline compact" data-testid="pressure-preference">
-              <label><input type="radio" name="pressurePreference" value="Light" /> Light</label>
-              <label><input type="radio" name="pressurePreference" value="Medium" /> Medium</label>
-              <label><input type="radio" name="pressurePreference" value="Firm" /> Firm</label>
-              <label><input type="radio" name="pressurePreference" value="Not sure" /> Not sure</label>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="areasToAvoid">Any areas you'd prefer I avoid? (optional)</label>
-            <textarea
-              id="areasToAvoid"
-              name="areasToAvoid"
-              data-testid="areas-to-avoid"
-              rows="2"
-              maxlength="500"
-              placeholder="e.g., Lower back due to recent strain, neck is sensitive..."
-              style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 12px; font-size: 16px; font-family: inherit;"
-            ></textarea>
-          </div>
-
-              <!-- Body Diagram Section -->
-              <h3 style="margin-bottom: 10px; color: var(--primary-color); font-size: 1.1em;">Where are you experiencing discomfort?</h3>
-              <div class="muscle-map-container">
-                <canvas id="muscleMapCanvas" class="muscle-map-canvas"></canvas>
-                <button type="button" id="clearMuscleMap" class="btn-secondary">Clear Muscle Map</button>
-                <button type="button" id="expandBodyMap" class="btn-secondary">Expand Body Map</button>
-                <input type="hidden" id="muscleMapMarks" name="muscleMapMarks" value="[]">
-              </div>
-
           <div
             id="lastTreatmentSection"
             class="form-group hidden-field slide-field"
             style="margin-top: 12px"
           >
-            <label for="lastTreatmentDate"
+            <label
               >When was your last treatment?
               <span class="optional">(Optional)</span></label
             >
-            <input
-              type="text"
-              id="lastTreatmentDate"
-              name="lastTreatmentDate"
-              class="date-input"
-              placeholder="DD/MM/YYYY"
-              inputmode="numeric"
-              data-max-date="today"
-              style="
-                width: 100%;
-                padding: 12px;
-                border: 1px solid var(--border-color);
-                border-radius: 12px;
-                font-size: 16px;
-                background: var(--input-bg);
-              "
-            />
-            <p
-              style="
-                font-size: 12px;
-                color: var(--text-light);
-                margin-top: 4px;
-                font-style: italic;
-              "
-            >
-              If unsure, please leave blank.
-            </p>
+            <div class="radio-group compact">
+              <label
+                ><input
+                  type="radio"
+                  name="last_treatment_when"
+                  value="2-3 weeks ago"
+                />
+                2-3 weeks ago</label
+              >
+              <label
+                ><input
+                  type="radio"
+                  name="last_treatment_when"
+                  value="About a month ago"
+                />
+                About a month ago</label
+              >
+              <label
+                ><input
+                  type="radio"
+                  name="last_treatment_when"
+                  value="A few months ago"
+                />
+                A few months ago</label
+              >
+              <label
+                ><input
+                  type="radio"
+                  name="last_treatment_when"
+                  value="A long time ago"
+                />
+                A long time ago</label
+              >
+              <label
+                ><input
+                  type="radio"
+                  name="last_treatment_when"
+                  value="I'm embarrassed to say"
+                />
+                I'm embarrassed to say</label
+              >
+            </div>
           </div>
 
           <div
@@ -756,7 +701,6 @@
               />
               <div class="slider-labels">
                 <span>0 - None</span>
-                <span>5</span>
                 <span>10 - Worst</span>
               </div>
               <div class="slider-value" id="painLevelValue"></div>
@@ -765,6 +709,71 @@
               <label style="display: flex; align-items: center; font-weight: normal;">
                 <input type="checkbox" name="painNotSure" data-testid="pain-not-sure" /> Not sure
               </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Was this caused by an accident, or is it an ongoing issue? <span class="optional">(Optional)</span></label>
+            <div class="radio-group inline compact">
+              <label><input type="radio" name="painCause" value="accident" /> Accident or specific incident</label>
+              <label><input type="radio" name="painCause" value="ongoing" /> Ongoing issue</label>
+              <label><input type="radio" name="painCause" value="not_sure" /> Not sure</label>
+            </div>
+          </div>
+
+          <div class="form-group" id="painDescriptorsGroup">
+            <label>Anything else that describes it? <span class="optional">(Optional)</span></label>
+            <div class="chip-group" style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;">
+              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
+                <input type="checkbox" name="painDescriptors" value="It comes and goes" style="margin-right: 6px;" />
+                It comes and goes
+              </label>
+              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
+                <input type="checkbox" name="painDescriptors" value="Worse with sitting" style="margin-right: 6px;" />
+                Worse with sitting
+              </label>
+              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
+                <input type="checkbox" name="painDescriptors" value="Worse with exercise" style="margin-right: 6px;" />
+                Worse with exercise
+              </label>
+              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
+                <input type="checkbox" name="painDescriptors" value="Better with movement" style="margin-right: 6px;" />
+                Better with movement
+              </label>
+              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
+                <input type="checkbox" name="painDescriptors" value="Worse in the morning" style="margin-right: 6px;" />
+                Worse in the morning
+              </label>
+              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
+                <input type="checkbox" name="painDescriptors" value="Worse at the end of the day" style="margin-right: 6px;" />
+                Worse at the end of the day
+              </label>
+              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
+                <input type="checkbox" name="painDescriptors" value="Pins and needles" style="margin-right: 6px;" />
+                Pins and needles
+              </label>
+              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
+                <input type="checkbox" name="painDescriptors" value="Numbness" style="margin-right: 6px;" />
+                Numbness
+              </label>
+              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
+                <input type="checkbox" name="painDescriptors" value="Headaches" style="margin-right: 6px;" />
+                Headaches
+              </label>
+              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
+                <input type="checkbox" name="painDescriptors" value="tell_in_person" data-testid="tell-in-person" style="margin-right: 6px;" />
+                I'd rather tell you in person
+              </label>
+            </div>
+            <div class="form-group" id="painDescriptorOtherSection" style="margin-top: 12px;">
+              <label for="painDescriptorOther">Other (optional)</label>
+              <input
+                type="text"
+                id="painDescriptorOther"
+                name="painDescriptorOther"
+                placeholder="Describe what else is happening..."
+                maxlength="200"
+              />
             </div>
           </div>
 
@@ -804,6 +813,9 @@
           <div class="muscle-map-container">
             <canvas id="muscleMapCanvas" class="muscle-map-canvas"></canvas>
             <button type="button" id="clearMuscleMap" class="btn-secondary">Clear Muscle Map</button>
+            <button type="button" id="expandBodyMap" class="btn-secondary">Expand Body Map</button>
+            <input type="hidden" id="muscleMapMarks" name="muscleMapMarks" value="[]">
+          </div>
             <button type="button" id="expandBodyMap" class="btn-secondary">Expand Body Map</button>
             <input type="hidden" id="muscleMapMarks" name="muscleMapMarks" value="[]">
           </div>
@@ -970,14 +982,6 @@
                 ><input
                   type="checkbox"
                   name="medicalConditions"
-                  value="I Feel Fine Today"
-                />
-                I Feel Fine Today</label
-              >
-              <label
-                ><input
-                  type="checkbox"
-                  name="medicalConditions"
                   value="Arthritis"
                 />
                 Arthritis</label
@@ -1085,6 +1089,15 @@
                   value="Other"
                 />
                 Other</label
+              >
+              <label
+                ><input
+                  type="checkbox"
+                  name="medicalConditions"
+                  value="None of the above"
+                  data-testid="none-of-the-above"
+                />
+                None of the above</label
               >
             </div>
           </div>
@@ -1216,16 +1229,17 @@
         >
           <h2>Step 5 - Consent &amp; Signature</h2>
 
-          <div style="margin-bottom: 12px">
-            <button
-              type="button"
-              id="viewTermsBtn"
+          <div style="margin-bottom: 16px">
+            <a
+              href="/privacy"
+              target="_blank"
+              rel="noopener noreferrer"
               class="btn-secondary"
-              style="width: 100%"
-              aria-label="View Declaration and Privacy Consent"
+              style="width: 100%; display: inline-block; text-align: center; text-decoration: none;"
+              aria-label="View Privacy Policy (opens in new tab)"
             >
-              View Declaration &amp; Privacy Consent
-            </button>
+              View Privacy Policy (opens in new tab)
+            </a>
           </div>
 
           <div class="consent-checkbox">
@@ -1238,15 +1252,8 @@
                 required
               />
               <span id="consentText"
-                >I have read and understood the Declaration &amp; Privacy Consent, and I consent to the collection and use of my personal information for treatment and administrative purposes. <span class="required">*</span></span
+                >I have read and understood the Privacy Policy, and I consent to the collection and use of my personal information for treatment and administrative purposes. <span class="required">*</span></span
               >
-            </label>
-          </div>
-
-          <div class="consent-checkbox">
-            <label>
-              <input type="checkbox" name="medicalCareDisclaimer" id="medicalCareDisclaimer" data-testid="medical-disclaimer" required />
-              <span>I understand that massage is not a substitute for medical care. If I have concerns about my health, I will seek appropriate medical advice. <span class="required">*</span></span>
             </label>
           </div>
 
@@ -1258,6 +1265,12 @@
               You can withdraw this consent at any time using the unsubscribe link in emails or by contacting us.
             </p>
           </div>
+
+          <div class="consent-checkbox">
+            <label>
+              <input type="checkbox" name="medicalCareDisclaimer" id="medicalCareDisclaimer" data-testid="medical-disclaimer" required />
+              <span>I understand that massage is not a substitute for medical care. If I have concerns about my health, I will seek appropriate medical advice. <span class="required">*</span></span>
+            </label>
           </div>
 
           <div class="signature-area">
@@ -1416,7 +1429,13 @@
                 section.style.display = "none";
                 // Clear the field when hiding
                 const inputs = section.querySelectorAll("input, textarea");
-                inputs.forEach((input) => (input.value = ""));
+                inputs.forEach((input) => {
+                  if (input.type === "radio" || input.type === "checkbox") {
+                    input.checked = false;
+                  } else {
+                    input.value = "";
+                  }
+                });
               }
             });
           });
@@ -1459,7 +1478,7 @@
           "conditionsDetailsSection",
         );
 
-        // Medical conditions checkboxes - show details when conditions other than "I Feel Fine Today" are checked
+        // Medical conditions checkboxes - show details when conditions other than "None of the above" are checked
         const conditionCheckboxes = document.querySelectorAll(
           'input[name="medicalConditions"]',
         );
@@ -1472,7 +1491,7 @@
             'input[name="medicalConditions"]:checked',
           );
           const hasConditions = Array.from(checkedConditions).some(
-            (cb) => cb.value !== "I Feel Fine Today",
+            (cb) => cb.value !== "None of the above",
           );
 
           if (injuriesYes || hasConditions) {
@@ -1492,10 +1511,40 @@
           cb.addEventListener("change", updateConditionsVisibility),
         );
 
+        // Handle "None of the above" mutual exclusivity for medical conditions
+        const noneOfTheAboveCheckbox = document.querySelector('input[name="medicalConditions"][value="None of the above"]');
+        const otherConditionCheckboxes = document.querySelectorAll('input[name="medicalConditions"]:not([value="None of the above"])');
+
+        function handleNoneOfTheAboveLogic() {
+          if (noneOfTheAboveCheckbox && noneOfTheAboveCheckbox.checked) {
+            // Uncheck all other medical conditions
+            otherConditionCheckboxes.forEach((checkbox) => {
+              checkbox.checked = false;
+            });
+          }
+        }
+
+        function handleOtherConditionsLogic() {
+          // If any other condition is checked, uncheck "None of the above"
+          const hasOtherConditions = Array.from(otherConditionCheckboxes).some(cb => cb.checked);
+          if (hasOtherConditions && noneOfTheAboveCheckbox) {
+            noneOfTheAboveCheckbox.checked = false;
+          }
+        }
+
+        if (noneOfTheAboveCheckbox) {
+          noneOfTheAboveCheckbox.addEventListener("change", handleNoneOfTheAboveLogic);
+        }
+
+        otherConditionCheckboxes.forEach((checkbox) => {
+          checkbox.addEventListener("change", handleOtherConditionsLogic);
+        });
+
         // Slider value display updates
         const sliders = [
           { id: "sleepQuality", valueId: "sleepQualityValue" },
           { id: "stressLevel", valueId: "stressLevelValue" },
+          { id: "painLevel", valueId: "painLevelValue" },
         ];
 
         sliders.forEach(({ id, valueId }) => {
@@ -1510,6 +1559,46 @@
             });
           }
         });
+
+        // Pain descriptors "I'd rather tell you in person" logic
+        const painDescriptorCheckboxes = document.querySelectorAll('input[name="painDescriptors"]');
+        const tellInPersonCheckbox = document.querySelector('input[name="painDescriptors"][value="tell_in_person"]');
+        const painDescriptorOtherSection = document.getElementById("painDescriptorOtherSection");
+
+        function handlePainDescriptorsVisibility() {
+          if (tellInPersonCheckbox && tellInPersonCheckbox.checked) {
+            // Hide and clear all other pain descriptors
+            painDescriptorCheckboxes.forEach((checkbox) => {
+              if (checkbox.value !== "tell_in_person") {
+                checkbox.checked = false;
+                checkbox.parentElement.style.opacity = "0.5";
+                checkbox.disabled = true;
+              }
+            });
+            // Hide and clear the "Other" input
+            if (painDescriptorOtherSection) {
+              painDescriptorOtherSection.style.display = "none";
+              const otherInput = document.getElementById("painDescriptorOther");
+              if (otherInput) otherInput.value = "";
+            }
+          } else {
+            // Show all options
+            painDescriptorCheckboxes.forEach((checkbox) => {
+              if (checkbox.value !== "tell_in_person") {
+                checkbox.parentElement.style.opacity = "1";
+                checkbox.disabled = false;
+              }
+            });
+            // Show the "Other" input
+            if (painDescriptorOtherSection) {
+              painDescriptorOtherSection.style.display = "block";
+            }
+          }
+        }
+
+        if (tellInPersonCheckbox) {
+          tellInPersonCheckbox.addEventListener("change", handlePainDescriptorsVisibility);
+        }
       });
     </script>
   </body>

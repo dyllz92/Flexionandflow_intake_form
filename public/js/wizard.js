@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  const TOTAL_STEPS = 4;
+  const TOTAL_STEPS = 5;
   let currentStep = 1;
 
   // DOM Elements
@@ -14,7 +14,7 @@
     stepValidationMessageEl,
     stepStatusEl;
 
-  const stepTouched = { 1: false, 2: false, 3: false, 4: false };
+  const stepTouched = { 1: false, 2: false, 3: false, 4: false, 5: false };
 
   function parseDateValue(value) {
     const match = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(value.trim());
@@ -73,11 +73,11 @@
         break;
       }
       case 2: {
-        const visitReasonsInputs = document.querySelectorAll(
-          'input[name="visitReasons"]',
+        const visitGoalsInputs = document.querySelectorAll(
+          'input[name="visitGoals"]',
         );
-        const visitReasons = document.querySelectorAll(
-          'input[name="visitReasons"]:checked',
+        const visitGoals = document.querySelectorAll(
+          'input[name="visitGoals"]:checked',
         );
         const referralSourceInputs = document.querySelectorAll(
           'input[name="referralSource"]',
@@ -100,11 +100,10 @@
         const previousMassage = document.querySelectorAll(
           'input[name="previousMassage"]:checked',
         );
-        const lastTreatmentDate = document.getElementById("lastTreatmentDate");
 
-        if (visitReasonsInputs.length && visitReasons.length === 0)
+        if (visitGoalsInputs.length && visitGoals.length === 0)
           invalidate(
-            visitReasonsInputs[0],
+            visitGoalsInputs[0],
             "Please select at least one reason for your visit.",
           );
         else if (referralSourceInputs.length && referralSource.length === 0)
@@ -138,15 +137,6 @@
           invalidate(
             previousMassageInputs[0],
             "Please indicate if you have previous massage experience.",
-          );
-        else if (
-          lastTreatmentDate &&
-          lastTreatmentDate.value.trim() &&
-          !isValidDateInput(lastTreatmentDate)
-        ) {
-          invalidate(
-            lastTreatmentDate,
-            "Please enter your last treatment date in DD/MM/YYYY format.",
           );
         }
         break;
@@ -255,6 +245,11 @@
         break;
       }
       case 4: {
+        // Step 4: Pain & Signals - All fields are optional
+        // No required validation needed for this step
+        break;
+      }
+      case 5: {
         const consentAll = document.getElementById("consentAll");
         const medicalCareDisclaimer = document.getElementById(
           "medicalCareDisclaimer",
@@ -262,7 +257,7 @@
         if (!consentAll || !consentAll.checked)
           invalidate(
             consentAll,
-            "Please confirm you have read and agreed to the Declaration & Privacy Consent.",
+            "Please confirm you have read and agreed to the Privacy Policy.",
           );
         else if (!medicalCareDisclaimer || !medicalCareDisclaimer.checked)
           invalidate(

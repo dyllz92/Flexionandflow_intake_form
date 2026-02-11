@@ -135,10 +135,10 @@ export const smokeConfig = {
         },
 
         // === STEP 2: About Your Visit ===
-        // Select visit reason
+        // Select visit goals (new multi-select chip structure)
         {
           action: "click" as const,
-          locator: 'input[name="visitReasons"][value="Relieve pain / tension"]',
+          locator: 'input[name="visitGoals"][value="Relieve pain"]',
           type: "css" as const,
         },
         // Select referral source
@@ -181,9 +181,6 @@ export const smokeConfig = {
           type: "css" as const,
         },
 
-        // Optional fields - leave empty to test form works with min fields
-        // pain-slider, worse-than-usual, pressure-preference, areas-to-avoid are all optional
-
         // Click Next and wait for Step 3
         {
           action: "click" as const,
@@ -215,10 +212,10 @@ export const smokeConfig = {
           locator: 'input[name="hasRecentInjuries"][value="No"]',
           type: "css" as const,
         },
-        // Medical conditions - select "I Feel Fine Today"
+        // Medical conditions - select "None of the above"
         {
           action: "click" as const,
-          locator: 'input[name="medicalConditions"][value="I Feel Fine Today"]',
+          locator: 'input[name="medicalConditions"][value="None of the above"]',
           type: "css" as const,
         },
         // Pregnant/breastfeeding - select Not applicable
@@ -241,7 +238,28 @@ export const smokeConfig = {
           type: "testid" as const,
         },
 
-        // === STEP 4: Consent & Signature ===
+        // === STEP 4: Pain & Signals ===
+        // Skip optional pain level (by not interacting with slider)
+        // Skip optional pain cause question
+        // Skip optional pain descriptors
+        // Skip optional "worse than usual"
+        // Skip optional pressure preference
+        // Skip optional areas to avoid
+        // Skip optional body map
+
+        // Click Next and wait for Step 5
+        {
+          action: "click" as const,
+          locator: "wizard-next",
+          type: "testid" as const,
+        },
+        {
+          action: "wait" as const,
+          locator: "intake-step-5",
+          type: "testid" as const,
+        },
+
+        // === STEP 5: Consent & Signature ===
         // Check required consent boxes
         {
           action: "check" as const,
