@@ -174,7 +174,7 @@
               name="dateOfBirth"
               data-testid="dateOfBirth"
               class="date-input"
-              placeholder="DD/MM/YYYY"
+              placeholder="15/09/1992"
               inputmode="numeric"
               autocomplete="bday"
               data-max-date="today"
@@ -209,49 +209,34 @@
             />
           </div>
 
-          <div style="margin: 28px 0; border-top: 1px solid var(--border-color);"></div>
+          <div class="emergency-contact-section">
+            <h3 class="emergency-contact-heading">Emergency Contact Information</h3>
+            <div class="emergency-contact-container">
+              <div class="form-group">
+                <label for="emergencyName">Name:</label>
+                <input type="text" id="emergencyName" name="emergencyName" placeholder="Emergency contact name" />
+              </div>
 
-          <h3
-            style="
-              margin-top: 8px;
-              margin-bottom: 16px;
-              font-size: 16px;
-              color: var(--primary-color);
-            "
-          ><span
-              style="
-                font-weight: normal;
-                font-size: 13px;
-                color: var(--text-light);
-              "
-              ></span
-            >
-          </h3>
+              <div class="form-group">
+                <label for="emergencyRelationship">Relationship:</label>
+                <input
+                  type="text"
+                  id="emergencyRelationship"
+                  name="emergencyRelationship"
+                  placeholder="e.g., Partner, Parent, Friend"
+                />
+              </div>
 
-          <div class="form-group">
-            <label for="emergencyName">Emergency Contact:</label>
-            <input type="text" id="emergencyName" name="emergencyName" />
-            
-          </div>
-
-          <div class="form-group">
-            <label for="emergencyRelationship">Relationship:</label>
-            <input
-              type="text"
-              id="emergencyRelationship"
-              name="emergencyRelationship"
-              placeholder="e.g., Partner, Parent, Friend"
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="emergencyPhone">Emergency Contact Phone:</label>
-            <input
-              type="tel"
-              id="emergencyPhone"
-              name="emergencyPhone"
-              placeholder="e.g., 0412 345 678"
-            />
+              <div class="form-group">
+                <label for="emergencyPhone">Phone:</label>
+                <input
+                  type="tel"
+                  id="emergencyPhone"
+                  name="emergencyPhone"
+                  placeholder="e.g., 0412 345 678"
+                />
+              </div>
+            </div>
           </div>
         </div>
 

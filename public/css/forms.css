@@ -179,6 +179,7 @@ body {
   border: 2px solid var(--primary-color);
   border-radius: 14px;
   padding: 16px 32px;
+  min-height: 44px;
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -561,6 +562,137 @@ textarea.is-invalid {
 textarea {
   resize: vertical;
   min-height: 80px;
+}
+
+/* ========================================
+   STEP 1 SPECIFIC STYLES
+   ======================================== */
+
+/* Step 1 header typography */
+[data-step="1"] h2 {
+  font-size: 24px !important;
+  font-weight: 600 !important;
+  margin-bottom: 24px !important;
+}
+
+/* Step 1 form labels */
+[data-step="1"] .form-group label {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 12px;
+  display: block;
+}
+
+/* Step 1 required asterisks */
+[data-step="1"] .required {
+  color: #ef4444;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Step 1 form field spacing */
+[data-step="1"] .form-group {
+  margin-bottom: 24px;
+}
+
+/* Step 1 input fields */
+[data-step="1"] input[type="text"],
+[data-step="1"] input[type="email"],
+[data-step="1"] input[type="tel"],
+[data-step="1"] select {
+  padding: 12px 16px;
+  min-height: 44px;
+  font-size: 16px;
+}
+
+/* Step 1 dividers */
+[data-step="1"] > div[style*="border-top"] {
+  margin: 32px 0 !important;
+}
+
+/* Emergency Contact Section */
+[data-step="1"] .emergency-contact-section {
+  margin-top: 48px;
+}
+
+[data-step="1"] .emergency-contact-heading {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 16px;
+}
+
+[data-step="1"] .emergency-contact-container {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+[data-step="1"] .emergency-contact-container .form-group {
+  margin-bottom: 20px;
+}
+
+[data-step="1"] .emergency-contact-container .form-group:last-child {
+  margin-bottom: 0;
+}
+
+/* Gender buttons styling */
+[data-step="1"] .radio-group.inline.compact {
+  gap: 12px;
+}
+
+[data-step="1"] .radio-group.inline.compact label {
+  min-width: 120px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: white;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+[data-step="1"] .radio-group.inline.compact label:hover {
+  border-color: var(--primary-color);
+  background: #f0f9ff;
+}
+
+[data-step="1"]
+  .radio-group.inline.compact
+  label:has(input[type="radio"]:checked) {
+  background: #2563eb;
+  color: white;
+  border-color: #2563eb;
+  border-width: 2px;
+}
+
+[data-step="1"] .radio-group.inline.compact input[type="radio"] {
+  display: none;
+}
+
+/* Helper text */
+[data-step="1"] p[style*="font-size: 13px"] {
+  font-size: 13px !important;
+  color: var(--text-light);
+}
+
+/* Two-column layout for First/Last Name on desktop */
+@media (min-width: 768px) {
+  [data-step="1"] .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  [data-step="1"] .form-row .form-group {
+    margin-bottom: 24px;
+  }
 }
 
 /* Radio and Checkbox Groups */
