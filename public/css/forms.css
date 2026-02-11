@@ -308,6 +308,8 @@ input[type="radio"] {
 .wizard-step {
   display: none;
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 .wizard-step.active {
   display: block;
@@ -474,6 +476,8 @@ input[type="radio"] {
   padding: 20px;
   background: var(--bg-light);
   border-radius: 10px;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .form-section h2 {
@@ -497,6 +501,8 @@ input[type="radio"] {
 
 .form-group {
   margin-bottom: 20px;
+  box-sizing: border-box;
+  max-width: 100%;
 }
 
 .form-group label {
@@ -563,6 +569,8 @@ textarea {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .radio-group.inline {
@@ -593,6 +601,8 @@ textarea {
   grid-template-columns: 2fr 1fr;
   gap: 12px;
   align-items: start;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 [data-step="2"] .checkbox-group.grid-4-3 .grid-left {
@@ -617,6 +627,8 @@ textarea {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 [data-step="2"] .radio-group.grid-3-2 .grid-left {
@@ -636,6 +648,8 @@ textarea {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 [data-step="2"] .radio-group.grid-3-3 .grid-left {
@@ -655,11 +669,14 @@ textarea {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 [data-step="3"] .checkbox-group:not(.inline) label {
   margin: 0;
   width: 100%;
+  box-sizing: border-box;
 }
 
 @media (min-width: 768px) {
@@ -729,16 +746,16 @@ textarea {
   [data-step="2"] .radio-group.grid-3-3 .grid-right {
     display: contents;
   }
-  
+
   [data-step="3"] .checkbox-group:not(.inline) {
     grid-template-columns: 1fr;
   }
-  
+
   [data-step="3"] .radio-group.inline {
     flex-direction: column;
     gap: 10px;
   }
-  
+
   [data-step="3"] .radio-group.inline label {
     width: 100%;
   }
