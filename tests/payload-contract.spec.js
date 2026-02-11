@@ -64,11 +64,17 @@ test.describe("Form Payload Contract", () => {
     });
 
     // === STEP 2: About Your Visit ===
-    // Visit reasons (at least one)
-    await page.click('input[name="visitReasons"][value="General wellness"]');
+    // Click visible labels instead of hidden inputs
+    const painReasonLabel = page.locator(
+      '.checkbox-group label:has(input[name="visitReasons"][value="Relieve pain / tension"])',
+    );
+    await painReasonLabel.click();
 
     // Referral source
-    await page.click('input[name="referralSource"][value="Friend / Family"]');
+    const referralLabel = page.locator(
+      '.radio-group label:has(input[name="referralSource"][value="Word of mouth"])',
+    );
+    await referralLabel.click();
 
     // Occupation
     await page.fill('input[name="occupation"]', "Tester");
@@ -81,21 +87,31 @@ test.describe("Form Payload Contract", () => {
     });
 
     // Worse today (set to "Yes")
-    await page.click('input[name="worseToday"][value="Yes"]');
+    const worseLabel = page.locator(
+      '.radio-group label:has(input[name="worseToday"][value="Yes"])',
+    );
+    await worseLabel.click();
 
     // Pressure preference (set to "Medium")
-    await page.click('input[name="pressurePreference"][value="Medium"]');
+    const pressureLabel = page.locator(
+      '.radio-group label:has(input[name="pressurePreference"][value="Medium"])',
+    );
+    await pressureLabel.click();
 
     // Areas to avoid (set to something)
     await page.fill("#areasToAvoid", "Right shoulder");
 
     // Exercise frequency
-    await page.click(
-      'input[name="exerciseFrequency"][value="2-3 times per week"]',
+    const exerciseLabel = page.locator(
+      '.radio-group label:has(input[name="exerciseFrequency"][value="3-4 days per week"])',
     );
+    await exerciseLabel.click();
 
     // Previous massage
-    await page.click('input[name="previousMassage"][value="Yes"]');
+    const massageLabel = page.locator(
+      '.radio-group label:has(input[name="previousMassage"][value="Yes"])',
+    );
+    await massageLabel.click();
 
     // Sleep quality slider
     await page.locator("#sleepQuality").evaluate((el) => {
@@ -125,22 +141,42 @@ test.describe("Form Payload Contract", () => {
     });
 
     // Taking medications: No
-    await page.click('input[name="takingMedications"][value="No"]');
+    const medsLabel = page.locator(
+      '.radio-group.inline label:has(input[name="takingMedications"][value="No"])',
+    );
+    await medsLabel.click();
 
     // Allergies: No
-    await page.click('input[name="allergies"][value="No"]');
+    const allergiesLabel = page.locator(
+      '.radio-group.inline label:has(input[name="hasAllergies"][value="No"])',
+    );
+    await allergiesLabel.click();
 
     // Recent injuries: No
-    await page.click('input[name="recentInjuries"][value="No"]');
+    const injuryLabel = page.locator(
+      '.radio-group.inline label:has(input[name="hasRecentInjuries"][value="No"])',
+    );
+    await injuryLabel.click();
 
     // Medical conditions (at least one)
-    await page.click('input[name="medicalConditions"][value="None"]');
+    const conditionLabel = page.locator(
+      '.checkbox-group label:has(input[name="medicalConditions"][value="I Feel Fine Today"])',
+    );
+    await conditionLabel.click();
 
-    // Seen other provider: No
-    await page.click('input[name="seenOtherProvider"][value="No"]');
+    // Seen other provider: No (skip if not visible)
+    const providerLabel = page.locator(
+      '.radio-group.inline label:has(input[name="seenOtherProvider"][value="No"])',
+    );
+    if (await providerLabel.isVisible()) {
+      await providerLabel.click();
+    }
 
     // Pregnant/breastfeeding: No
-    await page.click('input[name="pregnantBreastFeeding"][value="No"]');
+    const pregnantLabel = page.locator(
+      '.radio-group.inline label:has(input[name="pregnantBreastFeeding"][value="No"])',
+    );
+    await pregnantLabel.click();
 
     await page.waitForTimeout(250);
     await page.click("#nextBtn");
@@ -151,7 +187,8 @@ test.describe("Form Payload Contract", () => {
     });
 
     // Check consent
-    await page.click("#consentAll");
+    const consentLabel = page.locator("label:has(input#consentAll)");
+    await consentLabel.click();
 
     // Draw a simple signature
     const canvas = page.locator("canvas").first();
@@ -257,13 +294,23 @@ test.describe("Form Payload Contract", () => {
     });
 
     // Fill only REQUIRED fields on Step 2
-    await page.click('input[name="visitReasons"][value="General wellness"]');
-    await page.click('input[name="referralSource"][value="Friend / Family"]');
-    await page.fill('input[name="occupation"]', "Tester");
-    await page.click(
-      'input[name="exerciseFrequency"][value="2-3 times per week"]',
+    const painLabel2 = page.locator(
+      '.checkbox-group label:has(input[name="visitReasons"][value="Relieve pain / tension"])',
     );
-    await page.click('input[name="previousMassage"][value="Yes"]');
+    await painLabel2.click();
+    const referralLabel2 = page.locator(
+      '.radio-group label:has(input[name="referralSource"][value="Word of mouth"])',
+    );
+    await referralLabel2.click();
+    await page.fill('input[name="occupation"]', "Tester");
+    const exerciseLabel2 = page.locator(
+      '.radio-group label:has(input[name="exerciseFrequency"][value="3-4 days per week"])',
+    );
+    await exerciseLabel2.click();
+    const massageLabel2 = page.locator(
+      '.radio-group label:has(input[name="previousMassage"][value="Yes"])',
+    );
+    await massageLabel2.click();
 
     // Do NOT fill optional fields:
     // - painLevel
@@ -285,12 +332,32 @@ test.describe("Form Payload Contract", () => {
     });
 
     // Minimal health history
-    await page.click('input[name="takingMedications"][value="No"]');
-    await page.click('input[name="allergies"][value="No"]');
-    await page.click('input[name="recentInjuries"][value="No"]');
-    await page.click('input[name="medicalConditions"][value="None"]');
-    await page.click('input[name="seenOtherProvider"][value="No"]');
-    await page.click('input[name="pregnantBreastFeeding"][value="No"]');
+    const medsLabel2 = page.locator(
+      '.radio-group.inline label:has(input[name="takingMedications"][value="No"])',
+    );
+    await medsLabel2.click();
+    const allergiesLabel2 = page.locator(
+      '.radio-group.inline label:has(input[name="hasAllergies"][value="No"])',
+    );
+    await allergiesLabel2.click();
+    const injuryLabel2 = page.locator(
+      '.radio-group.inline label:has(input[name="hasRecentInjuries"][value="No"])',
+    );
+    await injuryLabel2.click();
+    const conditionLabel2 = page.locator(
+      '.checkbox-group label:has(input[name="medicalConditions"][value="I Feel Fine Today"])',
+    );
+    await conditionLabel2.click();
+    const providerLabel2 = page.locator(
+      '.radio-group.inline label:has(input[name="seenOtherProvider"][value="No"])',
+    );
+    if (await providerLabel2.isVisible()) {
+      await providerLabel2.click();
+    }
+    const pregnantLabel2 = page.locator(
+      '.radio-group.inline label:has(input[name="pregnantBreastFeeding"][value="No"])',
+    );
+    await pregnantLabel2.click();
 
     await page.waitForTimeout(250);
     await page.click("#nextBtn");
