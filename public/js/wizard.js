@@ -138,7 +138,6 @@
             previousMassageInputs[0],
             "Please indicate if you have previous massage experience.",
           );
-        }
         break;
       }
       case 3: {
@@ -295,8 +294,12 @@
     createValidationToast();
 
     // Set up event listeners
-    if (prevBtn) prevBtn.addEventListener("click", goToPrevStep);
-    if (nextBtn) nextBtn.addEventListener("click", goToNextStep);
+    if (prevBtn) {
+      prevBtn.addEventListener("click", goToPrevStep);
+    }
+    if (nextBtn) {
+      nextBtn.addEventListener("click", goToNextStep);
+    }
 
     stepIndicators.forEach((indicator) => {
       indicator.addEventListener("click", () => {
@@ -322,13 +325,7 @@
   }
 
   function handleFieldInteraction(event) {
-    if (
-      event.target &&
-      event.target.closest &&
-      event.target.closest(".wizard-step")
-    ) {
-      stepTouched[currentStep] = true;
-    }
+    // Only update button states, don't mark step as touched until user tries to proceed
     updateButtonStates();
   }
 
@@ -341,7 +338,7 @@
       const isLabelClick =
         event.target.tagName === "LABEL" || event.target.closest("label");
       if (isLabelClick) {
-        stepTouched[currentStep] = true;
+        // Only update button states, don't mark step as touched until user tries to proceed
         setTimeout(updateButtonStates, 0);
       }
     }
@@ -404,8 +401,8 @@
       stepCountEl.textContent = `Step ${currentStep} of ${TOTAL_STEPS}`;
     }
 
-    // Ensure signature pad is resized/available on step 4 (signature step)
-    if (currentStep === 4 && window.signaturePad) {
+    // Ensure signature pad is resized/available on step 5 (signature step)
+    if (currentStep === 5 && window.signaturePad) {
       setTimeout(() => {
         try {
           // Resize canvas and re-setup drawing settings
@@ -583,20 +580,20 @@
     // Previous button: hidden on step 1
     prevBtn.style.display = currentStep === 1 ? "none" : "block";
 
-    // Next button: visible on steps 1-3, hidden on step 4
+    // Next button: visible on steps 1-4, hidden on step 5
     nextBtn.style.display = currentStep < TOTAL_STEPS ? "block" : "none";
 
-    // Submit button: visible only on step 4
+    // Submit button: visible only on step 5
     submitBtn.style.display = currentStep === TOTAL_STEPS ? "block" : "none";
 
     const state = getValidationState(currentStep);
 
-    // Enable/disable next button based on validation
+    // Always enable next button - validation happens on click
     if (currentStep < TOTAL_STEPS) {
-      nextBtn.disabled = !state.valid;
+      nextBtn.disabled = false;
     }
 
-    // Enable/disable submit button
+    // Enable/disable submit button based on validation for final step
     if (currentStep === TOTAL_STEPS) {
       submitBtn.disabled = !state.valid;
     }
