@@ -7,6 +7,50 @@ test.describe("Intake Form Submission Flow", () => {
     await page.evaluate(() => {
       window._E2E_MODE = true;
     });
+    // Give the page a moment to load
+    await page.waitForTimeout(1000);
+  });
+
+  test("debug navigation to step 2", async ({ page }) => {
+    // Fill Step 1 fields
+    await page.fill("#firstName", "John");
+    await page.fill("#lastName", "Doe");
+    await page.fill("#email", "john.doe@example.com");
+    await page.fill("#mobile", "0412345678");
+
+    // Fill date programmatically
+    await page.locator("#dateOfBirth").evaluate((el) => {
+      el.value = "15/06/1990";
+      el.dispatchEvent(new Event("input", { bubbles: true }));
+      el.dispatchEvent(new Event("change", { bubbles: true }));
+    });
+
+    // Close any date picker
+    await page.keyboard.press("Escape");
+    await page.waitForTimeout(1000);
+
+    // Check if next button is enabled
+    const nextBtn = page.locator("#nextBtn");
+    const isEnabled = await nextBtn.isEnabled();
+    console.log("Next button enabled:", isEnabled);
+
+    // Check current step
+    const currentStep = await page.textContent("#stepCount");
+    console.log("Current step before click:", currentStep);
+
+    // Try to click next
+    await nextBtn.click();
+
+    // Wait and check if we moved to step 2
+    await page.waitForTimeout(2000);
+    const newStep = await page.textContent("#stepCount");
+    console.log("Step after click:", newStep);
+
+    // Check for any errors in console
+    const logs = [];
+    page.on("console", (msg) => logs.push(msg.text()));
+
+    expect(newStep).toContain("Step 2");
   });
 
   test("should complete Step 1 - Your Details", async ({ page }) => {
@@ -20,11 +64,16 @@ test.describe("Intake Form Submission Flow", () => {
     await page.fill("#email", "john.doe@example.com");
     await page.fill("#mobile", "0412345678");
 
-    // Fill date of birth (DD/MM/YYYY)
-    await page.fill("#dateOfBirth", "15/06/1990");
+    // Fill date of birth without triggering date picker
+    await page.locator("#dateOfBirth").evaluate((el) => {
+      el.value = "15/06/1990";
+      el.dispatchEvent(new Event("input", { bubbles: true }));
+      el.dispatchEvent(new Event("change", { bubbles: true }));
+    });
 
-    // Wait for form to validate
-    await page.waitForTimeout(500);
+    // Dismiss any date picker
+    await page.keyboard.press("Escape");
+    await page.waitForTimeout(200);
 
     // Next button should be enabled
     const nextBtn = page.locator("#nextBtn");
@@ -39,7 +88,16 @@ test.describe("Intake Form Submission Flow", () => {
     await page.fill("#lastName", "Smith");
     await page.fill("#email", "jane.smith@example.com");
     await page.fill("#mobile", "0487654321");
-    await page.fill("#dateOfBirth", "22/03/1985");
+    // Fill date without triggering picker
+    await page.locator("#dateOfBirth").evaluate((el) => {
+      el.value = "22/03/1985";
+      el.dispatchEvent(new Event("input", { bubbles: true }));
+      el.dispatchEvent(new Event("change", { bubbles: true }));
+    });
+
+    // Dismiss any date picker
+    await page.keyboard.press("Escape");
+    await page.waitForTimeout(200);
 
     // Click Next to go to Step 2
     await page.click("#nextBtn");
@@ -66,8 +124,12 @@ test.describe("Intake Form Submission Flow", () => {
     await googleButton.click();
     await page.waitForTimeout(100);
 
-    // Fill in occupation
-    await page.fill("#occupation", "Software Engineer");
+    // Fill in occupation using evaluate method
+    await page.locator("#occupation").evaluate((el) => {
+      el.value = "Software Engineer";
+      el.dispatchEvent(new Event("input", { bubbles: true }));
+      el.dispatchEvent(new Event("change", { bubbles: true }));
+    });
     await page.waitForTimeout(100);
 
     // Adjust sleep quality slider (has default value of 5, so technically always valid)
@@ -131,9 +193,28 @@ test.describe("Intake Form Submission Flow", () => {
     await page.fill("#lastName", "User");
     await page.fill("#email", "test.user@example.com");
     await page.fill("#mobile", "0412345678");
-    await page.fill("#dateOfBirth", "10/01/1992");
+    // Fill date of birth without triggering date picker
+    await page.locator("#dateOfBirth").evaluate((el) => {
+      el.value = "10/01/1992";
+      el.dispatchEvent(new Event("input", { bubbles: true }));
+      el.dispatchEvent(new Event("change", { bubbles: true }));
+    });
 
-    await page.click("#nextBtn");
+    // Fill occupation (also on Step 1) using evaluate method
+    await page.locator("#occupation").evaluate((el) => {
+      el.value = "Designer";
+      el.dispatchEvent(new Event("input", { bubbles: true }));
+      el.dispatchEvent(new Event("change", { bubbles: true }));
+    });
+
+    // Dismiss any open date picker by pressing Escape
+    await page.keyboard.press("Escape");
+
+    // Wait a moment for date picker to close
+    await page.waitForTimeout(500);
+
+    // Click next button and wait for Step 2
+    await page.click('[data-testid="wizard-next"]');
     await page.waitForSelector('.wizard-step[data-step="2"].active');
 
     // Step 2: About Your Visit
@@ -147,8 +228,6 @@ test.describe("Intake Form Submission Flow", () => {
       '.referral-btn[data-value="Word of mouth"]',
     );
     await referralButton.click();
-
-    await page.fill("#occupation", "Designer");
 
     // Set sliders using evaluate to ensure proper event dispatch
     await page.locator("#sleepQuality").evaluate((el) => {
@@ -171,50 +250,57 @@ test.describe("Intake Form Submission Flow", () => {
     const noMassageButton = page.locator('.toggle-btn[data-value="No"]');
     await noMassageButton.click();
 
-    await page.waitForTimeout(750);
-    await page.click("#nextBtn");
+    // Wait for validation update
+    await page.waitForFunction(() => {
+      const nextBtn = document.getElementById("nextBtn");
+      return nextBtn && !nextBtn.disabled;
+    });
+
+    await page.click('[data-testid="wizard-next"]');
     await page.waitForSelector('.wizard-step[data-step="3"].active');
 
     // Step 3: Health History
-    // Click visible labels for radio buttons
-    const noMedsLabel = page.locator(
-      '.radio-group.inline label:has(input[name="takingMedications"][value="No"])',
+    // Click toggle buttons for medications, allergies, etc.
+    const noMedsButton = page.locator(
+      '.toggle-btn[data-name="takingMedications"][data-value="No"]',
     );
-    await noMedsLabel.click();
+    await noMedsButton.click();
 
-    const noAllergiesLabel = page.locator(
-      '.radio-group.inline label:has(input[name="hasAllergies"][value="No"])',
+    const noAllergiesButton = page.locator(
+      '.toggle-btn[data-name="hasAllergies"][data-value="No"]',
     );
-    await noAllergiesLabel.click();
+    await noAllergiesButton.click();
 
-    const noInjuriesLabel = page.locator(
-      '.radio-group.inline label:has(input[name="hasRecentInjuries"][value="No"])',
+    // Click "None of the above" for health conditions
+    const noneConditionButton = page.locator(
+      '.condition-btn[data-value="None of the above"]',
     );
-    await noInjuriesLabel.click();
+    await noneConditionButton.click();
 
-    // Click the "I Feel Fine Today" checkbox label
-    const fineLabel = page.locator(
-      '.checkbox-group label:has(input[name="medicalConditions"][value="I Feel Fine Today"])',
+    // Click toggle button for pregnancy/breastfeeding
+    const notApplicablePregnancyButton = page.locator(
+      '.pregnancy-btn[data-value="Not applicable"]',
     );
-    await fineLabel.click();
+    await notApplicablePregnancyButton.click();
 
-    const noProviderLabel = page.locator(
-      '.radio-group.inline label:has(input[name="seenOtherProvider"][value="No"])',
-    );
-    await noProviderLabel.click();
+    // Wait for validation and navigate
+    await page.waitForFunction(() => {
+      const nextBtn = document.getElementById("nextBtn");
+      return nextBtn && !nextBtn.disabled;
+    });
 
-    const notApplicableLabel = page.locator(
-      '.radio-group.inline label:has(input[name="pregnantBreastfeeding"][value="Not applicable"])',
-    );
-    await notApplicableLabel.click();
-
-    await page.waitForTimeout(750);
-    await page.click("#nextBtn");
+    await page.click('[data-testid="wizard-next"]');
     await page.waitForSelector('.wizard-step[data-step="4"].active');
 
-    // Step 4: Consent & Signature
-    // Agree to the consent
+    // Step 4: Skip pain assessment (optional)
+    // Just navigate to Step 5
+    await page.click('[data-testid="wizard-next"]');
+    await page.waitForSelector('.wizard-step[data-step="5"].active');
+
+    // Step 5: Consent & Signature
+    // Agree to the required consents
     await page.check("#consentAll");
+    await page.check("#medicalCareDisclaimer");
 
     // Draw a simple signature on the canvas
     const canvas = page.locator("#signatureCanvas");

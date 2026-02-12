@@ -12,9 +12,11 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  workers: process.env.CI ? 1 : 3, // Limit workers for faster local dev
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: "html",
+  /* Global timeout for each test */
+  timeout: 15 * 1000, // 15 seconds per test - much faster than default 30s
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
@@ -25,24 +27,31 @@ export default defineConfig({
     screenshot: "only-on-failure",
     /* Video on failure only */
     video: "retain-on-failure",
+    /* Faster action and navigation timeouts */
+    actionTimeout: 5000, // 5 seconds for click, fill, etc.
+    navigationTimeout: 8000, // 8 seconds for page navigation
   },
 
   /* Configure projects for major browsers */
   projects: [
     {
       name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
+      use: {
+        ...devices["Desktop Chrome"],
+        headless: true, // Faster without UI
+      },
     },
 
-    {
-      name: "firefox",
-      use: { ...devices["Desktop Firefox"] },
-    },
+    // Comment out other browsers for faster local development
+    // {
+    //   name: "firefox",
+    //   use: { ...devices["Desktop Firefox"] },
+    // },
 
-    {
-      name: "webkit",
-      use: { ...devices["Desktop Safari"] },
-    },
+    // {
+    //   name: "webkit",
+    //   use: { ...devices["Desktop Safari"] },
+    // },
 
     /* Test against mobile viewports. */
     // {

@@ -37,8 +37,16 @@
           border-radius: 12px;
         "
       >
-        <p style="margin: 0; font-size: 14px; color: var(--text-dark); line-height: 1.5;">
-          Welcome! Please complete this intake form to help us provide you with the best possible service.
+        <p
+          style="
+            margin: 0;
+            font-size: 14px;
+            color: var(--text-dark);
+            line-height: 1.5;
+          "
+        >
+          Welcome! Please complete this intake form to help us provide you with
+          the best possible service.
         </p>
       </div>
 
@@ -89,7 +97,11 @@
         />
 
         <!-- Step 1: Your Details -->
-        <div class="wizard-step form-section active" data-step="1" data-testid="intake-step-1">
+        <div
+          class="wizard-step form-section active"
+          data-step="1"
+          data-testid="intake-step-1"
+        >
           <h2>Step 1 - Your Details</h2>
 
           <div class="form-row">
@@ -119,24 +131,52 @@
             </div>
           </div>
 
-          <div class="form-group hidden-field" id="pronounsSelfDescribeGroup" style="display: none;">
+          <div
+            class="form-group hidden-field"
+            id="pronounsSelfDescribeGroup"
+            style="display: none"
+          >
             <label for="pronounsSelfDescribe"
-              >Please describe your pronouns:</label>
+              >Please describe your pronouns:</label
+            >
           </div>
 
           <div class="form-group">
             <label for="gender"
               >Gender
-              <span style="font-weight: normal; font-size: 13px; color: var(--text-light);">(optional)</span></label
+              <span
+                style="
+                  font-weight: normal;
+                  font-size: 13px;
+                  color: var(--text-light);
+                "
+                >(optional)</span
+              ></label
             >
             <div class="radio-group inline compact">
-              <label><input type="radio" name="gender" value="Male" />Male</label>
-              <label><input type="radio" name="gender" value="Female" />Female</label>
-              <label><input type="radio" name="gender" value="Non-binary" />Non-binary</label>
+              <label
+                ><input type="radio" name="gender" value="Male" />Male</label
+              >
+              <label
+                ><input
+                  type="radio"
+                  name="gender"
+                  value="Female"
+                />Female</label
+              >
+              <label
+                ><input
+                  type="radio"
+                  name="gender"
+                  value="Non-binary"
+                />Non-binary</label
+              >
             </div>
           </div>
 
-          <div style="margin: 24px 0; border-top: 1px solid var(--border-color);"></div>
+          <div
+            style="margin: 24px 0; border-top: 1px solid var(--border-color)"
+          ></div>
 
           <div class="form-group">
             <label for="email">Email <span class="required">*</span></label>
@@ -162,7 +202,9 @@
             <div class="form-error" id="error-mobile"></div>
           </div>
 
-          <div style="margin: 24px 0; border-top: 1px solid var(--border-color);"></div>
+          <div
+            style="margin: 24px 0; border-top: 1px solid var(--border-color)"
+          ></div>
 
           <div class="form-group">
             <label for="dateOfBirth"
@@ -188,11 +230,14 @@
                 background: var(--input-bg);
               "
             />
-            <p style="font-size: 13px; color: var(--text-light); margin-top: 4px;">
-            </p>
+            <p
+              style="font-size: 13px; color: var(--text-light); margin-top: 4px"
+            ></p>
           </div>
 
-          <div style="margin: 24px 0; border-top: 1px solid var(--border-color);"></div>
+          <div
+            style="margin: 24px 0; border-top: 1px solid var(--border-color)"
+          ></div>
 
           <div class="form-group">
             <label for="occupation"
@@ -210,11 +255,18 @@
           </div>
 
           <div class="emergency-contact-section">
-            <h3 class="emergency-contact-heading">Emergency Contact Information</h3>
+            <h3 class="emergency-contact-heading">
+              Emergency Contact Information
+            </h3>
             <div class="emergency-contact-container">
               <div class="form-group">
                 <label for="emergencyName">Name:</label>
-                <input type="text" id="emergencyName" name="emergencyName" placeholder="Emergency contact name" />
+                <input
+                  type="text"
+                  id="emergencyName"
+                  name="emergencyName"
+                  placeholder="Emergency contact name"
+                />
               </div>
 
               <div class="form-group">
@@ -241,30 +293,106 @@
         </div>
 
         <!-- Step 2: About Your Visit & Lifestyle -->
-        <div class="wizard-step form-section" data-step="2" data-testid="intake-step-2">
+        <div
+          class="wizard-step form-section"
+          data-step="2"
+          data-testid="intake-step-2"
+        >
           <h2>Step 2 - About Your Visit</h2>
 
           <div class="step-section">
             <h3>Visit Details</h3>
             <div class="form-group">
-              <label>What brings you to see me today? <span class="required">*</span></label>
+              <label
+                >What brings you to see me today?
+                <span class="required">*</span></label
+              >
               <p class="form-help">Select all that apply</p>
-              <input type="checkbox" name="visitGoals" value="Pain / Tension relief" style="display:none;">
-              <input type="checkbox" name="visitGoals" value="Injury recovery" style="display:none;">
-              <input type="checkbox" name="visitGoals" value="Improve mobility" style="display:none;">
-              <input type="checkbox" name="visitGoals" value="Relieve stress" style="display:none;">
-              <input type="checkbox" name="visitGoals" value="Training for an event" style="display:none;">
-              <input type="checkbox" name="visitGoals" value="Improve sleep" style="display:none;">
+              <input
+                type="checkbox"
+                name="visitGoals"
+                value="Pain / Tension relief"
+                style="display: none"
+              />
+              <input
+                type="checkbox"
+                name="visitGoals"
+                value="Injury recovery"
+                style="display: none"
+              />
+              <input
+                type="checkbox"
+                name="visitGoals"
+                value="Improve mobility"
+                style="display: none"
+              />
+              <input
+                type="checkbox"
+                name="visitGoals"
+                value="Relieve stress"
+                style="display: none"
+              />
+              <input
+                type="checkbox"
+                name="visitGoals"
+                value="Training for an event"
+                style="display: none"
+              />
+              <input
+                type="checkbox"
+                name="visitGoals"
+                value="Improve sleep"
+                style="display: none"
+              />
               <div class="button-grid">
-                <button type="button" class="visit-btn" data-value="Pain / Tension relief">Pain / Tension relief</button>
-                <button type="button" class="visit-btn" data-value="Injury recovery">Injury recovery</button>
-                <button type="button" class="visit-btn" data-value="Improve mobility">Improve mobility</button>
-                <button type="button" class="visit-btn" data-value="Relieve stress">Relieve stress</button>
-                <button type="button" class="visit-btn" data-value="Training for an event">Training for an event</button>
-                <button type="button" class="visit-btn" data-value="Improve sleep">Improve sleep</button>
+                <button
+                  type="button"
+                  class="visit-btn"
+                  data-value="Pain / Tension relief"
+                >
+                  Pain / Tension relief
+                </button>
+                <button
+                  type="button"
+                  class="visit-btn"
+                  data-value="Injury recovery"
+                >
+                  Injury recovery
+                </button>
+                <button
+                  type="button"
+                  class="visit-btn"
+                  data-value="Improve mobility"
+                >
+                  Improve mobility
+                </button>
+                <button
+                  type="button"
+                  class="visit-btn"
+                  data-value="Relieve stress"
+                >
+                  Relieve stress
+                </button>
+                <button
+                  type="button"
+                  class="visit-btn"
+                  data-value="Training for an event"
+                >
+                  Training for an event
+                </button>
+                <button
+                  type="button"
+                  class="visit-btn"
+                  data-value="Improve sleep"
+                >
+                  Improve sleep
+                </button>
               </div>
-              <div class="form-group hidden-field" style="margin-top: 16px;">
-                <label for="visitGoalOther">Anything else? <span class="optional">(Optional)</span></label>
+              <div class="form-group hidden-field" style="margin-top: 16px">
+                <label for="visitGoalOther"
+                  >Anything else?
+                  <span class="optional">(Optional)</span></label
+                >
                 <input
                   type="text"
                   id="visitGoalOther"
@@ -276,21 +404,71 @@
             </div>
 
             <div class="form-group">
-              <label>How did you hear about me? <span class="required">*</span></label>
-              <input type="radio" name="referralSource" value="Google" style="display:none;" required>
-              <input type="radio" name="referralSource" value="Word of mouth" style="display:none;">
-              <input type="radio" name="referralSource" value="Advertisement" style="display:none;">
-              <input type="radio" name="referralSource" value="I was referred by someone" style="display:none;">
+              <label
+                >How did you hear about me?
+                <span class="required">*</span></label
+              >
+              <input
+                type="radio"
+                name="referralSource"
+                value="Google"
+                style="display: none"
+                required
+              />
+              <input
+                type="radio"
+                name="referralSource"
+                value="Word of mouth"
+                style="display: none"
+              />
+              <input
+                type="radio"
+                name="referralSource"
+                value="Advertisement"
+                style="display: none"
+              />
+              <input
+                type="radio"
+                name="referralSource"
+                value="I was referred by someone"
+                style="display: none"
+              />
               <div class="button-grid">
-                <button type="button" class="referral-btn" data-value="Google">Google</button>
-                <button type="button" class="referral-btn" data-value="Word of mouth">Word of mouth</button>
-                <button type="button" class="referral-btn" data-value="Advertisement">Advertisement</button>
-                <button type="button" class="referral-btn" data-value="I was referred by someone">I was referred by someone</button>
+                <button type="button" class="referral-btn" data-value="Google">
+                  Google
+                </button>
+                <button
+                  type="button"
+                  class="referral-btn"
+                  data-value="Word of mouth"
+                >
+                  Word of mouth
+                </button>
+                <button
+                  type="button"
+                  class="referral-btn"
+                  data-value="Advertisement"
+                >
+                  Advertisement
+                </button>
+                <button
+                  type="button"
+                  class="referral-btn"
+                  data-value="I was referred by someone"
+                >
+                  I was referred by someone
+                </button>
               </div>
             </div>
 
-            <div id="referralPersonSection" class="form-group hidden-field slide-field">
-              <label for="referral_person">Who referred you? <span class="optional">(Optional)</span></label>
+            <div
+              id="referralPersonSection"
+              class="form-group hidden-field slide-field"
+            >
+              <label for="referral_person"
+                >Who referred you?
+                <span class="optional">(Optional)</span></label
+              >
               <input
                 type="text"
                 id="referral_person"
@@ -304,7 +482,9 @@
           <div class="step-section">
             <h3>Lifestyle Information</h3>
             <div class="form-group slider-group">
-              <label>How well do you sleep? <span class="required">*</span></label>
+              <label
+                >How well do you sleep? <span class="required">*</span></label
+              >
               <div class="slider-container">
                 <input
                   type="range"
@@ -326,7 +506,10 @@
             </div>
 
             <div class="form-group slider-group">
-              <label>How are your stress levels? <span class="required">*</span></label>
+              <label
+                >How are your stress levels?
+                <span class="required">*</span></label
+              >
               <div class="slider-container">
                 <input
                   type="range"
@@ -348,21 +531,71 @@
             </div>
 
             <div class="form-group">
-              <label>How often do you exercise? <span class="required">*</span></label>
-              <input type="radio" name="exerciseFrequency" value="Never / Rarely" style="display:none;" required>
-              <input type="radio" name="exerciseFrequency" value="1-3 days per week" style="display:none;">
-              <input type="radio" name="exerciseFrequency" value="4-6 days per week" style="display:none;">
-              <input type="radio" name="exerciseFrequency" value="Daily" style="display:none;">
+              <label
+                >How often do you exercise?
+                <span class="required">*</span></label
+              >
+              <input
+                type="radio"
+                name="exerciseFrequency"
+                value="Never / Rarely"
+                style="display: none"
+                required
+              />
+              <input
+                type="radio"
+                name="exerciseFrequency"
+                value="1-3 days per week"
+                style="display: none"
+              />
+              <input
+                type="radio"
+                name="exerciseFrequency"
+                value="4-6 days per week"
+                style="display: none"
+              />
+              <input
+                type="radio"
+                name="exerciseFrequency"
+                value="Daily"
+                style="display: none"
+              />
               <div class="button-grid exercise-grid">
-                <button type="button" class="exercise-btn" data-value="Never / Rarely">Never / Rarely</button>
-                <button type="button" class="exercise-btn" data-value="1-3 days per week">1-3 days per week</button>
-                <button type="button" class="exercise-btn" data-value="4-6 days per week">4-6 days per week</button>
-                <button type="button" class="exercise-btn" data-value="Daily">Daily</button>
+                <button
+                  type="button"
+                  class="exercise-btn"
+                  data-value="Never / Rarely"
+                >
+                  Never / Rarely
+                </button>
+                <button
+                  type="button"
+                  class="exercise-btn"
+                  data-value="1-3 days per week"
+                >
+                  1-3 days per week
+                </button>
+                <button
+                  type="button"
+                  class="exercise-btn"
+                  data-value="4-6 days per week"
+                >
+                  4-6 days per week
+                </button>
+                <button type="button" class="exercise-btn" data-value="Daily">
+                  Daily
+                </button>
               </div>
             </div>
 
-            <div id="exerciseDetailsSection" class="form-group hidden-field slide-field">
-              <label for="exerciseDetails">Tell me more about your exercise routine <span class="optional">(Optional)</span></label>
+            <div
+              id="exerciseDetailsSection"
+              class="form-group hidden-field slide-field"
+            >
+              <label for="exerciseDetails"
+                >Tell me more about your exercise routine
+                <span class="optional">(Optional)</span></label
+              >
               <textarea
                 id="exerciseDetails"
                 name="exerciseDetails"
@@ -376,43 +609,131 @@
           <div class="step-section">
             <h3>Previous Massage Experience</h3>
             <div class="form-group">
-              <label>Do you have any previous experience with Massage Therapy? <span class="required">*</span></label>
-              <input type="radio" name="previousMassage" value="Yes" style="display:none;" required>
-              <input type="radio" name="previousMassage" value="No" style="display:none;">
+              <label
+                >Do you have any previous experience with Massage Therapy?
+                <span class="required">*</span></label
+              >
+              <input
+                type="radio"
+                name="previousMassage"
+                value="Yes"
+                style="display: none"
+                required
+              />
+              <input
+                type="radio"
+                name="previousMassage"
+                value="No"
+                style="display: none"
+              />
               <div class="toggle-buttons">
-                <button type="button" class="toggle-btn" data-value="Yes">Yes</button>
-                <button type="button" class="toggle-btn" data-value="No">No</button>
+                <button type="button" class="toggle-btn" data-value="Yes">
+                  Yes
+                </button>
+                <button type="button" class="toggle-btn" data-value="No">
+                  No
+                </button>
               </div>
             </div>
 
-            <div id="lastTreatmentSection" class="form-group hidden-field slide-field">
-              <label>When was your last treatment? <span class="optional">(Optional)</span></label>
-              <input type="radio" name="last_treatment_when" value="2-3 weeks ago" style="display:none;">
-              <input type="radio" name="last_treatment_when" value="About a month ago" style="display:none;">
-              <input type="radio" name="last_treatment_when" value="A few months ago" style="display:none;">
-              <input type="radio" name="last_treatment_when" value="A long time ago" style="display:none;">
-              <input type="radio" name="last_treatment_when" value="I'm embarrassed to say" style="display:none;">
+            <div
+              id="lastTreatmentSection"
+              class="form-group hidden-field slide-field"
+            >
+              <label
+                >When was your last treatment?
+                <span class="optional">(Optional)</span></label
+              >
+              <input
+                type="radio"
+                name="last_treatment_when"
+                value="2-3 weeks ago"
+                style="display: none"
+              />
+              <input
+                type="radio"
+                name="last_treatment_when"
+                value="About a month ago"
+                style="display: none"
+              />
+              <input
+                type="radio"
+                name="last_treatment_when"
+                value="A few months ago"
+                style="display: none"
+              />
+              <input
+                type="radio"
+                name="last_treatment_when"
+                value="A long time ago"
+                style="display: none"
+              />
+              <input
+                type="radio"
+                name="last_treatment_when"
+                value="I'm embarrassed to say"
+                style="display: none"
+              />
               <div class="button-grid">
-                <button type="button" class="treatment-btn" data-value="2-3 weeks ago">2-3 weeks ago</button>
-                <button type="button" class="treatment-btn" data-value="About a month ago">About a month ago</button>
-                <button type="button" class="treatment-btn" data-value="A few months ago">A few months ago</button>
-                <button type="button" class="treatment-btn" data-value="A long time ago">A long time ago</button>
-                <button type="button" class="treatment-btn" data-value="I'm embarrassed to say">I'm embarrassed to say</button>
+                <button
+                  type="button"
+                  class="treatment-btn"
+                  data-value="2-3 weeks ago"
+                >
+                  2-3 weeks ago
+                </button>
+                <button
+                  type="button"
+                  class="treatment-btn"
+                  data-value="About a month ago"
+                >
+                  About a month ago
+                </button>
+                <button
+                  type="button"
+                  class="treatment-btn"
+                  data-value="A few months ago"
+                >
+                  A few months ago
+                </button>
+                <button
+                  type="button"
+                  class="treatment-btn"
+                  data-value="A long time ago"
+                >
+                  A long time ago
+                </button>
+                <button
+                  type="button"
+                  class="treatment-btn"
+                  data-value="I'm embarrassed to say"
+                >
+                  I'm embarrassed to say
+                </button>
               </div>
             </div>
           </div>
-
         </div>
 
         <!-- Step 4: Pain & Signals -->
-        <div class="wizard-step form-section" data-step="4" data-testid="intake-step-4">
+        <div
+          class="wizard-step form-section"
+          data-step="4"
+          data-testid="intake-step-4"
+        >
           <h2>Step 4 - Pain &amp; Signals</h2>
           <p class="section-note">
             Help me understand what's going on with your body today.
           </p>
 
           <div class="form-group slider-group">
-            <label>Pain or discomfort level today <span class="optional">(Optional)</span></label>
+            <label style="display: block; margin-bottom: 24px"
+              >Pain Level</label
+            >
+            <div class="pain-level-display" id="painLevelDisplay">
+              <span class="pain-number" id="painNumber">0</span>
+              <span class="pain-label" id="painLabel">None</span>
+            </div>
             <div class="slider-container">
               <input
                 type="range"
@@ -420,132 +741,341 @@
                 name="painLevel"
                 min="0"
                 max="10"
-                value=""
+                value="0"
                 class="slider-input"
                 data-testid="pain-slider"
               />
-              <div class="slider-labels">
-                <span>0 - None</span>
-                <span>10 - Worst</span>
+              <div class="pain-emojis">
+                <span>0 😊</span>
+                <span>3 🙂</span>
+                <span>5 😐</span>
+                <span>7 😟</span>
+                <span>10 😢</span>
               </div>
-              <div class="slider-value" id="painLevelValue"></div>
+              <div class="pain-descriptors">
+                <span>0 None</span>
+                <span>2-3 Mild</span>
+                <span>5-6 Moderate</span>
+                <span>7-8 Severe</span>
+                <span>10 Worst possible</span>
+              </div>
             </div>
-            <div style="margin-top: 8px;">
-              <label style="display: flex; align-items: center; font-weight: normal;">
-                <input type="checkbox" name="painNotSure" data-testid="pain-not-sure" /> Not sure
-              </label>
+            <div style="margin-top: 16px; text-align: center">
+              <button
+                type="button"
+                id="skipPainBtn"
+                class="text-link"
+                style="
+                  color: #6b7280;
+                  text-decoration: underline;
+                  background: none;
+                  border: none;
+                  cursor: pointer;
+                "
+              >
+                Skip - I'm not in pain today
+              </button>
             </div>
           </div>
 
           <div class="form-group">
-            <label>Was this caused by an accident, or is it an ongoing issue? <span class="optional">(Optional)</span></label>
-            <div class="radio-group inline compact">
-              <label><input type="radio" name="painCause" value="accident" /> Accident or specific incident</label>
-              <label><input type="radio" name="painCause" value="ongoing" /> Ongoing issue</label>
-              <label><input type="radio" name="painCause" value="not_sure" /> Not sure</label>
+            <label>Symptom Cause</label>
+            <div class="toggle-btn-group">
+              <button
+                type="button"
+                class="toggle-btn symptom-cause-btn"
+                data-value="accident"
+                style="
+                  flex: 1;
+                  padding: 12px 16px;
+                  font-size: 14px;
+                  text-align: center;
+                "
+              >
+                Accident or specific incident
+              </button>
+              <button
+                type="button"
+                class="toggle-btn symptom-cause-btn"
+                data-value="ongoing"
+                style="
+                  flex: 1;
+                  padding: 12px 16px;
+                  font-size: 14px;
+                  text-align: center;
+                "
+              >
+                Ongoing issue
+              </button>
+              <button
+                type="button"
+                class="toggle-btn symptom-cause-btn"
+                data-value="not_sure"
+                style="
+                  flex: 1;
+                  padding: 12px 16px;
+                  font-size: 14px;
+                  text-align: center;
+                "
+              >
+                Not sure
+              </button>
             </div>
+            <input type="hidden" name="painCause" />
           </div>
 
-          <div class="form-group" id="painDescriptorsGroup">
-            <label>Anything else that describes it? <span class="optional">(Optional)</span></label>
-            <div class="chip-group" style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;">
-              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
-                <input type="checkbox" name="painDescriptors" value="It comes and goes" style="margin-right: 6px;" />
-                It comes and goes
-              </label>
-              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
-                <input type="checkbox" name="painDescriptors" value="Worse with sitting" style="margin-right: 6px;" />
+          <div class="form-group">
+            <label>Symptom Descriptors</label>
+            <div class="symptom-descriptors-grid">
+              <button
+                type="button"
+                class="toggle-btn symptom-desc-btn"
+                data-value="comes_and_goes"
+              >
+                Comes and goes
+              </button>
+              <button
+                type="button"
+                class="toggle-btn symptom-desc-btn"
+                data-value="constant"
+              >
+                Constant pain
+              </button>
+              <button
+                type="button"
+                class="toggle-btn symptom-desc-btn"
+                data-value="worse_sitting"
+              >
                 Worse with sitting
-              </label>
-              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
-                <input type="checkbox" name="painDescriptors" value="Worse with exercise" style="margin-right: 6px;" />
+              </button>
+              <button
+                type="button"
+                class="toggle-btn symptom-desc-btn"
+                data-value="worse_exercise"
+              >
                 Worse with exercise
-              </label>
-              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
-                <input type="checkbox" name="painDescriptors" value="Better with movement" style="margin-right: 6px;" />
+              </button>
+              <button
+                type="button"
+                class="toggle-btn symptom-desc-btn"
+                data-value="better_movement"
+              >
                 Better with movement
-              </label>
-              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
-                <input type="checkbox" name="painDescriptors" value="Worse in the morning" style="margin-right: 6px;" />
-                Worse in the morning
-              </label>
-              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
-                <input type="checkbox" name="painDescriptors" value="Worse at the end of the day" style="margin-right: 6px;" />
-                Worse at the end of the day
-              </label>
-              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
-                <input type="checkbox" name="painDescriptors" value="Pins and needles" style="margin-right: 6px;" />
+              </button>
+              <button
+                type="button"
+                class="toggle-btn symptom-desc-btn"
+                data-value="worse_morning"
+              >
+                Worse in morning
+              </button>
+              <button
+                type="button"
+                class="toggle-btn symptom-desc-btn"
+                data-value="worse_end_day"
+              >
+                Worse at end of day
+              </button>
+              <button
+                type="button"
+                class="toggle-btn symptom-desc-btn"
+                data-value="pins_needles"
+              >
                 Pins and needles
-              </label>
-              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
-                <input type="checkbox" name="painDescriptors" value="Numbness" style="margin-right: 6px;" />
+              </button>
+              <button
+                type="button"
+                class="toggle-btn symptom-desc-btn"
+                data-value="numbness"
+              >
                 Numbness
-              </label>
-              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
-                <input type="checkbox" name="painDescriptors" value="Headaches" style="margin-right: 6px;" />
+              </button>
+              <button
+                type="button"
+                class="toggle-btn symptom-desc-btn"
+                data-value="headaches"
+              >
                 Headaches
-              </label>
-              <label style="display: inline-flex; align-items: center; padding: 8px 12px; border: 2px solid var(--border-color); border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;">
-                <input type="checkbox" name="painDescriptors" value="tell_in_person" data-testid="tell-in-person" style="margin-right: 6px;" />
-                I'd rather tell you in person
-              </label>
+              </button>
             </div>
-            <div class="form-group" id="painDescriptorOtherSection" style="margin-top: 12px;">
-              <label for="painDescriptorOther">Other (optional)</label>
-              <input
-                type="text"
-                id="painDescriptorOther"
-                name="painDescriptorOther"
-                placeholder="Describe what else is happening..."
-                maxlength="200"
-              />
-            </div>
+            <input
+              type="hidden"
+              name="painDescriptors"
+              id="painDescriptorsHidden"
+            />
           </div>
 
           <div class="form-group">
-            <label>Is today worse than usual? <span class="optional">(Optional)</span></label>
-            <div class="radio-group inline compact" data-testid="worse-than-usual">
-              <label><input type="radio" name="worseToday" value="Yes" /> Yes</label>
-              <label><input type="radio" name="worseToday" value="No" /> No</label>
-              <label><input type="radio" name="worseToday" value="Not sure" /> Not sure</label>
+            <label>Is today worse than usual?</label>
+            <div class="toggle-btn-group">
+              <button
+                type="button"
+                class="toggle-btn worse-today-btn"
+                data-value="Yes"
+                style="width: 100px"
+              >
+                Yes
+              </button>
+              <button
+                type="button"
+                class="toggle-btn worse-today-btn"
+                data-value="No"
+                style="width: 100px"
+              >
+                No
+              </button>
+              <button
+                type="button"
+                class="toggle-btn worse-today-btn"
+                data-value="Not sure"
+                style="width: 100px"
+              >
+                Not sure
+              </button>
             </div>
+            <input type="hidden" name="worseToday" />
           </div>
 
           <div class="form-group">
-            <label>Pressure preference <span class="optional">(Optional)</span></label>
-            <div class="radio-group inline compact" data-testid="pressure-preference">
-              <label><input type="radio" name="pressurePreference" value="Light" /> Light</label>
-              <label><input type="radio" name="pressurePreference" value="Medium" /> Medium</label>
-              <label><input type="radio" name="pressurePreference" value="Firm" /> Firm</label>
-              <label><input type="radio" name="pressurePreference" value="Not sure" /> Not sure</label>
+            <label
+              >Pressure preference
+              <span style="color: #6b7280; font-weight: 400"
+                >(Optional)</span
+              ></label
+            >
+            <div class="toggle-btn-group">
+              <button
+                type="button"
+                class="toggle-btn pressure-btn"
+                data-value="Light"
+                style="width: 100px"
+              >
+                Light
+              </button>
+              <button
+                type="button"
+                class="toggle-btn pressure-btn"
+                data-value="Medium"
+                style="width: 100px"
+              >
+                Medium
+              </button>
+              <button
+                type="button"
+                class="toggle-btn pressure-btn"
+                data-value="Firm"
+                style="width: 100px"
+              >
+                Firm
+              </button>
+              <button
+                type="button"
+                class="toggle-btn pressure-btn"
+                data-value="Not sure"
+                style="width: 100px"
+              >
+                Not sure
+              </button>
             </div>
+            <input type="hidden" name="pressurePreference" />
           </div>
 
           <div class="form-group">
-            <label for="areasToAvoid">Any areas you'd prefer I avoid? <span class="optional">(Optional)</span></label>
+            <label for="areasToAvoid">Any areas you'd prefer I avoid?</label>
             <textarea
               id="areasToAvoid"
               name="areasToAvoid"
               data-testid="areas-to-avoid"
               rows="2"
               maxlength="500"
-              placeholder="e.g., Lower back due to recent strain, neck is sensitive..."
-              style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 12px; font-size: 16px; font-family: inherit;"
+              placeholder="e.g., Lower back due to recent strain, neck is sensitive"
             ></textarea>
           </div>
 
-          <h3 style="margin-top: 20px; margin-bottom: 10px; color: var(--primary-color); font-size: 1.1em;">Where are you experiencing discomfort?</h3>
-          <div class="muscle-map-container">
-            <canvas id="muscleMapCanvas" class="muscle-map-canvas"></canvas>
-            <button type="button" id="clearMuscleMap" class="btn-secondary">Clear Muscle Map</button>
-            <button type="button" id="expandBodyMap" class="btn-secondary">Expand Body Map</button>
-            <input type="hidden" id="muscleMapMarks" name="muscleMapMarks" value="[]">
-          </div>
-            <button type="button" id="expandBodyMap" class="btn-secondary">Expand Body Map</button>
-            <input type="hidden" id="muscleMapMarks" name="muscleMapMarks" value="[]">
+          <h3>Body Areas</h3>
+          <div class="form-group">
+            <label
+              >Where are you experiencing discomfort?
+              <span style="color: #6b7280; font-weight: 400"
+                >(Optional)</span
+              ></label
+            >
+            <div class="body-areas-grid">
+              <button
+                type="button"
+                class="toggle-btn body-area-btn"
+                data-value="neck"
+              >
+                Neck
+              </button>
+              <button
+                type="button"
+                class="toggle-btn body-area-btn"
+                data-value="shoulders"
+              >
+                Shoulders
+              </button>
+              <button
+                type="button"
+                class="toggle-btn body-area-btn"
+                data-value="upper_back"
+              >
+                Upper back
+              </button>
+              <button
+                type="button"
+                class="toggle-btn body-area-btn"
+                data-value="mid_back"
+              >
+                Mid back
+              </button>
+              <button
+                type="button"
+                class="toggle-btn body-area-btn"
+                data-value="lower_back"
+              >
+                Lower back
+              </button>
+              <button
+                type="button"
+                class="toggle-btn body-area-btn"
+                data-value="arms"
+              >
+                Arms
+              </button>
+              <button
+                type="button"
+                class="toggle-btn body-area-btn"
+                data-value="legs"
+              >
+                Legs
+              </button>
+              <button
+                type="button"
+                class="toggle-btn body-area-btn"
+                data-value="hips"
+              >
+                Hips
+              </button>
+              <button
+                type="button"
+                class="toggle-btn body-area-btn"
+                data-value="other"
+              >
+                Other
+              </button>
+            </div>
+            <input type="hidden" name="bodyAreas" id="bodyAreasHidden" />
           </div>
 
-          <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border-color); text-align: center;">
+          <div
+            style="
+              margin-top: 24px;
+              padding-top: 16px;
+              border-top: 1px solid var(--border-color);
+              text-align: center;
+            "
+          >
             <p style="font-size: 13px; color: var(--text-light); margin: 0">
               Click <strong>Next</strong> to continue.
             </p>
@@ -553,20 +1083,47 @@
         </div>
 
         <!-- Body Map Expand Modal -->
-        <div id="bodyMapModal" class="body-map-modal hidden-field" role="dialog" aria-modal="true" aria-labelledby="bodyMapModalTitle">
+        <div
+          id="bodyMapModal"
+          class="body-map-modal hidden-field"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="bodyMapModalTitle"
+        >
           <div class="body-map-backdrop"></div>
           <div class="body-map-content" role="document">
             <div class="body-map-header">
-              <h2 id="bodyMapModalTitle">Body Map - Tap to mark areas of discomfort</h2>
-              <button type="button" id="closeBodyMapBtn" class="btn-secondary" aria-label="Close Body Map">Close</button>
+              <h2 id="bodyMapModalTitle">
+                Body Map - Tap to mark areas of discomfort
+              </h2>
+              <button
+                type="button"
+                id="closeBodyMapBtn"
+                class="btn-secondary"
+                aria-label="Close Body Map"
+              >
+                Close
+              </button>
             </div>
             <div class="body-map-body">
               <div id="muscleMapContainerExpanded"></div>
               <div class="body-map-controls">
-                <button type="button" id="zoomInBtn" class="btn-secondary">Zoom In (+)</button>
-                <button type="button" id="zoomOutBtn" class="btn-secondary">Zoom Out (-)</button>
-                <button type="button" id="resetZoomBtn" class="btn-secondary">Reset View</button>
-                <button type="button" id="clearMuscleMapExpanded" class="btn-secondary">Clear All</button>
+                <button type="button" id="zoomInBtn" class="btn-secondary">
+                  Zoom In (+)
+                </button>
+                <button type="button" id="zoomOutBtn" class="btn-secondary">
+                  Zoom Out (-)
+                </button>
+                <button type="button" id="resetZoomBtn" class="btn-secondary">
+                  Reset View
+                </button>
+                <button
+                  type="button"
+                  id="clearMuscleMapExpanded"
+                  class="btn-secondary"
+                >
+                  Clear All
+                </button>
               </div>
             </div>
           </div>
@@ -575,7 +1132,11 @@
         <script src="/js/bodyMapModal.js?v=20260203" defer></script>
 
         <!-- Step 3: Health & Medical History -->
-        <div class="wizard-step form-section" data-step="3" data-testid="intake-step-3">
+        <div
+          class="wizard-step form-section"
+          data-step="3"
+          data-testid="intake-step-3"
+        >
           <h2>Step 3 - Health History</h2>
           <p class="section-note">
             This information helps ensure your safety and allows me to tailor
@@ -588,8 +1149,22 @@
               <span class="required">*</span></label
             >
             <div class="toggle-btn-group">
-              <button type="button" class="toggle-btn" data-value="Yes" data-name="takingMedications">Yes</button>
-              <button type="button" class="toggle-btn" data-value="No" data-name="takingMedications">No</button>
+              <button
+                type="button"
+                class="toggle-btn"
+                data-value="Yes"
+                data-name="takingMedications"
+              >
+                Yes
+              </button>
+              <button
+                type="button"
+                class="toggle-btn"
+                data-value="No"
+                data-name="takingMedications"
+              >
+                No
+              </button>
             </div>
             <input type="hidden" name="takingMedications" required />
           </div>
@@ -617,8 +1192,22 @@
               >Do you have any allergies? <span class="required">*</span></label
             >
             <div class="toggle-btn-group">
-              <button type="button" class="toggle-btn" data-value="Yes" data-name="hasAllergies">Yes</button>
-              <button type="button" class="toggle-btn" data-value="No" data-name="hasAllergies">No</button>
+              <button
+                type="button"
+                class="toggle-btn"
+                data-value="Yes"
+                data-name="hasAllergies"
+              >
+                Yes
+              </button>
+              <button
+                type="button"
+                class="toggle-btn"
+                data-value="No"
+                data-name="hasAllergies"
+              >
+                No
+              </button>
             </div>
             <input type="hidden" name="hasAllergies" required />
           </div>
@@ -638,7 +1227,7 @@
               rows="2"
               maxlength="500"
               placeholder="e.g., Nuts, latex, fragrances, certain oils, specific medications"
-              style="height: 80px;"
+              style="height: 80px"
             ></textarea>
           </div>
 
@@ -649,56 +1238,202 @@
               type="text"
               id="healthSearch"
               placeholder="Search conditions..."
-              style="width: 100%; padding: 12px; border: 1.5px solid #D1D5DB; border-radius: 8px; font-size: 16px; margin-bottom: 24px;"
+              style="
+                width: 100%;
+                padding: 12px;
+                border: 1.5px solid #d1d5db;
+                border-radius: 8px;
+                font-size: 16px;
+                margin-bottom: 24px;
+              "
             />
           </div>
 
           <div class="health-category">
-            <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 16px; color: var(--primary-color);">Cardiovascular</h4>
+            <h4
+              style="
+                font-size: 16px;
+                font-weight: 600;
+                margin-bottom: 16px;
+                color: var(--primary-color);
+              "
+            >
+              Cardiovascular
+            </h4>
             <div class="toggle-btn-group health-conditions-grid">
-              <button type="button" class="toggle-btn condition-btn" data-value="Heart condition">Heart condition</button>
-              <button type="button" class="toggle-btn condition-btn" data-value="Blood clots/DVT">Blood clots/DVT</button>
-              <button type="button" class="toggle-btn condition-btn" data-value="High/Low blood pressure">High/Low blood pressure</button>
+              <button
+                type="button"
+                class="toggle-btn condition-btn"
+                data-value="Heart condition"
+              >
+                Heart condition
+              </button>
+              <button
+                type="button"
+                class="toggle-btn condition-btn"
+                data-value="Blood clots/DVT"
+              >
+                Blood clots/DVT
+              </button>
+              <button
+                type="button"
+                class="toggle-btn condition-btn"
+                data-value="High/Low blood pressure"
+              >
+                High/Low blood pressure
+              </button>
             </div>
           </div>
 
           <div class="health-category">
-            <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 16px; color: var(--primary-color);">Respiratory</h4>
+            <h4
+              style="
+                font-size: 16px;
+                font-weight: 600;
+                margin-bottom: 16px;
+                color: var(--primary-color);
+              "
+            >
+              Respiratory
+            </h4>
             <div class="toggle-btn-group">
-              <button type="button" class="toggle-btn condition-btn" data-value="Asthma/Respiratory conditions">Asthma/Respiratory conditions</button>
+              <button
+                type="button"
+                class="toggle-btn condition-btn"
+                data-value="Asthma/Respiratory conditions"
+              >
+                Asthma/Respiratory conditions
+              </button>
             </div>
           </div>
 
           <div class="health-category">
-            <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 16px; color: var(--primary-color);">Chronic Pain</h4>
+            <h4
+              style="
+                font-size: 16px;
+                font-weight: 600;
+                margin-bottom: 16px;
+                color: var(--primary-color);
+              "
+            >
+              Chronic Pain
+            </h4>
             <div class="toggle-btn-group health-conditions-grid">
-              <button type="button" class="toggle-btn condition-btn" data-value="Arthritis">Arthritis</button>
-              <button type="button" class="toggle-btn condition-btn" data-value="Chronic pain">Chronic pain</button>
-              <button type="button" class="toggle-btn condition-btn" data-value="Fibromyalgia">Fibromyalgia</button>
-              <button type="button" class="toggle-btn condition-btn" data-value="Osteoporosis">Osteoporosis</button>
+              <button
+                type="button"
+                class="toggle-btn condition-btn"
+                data-value="Arthritis"
+              >
+                Arthritis
+              </button>
+              <button
+                type="button"
+                class="toggle-btn condition-btn"
+                data-value="Chronic pain"
+              >
+                Chronic pain
+              </button>
+              <button
+                type="button"
+                class="toggle-btn condition-btn"
+                data-value="Fibromyalgia"
+              >
+                Fibromyalgia
+              </button>
+              <button
+                type="button"
+                class="toggle-btn condition-btn"
+                data-value="Osteoporosis"
+              >
+                Osteoporosis
+              </button>
             </div>
           </div>
 
           <div class="health-category">
-            <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 16px; color: var(--primary-color);">Neurological</h4>
+            <h4
+              style="
+                font-size: 16px;
+                font-weight: 600;
+                margin-bottom: 16px;
+                color: var(--primary-color);
+              "
+            >
+              Neurological
+            </h4>
             <div class="toggle-btn-group health-conditions-grid">
-              <button type="button" class="toggle-btn condition-btn" data-value="Epilepsy/Seizures">Epilepsy/Seizures</button>
-              <button type="button" class="toggle-btn condition-btn" data-value="Migraines/Headaches">Migraines/Headaches</button>
+              <button
+                type="button"
+                class="toggle-btn condition-btn"
+                data-value="Epilepsy/Seizures"
+              >
+                Epilepsy/Seizures
+              </button>
+              <button
+                type="button"
+                class="toggle-btn condition-btn"
+                data-value="Migraines/Headaches"
+              >
+                Migraines/Headaches
+              </button>
             </div>
           </div>
 
           <div class="health-category">
-            <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 16px; color: var(--primary-color);">Other</h4>
+            <h4
+              style="
+                font-size: 16px;
+                font-weight: 600;
+                margin-bottom: 16px;
+                color: var(--primary-color);
+              "
+            >
+              Other
+            </h4>
             <div class="toggle-btn-group health-conditions-grid">
-              <button type="button" class="toggle-btn condition-btn" data-value="Cancer (current/history)">Cancer (current/history)</button>
-              <button type="button" class="toggle-btn condition-btn" data-value="Diabetes">Diabetes</button>
-              <button type="button" class="toggle-btn condition-btn" data-value="Skin conditions">Skin conditions</button>
-              <button type="button" class="toggle-btn condition-btn" data-value="Other">Other</button>
-              <button type="button" class="toggle-btn condition-btn" data-value="None of the above">None of the above</button>
+              <button
+                type="button"
+                class="toggle-btn condition-btn"
+                data-value="Cancer (current/history)"
+              >
+                Cancer (current/history)
+              </button>
+              <button
+                type="button"
+                class="toggle-btn condition-btn"
+                data-value="Diabetes"
+              >
+                Diabetes
+              </button>
+              <button
+                type="button"
+                class="toggle-btn condition-btn"
+                data-value="Skin conditions"
+              >
+                Skin conditions
+              </button>
+              <button
+                type="button"
+                class="toggle-btn condition-btn"
+                data-value="Other"
+              >
+                Other
+              </button>
+              <button
+                type="button"
+                class="toggle-btn condition-btn"
+                data-value="None of the above"
+              >
+                None of the above
+              </button>
             </div>
           </div>
 
-          <input type="hidden" name="medicalConditions" id="medicalConditionsHidden" />
+          <input
+            type="hidden"
+            name="medicalConditions"
+            id="medicalConditionsHidden"
+          />
 
           <div
             id="conditionsDetailsSection"
@@ -718,7 +1453,11 @@
             ></textarea>
           </div>
 
-          <div class="form-group" id="seenOtherProviderGroup" style="display:none;">
+          <div
+            class="form-group"
+            id="seenOtherProviderGroup"
+            style="display: none"
+          >
             <label>
               Have you seen any other healthcare provider for this?
               <span class="required">*</span>
@@ -740,29 +1479,33 @@
               >Are you pregnant or breastfeeding?
               <span class="required">*</span></label
             >
-            <div class="radio-group inline">
-              <label
-                ><input
-                  type="radio"
-                  name="pregnantBreastfeeding"
-                  value="Yes"
-                  required
-                />
-                Yes</label
+            <div class="toggle-btn-group">
+              <button
+                type="button"
+                class="toggle-btn pregnancy-btn"
+                data-value="Yes"
+                style="width: 140px"
               >
-              <label
-                ><input type="radio" name="pregnantBreastfeeding" value="No" />
-                No</label
+                Yes
+              </button>
+              <button
+                type="button"
+                class="toggle-btn pregnancy-btn"
+                data-value="No"
+                style="width: 140px"
               >
-              <label
-                ><input
-                  type="radio"
-                  name="pregnantBreastfeeding"
-                  value="Not applicable"
-                />
-                Not applicable</label
+                No
+              </button>
+              <button
+                type="button"
+                class="toggle-btn pregnancy-btn"
+                data-value="Not applicable"
+                style="width: 140px"
               >
+                Not applicable
+              </button>
             </div>
+            <input type="hidden" name="pregnantBreastfeeding" required />
           </div>
 
           <div
@@ -770,33 +1513,37 @@
             class="form-group hidden-field slide-field"
             style="margin-top: 12px"
           >
-            <label for="pregnancy_weeks"
-              >How many weeks along are you?
-              <span class="optional">(Optional)</span></label
-            >
-            <input
-              type="number"
-              id="pregnancy_weeks"
-              name="pregnancy_weeks"
-              min="0"
-              max="40"
-              placeholder="e.g., 20"
-              maxlength="2"
-            />
+            <label for="pregnancy_weeks">How many weeks along are you?</label>
+            <div style="display: flex; align-items: center; gap: 8px">
+              <input
+                type="number"
+                id="pregnancy_weeks"
+                name="pregnancy_weeks"
+                min="0"
+                max="40"
+                placeholder="e.g., 20"
+                maxlength="2"
+                style="
+                  flex: 1;
+                  padding: 12px;
+                  border: 1.5px solid #d1d5db;
+                  border-radius: 8px;
+                  font-size: 16px;
+                  width: 200px;
+                "
+              />
+              <span style="font-size: 16px; color: #6b7280">weeks</span>
+            </div>
           </div>
 
-          <div class="form-group" style="margin-top: 20px">
-            <label for="additionalHealthInfo"
-              >Please provide any additional information that you feel is
-              relevant to your health history:
-              <span class="optional">(Optional)</span></label
-            >
+          <div class="form-group">
+            <label for="additionalHealthInfo">Additional Information</label>
             <textarea
               id="additionalHealthInfo"
               name="additionalHealthInfo"
               rows="3"
               maxlength="1000"
-              placeholder="Any other information you'd like to share..."
+              placeholder="Any other health information, recent surgeries, or concerns you'd like me to know about..."
             ></textarea>
           </div>
 
@@ -816,32 +1563,26 @@
 
         <!-- Step 5: Consent & Signature -->
         <div
-          class="wizard-step form-section consent-section"
+          class="wizard-step form-section"
           data-step="5"
           data-testid="intake-step-5"
-          style="
-            border: 2px solid var(--accent-color);
-            padding: 20px;
-            border-radius: 12px;
-          "
         >
           <h2>Step 5 - Consent &amp; Signature</h2>
 
-          <div style="margin-bottom: 16px">
+          <div style="margin-bottom: 32px">
             <a
               href="/privacy"
               target="_blank"
               rel="noopener noreferrer"
-              class="btn-secondary"
-              style="width: 100%; display: inline-block; text-align: center; text-decoration: none;"
+              class="privacy-policy-link"
               aria-label="View Privacy Policy (opens in new tab)"
             >
-              View Privacy Policy (opens in new tab)
+              View Privacy Policy (Opens in New Tab) ↗
             </a>
           </div>
 
-          <div class="consent-checkbox">
-            <label>
+          <div class="consent-item" style="margin-bottom: 32px">
+            <label class="consent-checkbox">
               <input
                 type="checkbox"
                 name="consentAll"
@@ -849,30 +1590,63 @@
                 data-testid="consent-care"
                 required
               />
-              <span id="consentText"
-                >I have read and understood the Privacy Policy, and I consent to the collection and use of my personal information for treatment and administrative purposes. <span class="required">*</span></span
+              <span class="checkmark"></span>
+              <span class="consent-text"
+                >I have read and understood the Privacy Policy, and I consent to
+                the collection and use of my personal information for treatment
+                and administrative purposes.
+                <span class="required">*</span></span
               >
             </label>
           </div>
 
-          <div class="consent-checkbox">
-            <label>
-              <input type="checkbox" name="emailOptIn" id="emailOptIn" data-testid="consent-marketing" /> I consent to receive email communication about bookings and updates from Flexion &amp; Flow.
+          <div class="consent-item" style="margin-bottom: 32px">
+            <label class="consent-checkbox">
+              <input
+                type="checkbox"
+                name="emailOptIn"
+                id="emailOptIn"
+                data-testid="consent-marketing"
+              />
+              <span class="checkmark"></span>
+              <span class="consent-text"
+                >I consent to receive email communication about bookings and
+                updates from Flexion &amp; Flow.</span
+              >
             </label>
-            <p style="font-size: 12px; color: var(--text-light); margin-top: 4px; margin-left: 24px;">
-              You can withdraw this consent at any time using the unsubscribe link in emails or by contacting us.
+            <p
+              style="
+                font-size: 12px;
+                color: var(--text-light);
+                margin-top: 8px;
+                margin-left: 28px;
+              "
+            >
+              You can withdraw this consent at any time using the unsubscribe
+              link in emails or by contacting us.
             </p>
           </div>
 
-          <div class="consent-checkbox">
-            <label>
-              <input type="checkbox" name="medicalCareDisclaimer" id="medicalCareDisclaimer" data-testid="medical-disclaimer" required />
-              <span>I understand that massage is not a substitute for medical care. If I have concerns about my health, I will seek appropriate medical advice. <span class="required">*</span></span>
+          <div class="consent-item" style="margin-bottom: 32px">
+            <label class="consent-checkbox">
+              <input
+                type="checkbox"
+                name="medicalCareDisclaimer"
+                id="medicalCareDisclaimer"
+                data-testid="medical-disclaimer"
+                required
+              />
+              <span class="checkmark"></span>
+              <span class="consent-text"
+                >I understand that massage is not a substitute for medical care.
+                If I have concerns about my health, I will seek appropriate
+                medical advice. <span class="required">*</span></span
+              >
             </label>
           </div>
 
           <div class="signature-area">
-            <h3 style="margin-top: 24px; margin-bottom: 12px">Signature</h3>
+            <h3 style="margin-top: 64px; margin-bottom: 12px">Signature</h3>
             <p class="section-note">
               Draw your signature below using your finger or mouse.
             </p>
@@ -880,10 +1654,20 @@
             <div class="signature-draw">
               <div class="signature-container">
                 <div class="signature-pad-frame">
-                  <canvas id="signatureCanvas" class="signature-pad"></canvas>
+                  <canvas
+                    id="signatureCanvas"
+                    class="signature-pad"
+                    width="400"
+                    height="150"
+                  ></canvas>
+                  <div class="signature-placeholder">Sign here</div>
                 </div>
-                <button type="button" id="clearSignature" class="btn-secondary">
-                  Clear Signature
+                <button
+                  type="button"
+                  id="clearSignature"
+                  class="clear-signature-link"
+                >
+                  Clear signature
                 </button>
               </div>
             </div>
@@ -915,7 +1699,7 @@
           <button
             type="button"
             id="prevBtn"
-            class="btn-secondary"
+            class="btn-outline"
             data-testid="wizard-back"
           >
             Back
@@ -928,15 +1712,20 @@
           >
             Next
           </button>
-          <button
-            type="submit"
-            id="submitBtn"
-            class="btn-primary"
-            style="display: none"
-            data-testid="submit-intake"
-          >
-            Submit
-          </button>
+          <div class="step-5-actions">
+            <button
+              type="submit"
+              id="submitBtn"
+              class="btn-primary submit-btn"
+              style="display: none"
+              data-testid="submit-intake"
+            >
+              <span class="submit-text">Submit</span>
+              <div class="loading-spinner" style="display: none">
+                <div class="spinner"></div>
+              </div>
+            </button>
+          </div>
         </div>
       </form>
     </div>
@@ -1049,7 +1838,9 @@
         const referralRadios = document.querySelectorAll(
           'input[name="referralSource"]',
         );
-        const referralPersonSection = document.getElementById("referralPersonSection");
+        const referralPersonSection = document.getElementById(
+          "referralPersonSection",
+        );
 
         referralRadios.forEach((radio) => {
           radio.addEventListener("change", () => {
@@ -1111,8 +1902,12 @@
         );
 
         // Handle "None of the above" mutual exclusivity for medical conditions
-        const noneOfTheAboveCheckbox = document.querySelector('input[name="medicalConditions"][value="None of the above"]');
-        const otherConditionCheckboxes = document.querySelectorAll('input[name="medicalConditions"]:not([value="None of the above"])');
+        const noneOfTheAboveCheckbox = document.querySelector(
+          'input[name="medicalConditions"][value="None of the above"]',
+        );
+        const otherConditionCheckboxes = document.querySelectorAll(
+          'input[name="medicalConditions"]:not([value="None of the above"])',
+        );
 
         function handleNoneOfTheAboveLogic() {
           if (noneOfTheAboveCheckbox && noneOfTheAboveCheckbox.checked) {
@@ -1125,14 +1920,19 @@
 
         function handleOtherConditionsLogic() {
           // If any other condition is checked, uncheck "None of the above"
-          const hasOtherConditions = Array.from(otherConditionCheckboxes).some(cb => cb.checked);
+          const hasOtherConditions = Array.from(otherConditionCheckboxes).some(
+            (cb) => cb.checked,
+          );
           if (hasOtherConditions && noneOfTheAboveCheckbox) {
             noneOfTheAboveCheckbox.checked = false;
           }
         }
 
         if (noneOfTheAboveCheckbox) {
-          noneOfTheAboveCheckbox.addEventListener("change", handleNoneOfTheAboveLogic);
+          noneOfTheAboveCheckbox.addEventListener(
+            "change",
+            handleNoneOfTheAboveLogic,
+          );
         }
 
         otherConditionCheckboxes.forEach((checkbox) => {
@@ -1158,12 +1958,16 @@
               valueDisplay.textContent = value;
               // Color coding
               if (id === "sleepQuality") {
-                if (value <= 4) valueDisplay.style.color = "#EF4444"; // red
-                else if (value <= 7) valueDisplay.style.color = "#F59E0B"; // yellow
+                if (value <= 4)
+                  valueDisplay.style.color = "#EF4444"; // red
+                else if (value <= 7)
+                  valueDisplay.style.color = "#F59E0B"; // yellow
                 else valueDisplay.style.color = "#10B981"; // green
               } else if (id === "stressLevel") {
-                if (value <= 4) valueDisplay.style.color = "#10B981"; // green
-                else if (value <= 7) valueDisplay.style.color = "#F59E0B"; // yellow
+                if (value <= 4)
+                  valueDisplay.style.color = "#10B981"; // green
+                else if (value <= 7)
+                  valueDisplay.style.color = "#F59E0B"; // yellow
                 else valueDisplay.style.color = "#EF4444"; // red
               }
             });
@@ -1173,35 +1977,45 @@
         // Step 2 button handling
         function setupButtonGroup(buttonClass, inputName, isRadio = false) {
           const buttons = document.querySelectorAll(`.${buttonClass}`);
-          buttons.forEach(button => {
-            button.addEventListener('click', () => {
-              const value = button.getAttribute('data-value');
+          buttons.forEach((button) => {
+            button.addEventListener("click", () => {
+              const value = button.getAttribute("data-value");
               if (isRadio) {
                 // For radio, unselect all, select this
-                buttons.forEach(btn => btn.classList.remove('selected'));
-                button.classList.add('selected');
-                const input = document.querySelector(`input[name="${inputName}"][value="${value}"]`);
+                buttons.forEach((btn) => btn.classList.remove("selected"));
+                button.classList.add("selected");
+                const input = document.querySelector(
+                  `input[name="${inputName}"][value="${value}"]`,
+                );
                 if (input) input.checked = true;
               } else {
                 // For checkbox, toggle
-                button.classList.toggle('selected');
-                const input = document.querySelector(`input[name="${inputName}"][value="${value}"]`);
+                button.classList.toggle("selected");
+                const input = document.querySelector(
+                  `input[name="${inputName}"][value="${value}"]`,
+                );
                 if (input) input.checked = !input.checked;
               }
             });
           });
         }
 
-        setupButtonGroup('visit-btn', 'visitGoals');
-        setupButtonGroup('referral-btn', 'referralSource', true);
-        setupButtonGroup('exercise-btn', 'exerciseFrequency', true);
-        setupButtonGroup('toggle-btn', 'previousMassage', true);
-        setupButtonGroup('treatment-btn', 'last_treatment_when', true);
+        setupButtonGroup("visit-btn", "visitGoals");
+        setupButtonGroup("referral-btn", "referralSource", true);
+        setupButtonGroup("exercise-btn", "exerciseFrequency", true);
+        setupButtonGroup("toggle-btn", "previousMassage", true);
+        setupButtonGroup("treatment-btn", "last_treatment_when", true);
 
         // Pain descriptors "I'd rather tell you in person" logic
-        const painDescriptorCheckboxes = document.querySelectorAll('input[name="painDescriptors"]');
-        const tellInPersonCheckbox = document.querySelector('input[name="painDescriptors"][value="tell_in_person"]');
-        const painDescriptorOtherSection = document.getElementById("painDescriptorOtherSection");
+        const painDescriptorCheckboxes = document.querySelectorAll(
+          'input[name="painDescriptors"]',
+        );
+        const tellInPersonCheckbox = document.querySelector(
+          'input[name="painDescriptors"][value="tell_in_person"]',
+        );
+        const painDescriptorOtherSection = document.getElementById(
+          "painDescriptorOtherSection",
+        );
 
         function handlePainDescriptorsVisibility() {
           if (tellInPersonCheckbox && tellInPersonCheckbox.checked) {
@@ -1235,7 +2049,10 @@
         }
 
         if (tellInPersonCheckbox) {
-          tellInPersonCheckbox.addEventListener("change", handlePainDescriptorsVisibility);
+          tellInPersonCheckbox.addEventListener(
+            "change",
+            handlePainDescriptorsVisibility,
+          );
         }
       });
     </script>

@@ -570,6 +570,404 @@ document.addEventListener("DOMContentLoaded", () => {
     await submitForm("submitted");
   });
 
+  // Step 3 button handling
+  function setupToggleButtons() {
+    // Medications buttons
+    setupButtonGroup("takingMedications");
+
+    // Allergies buttons
+    setupButtonGroup("hasAllergies");
+
+    // Pregnancy buttons
+    setupButtonGroup("pregnantBreastfeeding");
+
+    // Health conditions buttons
+    setupConditionButtons();
+  }
+
+  function setupButtonGroup(name) {
+    const buttons = document.querySelectorAll(`button[data-name="${name}"]`);
+    const hiddenInput = document.querySelector(`input[name="${name}"]`);
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        // Remove selected class from all buttons in this group
+        buttons.forEach((btn) => btn.classList.remove("selected"));
+        // Add selected class to clicked button
+        button.classList.add("selected");
+        // Update hidden input
+        if (hiddenInput) {
+          hiddenInput.value = button.getAttribute("data-value");
+        }
+
+        // Handle conditional fields
+        if (name === "takingMedications") {
+          toggleConditionalField(
+            button.getAttribute("data-value") === "Yes",
+            "medicationsSection",
+          );
+        } else if (name === "hasAllergies") {
+          toggleConditionalField(
+            button.getAttribute("data-value") === "Yes",
+            "allergiesSection",
+          );
+        } else if (name === "pregnantBreastfeeding") {
+          toggleConditionalField(
+            button.getAttribute("data-value") === "Yes",
+            "pregnancyWeeksSection",
+          );
+        }
+      });
+    });
+  }
+
+  function setupConditionButtons() {
+    const conditionButtons = document.querySelectorAll(".condition-btn");
+    const hiddenInput = document.getElementById("medicalConditionsHidden");
+    let selectedConditions = [];
+
+    conditionButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const value = button.getAttribute("data-value");
+
+        if (value === "None of the above") {
+          // If "None of the above" is clicked, deselect all others
+          if (!button.classList.contains("selected")) {
+            conditionButtons.forEach((btn) => {
+              if (btn !== button) btn.classList.remove("selected");
+            });
+            selectedConditions = [value];
+          } else {
+            selectedConditions = selectedConditions.filter((c) => c !== value);
+          }
+        } else {
+          // For other conditions, toggle and remove "None of the above" if selected
+          if (button.classList.contains("selected")) {
+            selectedConditions = selectedConditions.filter((c) => c !== value);
+          } else {
+            selectedConditions.push(value);
+            // Remove "None of the above" if it was selected
+            selectedConditions = selectedConditions.filter(
+              (c) => c !== "None of the above",
+            );
+            document
+              .querySelector('.condition-btn[data-value="None of the above"]')
+              ?.classList.remove("selected");
+          }
+        }
+
+        button.classList.toggle("selected");
+
+        // Update hidden input
+        if (hiddenInput) {
+          hiddenInput.value = selectedConditions.join(",");
+        }
+
+        // Handle conditional details section
+        updateConditionsVisibility();
+      });
+    });
+  }
+
+  function toggleConditionalField(show, sectionId) {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      if (show) {
+        section.classList.remove("hidden-field");
+        section.style.display = "block";
+        // Focus on the input/textarea
+        const input = section.querySelector("input, textarea");
+        if (input) {
+          setTimeout(() => input.focus(), 300);
+        }
+      } else {
+        section.classList.add("hidden-field");
+        section.style.display = "none";
+        // Clear the field
+        const inputs = section.querySelectorAll("input, textarea");
+        inputs.forEach((input) => {
+          input.value = "";
+        });
+      }
+    }
+  }
+
+  function updateConditionsVisibility() {
+    const hiddenInput = document.getElementById("medicalConditionsHidden");
+    const selectedConditions = hiddenInput?.value
+      ? hiddenInput.value
+          .split(",")
+          .filter((c) => c && c !== "None of the above")
+      : [];
+    const detailsSection = document.getElementById("conditionsDetailsSection");
+
+    if (detailsSection) {
+      if (selectedConditions.length > 0) {
+        detailsSection.classList.remove("hidden-field");
+        detailsSection.style.display = "block";
+      } else {
+        detailsSection.classList.add("hidden-field");
+        detailsSection.style.display = "none";
+      }
+    }
+  }
+
+  // Health conditions search
+  const healthSearch = document.getElementById("healthSearch");
+  if (healthSearch) {
+    healthSearch.addEventListener("input", (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      const conditionButtons = document.querySelectorAll(".condition-btn");
+
+      conditionButtons.forEach((button) => {
+        const text = button.textContent.toLowerCase();
+        const category = button.closest(".health-category");
+
+        if (text.includes(searchTerm) || searchTerm === "") {
+          button.style.display = "flex";
+          if (category) category.style.display = "block";
+        } else {
+          button.style.display = "none";
+          // Hide category if no buttons are visible
+          const visibleButtons = category.querySelectorAll(
+            '.condition-btn[style*="display: flex"]',
+          );
+          if (visibleButtons.length === 0) {
+            category.style.display = "none";
+          }
+        }
+      });
+    });
+  }
+
+  // Initialize Step 3 buttons
+  setupToggleButtons();
+
+  // Step 4 button handling
+  function setupStep4Buttons() {
+    // Symptom cause buttons
+    setupRadioButtonGroup("symptom-cause-btn", "painCause");
+
+    // Symptom descriptors (multi-select)
+    setupMultiSelectButtons("symptom-desc-btn", "painDescriptorsHidden");
+
+    // Worse today buttons
+    setupRadioButtonGroup("worse-today-btn", "worseToday");
+
+    // Pressure preference buttons
+    setupRadioButtonGroup("pressure-btn", "pressurePreference");
+
+    // Body areas (multi-select)
+    setupMultiSelectButtons("body-area-btn", "bodyAreasHidden");
+  }
+
+  function setupRadioButtonGroup(btnClass, inputName) {
+    const buttons = document.querySelectorAll(`.${btnClass}`);
+    const hiddenInput = document.querySelector(`input[name="${inputName}"]`);
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        // Remove selected class from all buttons in this group
+        buttons.forEach((btn) => btn.classList.remove("selected"));
+        // Add selected class to clicked button
+        button.classList.add("selected");
+        // Update hidden input
+        if (hiddenInput) {
+          hiddenInput.value = button.getAttribute("data-value");
+        }
+      });
+    });
+  }
+
+  function setupMultiSelectButtons(btnClass, inputId) {
+    const buttons = document.querySelectorAll(`.${btnClass}`);
+    const hiddenInput = document.getElementById(inputId);
+    let selectedValues = [];
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const value = button.getAttribute("data-value");
+
+        if (button.classList.contains("selected")) {
+          selectedValues = selectedValues.filter((v) => v !== value);
+        } else {
+          selectedValues.push(value);
+        }
+
+        button.classList.toggle("selected");
+
+        // Update hidden input
+        if (hiddenInput) {
+          hiddenInput.value = selectedValues.join(",");
+        }
+      });
+    });
+  }
+
+  // Enhanced pain slider
+  function setupPainSlider() {
+    const slider = document.getElementById("painLevel");
+    const numberDisplay = document.getElementById("painNumber");
+    const labelDisplay = document.getElementById("painLabel");
+    const skipBtn = document.getElementById("skipPainBtn");
+
+    if (!slider || !numberDisplay || !labelDisplay) return;
+
+    function updatePainDisplay(value) {
+      const numValue = parseInt(value);
+      numberDisplay.textContent = numValue;
+
+      // Color coding
+      if (numValue <= 3) {
+        numberDisplay.style.color = "#10B981"; // green
+        labelDisplay.textContent = "None";
+      } else if (numValue <= 6) {
+        numberDisplay.style.color = "#F59E0B"; // orange
+        if (numValue <= 3) labelDisplay.textContent = "Mild";
+        else labelDisplay.textContent = "Moderate";
+      } else {
+        numberDisplay.style.color = "#EF4444"; // red
+        labelDisplay.textContent = "Severe";
+      }
+
+      // Specific labels
+      if (numValue === 0) labelDisplay.textContent = "None";
+      else if (numValue >= 2 && numValue <= 3)
+        labelDisplay.textContent = "Mild";
+      else if (numValue >= 5 && numValue <= 6)
+        labelDisplay.textContent = "Moderate";
+      else if (numValue >= 7 && numValue <= 8)
+        labelDisplay.textContent = "Severe";
+      else if (numValue === 10) labelDisplay.textContent = "Worst possible";
+    }
+
+    slider.addEventListener("input", (e) => {
+      updatePainDisplay(e.target.value);
+    });
+
+    // Skip button
+    if (skipBtn) {
+      skipBtn.addEventListener("click", () => {
+        slider.value = 0;
+        updatePainDisplay(0);
+      });
+    }
+
+    // Initialize
+    updatePainDisplay(slider.value);
+  }
+
+  // Initialize Step 4
+  setupStep4Buttons();
+  setupPainSlider();
+
+  // Step 5 enhancements
+  function setupStep5Features() {
+    // Enhanced submit button with loading state
+    const submitBtn = document.getElementById("submitBtn");
+    const submitText = submitBtn?.querySelector(".submit-text");
+    const loadingSpinner = submitBtn?.querySelector(".loading-spinner");
+
+    if (submitBtn && submitText && loadingSpinner) {
+      // Override the submit handler to show loading state
+      const originalSubmitHandler = submitBtn.onclick || (() => {});
+      submitBtn.addEventListener("click", async (e) => {
+        if (submitBtn.disabled) return;
+
+        // Show loading state
+        submitBtn.disabled = true;
+        submitText.textContent = "Submitting...";
+        loadingSpinner.style.display = "block";
+
+        try {
+          await originalSubmitHandler(e);
+        } catch (error) {
+          // Reset loading state on error
+          submitBtn.disabled = false;
+          submitText.textContent = "Submit";
+          loadingSpinner.style.display = "none";
+          throw error;
+        }
+      });
+    }
+
+    // Enhanced validation with visual feedback
+    const form = document.getElementById("intakeForm");
+    if (form) {
+      form.addEventListener("submit", (e) => {
+        const requiredCheckboxes = form.querySelectorAll(
+          'input[required]:not([type="hidden"])',
+        );
+        let firstError = null;
+
+        requiredCheckboxes.forEach((checkbox) => {
+          if (!checkbox.checked) {
+            const container =
+              checkbox.closest(".consent-item") ||
+              checkbox.closest(".consent-checkbox");
+            if (container) {
+              container.style.border = "2px solid #EF4444";
+              container.style.borderRadius = "8px";
+              container.style.padding = "16px";
+              if (!firstError) firstError = container;
+            }
+          } else {
+            const container =
+              checkbox.closest(".consent-item") ||
+              checkbox.closest(".consent-checkbox");
+            if (container) {
+              container.style.border = "none";
+              container.style.padding = "0";
+            }
+          }
+        });
+
+        // Check signature
+        const signaturePad = window.signaturePad;
+        if (signaturePad && !signaturePad.hasDrawnContent()) {
+          const signatureContainer = document.querySelector(
+            ".signature-pad-frame",
+          );
+          if (signatureContainer) {
+            signatureContainer.style.border = "2px solid #EF4444";
+            if (!firstError) firstError = signatureContainer;
+
+            // Add error message
+            let errorMsg = signatureContainer.querySelector(".signature-error");
+            if (!errorMsg) {
+              errorMsg = document.createElement("div");
+              errorMsg.className = "signature-error";
+              errorMsg.textContent = "Signature required";
+              errorMsg.style.color = "#EF4444";
+              errorMsg.style.fontSize = "14px";
+              errorMsg.style.marginTop = "8px";
+              signatureContainer.appendChild(errorMsg);
+            }
+          }
+        } else {
+          const signatureContainer = document.querySelector(
+            ".signature-pad-frame",
+          );
+          if (signatureContainer) {
+            signatureContainer.style.border = "2px solid #2563EB";
+            const errorMsg =
+              signatureContainer.querySelector(".signature-error");
+            if (errorMsg) errorMsg.remove();
+          }
+        }
+
+        if (firstError) {
+          e.preventDefault();
+          firstError.scrollIntoView({ behavior: "smooth", block: "center" });
+          return false;
+        }
+      });
+    }
+  }
+
+  // Initialize Step 5
+  setupStep5Features();
+
   async function submitForm(status) {
     // Validate combined consent
     const consentAllEl = document.getElementById("consentAll");
