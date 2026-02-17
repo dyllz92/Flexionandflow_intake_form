@@ -15,20 +15,49 @@
             const email = document.getElementById('email');
             const mobile = document.getElementById('mobile');
             const dateOfBirth = document.getElementById('dateOfBirth');
-            const genderInputs = document.querySelectorAll('input[name="gender"]');
-            
+
             const firstNameValid = firstName && firstName.value.trim().length > 0;
             const lastNameValid = lastName && lastName.value.trim().length > 0;
             const emailValid = email && email.value.trim().length > 0;
             const mobileValid = mobile && mobile.value.trim().length > 0;
             const dobValid = dateOfBirth && dateOfBirth.value.trim().length > 0;
-            const genderValid = Array.from(genderInputs).some(g => g.checked);
-            
-            return firstNameValid && lastNameValid && emailValid && mobileValid && dobValid && genderValid;
+
+            // Gender is optional in the UI, so we don't block progression here
+            return firstNameValid && lastNameValid && emailValid && mobileValid && dobValid;
         },
         2: () => {
-            const visitReasonInputs = document.querySelectorAll('input[name="visitReason"]');
-            return Array.from(visitReasonInputs).some(r => r.checked);
+            // Step 2 requires:
+            // - At least one visit goal
+            // - A referral source
+            // - Sleep and stress sliders set (when marked required)
+            // - Exercise frequency selected
+            // - Previous massage experience selected
+            const visitGoalInputs = document.querySelectorAll('input[name="visitGoals"]');
+            const referralSourceInputs = document.querySelectorAll('input[name="referralSource"]');
+            const sleepQuality = document.getElementById('sleepQuality');
+            const stressLevel = document.getElementById('stressLevel');
+            const exerciseFrequencyInputs = document.querySelectorAll('input[name="exerciseFrequency"]');
+            const previousMassageInputs = document.querySelectorAll('input[name="previousMassage"]');
+
+            const hasVisitGoal = Array.from(visitGoalInputs).some(r => r.checked);
+            const hasReferralSource = Array.from(referralSourceInputs).some(r => r.checked);
+
+            const sleepValid = !sleepQuality ||
+                !sleepQuality.hasAttribute('required') ||
+                !!sleepQuality.value;
+            const stressValid = !stressLevel ||
+                !stressLevel.hasAttribute('required') ||
+                !!stressLevel.value;
+
+            const hasExerciseFrequency = Array.from(exerciseFrequencyInputs).some(r => r.checked);
+            const hasPreviousMassage = Array.from(previousMassageInputs).some(r => r.checked);
+
+            return hasVisitGoal &&
+                hasReferralSource &&
+                sleepValid &&
+                stressValid &&
+                hasExerciseFrequency &&
+                hasPreviousMassage;
         },
         3: () => {
             return true;
@@ -141,6 +170,7 @@
 
     function showValidationErrors() {
         let message = '';
+        let focusElement = null;
 
         switch (currentStep) {
             case 1: {
@@ -149,34 +179,94 @@
                 const email = document.getElementById('email');
                 const mobile = document.getElementById('mobile');
                 const dateOfBirth = document.getElementById('dateOfBirth');
-                const genderInputs = document.querySelectorAll('input[name="gender"]');
-                const genderSelected = Array.from(genderInputs).some(g => g.checked);
 
-                if (!firstName || !firstName.value.trim()) message = 'Please enter your first name.';
-                else if (!lastName || !lastName.value.trim()) message = 'Please enter your last name.';
-                else if (!email || !email.value.trim()) message = 'Please enter your email address.';
-                else if (!mobile || !mobile.value.trim()) message = 'Please enter your mobile number.';
-                else if (!dateOfBirth || !dateOfBirth.value.trim()) message = 'Please enter your date of birth.';
-                else if (!genderSelected) message = 'Please select your gender.';
+                if (!firstName || !firstName.value.trim()) {
+                    message = 'Please enter your first name.';
+                    focusElement = firstName;
+                } else if (!lastName || !lastName.value.trim()) {
+                    message = 'Please enter your last name.';
+                    focusElement = lastName;
+                } else if (!email || !email.value.trim()) {
+                    message = 'Please enter your email address.';
+                    focusElement = email;
+                } else if (!mobile || !mobile.value.trim()) {
+                    message = 'Please enter your mobile number.';
+                    focusElement = mobile;
+                } else if (!dateOfBirth || !dateOfBirth.value.trim()) {
+                    message = 'Please enter your date of birth.';
+                    focusElement = dateOfBirth;
+                }
                 break;
             }
             case 2: {
-                const visitReasonInputs = document.querySelectorAll('input[name="visitReason"]');
-                const visitReasonSelected = Array.from(visitReasonInputs).some(r => r.checked);
-                if (!visitReasonSelected) message = 'Please select a reason for your visit.';
+                const visitGoalInputs = document.querySelectorAll('input[name="visitGoals"]');
+                const referralSourceInputs = document.querySelectorAll('input[name="referralSource"]');
+                const sleepQuality = document.getElementById('sleepQuality');
+                const stressLevel = document.getElementById('stressLevel');
+                const exerciseFrequencyInputs = document.querySelectorAll('input[name="exerciseFrequency"]');
+                const previousMassageInputs = document.querySelectorAll('input[name="previousMassage"]');
+
+                const hasVisitGoal = Array.from(visitGoalInputs).some(r => r.checked);
+                const hasReferralSource = Array.from(referralSourceInputs).some(r => r.checked);
+                const hasExerciseFrequency = Array.from(exerciseFrequencyInputs).some(r => r.checked);
+                const hasPreviousMassage = Array.from(previousMassageInputs).some(r => r.checked);
+
+                const sleepMissing = sleepQuality &&
+                    sleepQuality.hasAttribute('required') &&
+                    !sleepQuality.value;
+                const stressMissing = stressLevel &&
+                    stressLevel.hasAttribute('required') &&
+                    !stressLevel.value;
+
+                if (!hasVisitGoal) {
+                    message = 'Please tell me what brings you in today.';
+                    focusElement = visitGoalInputs[0]?.closest('.form-group') || visitGoalInputs[0];
+                } else if (!hasReferralSource) {
+                    message = 'Please tell me how you heard about me.';
+                    focusElement = referralSourceInputs[0]?.closest('.form-group') || referralSourceInputs[0];
+                } else if (sleepMissing) {
+                    message = 'Please rate how well you sleep.';
+                    focusElement = sleepQuality;
+                } else if (stressMissing) {
+                    message = 'Please rate your stress levels.';
+                    focusElement = stressLevel;
+                } else if (!hasExerciseFrequency) {
+                    message = 'Please tell me how often you exercise.';
+                    focusElement = exerciseFrequencyInputs[0]?.closest('.form-group') || exerciseFrequencyInputs[0];
+                } else if (!hasPreviousMassage) {
+                    message = 'Please let me know if you have had massage therapy before.';
+                    focusElement = previousMassageInputs[0]?.closest('.form-group') || previousMassageInputs[0];
+                }
                 break;
             }
             case 5: {
                 const consentAll = document.getElementById('consentAll');
                 const signatureValid = typeof window.isSignatureValid === 'function' && window.isSignatureValid();
-                if (!consentAll || !consentAll.checked) message = 'Please confirm you have read and agreed to the Terms and consent to treatment.';
-                else if (!signatureValid) message = 'Please provide a signature.';
+                if (!consentAll || !consentAll.checked) {
+                    message = 'Please confirm you have read and agreed to the Terms and consent to treatment.';
+                    focusElement = consentAll?.closest('.consent-item') || consentAll;
+                } else if (!signatureValid) {
+                    message = 'Please provide a signature.';
+                    focusElement = document.querySelector('.signature-pad-frame') || null;
+                }
                 break;
             }
         }
 
         if (message) {
-            alert(message);
+            // Prefer inline step validation message over alert popups
+            const validationEl = document.getElementById('stepValidationMessage');
+            if (validationEl) {
+                validationEl.textContent = message;
+                validationEl.classList.remove('is-hidden');
+            } else {
+                // Fallback to alert if the message area is missing
+                alert(message);
+            }
+
+            if (focusElement && typeof focusElement.scrollIntoView === 'function') {
+                focusElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
         }
     }
 

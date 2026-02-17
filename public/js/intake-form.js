@@ -45,6 +45,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+// Elements for "seen other provider" conditional visibility
+const seenOtherProviderGroup = document.getElementById("seenOtherProviderGroup");
+const seenOtherProviderInputs = document.querySelectorAll(
+  'input[name="seenOtherProvider"]',
+);
+
 function updateSeenOtherProviderVisibility() {
   // List of conditions that should trigger the question (customize as needed)
   const triggerKeywords = [
@@ -657,6 +664,12 @@ document.addEventListener("DOMContentLoaded", () => {
           toggleConditionalField(
             button.getAttribute("data-value") === "Yes",
             "pregnancyWeeksSection",
+          );
+        } else if (name === "previousMassage") {
+          // Show extra details section when client has previous massage experience
+          toggleConditionalField(
+            button.getAttribute("data-value") === "Yes",
+            "previousMassageDetailsSection",
           );
         }
       });

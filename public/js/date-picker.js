@@ -62,6 +62,8 @@ document.addEventListener("DOMContentLoaded", () => {
         allowInput: true,
         disableMobile: true,
         monthSelectorType: "dropdown",
+        // Make it much faster to jump to earlier birth years
+        yearSelectorType: "dropdown",
         onChange: (_selectedDates, dateStr) => setValidityState(input, dateStr),
         onValueUpdate: (_selectedDates, dateStr) =>
           setValidityState(input, dateStr),

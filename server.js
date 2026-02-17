@@ -134,67 +134,6 @@ app.get("/detailed-form", (req, res) => {
   res.redirect("/intake");
 });
 
-// Health check endpoint with enhanced diagnostics
-app.get("/health", (req, res) => {
-  try {
-    // Check if critical services are available
-    const healthCheck = {
-      status: "healthy",
-      timestamp: new Date().toISOString(),
-      uptime: Math.round(process.uptime()),
-      environment: process.env.NODE_ENV || "development",
-      version: process.env.RAILWAY_GIT_COMMIT_SHA?.slice(0, 7) || "unknown",
-      services: {
-        googleDrive: driveUploader?.configured || false,
-        openai: !!process.env.OPENAI_API_KEY,
-        directories: {
-          metadata: fs.existsSync(path.join(__dirname, "metadata")),
-          pdfs: fs.existsSync(path.join(__dirname, "pdfs")),
-          public: fs.existsSync(path.join(__dirname, "public")),
-        },
-      },
-    };
-
-    res.status(200).json(healthCheck);
-  } catch (error) {
-    res.status(503).json({
-      status: "unhealthy",
-      error: error.message,
-      timestamp: new Date().toISOString(),
-    });
-  }
-});
-
-// Enhanced health check endpoint
-app.get("/health", (req, res) => {
-  try {
-    const healthCheck = {
-      status: "healthy",
-      timestamp: new Date().toISOString(),
-      uptime: Math.round(process.uptime()),
-      environment: process.env.NODE_ENV || "development",
-      version: process.env.RAILWAY_GIT_COMMIT_SHA?.slice(0, 7) || "unknown",
-      services: {
-        googleDrive: driveUploader?.configured || false,
-        openai: !!process.env.OPENAI_API_KEY,
-        directories: {
-          metadata: fs.existsSync(path.join(__dirname, "metadata")),
-          pdfs: fs.existsSync(path.join(__dirname, "pdfs")),
-          public: fs.existsSync(path.join(__dirname, "public")),
-        },
-      },
-    };
-
-    res.status(200).json(healthCheck);
-  } catch (error) {
-    res.status(503).json({
-      status: "unhealthy",
-      error: error.message,
-      timestamp: new Date().toISOString(),
-    });
-  }
-});
-
 // Input validation helpers
 function sanitizeString(str, maxLength = 500) {
   if (typeof str !== "string") return "";
@@ -490,6 +429,12 @@ app.post("/api/submit-form", async (req, res) => {
     formData.last_treatment_when = sanitizeString(
       formData.last_treatment_when,
       50,
+    );
+
+    // Sanitize previous massage experience details
+    formData.previousMassageDetails = sanitizeString(
+      formData.previousMassageDetails,
+      1000,
     );
 
     // Sanitize pregnancy weeks

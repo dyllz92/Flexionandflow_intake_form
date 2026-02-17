@@ -7,11 +7,11 @@ test.describe("Intake Form - Fast & Reliable", () => {
   });
 
   test("should complete full form submission efficiently", async ({ page }) => {
-    // Step 1: Fill all fields at once 
+    // Step 1: Fill all fields at once
     await page.evaluate(() => {
       const fields = {
         firstName: "Jane",
-        lastName: "Doe", 
+        lastName: "Doe",
         email: "jane.doe@example.com",
         mobile: "0412345678",
         dateOfBirth: "15/09/1990", // Use DD/MM/YYYY format
@@ -29,7 +29,7 @@ test.describe("Intake Form - Fast & Reliable", () => {
 
     // Select gender via label click (radio buttons are hidden)
     await page.click('label:has-text("Female")');
-    
+
     // Verify wizard navigation works
     await page.waitForFunction(() => {
       const nextBtn = document.getElementById("nextBtn");
@@ -37,18 +37,18 @@ test.describe("Intake Form - Fast & Reliable", () => {
     }, { timeout: 3000 });
 
     await page.click("#nextBtn");
-    
+
     // Use a more reliable selector for step 2
     await page.waitForSelector('[data-step="2"].active', { timeout: 8000 });
 
-    // Step 2: Continue with simplified form submission test... 
+    // Step 2: Continue with simplified form submission test...
     console.log("✅ Step 1 to 2 navigation working!");
-    
-    // For now, just verify we can navigate - full flow test can be added later
+
+    // Verify we can navigate to step 2
     const step2Visible = await page.isVisible('[data-step="2"].active');
     expect(step2Visible).toBe(true);
-  });
 
+    // Step 2: Lifestyle & visit details
     await page.evaluate(() => {
       const sleepSlider = document.getElementById("sleepQuality");
       const stressSlider = document.getElementById("stressLevel");

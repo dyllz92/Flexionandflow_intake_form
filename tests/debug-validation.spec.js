@@ -17,8 +17,8 @@ test.describe('Debug Step 2 Validation Issues', () => {
           };
 
           if (stepNum === 2) {
-            const visitReasonsInputs = document.querySelectorAll('input[name="visitReasons"]');
-            const visitReasons = document.querySelectorAll('input[name="visitReasons"]:checked');
+            const visitGoalsInputs = document.querySelectorAll('input[name="visitGoals"]');
+            const visitGoals = document.querySelectorAll('input[name="visitGoals"]:checked');
             const referralSourceInputs = document.querySelectorAll('input[name="referralSource"]');
             const referralSource = document.querySelectorAll('input[name="referralSource"]:checked');
             const occupation = document.getElementById('occupation');
@@ -29,7 +29,7 @@ test.describe('Debug Step 2 Validation Issues', () => {
             const previousMassageInputs = document.querySelectorAll('input[name="previousMassage"]');
             const previousMassage = document.querySelectorAll('input[name="previousMassage"]:checked');
 
-            if (visitReasonsInputs.length && visitReasons.length === 0) invalidate(visitReasonsInputs[0], 'Missing: visitReasons');
+            if (visitGoalsInputs.length && visitGoals.length === 0) invalidate(visitGoalsInputs[0], 'Missing: visitGoals');
             else if (referralSourceInputs.length && referralSource.length === 0) invalidate(referralSourceInputs[0], 'Missing: referralSource');
             else if (!occupation || !occupation.value.trim()) invalidate(occupation, 'Missing: occupation');
             else if (sleepQuality && sleepQuality.hasAttribute('required') && !sleepQuality.value) invalidate(sleepQuality, 'Missing: sleepQuality');
@@ -60,8 +60,8 @@ test.describe('Debug Step 2 Validation Issues', () => {
     let validation = await page.evaluate(() => window._getValidationState(2));
     console.log('Initial state:', validation);
 
-    // 1. Add visit reason
-    await page.check('input[name="visitReasons"][value="Relieve pain / tension"]');
+    // 1. Add visit goal
+    await page.check('input[name="visitGoals"][value="Pain / Tension relief"]');
     validation = await page.evaluate(() => window._getValidationState(2));
     console.log('After adding visit reason:', validation);
 
