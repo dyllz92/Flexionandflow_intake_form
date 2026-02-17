@@ -29,10 +29,10 @@
       - generic [ref=e28]:
         - generic [ref=e29]:
           - generic [ref=e30]: First Name *
-          - textbox "First Name *" [ref=e31]: Jane
+          - textbox "First Name *" [ref=e31]: Test
         - generic [ref=e32]:
           - generic [ref=e33]: Last Name *
-          - textbox "Last Name *" [ref=e34]: Doe
+          - textbox "Last Name *" [ref=e34]: User
       - generic [ref=e35]:
         - generic [ref=e36]: Gender (optional)
         - generic [ref=e37]:
@@ -41,16 +41,17 @@
           - generic [ref=e40] [cursor=pointer]: Non-binary
       - generic [ref=e42]:
         - generic [ref=e43]: Email *
-        - textbox "Email *" [ref=e44]: jane.doe@example.com
+        - textbox "Email *" [ref=e44]: test.user@example.com
       - generic [ref=e45]:
         - generic [ref=e46]: Phone *
-        - textbox "Phone *" [ref=e47]:
+        - textbox "Phone *" [active] [ref=e47]:
           - /placeholder: e.g. 0412 345 678
+          - text: 0412 345 678
       - generic [ref=e49]:
         - generic [ref=e50]: Date of Birth *
         - textbox "Date of Birth *" [ref=e51]:
           - /placeholder: 15/09/1992
-          - text: 15/09/1990
+          - text: 10/01/1992
         - paragraph
       - generic [ref=e53]:
         - generic [ref=e54]: What do you do for work? *
@@ -72,7 +73,5 @@
             - generic [ref=e66]: "Phone:"
             - textbox "Phone:" [ref=e67]:
               - /placeholder: e.g., 0412 345 678
-    - generic [ref=e69]:
-      - button "Back" [ref=e70]
-      - button "Next" [active] [ref=e71] [cursor=pointer]
+    - button "Next" [disabled] [ref=e70]
 ```

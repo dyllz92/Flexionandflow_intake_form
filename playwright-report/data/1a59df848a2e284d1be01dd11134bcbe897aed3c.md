@@ -1,0 +1,76 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - img "Flexion & Flow Logo" [ref=e4]
+    - heading "Client Intake Form" [level=1] [ref=e5]
+  - paragraph [ref=e7]: Welcome! Please complete this intake form to help us provide you with the best possible service.
+  - generic [ref=e8]:
+    - generic [ref=e9]:
+      - generic [ref=e10]: "1"
+      - generic [ref=e11]: About you
+    - generic [ref=e12]:
+      - generic [ref=e13]: "2"
+      - generic [ref=e14]: About Your Visit
+    - generic [ref=e15]:
+      - generic [ref=e16]: "3"
+      - generic [ref=e17]: About your health
+    - generic [ref=e18]:
+      - generic [ref=e19]: "4"
+      - generic [ref=e20]: About your pain
+    - generic [ref=e21]:
+      - generic [ref=e22]: "5"
+      - generic [ref=e23]: Your consent
+  - generic [ref=e24]: Step 1 of 5
+  - generic [ref=e25]:
+    - generic [ref=e26]:
+      - heading "Step 1 - Your Details" [level=2] [ref=e27]
+      - generic [ref=e28]:
+        - generic [ref=e29]:
+          - generic [ref=e30]: First Name *
+          - textbox "First Name *" [ref=e31]: Jane
+        - generic [ref=e32]:
+          - generic [ref=e33]: Last Name *
+          - textbox "Last Name *" [ref=e34]: Smith
+      - generic [ref=e35]:
+        - generic [ref=e36]: Gender (optional)
+        - generic [ref=e37]:
+          - generic [ref=e38] [cursor=pointer]: Male
+          - generic [ref=e39] [cursor=pointer]: Female
+          - generic [ref=e40] [cursor=pointer]: Non-binary
+      - generic [ref=e42]:
+        - generic [ref=e43]: Email *
+        - textbox "Email *" [ref=e44]: jane.smith@example.com
+      - generic [ref=e45]:
+        - generic [ref=e46]: Phone *
+        - textbox "Phone *" [active] [ref=e47]:
+          - /placeholder: e.g. 0412 345 678
+          - text: 0487 654 321
+      - generic [ref=e49]:
+        - generic [ref=e50]: Date of Birth *
+        - textbox "Date of Birth *" [ref=e51]:
+          - /placeholder: 15/09/1992
+          - text: 22/03/1985
+        - paragraph
+      - generic [ref=e53]:
+        - generic [ref=e54]: What do you do for work? *
+        - textbox "What do you do for work? *" [ref=e55]:
+          - /placeholder: e.g., Office Worker, Tradie, Student
+      - generic [ref=e56]:
+        - heading "Emergency Contact Information" [level=3] [ref=e57]
+        - generic [ref=e58]:
+          - generic [ref=e59]:
+            - generic [ref=e60]: "Name:"
+            - textbox "Name:" [ref=e61]:
+              - /placeholder: Emergency contact name
+          - generic [ref=e62]:
+            - generic [ref=e63]: "Relationship:"
+            - textbox "Relationship:" [ref=e64]:
+              - /placeholder: e.g., Partner, Parent, Friend
+          - generic [ref=e65]:
+            - generic [ref=e66]: "Phone:"
+            - textbox "Phone:" [ref=e67]:
+              - /placeholder: e.g., 0412 345 678
+    - button "Next" [disabled] [ref=e70]
+```
