@@ -1,8 +1,50 @@
-// Show/hide 'seenOtherProvider' based on medical conditions
-const seenOtherProviderGroup = document.getElementById(
-  "seenOtherProviderGroup",
-);
-const seenOtherProviderInputs = document.getElementsByName("seenOtherProvider");
+// Real-time validation for better UX
+document.addEventListener("DOMContentLoaded", () => {
+  // Add real-time validation to form fields
+  const formFields = document.querySelectorAll(
+    "input[required], textarea[required], select[required]",
+  );
+
+  formFields.forEach((field) => {
+    // Add blur event for validation feedback
+    field.addEventListener("blur", () => {
+      if (window.validateFieldVisually) {
+        window.validateFieldVisually(field);
+      }
+    });
+
+    // Add input event for immediate feedback clearing
+    field.addEventListener("input", () => {
+      if (field.classList.contains("validation-error") && field.value.trim()) {
+        field.classList.remove("validation-error");
+        const errorEl = field.parentNode.querySelector(".field-error");
+        if (errorEl) {
+          errorEl.style.display = "none";
+        }
+      }
+    });
+  });
+
+  // Enhanced phone number formatting
+  const phoneField = document.getElementById("mobile");
+  if (phoneField) {
+    phoneField.addEventListener("input", (e) => {
+      let value = e.target.value.replace(/\D/g, "");
+
+      // Australian mobile format: 04XX XXX XXX
+      if (value.startsWith("04") && value.length <= 10) {
+        if (value.length > 4 && value.length <= 7) {
+          value = value.slice(0, 4) + " " + value.slice(4);
+        } else if (value.length > 7) {
+          value =
+            value.slice(0, 4) + " " + value.slice(4, 7) + " " + value.slice(7);
+        }
+      }
+
+      e.target.value = value;
+    });
+  }
+});
 function updateSeenOtherProviderVisibility() {
   // List of conditions that should trigger the question (customize as needed)
   const triggerKeywords = [

@@ -134,8 +134,65 @@ app.get("/detailed-form", (req, res) => {
   res.redirect("/intake");
 });
 
-app.get("/success", (req, res) => {
-  res.sendFile(path.join(__dirname, "views", "success.html"));
+// Health check endpoint with enhanced diagnostics
+app.get("/health", (req, res) => {
+  try {
+    // Check if critical services are available
+    const healthCheck = {
+      status: "healthy",
+      timestamp: new Date().toISOString(),
+      uptime: Math.round(process.uptime()),
+      environment: process.env.NODE_ENV || "development",
+      version: process.env.RAILWAY_GIT_COMMIT_SHA?.slice(0, 7) || "unknown",
+      services: {
+        googleDrive: driveUploader?.configured || false,
+        openai: !!process.env.OPENAI_API_KEY,
+        directories: {
+          metadata: fs.existsSync(path.join(__dirname, "metadata")),
+          pdfs: fs.existsSync(path.join(__dirname, "pdfs")),
+          public: fs.existsSync(path.join(__dirname, "public")),
+        },
+      },
+    };
+
+    res.status(200).json(healthCheck);
+  } catch (error) {
+    res.status(503).json({
+      status: "unhealthy",
+      error: error.message,
+      timestamp: new Date().toISOString(),
+    });
+  }
+});
+
+// Enhanced health check endpoint
+app.get("/health", (req, res) => {
+  try {
+    const healthCheck = {
+      status: "healthy",
+      timestamp: new Date().toISOString(),
+      uptime: Math.round(process.uptime()),
+      environment: process.env.NODE_ENV || "development",
+      version: process.env.RAILWAY_GIT_COMMIT_SHA?.slice(0, 7) || "unknown",
+      services: {
+        googleDrive: driveUploader?.configured || false,
+        openai: !!process.env.OPENAI_API_KEY,
+        directories: {
+          metadata: fs.existsSync(path.join(__dirname, "metadata")),
+          pdfs: fs.existsSync(path.join(__dirname, "pdfs")),
+          public: fs.existsSync(path.join(__dirname, "public")),
+        },
+      },
+    };
+
+    res.status(200).json(healthCheck);
+  } catch (error) {
+    res.status(503).json({
+      status: "unhealthy",
+      error: error.message,
+      timestamp: new Date().toISOString(),
+    });
+  }
 });
 
 // Input validation helpers
@@ -152,6 +209,16 @@ function isValidEmail(email) {
 
 function isValidPhone(phone) {
   if (!phone) return false;
+  // Remove all non-digits to check length and format
+  const digitsOnly = phone.replace(/\D/g, "");
+
+  // Australian mobile: starts with 04, total 10 digits
+  // Australian landline: 8-10 digits
+  // International: 6-15 digits
+  if (digitsOnly.length < 6 || digitsOnly.length > 15) {
+    return false;
+  }
+
   // Allow digits, spaces, hyphens, parentheses, plus sign
   const phoneRegex = /^[\d\s\-()+ ]{6,20}$/;
   return phoneRegex.test(phone);

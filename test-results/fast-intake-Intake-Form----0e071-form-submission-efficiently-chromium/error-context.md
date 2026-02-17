@@ -50,7 +50,7 @@
         - generic [ref=e50]: Date of Birth *
         - textbox "Date of Birth *" [ref=e51]:
           - /placeholder: 15/09/1992
-          - text: 19/90/0101
+          - text: 15/09/1990
         - paragraph
       - generic [ref=e53]:
         - generic [ref=e54]: What do you do for work? *
@@ -72,5 +72,7 @@
             - generic [ref=e66]: "Phone:"
             - textbox "Phone:" [ref=e67]:
               - /placeholder: e.g., 0412 345 678
-    - button "Next" [ref=e69] [cursor=pointer]
+    - generic [ref=e69]:
+      - button "Back" [ref=e70]
+      - button "Next" [active] [ref=e71] [cursor=pointer]
 ```

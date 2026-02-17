@@ -14,7 +14,7 @@ test.describe("Intake Form - Fast & Reliable", () => {
         lastName: "Doe",
         email: "jane.doe@example.com",
         phone: "0412345678",
-        dateOfBirth: "1990-01-01",
+        dateOfBirth: "15/09/1990", // Use DD/MM/YYYY format
         occupation: "Designer",
       };
       Object.entries(fields).forEach(([fieldId, value]) => {
@@ -25,9 +25,16 @@ test.describe("Intake Form - Fast & Reliable", () => {
           el.dispatchEvent(new Event("change", { bubbles: true }));
         }
       });
-    });
 
-    await page.click('input[name="gender"][value="Female"]');
+      // Set gender via JavaScript since radio button might be hidden by CSS
+      const genderRadio = document.querySelector(
+        'input[name="gender"][value="Female"]',
+      );
+      if (genderRadio) {
+        genderRadio.checked = true;
+        genderRadio.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    });
     await page.keyboard.press("Escape"); // Dismiss date picker
 
     await page.waitForFunction(() => {

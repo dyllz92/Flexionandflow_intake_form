@@ -1,10 +1,26 @@
   function autoFormatDateInput(input) {
-    if (!input || !input.value) return;
+    if (!input || !input.value) return false;
     
     const value = input.value.trim();
-<<<<<<< HEAD
     if (!value) return false;
     return !!parseDateValue(value);
+  }
+
+  function parseDateValue(value) {
+    const match = /^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.]?(\d{4})$/.exec(value.trim());
+    if (!match) return null;
+    const day = Number(match[1]);
+    const month = Number(match[2]);
+    const year = Number(match[3]);
+    if (day < 1 || day > 31 || month < 1 || month > 12 || year < 1900 || year > 2030) return null;
+    const date = new Date(year, month - 1, day);
+    if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) return null;
+    return date;
+  }
+
+  function isValidDateInput(input) {
+    if (!input || !input.value) return false;
+    return !!parseDateValue(input.value);
   }
 
   function getValidationState(stepNum) {
@@ -190,48 +206,6 @@
             pregnantBreastfeedingInputs[0],
             "Please indicate if you are pregnant or breastfeeding.",
           );
-=======
-    if (!value) return;
-    
-    // Remove all non-digit characters to get just numbers
-    const digitsOnly = value.replace(/\D/g, '');
-    
-    // Need at least 6 digits for a valid date (DDMMYY)
-    if (digitsOnly.length < 6) return;
-    
-    let day, month, year;
-    
-    // Try to parse the original value first to detect separators
-    const withSeparators = /^(\d{1,2})[\s\-\/\.]?(\d{1,2})[\s\-\/\.]?(\d{2,4})$/;
-    const match = value.match(withSeparators);
-    
-    if (match) {
-      // Has separators - need to determine if DD/MM/YYYY or MM/DD/YYYY
-      const part1 = parseInt(match[1]);
-      const part2 = parseInt(match[2]);
-      const part3 = parseInt(match[3]);
-      
-      // If part3 is 4 digits or > 31, it's likely the year
-      if (match[3].length === 4 || part3 > 31) {
-        year = part3;
-        // Now determine if part1/part2 is DD/MM or MM/DD
-        // If part1 > 12, it must be DD/MM/YYYY
-        if (part1 > 12) {
-          day = part1;
-          month = part2;
-        }
-        // If part2 > 12, it must be MM/DD/YYYY
-        else if (part2 > 12) {
-          month = part1;
-          day = part2;
-        }
-        // Ambiguous - assume DD/MM/YYYY (Australian/European format)
->>>>>>> 96fc2190f0d9c1ca6e87b2ac77d8aee05a3e10b4
-        else {
-          day = part1;
-          month = part2;
-        }
-<<<<<<< HEAD
         break;
       }
       case 4: {
@@ -244,6 +218,8 @@
         const medicalCareDisclaimer = document.getElementById(
           "medicalCareDisclaimer",
         );
+        const signatureData = document.getElementById("signatureData");
+        
         if (!consentAll || !consentAll.checked)
           invalidate(
             consentAll,
@@ -253,6 +229,11 @@
           invalidate(
             medicalCareDisclaimer,
             "Please confirm that you understand massage is not a substitute for medical care.",
+          );
+        else if (!signatureData || !signatureData.value)
+          invalidate(
+            document.getElementById("signatureCanvas"),
+            "Please provide your digital signature.",
           );
         break;
       }
@@ -351,28 +332,75 @@
         );
 =======
 >>>>>>> 96fc2190f0d9c1ca6e87b2ac77d8aee05a3e10b4
+    return state;
+  }
+
+  // Enhanced field validation with visual feedback
+  function validateFieldVisually(field) {
+    const fieldContainer = field.closest('.form-group');
+    let errorElement = fieldContainer?.querySelector('.field-error');
+    
+    if (!errorElement) {
+      errorElement = document.createElement('div');
+      errorElement.className = 'field-error';
+      errorElement.style.cssText = 'color: #ef4444; font-size: 12px; margin-top: 4px; display: none;';
+      field.parentNode.appendChild(errorElement);
+    }
+    
+    let isValid = true;
+    let message = '';
+    
+    if (field.hasAttribute('required') && !field.value.trim()) {
+      isValid = false;
+      message = 'This field is required';
+    } else if (field.type === 'email' && field.value && !isValidEmailClient(field.value)) {
+      isValid = false;
+      message = 'Please enter a valid email address';
+    } else if (field.classList.contains('date-input') && field.value && !isValidDateInput(field)) {
+      isValid = false;
+      message = 'Please enter date in DD/MM/YYYY format';
+    }
+    
+    field.classList.toggle('validation-error', !isValid);
+    errorElement.textContent = message;
+    errorElement.style.display = message ? 'block' : 'none';
+    
+    return isValid;
+  }
+  
+  function isValidEmailClient(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email) && email.length <= 254;
+  }
+
+  // Show specific step
+  function showStep(stepNum) {
+    currentStep = stepNum;
+    console.log("[wizard.js] showStep called with stepNum:", stepNum);
+
+    // Hide all steps, show current
+    steps.forEach((step, index) => {
+      const stepNumber = parseInt(step.dataset.step);
+      if (stepNumber === currentStep) {
+        step.classList.add("active");
+        step.style.display = "block";
+        console.log(
+          `[wizard.js] Step ${stepNumber} set to active and display:block`,
+        );
       } else {
-        // part3 is likely 2-digit year (YY format)
-        year = part3 < 50 ? 2000 + part3 : 1900 + part3;
-        day = part1;
-        month = part2;
+        step.classList.remove("active");
+        step.style.display = "none";
+        console.log(
+          `[wizard.js] Step ${stepNumber} hidden`,
+        );
       }
-    } else if (digitsOnly.length === 8) {
-      // No separators, 8 digits - could be DDMMYYYY or YYYYMMDD
-      const first4 = parseInt(digitsOnly.substring(0, 4));
-      
-      if (first4 > 1900 && first4 < 2100) {
-        // Likely YYYYMMDD
-        year = first4;
-        month = parseInt(digitsOnly.substring(4, 6));
-        day = parseInt(digitsOnly.substring(6, 8));
-      } else {
-        // Likely DDMMYYYY
-        day = parseInt(digitsOnly.substring(0, 2));
-        month = parseInt(digitsOnly.substring(2, 4));
-        year = parseInt(digitsOnly.substring(4, 8));
-      }
-<<<<<<< HEAD
+    });
+
+    // Update step indicators
+    stepIndicators.forEach((indicator, index) => {
+      const indicatorStep = parseInt(indicator.dataset.step);
+      indicator.classList.toggle("active", indicatorStep === currentStep);
+      indicator.classList.toggle("completed", indicatorStep < currentStep);
     });
 
     // Scroll to top of form
@@ -597,29 +625,34 @@
     }
   }
 
-  // Update button visibility and states
+  // Update button visibility and states with enhanced feedback
   function updateButtonStates() {
     if (!prevBtn || !nextBtn || !submitBtn) return;
 
-    // Previous button: hidden on step 1
-    prevBtn.style.display = currentStep === 1 ? "none" : "block";
-
-    // Next button: visible on steps 1-4, hidden on step 5
-    nextBtn.style.display = currentStep < TOTAL_STEPS ? "block" : "none";
-
-    // Submit button: visible only on step 5
-    submitBtn.style.display = currentStep === TOTAL_STEPS ? "block" : "none";
-
     const state = getValidationState(currentStep);
+    const isLastStep = currentStep === TOTAL_STEPS;
+    const isFirstStep = currentStep === 1;
 
-    // Always enable next button - validation happens on click
-    if (currentStep < TOTAL_STEPS) {
-      nextBtn.disabled = false;
-    }
+    // Previous button: hidden on step 1
+    prevBtn.style.display = isFirstStep ? "none" : "block";
+    prevBtn.disabled = isFirstStep;
 
-    // Enable/disable submit button based on validation for final step
-    if (currentStep === TOTAL_STEPS) {
+    // Next/Submit button logic with enhanced tooltips
+    if (isLastStep) {
+      nextBtn.style.display = "none";
+      submitBtn.style.display = "block";
       submitBtn.disabled = !state.valid;
+      submitBtn.title = state.valid ? 
+        "Submit your intake form" : 
+        "Please complete all required fields to submit";
+    } else {
+      nextBtn.style.display = "block";
+      submitBtn.style.display = "none";
+      nextBtn.disabled = false; // Allow navigation, validate on click
+      nextBtn.title = state.valid ? 
+        "Continue to next step" : 
+        "Complete required fields to continue";
+    }
     }
 
     updateStepValidationMessage(state);
