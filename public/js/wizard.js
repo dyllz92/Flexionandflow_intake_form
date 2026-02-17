@@ -2,6 +2,7 @@
     if (!input || !input.value) return;
     
     const value = input.value.trim();
+<<<<<<< HEAD
     if (!value) return false;
     return !!parseDateValue(value);
   }
