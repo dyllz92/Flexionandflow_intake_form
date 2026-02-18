@@ -273,7 +273,7 @@ app.post("/api/generate-soap", async (req, res) => {
       "Keep it brief and editable, no markdown or extra commentary.",
     ].join(" ");
 
-    const model = process.env.OPENAI_MODEL || "gpt-5.2";
+    const model = process.env.OPENAI_MODEL || "gpt-4o";
 
     const response = await fetch("https://api.openai.com/v1/responses", {
       method: "POST",
@@ -668,15 +668,6 @@ const server = app.listen(PORT, "0.0.0.0", () => {
 });
 
 console.log("[Init] app.listen() called, waiting for callback...");
-
-// Keep-alive monitor to ensure the process doesn't exit unexpectedly
-setInterval(() => {
-  console.log(
-    "[Monitor] Server still running, uptime:",
-    Math.round(process.uptime()),
-    "seconds",
-  );
-}, 30000); // Log every 30 seconds
 
 // Final confirmation that module loaded successfully
 console.log("[Init] Server module fully loaded, process will remain active");
