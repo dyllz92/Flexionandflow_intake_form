@@ -7,3 +7,15 @@ utils/users.json
 google-credentials.json
 nul
 amplified-alpha-485305-u5-8deb1fe12e2a.json
+
+# Debug / scratch files
+debug-test.js
+simple-test.spec.js
+
+# Test artifacts
+test-failure.png
+playwright-report/
+test-results/
+
+# Local backup snapshots
+backups/
