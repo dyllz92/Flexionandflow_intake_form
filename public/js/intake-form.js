@@ -1,4 +1,19 @@
 // Real-time validation for better UX
+const FORM_TYPE_STORAGE_KEY = "selectedFormType";
+
+function getSelectedFormTypeSafe() {
+  try {
+    return localStorage.getItem(FORM_TYPE_STORAGE_KEY);
+  } catch (error) {
+    console.warn("localStorage not available:", error);
+    return null;
+  }
+}
+
+function getSelectedBrandSafe() {
+  return "flexion";
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   // Add real-time validation to form fields
   const formFields = document.querySelectorAll(
@@ -1178,14 +1193,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // Use formType from hidden field, or get from localStorage, default to 'seated'
     data.formType =
       document.getElementById("formType")?.value ||
-      (typeof getSelectedFormType === "function"
-        ? getSelectedFormType()
-        : "seated") ||
+      getSelectedFormTypeSafe() ||
       "seated";
 
     // Ensure selectedBrand is included (from hidden field or localStorage)
-    if (!data.selectedBrand && typeof getSelectedBrand === "function") {
-      data.selectedBrand = getSelectedBrand() || "flexion";
+    if (!data.selectedBrand) {
+      data.selectedBrand = getSelectedBrandSafe();
     }
 
     // Show loading with progress steps
