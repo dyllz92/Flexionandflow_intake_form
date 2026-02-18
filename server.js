@@ -351,6 +351,14 @@ app.post("/api/submit-form", async (req, res) => {
     formData.fullName = fullName;
     formData.name = fullName;
 
+    // Email is required for intake forms and optional for feedback forms
+    if (!isFeedbackForm && !formData.email) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide a valid email address",
+      });
+    }
+
     // Validate email format (if provided)
     if (formData.email && !isValidEmail(formData.email)) {
       return res.status(400).json({
@@ -455,7 +463,7 @@ app.post("/api/submit-form", async (req, res) => {
         .json({ success: false, message: "Consent is required to proceed" });
     }
 
-    // Signature is optional - no validation required
+    // Signature is optional for both intake and feedback forms
 
     // E2E Test Mode: Mock successful submission without processing
     if (

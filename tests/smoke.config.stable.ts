@@ -138,7 +138,7 @@ export const smokeConfig = {
         // Select visit goals (new multi-select chip structure)
         {
           action: "click" as const,
-          locator: 'input[name="visitGoals"][value="Relieve pain"]',
+          locator: '.visit-btn[data-value="Pain / Tension relief"]',
           type: "css" as const,
         },
         // Select referral source

@@ -34,10 +34,48 @@
       );
     },
     2: () => {
-      const visitReasonInputs = document.querySelectorAll(
-        'input[name="visitReason"]',
+      // Visit Goals (multi-select checkboxes)
+      const visitGoalInputs = document.querySelectorAll(
+        'input[name="visitGoals"]',
       );
-      return Array.from(visitReasonInputs).some((r) => r.checked);
+      const visitGoalValid = Array.from(visitGoalInputs).some((r) => r.checked);
+
+      // Referral Source (radio)
+      const referralInputs = document.querySelectorAll(
+        'input[name="referralSource"]',
+      );
+      const referralValid = Array.from(referralInputs).some((r) => r.checked);
+
+      // Sleep Quality (slider)
+      const sleepQuality = document.getElementById("sleepQuality");
+      const sleepQualityValid =
+        sleepQuality && sleepQuality.value && sleepQuality.value !== "";
+
+      // Stress Level (slider)
+      const stressLevel = document.getElementById("stressLevel");
+      const stressLevelValid =
+        stressLevel && stressLevel.value && stressLevel.value !== "";
+
+      // Exercise Frequency (radio)
+      const exerciseInputs = document.querySelectorAll(
+        'input[name="exerciseFrequency"]',
+      );
+      const exerciseValid = Array.from(exerciseInputs).some((r) => r.checked);
+
+      // Previous Massage Experience (radio)
+      const massageInputs = document.querySelectorAll(
+        'input[name="previousMassage"]',
+      );
+      const massageValid = Array.from(massageInputs).some((r) => r.checked);
+
+      return (
+        visitGoalValid &&
+        referralValid &&
+        sleepQualityValid &&
+        stressLevelValid &&
+        exerciseValid &&
+        massageValid
+      );
     },
     3: () => {
       return true;
@@ -158,84 +196,116 @@
 
   function showValidationErrors() {
     let message = "";
+    let field = null;
 
-    switch (currentStep) {
-      case 1: {
-        const firstName = document.getElementById("firstName");
-        const lastName = document.getElementById("lastName");
-        const email = document.getElementById("email");
-        const mobile = document.getElementById("mobile");
-        const dateOfBirth = document.getElementById("dateOfBirth");
-        const genderInputs = document.querySelectorAll('input[name="gender"]');
-        const genderSelected = Array.from(genderInputs).some((g) => g.checked);
+    // Step 1 validation errors
+    if (currentStep === 1) {
+      const firstName = document.getElementById("firstName");
+      const lastName = document.getElementById("lastName");
+      const email = document.getElementById("email");
+      const mobile = document.getElementById("mobile");
+      const dateOfBirth = document.getElementById("dateOfBirth");
+      const genderInputs = document.querySelectorAll('input[name="gender"]');
+      const genderSelected = Array.from(genderInputs).some((g) => g.checked);
 
-        if (!firstName || !firstName.value.trim())
-          message = "Please enter your first name.";
-        else if (!lastName || !lastName.value.trim())
-          message = "Please enter your last name.";
-        else if (!email || !email.value.trim())
-          message = "Please enter your email address.";
-        else if (!mobile || !mobile.value.trim())
-          message = "Please enter your mobile number.";
-        else if (!dateOfBirth || !dateOfBirth.value.trim())
-          message = "Please enter your date of birth.";
-        else if (!genderSelected) message = "Please select your gender.";
-        break;
+      if (!firstName || !firstName.value.trim()) {
+        message = "Please enter your first name.";
+        field = firstName;
+      } else if (!lastName || !lastName.value.trim()) {
+        message = "Please enter your last name.";
+        field = lastName;
+      } else if (!email || !email.value.trim()) {
+        message = "Please enter your email address.";
+        field = email;
+      } else if (!mobile || !mobile.value.trim()) {
+        message = "Please enter your mobile number.";
+        field = mobile;
+      } else if (!dateOfBirth || !dateOfBirth.value.trim()) {
+        message = "Please enter your date of birth.";
+        field = dateOfBirth;
+      } else if (!genderSelected) {
+        message = "Please select your gender.";
       }
-      case 2: {
-        const visitReasonInputs = document.querySelectorAll(
-          'input[name="visitReason"]',
+    } else if (currentStep === 2) {
+      let msg = "";
+      const visitGoalsInputs = document.querySelectorAll(
+        'input[name="visitGoals"]',
+      );
+      const visitGoalsSelected = Array.from(visitGoalsInputs).some(
+        (r) => r.checked,
+      );
+      if (!visitGoalsSelected) {
+        msg = "Please select at least one reason for your visit.";
+      } else {
+        const referralInputs = document.querySelectorAll(
+          'input[name="referralSource"]',
         );
-        const visitReasonSelected = Array.from(visitReasonInputs).some(
+        const referralSelected = Array.from(referralInputs).some(
           (r) => r.checked,
         );
-        if (!visitReasonSelected)
-          message = "Please select a reason for your visit.";
-        break;
+        if (!referralSelected) {
+          msg = "Please select how you heard about us.";
+        } else {
+          const sleepQuality = document.getElementById("sleepQuality");
+          if (!sleepQuality || sleepQuality.value === "") {
+            msg = "Please rate your sleep quality.";
+            field = sleepQuality;
+          } else {
+            const stressLevel = document.getElementById("stressLevel");
+            if (!stressLevel || stressLevel.value === "") {
+              msg = "Please rate your stress level.";
+              field = stressLevel;
+            } else {
+              const exerciseInputs = document.querySelectorAll(
+                'input[name="exerciseFrequency"]',
+              );
+              const exerciseSelected = Array.from(exerciseInputs).some(
+                (r) => r.checked,
+              );
+              if (!exerciseSelected) {
+                msg = "Please select your exercise frequency.";
+              } else {
+                const massageInputs = document.querySelectorAll(
+                  'input[name="previousMassage"]',
+                );
+                const massageSelected = Array.from(massageInputs).some(
+                  (r) => r.checked,
+                );
+                if (!massageSelected) {
+                  msg =
+                    "Please indicate if you have previous massage experience.";
+                }
+              }
+            }
+          }
+        }
       }
-      case 5: {
-        const consentAll = document.getElementById("consentAll");
-        const signatureValid =
-          typeof window.isSignatureValid === "function" &&
-          window.isSignatureValid();
-        if (!consentAll || !consentAll.checked)
-          message =
-            "Please confirm you have read and agreed to the Terms and consent to treatment.";
-        else if (!signatureValid) message = "Please provide a signature.";
-        break;
+      message = msg;
+    }
+    // Step 5 validation errors
+    else if (currentStep === 5) {
+      const consentAll = document.getElementById("consentAll");
+      const signatureValid =
+        typeof window.isSignatureValid === "function" &&
+        window.isSignatureValid();
+      if (!consentAll || !consentAll.checked) {
+        message =
+          "Please confirm you have read and agreed to the Terms and consent to treatment.";
+        field = consentAll;
+      } else if (!signatureValid) {
+        message = "Please provide a signature.";
       }
     }
-
-    if (message) {
-      alert(message);
+    // Show inline error message
+    const validationEl = document.getElementById("stepValidationMessage");
+    if (validationEl) {
+      validationEl.textContent = message;
+      validationEl.style.color = message ? "#d9534f" : "";
+      validationEl.style.fontWeight = message ? "bold" : "";
     }
-  }
-
-  function updateButtonStates() {
-    if (!prevBtn || !nextBtn || !submitBtn) return;
-
-    prevBtn.style.display = currentStep === 1 ? "none" : "block";
-    nextBtn.style.display = currentStep < TOTAL_STEPS ? "block" : "none";
-    submitBtn.style.display = currentStep === TOTAL_STEPS ? "block" : "none";
-
-    if (currentStep < TOTAL_STEPS) {
-      const isValid = validateCurrentStep();
-      nextBtn.disabled = !isValid;
-      console.log(`[wizard.js] Next button disabled: ${!isValid}`);
-    }
-
-    if (currentStep === TOTAL_STEPS) {
-      submitBtn.disabled = !validateCurrentStep();
-    }
-  }
-
-  function getCurrentStep() {
-    return currentStep;
-  }
-
-  function goToStep(stepNum) {
-    if (stepNum >= 1 && stepNum <= TOTAL_STEPS) {
-      showStep(stepNum);
+    // Focus the first invalid field if available
+    if (message && field && typeof field.focus === "function") {
+      field.focus();
     }
   }
 

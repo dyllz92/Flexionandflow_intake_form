@@ -7,7 +7,7 @@
     - heading "Client Intake Form" [level=1] [ref=e5]
   - paragraph [ref=e7]: Welcome! Please complete this intake form to help us provide you with the best possible service.
   - generic [ref=e8]:
-    - generic [ref=e9]:
+    - generic [ref=e9] [cursor=pointer]:
       - generic [ref=e10]: "1"
       - generic [ref=e11]: About you
     - generic [ref=e12]:
@@ -22,56 +22,66 @@
     - generic [ref=e21]:
       - generic [ref=e22]: "5"
       - generic [ref=e23]: Your consent
-  - generic [ref=e24]: Step 1 of 5
+  - generic [ref=e24]: Step 2 of 5
   - generic [ref=e25]:
     - generic [ref=e26]:
-      - heading "Step 1 - Your Details" [level=2] [ref=e27]
+      - heading "Step 2 - About Your Visit" [level=2] [ref=e27]
       - generic [ref=e28]:
-        - generic [ref=e29]:
-          - generic [ref=e30]: First Name *
-          - textbox "First Name *" [ref=e31]: Test
-        - generic [ref=e32]:
-          - generic [ref=e33]: Last Name *
-          - textbox "Last Name *" [ref=e34]: User
-      - generic [ref=e35]:
-        - generic [ref=e36]: Gender (optional)
-        - generic [ref=e37]:
-          - generic [ref=e38] [cursor=pointer]: Male
-          - generic [ref=e39] [cursor=pointer]: Female
-          - generic [ref=e40] [cursor=pointer]: Non-binary
-      - generic [ref=e42]:
-        - generic [ref=e43]: Email *
-        - textbox "Email *" [ref=e44]: test.user@example.com
-      - generic [ref=e45]:
-        - generic [ref=e46]: Phone *
-        - textbox "Phone *" [active] [ref=e47]:
-          - /placeholder: e.g. 0412 345 678
-          - text: 0412 345 678
-      - generic [ref=e49]:
-        - generic [ref=e50]: Date of Birth *
-        - textbox "Date of Birth *" [ref=e51]:
-          - /placeholder: 15/09/1992
-          - text: 10/01/1992
-        - paragraph
-      - generic [ref=e53]:
-        - generic [ref=e54]: What do you do for work? *
-        - textbox "What do you do for work? *" [ref=e55]:
-          - /placeholder: e.g., Office Worker, Tradie, Student
-          - text: Designer
-      - generic [ref=e56]:
-        - heading "Emergency Contact Information" [level=3] [ref=e57]
-        - generic [ref=e58]:
+        - heading "Visit Details" [level=3] [ref=e29]
+        - generic [ref=e30]:
+          - generic [ref=e31]: What brings you to see me today? *
+          - paragraph [ref=e32]: Select all that apply
+          - generic [ref=e33]:
+            - button "Pain / Tension relief" [ref=e34] [cursor=pointer]
+            - button "Injury recovery" [ref=e35] [cursor=pointer]
+            - button "Improve mobility" [ref=e36] [cursor=pointer]
+            - button "Relieve stress" [ref=e37] [cursor=pointer]
+            - button "Training for an event" [ref=e38] [cursor=pointer]
+            - button "Improve sleep" [ref=e39] [cursor=pointer]
+        - generic [ref=e40]:
+          - generic [ref=e41]: How did you hear about me? *
+          - generic [ref=e42]:
+            - button "Google" [ref=e43] [cursor=pointer]
+            - button "Word of mouth" [ref=e44] [cursor=pointer]
+            - button "Advertisement" [ref=e45] [cursor=pointer]
+            - button "I was referred by someone" [ref=e46] [cursor=pointer]
+      - generic [ref=e47]:
+        - heading "Lifestyle Information" [level=3] [ref=e48]
+        - generic [ref=e49]:
+          - generic [ref=e50]: How well do you sleep? *
+          - generic [ref=e51]:
+            - slider [ref=e52] [cursor=pointer]: "8"
+            - generic [ref=e53]:
+              - generic [ref=e54]: 1 - Terrible
+              - generic [ref=e55]: 10 - Fantastic
+            - generic [ref=e56]: "8"
+        - generic [ref=e57]:
+          - generic [ref=e58]: How are your stress levels? *
           - generic [ref=e59]:
-            - generic [ref=e60]: "Name:"
-            - textbox "Name:" [ref=e61]:
-              - /placeholder: Emergency contact name
-          - generic [ref=e62]:
-            - generic [ref=e63]: "Relationship:"
-            - textbox "Relationship:" [ref=e64]:
-              - /placeholder: e.g., Partner, Parent, Friend
-          - generic [ref=e65]:
-            - generic [ref=e66]: "Phone:"
-            - textbox "Phone:" [ref=e67]:
-              - /placeholder: e.g., 0412 345 678
-    - button "Next" [disabled] [ref=e70]
+            - slider [ref=e60] [cursor=pointer]: "4"
+            - generic [ref=e61]:
+              - generic [ref=e62]: 1 - Low
+              - generic [ref=e63]: 10 - High
+            - generic [ref=e64]: "4"
+        - generic [ref=e65]:
+          - generic [ref=e66]: How often do you exercise? *
+          - generic [ref=e67]:
+            - button "Never / Rarely" [ref=e68] [cursor=pointer]
+            - button "1-3 days per week" [active] [ref=e69] [cursor=pointer]
+            - button "4-6 days per week" [ref=e70] [cursor=pointer]
+            - button "Daily" [ref=e71] [cursor=pointer]
+        - generic [ref=e72]:
+          - generic [ref=e73]: Tell me more about your exercise routine (Optional)
+          - textbox "Tell me more about your exercise routine (Optional)" [ref=e74]:
+            - /placeholder: e.g., Weight training 3x/week, yoga on weekends, swimming 30min daily
+      - generic [ref=e75]:
+        - heading "Previous Massage Experience" [level=3] [ref=e76]
+        - generic [ref=e77]:
+          - generic [ref=e78]: Do you have any previous experience with Massage Therapy? *
+          - generic [ref=e79]:
+            - button "Yes" [ref=e80] [cursor=pointer]
+            - button "No" [ref=e81] [cursor=pointer]
+    - generic [ref=e83]:
+      - button "Back" [ref=e84]
+      - button "Next" [disabled] [ref=e85]
 ```

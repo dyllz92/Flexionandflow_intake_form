@@ -213,7 +213,7 @@ test.describe("Primary Flows", () => {
     await page.getByTestId("occupation").fill("Engineer");
     await page.getByTestId("sleepQuality").fill("7");
     await page.getByTestId("stressLevel").fill("4");
-    await setFormChoice(page, "visitReasons", "Relieve pain / tension");
+    await setFormChoice(page, "visitGoals", "Pain / Tension relief");
     await setFormChoice(page, "referralSource", "Google");
     await setFormChoice(page, "exerciseFrequency", "3-4 days per week");
     await setFormChoice(page, "previousMassage", "No");

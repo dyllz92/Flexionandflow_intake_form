@@ -31,10 +31,13 @@ test.describe("Intake Form - Fast & Reliable", () => {
     await page.click('label:has-text("Female")');
 
     // Verify wizard navigation works
-    await page.waitForFunction(() => {
-      const nextBtn = document.getElementById("nextBtn");
-      return nextBtn && !nextBtn.disabled;
-    }, { timeout: 3000 });
+    await page.waitForFunction(
+      () => {
+        const nextBtn = document.getElementById("nextBtn");
+        return nextBtn && !nextBtn.disabled;
+      },
+      { timeout: 3000 },
+    );
 
     await page.click("#nextBtn");
 
@@ -48,7 +51,14 @@ test.describe("Intake Form - Fast & Reliable", () => {
     const step2Visible = await page.isVisible('[data-step="2"].active');
     expect(step2Visible).toBe(true);
 
-    // Step 2: Lifestyle & visit details
+    // Step 2: Visit details & lifestyle
+    // Select visit reason (required)
+    await page.click('.visit-btn[data-value="Pain / Tension relief"]');
+
+    // Select referral source (required)
+    await page.click('.referral-btn[data-value="Google"]');
+
+    // Fill lifestyle information
     await page.evaluate(() => {
       const sleepSlider = document.getElementById("sleepQuality");
       const stressSlider = document.getElementById("stressLevel");
@@ -121,7 +131,7 @@ test.describe("Intake Form - Fast & Reliable", () => {
         firstName: "Test",
         lastName: "User",
         email: "test@example.com",
-        phone: "0412345678",
+        mobile: "0412345678",
         dateOfBirth: "1990-01-01",
         occupation: "Tester",
       };
@@ -134,7 +144,8 @@ test.describe("Intake Form - Fast & Reliable", () => {
       });
     });
 
-    await page.click('input[name="gender"][value="Male"]');
+    // Select gender using label click (radio buttons are hidden)
+    await page.click('label:has-text("Male")');
     await page.keyboard.press("Escape");
 
     await expect(nextBtn).toBeEnabled();

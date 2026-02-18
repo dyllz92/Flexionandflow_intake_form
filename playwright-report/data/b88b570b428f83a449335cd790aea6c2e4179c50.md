@@ -50,11 +50,10 @@
         - generic [ref=e49]:
           - generic [ref=e50]: How well do you sleep? *
           - generic [ref=e51]:
-            - slider [ref=e52] [cursor=pointer]: "7"
+            - slider [ref=e52] [cursor=pointer]: "6"
             - generic [ref=e53]:
               - generic [ref=e54]: 1 - Terrible
               - generic [ref=e55]: 10 - Fantastic
-            - generic [ref=e56]: "7"
         - generic [ref=e57]:
           - generic [ref=e58]: How are your stress levels? *
           - generic [ref=e59]:
@@ -62,12 +61,11 @@
             - generic [ref=e61]:
               - generic [ref=e62]: 1 - Low
               - generic [ref=e63]: 10 - High
-            - generic [ref=e64]: "6"
         - generic [ref=e65]:
           - generic [ref=e66]: How often do you exercise? *
           - generic [ref=e67]:
             - button "Never / Rarely" [ref=e68] [cursor=pointer]
-            - button "1-3 days per week" [active] [ref=e69] [cursor=pointer]
+            - button "1-3 days per week" [ref=e69] [cursor=pointer]
             - button "4-6 days per week" [ref=e70] [cursor=pointer]
             - button "Daily" [ref=e71] [cursor=pointer]
         - generic [ref=e72]:
@@ -83,5 +81,5 @@
             - button "No" [ref=e81] [cursor=pointer]
     - generic [ref=e83]:
       - button "Back" [ref=e84]
-      - button "Next" [disabled] [ref=e85]
+      - button "Next Please complete all required fields" [disabled] [ref=e85]
 ```

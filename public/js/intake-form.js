@@ -47,7 +47,9 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Elements for "seen other provider" conditional visibility
-const seenOtherProviderGroup = document.getElementById("seenOtherProviderGroup");
+const seenOtherProviderGroup = document.getElementById(
+  "seenOtherProviderGroup",
+);
 const seenOtherProviderInputs = document.querySelectorAll(
   'input[name="seenOtherProvider"]',
 );
@@ -795,8 +797,59 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Initialize Step 2 buttons
+  setupStep2Buttons();
+
   // Initialize Step 3 buttons
   setupToggleButtons();
+
+  // Step 2 button handling
+  function setupStep2Buttons() {
+    // Visit goals buttons (multi-select checkboxes)
+    setupVisitGoalsButtons();
+
+    // Referral source buttons (radio)
+    setupRadioButtonGroup("referral-btn", "referralSource");
+
+    // Exercise frequency buttons (radio)
+    setupRadioButtonGroup("exercise-btn", "exerciseFrequency");
+
+    // Previous massage buttons (radio)
+    setupRadioButtonGroup("toggle-btn", "previousMassage");
+  }
+
+  function setupVisitGoalsButtons() {
+    const buttons = document.querySelectorAll(".visit-btn");
+    const checkboxes = document.querySelectorAll('input[name="visitGoals"]');
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const value = button.getAttribute("data-value");
+        const checkbox = document.querySelector(
+          `input[name="visitGoals"][value="${value}"]`,
+        );
+        if (checkbox) {
+          if (button.classList.contains("selected")) {
+            button.classList.remove("selected");
+            checkbox.checked = false;
+          } else {
+            button.classList.add("selected");
+            checkbox.checked = true;
+          }
+          // Always dispatch input and change events for validation
+          checkbox.dispatchEvent(new Event("input", { bubbles: true }));
+          checkbox.dispatchEvent(new Event("change", { bubbles: true }));
+        }
+        // Ensure wizard validation and UI update
+        if (
+          window.wizard &&
+          typeof window.wizard.updateButtonStates === "function"
+        ) {
+          window.wizard.updateButtonStates();
+        }
+      });
+    });
+  }
 
   // Step 4 button handling
   function setupStep4Buttons() {
