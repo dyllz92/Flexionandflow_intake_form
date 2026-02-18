@@ -815,7 +815,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setupRadioButtonGroup("exercise-btn", "exerciseFrequency");
 
     // Previous massage buttons (radio)
-    setupRadioButtonGroup("toggle-btn", "previousMassage");
+    setupRadioButtonGroup("previous-massage-btn", "previousMassage");
   }
 
   function setupVisitGoalsButtons() {

@@ -628,10 +628,18 @@
                 style="display: none"
               />
               <div class="toggle-buttons">
-                <button type="button" class="toggle-btn" data-value="Yes">
+                <button
+                  type="button"
+                  class="toggle-btn previous-massage-btn"
+                  data-value="Yes"
+                >
                   Yes
                 </button>
-                <button type="button" class="toggle-btn" data-value="No">
+                <button
+                  type="button"
+                  class="toggle-btn previous-massage-btn"
+                  data-value="No"
+                >
                   No
                 </button>
               </div>
@@ -1504,6 +1512,7 @@
                 type="button"
                 class="toggle-btn pregnancy-btn"
                 data-value="Yes"
+                data-name="pregnantBreastfeeding"
                 style="width: 140px"
               >
                 Yes
@@ -1512,6 +1521,7 @@
                 type="button"
                 class="toggle-btn pregnancy-btn"
                 data-value="No"
+                data-name="pregnantBreastfeeding"
                 style="width: 140px"
               >
                 No
@@ -1520,6 +1530,7 @@
                 type="button"
                 class="toggle-btn pregnancy-btn"
                 data-value="Not applicable"
+                data-name="pregnantBreastfeeding"
                 style="width: 140px"
               >
                 Not applicable
@@ -1993,38 +2004,6 @@
             });
           }
         });
-
-        // Step 2 button handling
-        function setupButtonGroup(buttonClass, inputName, isRadio = false) {
-          const buttons = document.querySelectorAll(`.${buttonClass}`);
-          buttons.forEach((button) => {
-            button.addEventListener("click", () => {
-              const value = button.getAttribute("data-value");
-              if (isRadio) {
-                // For radio, unselect all, select this
-                buttons.forEach((btn) => btn.classList.remove("selected"));
-                button.classList.add("selected");
-                const input = document.querySelector(
-                  `input[name="${inputName}"][value="${value}"]`,
-                );
-                if (input) input.checked = true;
-              } else {
-                // For checkbox, toggle
-                button.classList.toggle("selected");
-                const input = document.querySelector(
-                  `input[name="${inputName}"][value="${value}"]`,
-                );
-                if (input) input.checked = !input.checked;
-              }
-            });
-          });
-        }
-
-        setupButtonGroup("visit-btn", "visitGoals");
-        setupButtonGroup("referral-btn", "referralSource", true);
-        setupButtonGroup("exercise-btn", "exerciseFrequency", true);
-        setupButtonGroup("toggle-btn", "previousMassage", true);
-        setupButtonGroup("treatment-btn", "last_treatment_when", true);
 
         // Pain descriptors "I'd rather tell you in person" logic
         const painDescriptorCheckboxes = document.querySelectorAll(
