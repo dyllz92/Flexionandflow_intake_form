@@ -667,6 +667,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Update hidden input
         if (hiddenInput) {
           hiddenInput.value = button.getAttribute("data-value");
+          hiddenInput.dispatchEvent(new Event("change", { bubbles: true }));
         }
 
         // Handle conditional fields
@@ -691,6 +692,13 @@ document.addEventListener("DOMContentLoaded", () => {
             button.getAttribute("data-value") === "Yes",
             "previousMassageDetailsSection",
           );
+        }
+
+        if (
+          window.wizard &&
+          typeof window.wizard.updateButtonStates === "function"
+        ) {
+          window.wizard.updateButtonStates();
         }
       });
     });
@@ -890,19 +898,76 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function setupRadioButtonGroup(btnClass, inputName) {
     const buttons = document.querySelectorAll(`.${btnClass}`);
-    const hiddenInput = document.querySelector(`input[name="${inputName}"]`);
+    const radioInputs = document.querySelectorAll(`input[name="${inputName}"]`);
 
     buttons.forEach((button) => {
       button.addEventListener("click", () => {
+        const value = button.getAttribute("data-value");
+
         // Remove selected class from all buttons in this group
         buttons.forEach((btn) => btn.classList.remove("selected"));
         // Add selected class to clicked button
         button.classList.add("selected");
-        // Update hidden input
-        if (hiddenInput) {
-          hiddenInput.value = button.getAttribute("data-value");
+
+        // Sync hidden radio inputs used by wizard validation + conditional rules
+        if (radioInputs && radioInputs.length) {
+          radioInputs.forEach((input) => {
+            input.checked = input.value === value;
+          });
+          const selected = Array.from(radioInputs).find(
+            (input) => input.checked,
+          );
+          if (selected) {
+            selected.dispatchEvent(new Event("change", { bubbles: true }));
+          }
+        }
+
+        // Step 2-specific conditionals
+        if (inputName === "previousMassage") {
+          toggleConditionalField(value === "Yes", "lastTreatmentSection");
+          toggleConditionalField(
+            value === "Yes",
+            "previousMassageDetailsSection",
+          );
+        }
+
+        if (
+          window.wizard &&
+          typeof window.wizard.updateButtonStates === "function"
+        ) {
+          window.wizard.updateButtonStates();
         }
       });
+    });
+  }
+
+  function setupStep2Sliders() {
+    const sliderConfigs = [
+      { id: "sleepQuality", valueId: "sleepQualityValue" },
+      { id: "stressLevel", valueId: "stressLevelValue" },
+    ];
+
+    sliderConfigs.forEach(({ id, valueId }) => {
+      const slider = document.getElementById(id);
+      const valueDisplay = document.getElementById(valueId);
+      if (!slider || !valueDisplay) return;
+
+      const update = () => {
+        const value = slider.value;
+        valueDisplay.textContent = value ? `Currently: ${value}/10` : "";
+      };
+
+      slider.addEventListener("input", () => {
+        update();
+        if (
+          window.wizard &&
+          typeof window.wizard.updateButtonStates === "function"
+        ) {
+          window.wizard.updateButtonStates();
+        }
+      });
+
+      update();
     });
   }
 
@@ -986,6 +1051,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Initialize Step 4
   setupStep4Buttons();
+  setupStep2Sliders();
   setupPainSlider();
 
   // Step 5 enhancements

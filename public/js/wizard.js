@@ -95,32 +95,24 @@
         'input[name="pregnantBreastfeeding"]',
       );
 
-      const takingMedicationsSelected = Array.from(
-        document.querySelectorAll('input[name="takingMedications"]'),
-      ).some((r) => r.checked);
-      const hasAllergiesSelected = Array.from(
-        document.querySelectorAll('input[name="hasAllergies"]'),
-      ).some((r) => r.checked);
-      const pregnantBreastfeedingSelected = Array.from(
-        document.querySelectorAll('input[name="pregnantBreastfeeding"]'),
-      ).some((r) => r.checked);
+      // Step 3 uses hidden inputs populated by button groups
+      const takingMedicationsSelected =
+        !!takingMedications && !!takingMedications.value;
+      const hasAllergiesSelected = !!hasAllergies && !!hasAllergies.value;
+      const pregnantBreastfeedingSelected =
+        !!pregnantBreastfeeding && !!pregnantBreastfeeding.value;
 
       const medicationsList = document.getElementById("medicationsList");
       const allergiesList = document.getElementById("allergiesList");
 
-      const takingMedicationsYes = document.querySelector(
-        'input[name="takingMedications"][value="Yes"]:checked',
-      );
-      const hasAllergiesYes = document.querySelector(
-        'input[name="hasAllergies"][value="Yes"]:checked',
-      );
+      const takingMedicationsYes =
+        takingMedications && takingMedications.value === "Yes";
+      const hasAllergiesYes = hasAllergies && hasAllergies.value === "Yes";
 
       const medicationsValid =
-        !takingMedications ||
         !takingMedicationsYes ||
         (medicationsList && medicationsList.value.trim().length > 0);
       const allergiesValid =
-        !hasAllergies ||
         !hasAllergiesYes ||
         (allergiesList && allergiesList.value.trim().length > 0);
 
@@ -351,40 +343,35 @@
         break;
       }
       case 3: {
-        const takingMedicationsInputs = document.querySelectorAll(
+        const takingMedicationsInput = document.querySelector(
           'input[name="takingMedications"]',
         );
-        const hasAllergiesInputs = document.querySelectorAll(
+        const hasAllergiesInput = document.querySelector(
           'input[name="hasAllergies"]',
         );
-        const pregnantBreastfeedingInputs = document.querySelectorAll(
+        const pregnantBreastfeedingInput = document.querySelector(
           'input[name="pregnantBreastfeeding"]',
         );
         const medicationsList = document.getElementById("medicationsList");
         const allergiesList = document.getElementById("allergiesList");
 
-        const takingMedicationsSelected = Array.from(
-          takingMedicationsInputs,
-        ).some((r) => r.checked);
-        const hasAllergiesSelected = Array.from(hasAllergiesInputs).some(
-          (r) => r.checked,
-        );
-        const pregnantBreastfeedingSelected = Array.from(
-          pregnantBreastfeedingInputs,
-        ).some((r) => r.checked);
+        const takingMedicationsSelected =
+          !!takingMedicationsInput && !!takingMedicationsInput.value;
+        const hasAllergiesSelected =
+          !!hasAllergiesInput && !!hasAllergiesInput.value;
+        const pregnantBreastfeedingSelected =
+          !!pregnantBreastfeedingInput && !!pregnantBreastfeedingInput.value;
 
-        const takingMedicationsYes = document.querySelector(
-          'input[name="takingMedications"][value="Yes"]:checked',
-        );
-        const hasAllergiesYes = document.querySelector(
-          'input[name="hasAllergies"][value="Yes"]:checked',
-        );
+        const takingMedicationsYes =
+          takingMedicationsInput && takingMedicationsInput.value === "Yes";
+        const hasAllergiesYes =
+          hasAllergiesInput && hasAllergiesInput.value === "Yes";
 
         if (!takingMedicationsSelected) {
           message = "Please let me know if you are taking any medications.";
-          focusElement =
-            takingMedicationsInputs[0]?.closest(".form-group") ||
-            takingMedicationsInputs[0];
+          focusElement = document.querySelector(
+            '.toggle-btn[data-name="takingMedications"]',
+          );
         } else if (
           takingMedicationsYes &&
           (!medicationsList || !medicationsList.value.trim())
@@ -393,9 +380,9 @@
           focusElement = medicationsList;
         } else if (!hasAllergiesSelected) {
           message = "Please let me know if you have any allergies.";
-          focusElement =
-            hasAllergiesInputs[0]?.closest(".form-group") ||
-            hasAllergiesInputs[0];
+          focusElement = document.querySelector(
+            '.toggle-btn[data-name="hasAllergies"]',
+          );
         } else if (
           hasAllergiesYes &&
           (!allergiesList || !allergiesList.value.trim())
@@ -404,9 +391,9 @@
           focusElement = allergiesList;
         } else if (!pregnantBreastfeedingSelected) {
           message = "Please let me know if you are pregnant or breastfeeding.";
-          focusElement =
-            pregnantBreastfeedingInputs[0]?.closest(".form-group") ||
-            pregnantBreastfeedingInputs[0];
+          focusElement = document.querySelector(
+            '.toggle-btn[data-name="pregnantBreastfeeding"]',
+          );
         }
         break;
       }
