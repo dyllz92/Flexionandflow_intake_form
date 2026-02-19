@@ -742,422 +742,6 @@
           </div>
         </div>
 
-        <!-- Step 4: Pain & Signals -->
-        <div
-          class="wizard-step form-section"
-          data-step="4"
-          data-testid="intake-step-4"
-        >
-          <h2>Step 4 - Pain &amp; Signals</h2>
-          <p class="section-note">
-            Help me understand what's going on with your body today.
-          </p>
-
-          <div class="form-group slider-group">
-            <label style="display: block; margin-bottom: 24px"
-              >Pain Level</label
-            >
-            <div class="pain-level-display" id="painLevelDisplay">
-              <span class="pain-number" id="painNumber">0</span>
-              <span class="pain-label" id="painLabel">None</span>
-            </div>
-            <div class="slider-container">
-              <input
-                type="range"
-                id="painLevel"
-                name="painLevel"
-                min="0"
-                max="10"
-                value="0"
-                class="slider-input"
-                data-testid="pain-slider"
-              />
-              <div class="pain-emojis">
-                <span>0 😊</span>
-                <span>3 🙂</span>
-                <span>5 😐</span>
-                <span>7 😟</span>
-                <span>10 😢</span>
-              </div>
-              <div class="pain-descriptors">
-                <span>0 None</span>
-                <span>2-3 Mild</span>
-                <span>5-6 Moderate</span>
-                <span>7-8 Severe</span>
-                <span>10 Worst possible</span>
-              </div>
-            </div>
-            <div style="margin-top: 16px; text-align: center">
-              <button
-                type="button"
-                id="skipPainBtn"
-                class="text-link"
-                style="
-                  color: #6b7280;
-                  text-decoration: underline;
-                  background: none;
-                  border: none;
-                  cursor: pointer;
-                "
-              >
-                Skip - I'm not in pain today
-              </button>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Symptom Cause</label>
-            <div class="toggle-btn-group">
-              <button
-                type="button"
-                class="toggle-btn symptom-cause-btn"
-                data-value="accident"
-                style="
-                  flex: 1;
-                  padding: 12px 16px;
-                  font-size: 14px;
-                  text-align: center;
-                "
-              >
-                Accident or specific incident
-              </button>
-              <button
-                type="button"
-                class="toggle-btn symptom-cause-btn"
-                data-value="ongoing"
-                style="
-                  flex: 1;
-                  padding: 12px 16px;
-                  font-size: 14px;
-                  text-align: center;
-                "
-              >
-                Ongoing issue
-              </button>
-              <button
-                type="button"
-                class="toggle-btn symptom-cause-btn"
-                data-value="not_sure"
-                style="
-                  flex: 1;
-                  padding: 12px 16px;
-                  font-size: 14px;
-                  text-align: center;
-                "
-              >
-                Not sure
-              </button>
-            </div>
-            <input type="hidden" name="painCause" />
-          </div>
-
-          <div class="form-group">
-            <label>Symptom Descriptors</label>
-            <div class="symptom-descriptors-grid">
-              <button
-                type="button"
-                class="toggle-btn symptom-desc-btn"
-                data-value="comes_and_goes"
-              >
-                Comes and goes
-              </button>
-              <button
-                type="button"
-                class="toggle-btn symptom-desc-btn"
-                data-value="constant"
-              >
-                Constant pain
-              </button>
-              <button
-                type="button"
-                class="toggle-btn symptom-desc-btn"
-                data-value="worse_sitting"
-              >
-                Worse with sitting
-              </button>
-              <button
-                type="button"
-                class="toggle-btn symptom-desc-btn"
-                data-value="worse_exercise"
-              >
-                Worse with exercise
-              </button>
-              <button
-                type="button"
-                class="toggle-btn symptom-desc-btn"
-                data-value="better_movement"
-              >
-                Better with movement
-              </button>
-              <button
-                type="button"
-                class="toggle-btn symptom-desc-btn"
-                data-value="worse_morning"
-              >
-                Worse in morning
-              </button>
-              <button
-                type="button"
-                class="toggle-btn symptom-desc-btn"
-                data-value="worse_end_day"
-              >
-                Worse at end of day
-              </button>
-              <button
-                type="button"
-                class="toggle-btn symptom-desc-btn"
-                data-value="pins_needles"
-              >
-                Pins and needles
-              </button>
-              <button
-                type="button"
-                class="toggle-btn symptom-desc-btn"
-                data-value="numbness"
-              >
-                Numbness
-              </button>
-              <button
-                type="button"
-                class="toggle-btn symptom-desc-btn"
-                data-value="headaches"
-              >
-                Headaches
-              </button>
-            </div>
-            <input
-              type="hidden"
-              name="painDescriptors"
-              id="painDescriptorsHidden"
-            />
-          </div>
-
-          <div class="form-group">
-            <label>Is today worse than usual?</label>
-            <div class="toggle-btn-group">
-              <button
-                type="button"
-                class="toggle-btn worse-today-btn"
-                data-value="Yes"
-                style="width: 100px"
-              >
-                Yes
-              </button>
-              <button
-                type="button"
-                class="toggle-btn worse-today-btn"
-                data-value="No"
-                style="width: 100px"
-              >
-                No
-              </button>
-              <button
-                type="button"
-                class="toggle-btn worse-today-btn"
-                data-value="Not sure"
-                style="width: 100px"
-              >
-                Not sure
-              </button>
-            </div>
-            <input type="hidden" name="worseToday" />
-          </div>
-
-          <div class="form-group">
-            <label
-              >Pressure preference
-              <span style="color: #6b7280; font-weight: 400"
-                >(Optional)</span
-              ></label
-            >
-            <div class="toggle-btn-group">
-              <button
-                type="button"
-                class="toggle-btn pressure-btn"
-                data-value="Light"
-                style="width: 100px"
-              >
-                Light
-              </button>
-              <button
-                type="button"
-                class="toggle-btn pressure-btn"
-                data-value="Medium"
-                style="width: 100px"
-              >
-                Medium
-              </button>
-              <button
-                type="button"
-                class="toggle-btn pressure-btn"
-                data-value="Firm"
-                style="width: 100px"
-              >
-                Firm
-              </button>
-              <button
-                type="button"
-                class="toggle-btn pressure-btn"
-                data-value="Not sure"
-                style="width: 100px"
-              >
-                Not sure
-              </button>
-            </div>
-            <input type="hidden" name="pressurePreference" />
-          </div>
-
-          <div class="form-group">
-            <label for="areasToAvoid">Any areas you'd prefer I avoid?</label>
-            <textarea
-              id="areasToAvoid"
-              name="areasToAvoid"
-              data-testid="areas-to-avoid"
-              rows="2"
-              maxlength="500"
-              placeholder="e.g., Lower back due to recent strain, neck is sensitive"
-            ></textarea>
-          </div>
-
-          <h3>Body Areas</h3>
-          <div class="form-group">
-            <label
-              >Where are you experiencing discomfort?
-              <span style="color: #6b7280; font-weight: 400"
-                >(Optional)</span
-              ></label
-            >
-            <div class="body-areas-grid">
-              <button
-                type="button"
-                class="toggle-btn body-area-btn"
-                data-value="neck"
-              >
-                Neck
-              </button>
-              <button
-                type="button"
-                class="toggle-btn body-area-btn"
-                data-value="shoulders"
-              >
-                Shoulders
-              </button>
-              <button
-                type="button"
-                class="toggle-btn body-area-btn"
-                data-value="upper_back"
-              >
-                Upper back
-              </button>
-              <button
-                type="button"
-                class="toggle-btn body-area-btn"
-                data-value="mid_back"
-              >
-                Mid back
-              </button>
-              <button
-                type="button"
-                class="toggle-btn body-area-btn"
-                data-value="lower_back"
-              >
-                Lower back
-              </button>
-              <button
-                type="button"
-                class="toggle-btn body-area-btn"
-                data-value="arms"
-              >
-                Arms
-              </button>
-              <button
-                type="button"
-                class="toggle-btn body-area-btn"
-                data-value="legs"
-              >
-                Legs
-              </button>
-              <button
-                type="button"
-                class="toggle-btn body-area-btn"
-                data-value="hips"
-              >
-                Hips
-              </button>
-              <button
-                type="button"
-                class="toggle-btn body-area-btn"
-                data-value="other"
-              >
-                Other
-              </button>
-            </div>
-            <input type="hidden" name="bodyAreas" id="bodyAreasHidden" />
-          </div>
-
-          <div
-            style="
-              margin-top: 24px;
-              padding-top: 16px;
-              border-top: 1px solid var(--border-color);
-              text-align: center;
-            "
-          >
-            <p style="font-size: 13px; color: var(--text-light); margin: 0">
-              Click <strong>Next</strong> to continue.
-            </p>
-          </div>
-        </div>
-
-        <!-- Body Map Expand Modal -->
-        <div
-          id="bodyMapModal"
-          class="body-map-modal hidden-field"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="bodyMapModalTitle"
-        >
-          <div class="body-map-backdrop"></div>
-          <div class="body-map-content" role="document">
-            <div class="body-map-header">
-              <h2 id="bodyMapModalTitle">
-                Body Map - Tap to mark areas of discomfort
-              </h2>
-              <button
-                type="button"
-                id="closeBodyMapBtn"
-                class="btn-secondary"
-                aria-label="Close Body Map"
-              >
-                Close
-              </button>
-            </div>
-            <div class="body-map-body">
-              <div id="muscleMapContainerExpanded"></div>
-              <div class="body-map-controls">
-                <button type="button" id="zoomInBtn" class="btn-secondary">
-                  Zoom In (+)
-                </button>
-                <button type="button" id="zoomOutBtn" class="btn-secondary">
-                  Zoom Out (-)
-                </button>
-                <button type="button" id="resetZoomBtn" class="btn-secondary">
-                  Reset View
-                </button>
-                <button
-                  type="button"
-                  id="clearMuscleMapExpanded"
-                  class="btn-secondary"
-                >
-                  Clear All
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <script src="/js/muscleMap.js?v=20260203" defer></script>
-        <script src="/js/bodyMapModal.js?v=20260203" defer></script>
-
         <!-- Step 3: Health & Medical History -->
         <div
           class="wizard-step form-section"
@@ -1591,6 +1175,373 @@
           </div>
         </div>
 
+        <!-- Step 4: Pain & Signals -->
+        <div
+          class="wizard-step form-section"
+          data-step="4"
+          data-testid="intake-step-4"
+        >
+          <h2>Step 4 - Pain &amp; Signals</h2>
+          <p class="section-note">
+            Help me understand what's going on with your body today.
+          </p>
+
+          <div class="form-group slider-group">
+            <label style="display: block; margin-bottom: 24px"
+              >Pain Level</label
+            >
+            <div class="pain-level-display" id="painLevelDisplay">
+              <span class="pain-number" id="painNumber">0</span>
+              <span class="pain-label" id="painLabel">None</span>
+            </div>
+            <div class="slider-container">
+              <input
+                type="range"
+                id="painLevel"
+                name="painLevel"
+                min="0"
+                max="10"
+                value="0"
+                class="slider-input"
+                data-testid="pain-slider"
+              />
+              <div class="pain-emojis">
+                <span>0 😊</span>
+                <span>3 🙂</span>
+                <span>5 😐</span>
+                <span>7 😟</span>
+                <span>10 😢</span>
+              </div>
+              <div class="pain-descriptors">
+                <span>0 None</span>
+                <span>2-3 Mild</span>
+                <span>5-6 Moderate</span>
+                <span>7-8 Severe</span>
+                <span>10 Worst possible</span>
+              </div>
+            </div>
+            <div style="margin-top: 16px; text-align: center">
+              <button
+                type="button"
+                id="skipPainBtn"
+                class="text-link"
+                style="
+                  color: #6b7280;
+                  text-decoration: underline;
+                  background: none;
+                  border: none;
+                  cursor: pointer;
+                "
+              >
+                Skip - I'm not in pain today
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Symptom Cause</label>
+            <div class="toggle-btn-group">
+              <button
+                type="button"
+                class="toggle-btn symptom-cause-btn"
+                data-value="accident"
+                style="
+                  flex: 1;
+                  padding: 12px 16px;
+                  font-size: 14px;
+                  text-align: center;
+                "
+              >
+                Accident or specific incident
+              </button>
+              <button
+                type="button"
+                class="toggle-btn symptom-cause-btn"
+                data-value="ongoing"
+                style="
+                  flex: 1;
+                  padding: 12px 16px;
+                  font-size: 14px;
+                  text-align: center;
+                "
+              >
+                Ongoing issue
+              </button>
+              <button
+                type="button"
+                class="toggle-btn symptom-cause-btn"
+                data-value="not_sure"
+                style="
+                  flex: 1;
+                  padding: 12px 16px;
+                  font-size: 14px;
+                  text-align: center;
+                "
+              >
+                Not sure
+              </button>
+            </div>
+            <input type="hidden" name="painCause" />
+          </div>
+
+          <div class="form-group">
+            <label>Symptom Descriptors</label>
+            <div class="symptom-descriptors-grid">
+              <button
+                type="button"
+                class="toggle-btn symptom-desc-btn"
+                data-value="comes_and_goes"
+              >
+                Comes and goes
+              </button>
+              <button
+                type="button"
+                class="toggle-btn symptom-desc-btn"
+                data-value="constant"
+              >
+                Constant pain
+              </button>
+              <button
+                type="button"
+                class="toggle-btn symptom-desc-btn"
+                data-value="worse_sitting"
+              >
+                Worse with sitting
+              </button>
+              <button
+                type="button"
+                class="toggle-btn symptom-desc-btn"
+                data-value="worse_exercise"
+              >
+                Worse with exercise
+              </button>
+              <button
+                type="button"
+                class="toggle-btn symptom-desc-btn"
+                data-value="better_movement"
+              >
+                Better with movement
+              </button>
+              <button
+                type="button"
+                class="toggle-btn symptom-desc-btn"
+                data-value="worse_morning"
+              >
+                Worse in morning
+              </button>
+              <button
+                type="button"
+                class="toggle-btn symptom-desc-btn"
+                data-value="worse_end_day"
+              >
+                Worse at end of day
+              </button>
+              <button
+                type="button"
+                class="toggle-btn symptom-desc-btn"
+                data-value="pins_needles"
+              >
+                Pins and needles
+              </button>
+              <button
+                type="button"
+                class="toggle-btn symptom-desc-btn"
+                data-value="numbness"
+              >
+                Numbness
+              </button>
+              <button
+                type="button"
+                class="toggle-btn symptom-desc-btn"
+                data-value="headaches"
+              >
+                Headaches
+              </button>
+            </div>
+            <input
+              type="hidden"
+              name="painDescriptors"
+              id="painDescriptorsHidden"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Is today worse than usual?</label>
+            <div class="toggle-btn-group">
+              <button
+                type="button"
+                class="toggle-btn worse-today-btn"
+                data-value="Yes"
+                style="width: 100px"
+              >
+                Yes
+              </button>
+              <button
+                type="button"
+                class="toggle-btn worse-today-btn"
+                data-value="No"
+                style="width: 100px"
+              >
+                No
+              </button>
+              <button
+                type="button"
+                class="toggle-btn worse-today-btn"
+                data-value="Not sure"
+                style="width: 100px"
+              >
+                Not sure
+              </button>
+            </div>
+            <input type="hidden" name="worseToday" />
+          </div>
+
+          <div class="form-group">
+            <label
+              >Pressure preference
+              <span style="color: #6b7280; font-weight: 400"
+                >(Optional)</span
+              ></label
+            >
+            <div class="toggle-btn-group">
+              <button
+                type="button"
+                class="toggle-btn pressure-btn"
+                data-value="Light"
+                style="width: 100px"
+              >
+                Light
+              </button>
+              <button
+                type="button"
+                class="toggle-btn pressure-btn"
+                data-value="Medium"
+                style="width: 100px"
+              >
+                Medium
+              </button>
+              <button
+                type="button"
+                class="toggle-btn pressure-btn"
+                data-value="Firm"
+                style="width: 100px"
+              >
+                Firm
+              </button>
+              <button
+                type="button"
+                class="toggle-btn pressure-btn"
+                data-value="Not sure"
+                style="width: 100px"
+              >
+                Not sure
+              </button>
+            </div>
+            <input type="hidden" name="pressurePreference" />
+          </div>
+
+          <div class="form-group">
+            <label for="areasToAvoid">Any areas you'd prefer I avoid?</label>
+            <textarea
+              id="areasToAvoid"
+              name="areasToAvoid"
+              data-testid="areas-to-avoid"
+              rows="2"
+              maxlength="500"
+              placeholder="e.g., Lower back due to recent strain, neck is sensitive"
+            ></textarea>
+          </div>
+
+          <h3>Body Areas</h3>
+          <div class="form-group">
+            <label
+              >Where are you experiencing discomfort?
+              <span style="color: #6b7280; font-weight: 400"
+                >(Optional)</span
+              ></label
+            >
+            <div class="body-areas-grid">
+              <button
+                type="button"
+                class="toggle-btn body-area-btn"
+                data-value="neck"
+              >
+                Neck
+              </button>
+              <button
+                type="button"
+                class="toggle-btn body-area-btn"
+                data-value="shoulders"
+              >
+                Shoulders
+              </button>
+              <button
+                type="button"
+                class="toggle-btn body-area-btn"
+                data-value="upper_back"
+              >
+                Upper back
+              </button>
+              <button
+                type="button"
+                class="toggle-btn body-area-btn"
+                data-value="mid_back"
+              >
+                Mid back
+              </button>
+              <button
+                type="button"
+                class="toggle-btn body-area-btn"
+                data-value="lower_back"
+              >
+                Lower back
+              </button>
+              <button
+                type="button"
+                class="toggle-btn body-area-btn"
+                data-value="arms"
+              >
+                Arms
+              </button>
+              <button
+                type="button"
+                class="toggle-btn body-area-btn"
+                data-value="legs"
+              >
+                Legs
+              </button>
+              <button
+                type="button"
+                class="toggle-btn body-area-btn"
+                data-value="hips"
+              >
+                Hips
+              </button>
+              <button
+                type="button"
+                class="toggle-btn body-area-btn"
+                data-value="other"
+              >
+                Other
+              </button>
+            </div>
+            <input type="hidden" name="bodyAreas" id="bodyAreasHidden" />
+          </div>
+
+          <div
+            style="
+              margin-top: 24px;
+              padding-top: 16px;
+              border-top: 1px solid var(--border-color);
+              text-align: center;
+            "
+          >
+            <p style="font-size: 13px; color: var(--text-light); margin: 0">
+              Click <strong>Next</strong> to continue.
+            </p>
+          </div>
+        </div>
+
         <!-- Step 5: Consent & Signature -->
         <div
           class="wizard-step form-section"
@@ -1760,7 +1711,56 @@
       </form>
     </div>
 
+    <!-- Body Map Expand Modal -->
+    <div
+      id="bodyMapModal"
+      class="body-map-modal hidden-field"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="bodyMapModalTitle"
+    >
+      <div class="body-map-backdrop"></div>
+      <div class="body-map-content" role="document">
+        <div class="body-map-header">
+          <h2 id="bodyMapModalTitle">
+            Body Map - Tap to mark areas of discomfort
+          </h2>
+          <button
+            type="button"
+            id="closeBodyMapBtn"
+            class="btn-secondary"
+            aria-label="Close Body Map"
+          >
+            Close
+          </button>
+        </div>
+        <div class="body-map-body">
+          <div id="muscleMapContainerExpanded"></div>
+          <div class="body-map-controls">
+            <button type="button" id="zoomInBtn" class="btn-secondary">
+              Zoom In (+)
+            </button>
+            <button type="button" id="zoomOutBtn" class="btn-secondary">
+              Zoom Out (-)
+            </button>
+            <button type="button" id="resetZoomBtn" class="btn-secondary">
+              Reset View
+            </button>
+            <button
+              type="button"
+              id="clearMuscleMapExpanded"
+              class="btn-secondary"
+            >
+              Clear All
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script src="/js/auPhoneFormatter.js?v=20260127" defer></script>
+    <script src="/js/muscleMap.js?v=20260203" defer></script>
+    <script src="/js/bodyMapModal.js?v=20260203" defer></script>
     <script src="/js/signature.js?v=20260125" defer></script>
     <script src="/js/conditionalFields.js?v=20260211" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr" defer></script>

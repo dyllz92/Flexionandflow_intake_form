@@ -3,6 +3,7 @@ const path = require("path");
 const fs = require("fs");
 const os = require("os");
 const cors = require("cors");
+const rateLimit = require("express-rate-limit");
 require("dotenv").config();
 
 const pdfGenerator = require("./utils/pdfGenerator");
@@ -33,17 +34,74 @@ function getLocalIPv4() {
 
 // Middleware
 // CORS configuration - restrict origins in production
+const isProduction = process.env.NODE_ENV === "production";
+const allowedOrigins = (process.env.ALLOWED_ORIGINS || "")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+if (isProduction && allowedOrigins.length === 0) {
+  console.warn(
+    "[CORS] NODE_ENV=production but ALLOWED_ORIGINS is empty. Only same-origin requests will be allowed.",
+  );
+}
+
 const corsOptions = {
-  origin:
-    process.env.NODE_ENV === "production"
-      ? (process.env.ALLOWED_ORIGINS || "").split(",").filter(Boolean)
-      : true, // Allow all origins in development
+  origin: (origin, callback) => {
+    if (!isProduction) return callback(null, true);
+
+    // Allow same-origin / server-to-server requests without an Origin header
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error("Not allowed by CORS"));
+  },
   credentials: true,
 };
 app.use(cors(corsOptions));
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use(express.static(publicDir));
+
+// Basic API abuse protection
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 300,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    success: false,
+    message: "Too many API requests. Please try again shortly.",
+  },
+});
+
+const submitFormLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 40,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    success: false,
+    message: "Too many submissions. Please wait and try again.",
+  },
+});
+
+const soapLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 60,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    success: false,
+    message:
+      "SOAP generation limit reached. Please wait a few minutes and try again.",
+  },
+});
+
+app.use("/api", apiLimiter);
 
 // Serve a favicon to avoid 404 noise from browsers
 app.get("/favicon.ico", (req, res) => {
@@ -105,6 +163,11 @@ app.get("/feedback", (req, res) => {
 app.get("/soap", (req, res) => {
   res.set("Cache-Control", "no-store");
   res.sendFile(path.join(__dirname, "views", "soap.html"));
+});
+
+app.get("/success", (req, res) => {
+  res.set("Cache-Control", "no-store");
+  res.sendFile(path.join(__dirname, "views", "success.html"));
 });
 
 // Static pages
@@ -194,7 +257,7 @@ function extractOpenAIText(payload) {
 }
 
 // API endpoint - Generate SOAP note
-app.post("/api/generate-soap", async (req, res) => {
+app.post("/api/generate-soap", soapLimiter, async (req, res) => {
   try {
     if (!process.env.OPENAI_API_KEY) {
       return res.status(503).json({
@@ -314,7 +377,7 @@ app.post("/api/generate-soap", async (req, res) => {
   }
 });
 
-app.post("/api/submit-form", async (req, res) => {
+app.post("/api/submit-form", submitFormLimiter, async (req, res) => {
   try {
     const formData = req.body;
     const isFeedbackForm = formData.formType === "feedback";

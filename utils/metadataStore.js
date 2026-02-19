@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 /**
  * MetadataStore - Manages JSON metadata files for analytics
@@ -19,61 +19,76 @@ class MetadataStore {
   extractAnalyticsFields(formData) {
     const health = Array.isArray(formData.healthChecks)
       ? formData.healthChecks
-      : (formData.healthChecks ? [formData.healthChecks] : []);
+      : formData.healthChecks
+        ? [formData.healthChecks]
+        : [];
 
     // Use submission date from form if available, otherwise use current time
-    let submissionDate = formData.submissionDate || formData.createdAt || new Date().toISOString();
+    let submissionDate =
+      formData.submissionDate || formData.createdAt || new Date().toISOString();
+
+    let marksCount = 0;
+    if (formData.muscleMapMarks) {
+      try {
+        const marks =
+          typeof formData.muscleMapMarks === "string"
+            ? JSON.parse(formData.muscleMapMarks)
+            : formData.muscleMapMarks;
+        marksCount = Array.isArray(marks) ? marks.length : 0;
+      } catch (error) {
+        console.warn("[Metadata] Invalid muscleMapMarks JSON, defaulting to 0");
+        marksCount = 0;
+      }
+    }
 
     return {
       filename: null, // Set by caller
       submissionDate: submissionDate,
-      formType: formData.formType || 'seated',
+      formType: formData.formType || "seated",
       client: {
-        fullName: formData.fullName || formData.name || 'Unknown',
+        fullName: formData.fullName || formData.name || "Unknown",
         mobile: formData.mobile || null,
         email: formData.email || null,
-        gender: formData.gender || null
+        gender: formData.gender || null,
       },
       ao: {
         role: formData.aoRole || null,
         feelingPre: parseInt(formData.feelingPre) || null,
         firstTimeAOWellness: formData.firstTimeAOWellness || null,
-        therapistName: formData.therapistName || null
+        therapistName: formData.therapistName || null,
       },
       bodyMap: {
-        marksCount: formData.muscleMapMarks ?
-          (typeof formData.muscleMapMarks === 'string'
-            ? JSON.parse(formData.muscleMapMarks).length
-            : formData.muscleMapMarks.length)
-          : 0
+        marksCount,
       },
       preferences: {
-        pressure: formData.pressurePreference || null
+        pressure: formData.pressurePreference || null,
       },
       tableSpecific: {
         oilPreference: formData.tableOilPreference || null,
-        positionComfort: formData.tablePositionComfort || null
+        positionComfort: formData.tablePositionComfort || null,
       },
       health: {
         healthChecks: health,
         hasReviewNote: !!formData.reviewNote,
         reviewNote: formData.reviewNote || null,
         hasAvoidNotes: !!formData.avoidNotes,
-        avoidNotes: formData.avoidNotes || null
+        avoidNotes: formData.avoidNotes || null,
       },
       marketing: {
-        emailOptIn: formData.emailOptIn === true || formData.emailOptIn === 'on',
-        smsOptIn: formData.smsOptIn === true || formData.smsOptIn === 'on'
+        emailOptIn:
+          formData.emailOptIn === true || formData.emailOptIn === "on",
+        smsOptIn: formData.smsOptIn === true || formData.smsOptIn === "on",
       },
       consent: {
-        consentAll: formData.consentAll === true || formData.consentAll === 'on'
+        consentAll:
+          formData.consentAll === true || formData.consentAll === "on",
       },
       feedback: {
         feelingPost: parseInt(formData.feelingPost) || null,
         wouldRecommend: formData.wouldRecommend || null,
         hasComments: !!formData.feedbackComments,
-        comments: formData.feedbackComments || null
-      }
+        comments: formData.feedbackComments || null,
+      },
     };
   }
 
@@ -87,7 +102,7 @@ class MetadataStore {
       metadata.filename = pdfFilename;
 
       // Generate JSON filename from PDF filename
-      const jsonFilename = pdfFilename.replace('.pdf', '.json');
+      const jsonFilename = pdfFilename.replace(".pdf", ".json");
 
       // Convert to JSON buffer
       const jsonBuffer = Buffer.from(JSON.stringify(metadata, null, 2));
@@ -97,13 +112,16 @@ class MetadataStore {
         try {
           await this.driveUploader.uploadMetadata(jsonBuffer, jsonFilename);
         } catch (error) {
-          console.error('Failed to upload metadata to Google Drive:', error.message);
+          console.error(
+            "Failed to upload metadata to Google Drive:",
+            error.message,
+          );
           // Fall through to local save
         }
       }
 
       // Also save locally
-      const localMetadataDir = path.join(__dirname, '..', 'metadata');
+      const localMetadataDir = path.join(__dirname, "..", "metadata");
 
       // Create metadata directory if it doesn't exist
       if (!fs.existsSync(localMetadataDir)) {
@@ -119,7 +137,7 @@ class MetadataStore {
       console.log(`Metadata saved: ${jsonFilename}`);
       return metadata;
     } catch (error) {
-      console.error('Error saving metadata:', error);
+      console.error("Error saving metadata:", error);
       throw error;
     }
   }
@@ -128,7 +146,7 @@ class MetadataStore {
    * Load all metadata from local storage
    */
   loadLocalMetadata() {
-    const metadataDir = path.join(__dirname, '..', 'metadata');
+    const metadataDir = path.join(__dirname, "..", "metadata");
     const metadata = [];
 
     if (!fs.existsSync(metadataDir)) {
@@ -136,11 +154,13 @@ class MetadataStore {
     }
 
     try {
-      const files = fs.readdirSync(metadataDir).filter(f => f.endsWith('.json'));
+      const files = fs
+        .readdirSync(metadataDir)
+        .filter((f) => f.endsWith(".json"));
 
       for (const file of files) {
         try {
-          const content = fs.readFileSync(path.join(metadataDir, file), 'utf8');
+          const content = fs.readFileSync(path.join(metadataDir, file), "utf8");
           const data = JSON.parse(content);
           metadata.push(data);
         } catch (error) {
@@ -148,7 +168,7 @@ class MetadataStore {
         }
       }
     } catch (error) {
-      console.error('Error reading metadata directory:', error);
+      console.error("Error reading metadata directory:", error);
     }
 
     return metadata;
@@ -160,8 +180,11 @@ class MetadataStore {
    */
   async listAllMetadata() {
     // Check cache
-    if (this.metadataCache.size > 0 && this.cacheTimestamp &&
-        Date.now() - this.cacheTimestamp < this.CACHE_TTL) {
+    if (
+      this.metadataCache.size > 0 &&
+      this.cacheTimestamp &&
+      Date.now() - this.cacheTimestamp < this.CACHE_TTL
+    ) {
       return Array.from(this.metadataCache.values());
     }
 
@@ -170,17 +193,20 @@ class MetadataStore {
     // Try loading from Google Drive first
     if (this.driveUploader && this.driveUploader.isConfigured()) {
       try {
-        console.log('[Analytics] Loading metadata from Google Drive...');
+        console.log("[Analytics] Loading metadata from Google Drive...");
         allMetadata = await this.driveUploader.loadAllMetadataFromDrive();
       } catch (error) {
-        console.error('[Analytics] Error loading from Google Drive:', error.message);
+        console.error(
+          "[Analytics] Error loading from Google Drive:",
+          error.message,
+        );
         // Fall through to local storage
       }
     }
 
     // Fall back to local storage if Google Drive returned nothing
     if (allMetadata.length === 0) {
-      console.log('[Analytics] Falling back to local metadata storage...');
+      console.log("[Analytics] Falling back to local metadata storage...");
       allMetadata = this.loadLocalMetadata();
     }
 
@@ -192,7 +218,9 @@ class MetadataStore {
     }
     this.cacheTimestamp = Date.now();
 
-    console.log(`[Analytics] Loaded ${allMetadata.length} total metadata records`);
+    console.log(
+      `[Analytics] Loaded ${allMetadata.length} total metadata records`,
+    );
     return allMetadata;
   }
 
@@ -202,7 +230,7 @@ class MetadataStore {
   async getMetadataByDateRange(startDate, endDate) {
     const allMetadata = await this.listAllMetadata();
 
-    return allMetadata.filter(item => {
+    return allMetadata.filter((item) => {
       const submissionDate = new Date(item.submissionDate);
       return submissionDate >= startDate && submissionDate <= endDate;
     });

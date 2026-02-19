@@ -6,20 +6,18 @@
 class ConditionalFields {
   constructor() {
     this.fieldRules = {
-      // Referral person - show when word of mouth or referral selected
+      // Referral person - show when referral-style source selected
       referralPerson: {
         trigger: 'input[name="referralSource"]',
         show: "referralPersonSection",
         condition: (val) =>
-          val === "Word of mouth" ||
-          val === "Friend or Family Member" ||
-          val === "Referral from another practitioner",
+          val === "Word of mouth" || val === "I was referred by someone",
       },
-      // Exercise details - show when exercise frequency is not "Never"
+      // Exercise details - show when exercise frequency is not "Never / Rarely"
       exerciseDetails: {
         trigger: 'input[name="exerciseFrequency"]',
         show: "exerciseDetailsSection",
-        condition: (val) => val !== "Never",
+        condition: (val) => !!val && val !== "Never / Rarely",
       },
       // Pregnancy weeks - show when pregnant/breastfeeding = "Yes"
       pregnancyWeeks: {
@@ -27,47 +25,17 @@ class ConditionalFields {
         show: "pregnancyWeeksSection",
         condition: (val) => val === "Yes",
       },
-      // Health condition details
-      generalHealth: {
-        trigger: 'input[name="generalHealth"]',
-        show: "healthDetailsContainer",
-        condition: (checked) => checked.length > 0,
-      },
       // Medications
       medications: {
-        trigger: 'input[name="medications"]',
-        show: "medicationsDetailsContainer",
+        trigger: 'input[name="takingMedications"]',
+        show: "medicationsSection",
         condition: (val) => val === "Yes",
       },
       // Allergies
       allergies: {
-        trigger: 'input[name="allergies"]',
-        show: "allergiesDetailsContainer",
+        trigger: 'input[name="hasAllergies"]',
+        show: "allergiesSection",
         condition: (val) => val === "Yes",
-      },
-      // Sensitivity details
-      sensitivity: {
-        trigger: 'input[name="sensitivity"]',
-        show: "sensitivityDetailsContainer",
-        condition: (val) => val === "Yes",
-      },
-      // Emergency contact
-      showEmergency: {
-        trigger: 'input[name="showEmergency"]',
-        show: "emergencyContactContainer",
-        condition: (checked) => checked,
-      },
-      // Recent 48h conditions
-      recent48h: {
-        trigger: 'input[name="recent48h"]',
-        show: "recentConditionsDetails",
-        condition: (checked) => checked.length > 0,
-      },
-      // Symptom section
-      symptomToggle: {
-        trigger: 'input[name="symptomToggle"]',
-        show: "symptomsSection",
-        condition: (checked) => checked,
       },
     };
 

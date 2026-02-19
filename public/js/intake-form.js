@@ -68,6 +68,17 @@ const seenOtherProviderGroup = document.getElementById(
 const seenOtherProviderInputs = document.querySelectorAll(
   'input[name="seenOtherProvider"]',
 );
+const medicalConditionsHidden = document.getElementById(
+  "medicalConditionsHidden",
+);
+
+function getSelectedMedicalConditions() {
+  if (!medicalConditionsHidden || !medicalConditionsHidden.value) return [];
+  return medicalConditionsHidden.value
+    .split(",")
+    .map((value) => value.trim())
+    .filter(Boolean);
+}
 
 function updateSeenOtherProviderVisibility() {
   // List of conditions that should trigger the question (customize as needed)
@@ -85,13 +96,9 @@ function updateSeenOtherProviderVisibility() {
     "illness",
     "disease",
   ];
-  const checkedConditions = Array.from(
-    document.querySelectorAll('input[name="medicalConditions"]:checked'),
-  );
-  const shouldShow = checkedConditions.some((cb) =>
-    triggerKeywords.some((word) =>
-      (cb.value || "").toLowerCase().includes(word),
-    ),
+  const selectedConditions = getSelectedMedicalConditions();
+  const shouldShow = selectedConditions.some((value) =>
+    triggerKeywords.some((word) => value.toLowerCase().includes(word)),
   );
   if (seenOtherProviderGroup) {
     seenOtherProviderGroup.style.display = shouldShow ? "block" : "none";
@@ -106,10 +113,20 @@ function updateSeenOtherProviderVisibility() {
     });
   }
 }
-// Attach to all medicalConditions checkboxes
-document.querySelectorAll('input[name="medicalConditions"]').forEach((cb) => {
-  cb.addEventListener("change", updateSeenOtherProviderVisibility);
+// Attach to health condition buttons/hidden state
+document.querySelectorAll(".condition-btn").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    setTimeout(updateSeenOtherProviderVisibility, 0);
+  });
 });
+
+if (medicalConditionsHidden) {
+  medicalConditionsHidden.addEventListener(
+    "change",
+    updateSeenOtherProviderVisibility,
+  );
+}
+
 // Run on load
 updateSeenOtherProviderVisibility();
 // Intake Form Validation and Submission
@@ -486,21 +503,7 @@ document.addEventListener("DOMContentLoaded", () => {
     step.style.borderColor = "";
   });
   // Show message if required fields missing
-  form.addEventListener("submit", function (e) {
-    const requiredFields = form.querySelectorAll("[required]");
-    let missing = [];
-    requiredFields.forEach((field) => {
-      if (!field.value) missing.push(field.name || field.id);
-    });
-    if (missing.length > 0 && stepValidationMessage) {
-      e.preventDefault();
-      stepValidationMessage.textContent =
-        "Please fill in all required fields before submitting.";
-      stepValidationMessage.style.color = "#d9534f";
-      stepValidationMessage.style.fontWeight = "bold";
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  });
+  // (Submission validation is handled centrally by wizard.js and submitForm())
   // Health red-flag banner and 'no issues' mutual exclusivity
   const healthChecks = Array.from(
     document.querySelectorAll('input[name="healthChecks"]'),
@@ -733,6 +736,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Update hidden input
         if (hiddenInput) {
           hiddenInput.value = selectedConditions.join(",");
+          hiddenInput.dispatchEvent(new Event("change", { bubbles: true }));
         }
 
         // Handle conditional details section
@@ -1015,77 +1019,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Enhanced validation with visual feedback
-    const form = document.getElementById("intakeForm");
-    if (form) {
-      form.addEventListener("submit", (e) => {
-        const requiredCheckboxes = form.querySelectorAll(
-          'input[required]:not([type="hidden"])',
-        );
-        let firstError = null;
-
-        requiredCheckboxes.forEach((checkbox) => {
-          if (!checkbox.checked) {
-            const container =
-              checkbox.closest(".consent-item") ||
-              checkbox.closest(".consent-checkbox");
-            if (container) {
-              container.style.border = "2px solid #EF4444";
-              container.style.borderRadius = "8px";
-              container.style.padding = "16px";
-              if (!firstError) firstError = container;
-            }
-          } else {
-            const container =
-              checkbox.closest(".consent-item") ||
-              checkbox.closest(".consent-checkbox");
-            if (container) {
-              container.style.border = "none";
-              container.style.padding = "0";
-            }
-          }
-        });
-
-        // Check signature
-        const signaturePad = window.signaturePad;
-        if (signaturePad && !signaturePad.hasDrawnContent()) {
-          const signatureContainer = document.querySelector(
-            ".signature-pad-frame",
-          );
-          if (signatureContainer) {
-            signatureContainer.style.border = "2px solid #EF4444";
-            if (!firstError) firstError = signatureContainer;
-
-            // Add error message
-            let errorMsg = signatureContainer.querySelector(".signature-error");
-            if (!errorMsg) {
-              errorMsg = document.createElement("div");
-              errorMsg.className = "signature-error";
-              errorMsg.textContent = "Signature required";
-              errorMsg.style.color = "#EF4444";
-              errorMsg.style.fontSize = "14px";
-              errorMsg.style.marginTop = "8px";
-              signatureContainer.appendChild(errorMsg);
-            }
-          }
-        } else {
-          const signatureContainer = document.querySelector(
-            ".signature-pad-frame",
-          );
-          if (signatureContainer) {
-            signatureContainer.style.border = "2px solid #2563EB";
-            const errorMsg =
-              signatureContainer.querySelector(".signature-error");
-            if (errorMsg) errorMsg.remove();
-          }
-        }
-
-        if (firstError) {
-          e.preventDefault();
-          firstError.scrollIntoView({ behavior: "smooth", block: "center" });
-          return false;
-        }
-      });
-    }
+    // (Step-level submit validation handled by wizard.js / submitForm)
   }
 
   // Initialize Step 5
