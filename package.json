@@ -32,9 +32,11 @@
     "express-rate-limit": "8.2.1",
     "googleapis": "^128.0.0",
     "helmet": "8.1.0",
+    "joi": "^17.11.0",
     "pdf-parse": "^1.1.1",
     "pdfkit": "^0.13.0",
-    "uuid": "13.0.0"
+    "uuid": "13.0.0",
+    "winston": "^3.11.0"
   },
   "devDependencies": {
     "@playwright/test": "1.58.2",

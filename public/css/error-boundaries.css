@@ -1,0 +1,337 @@
+/**
+ * Error Boundary Styles
+ * Styling for error boundary fallback UI components
+ */
+
+/* Error boundary fallback container */
+.error-boundary-fallback {
+  background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+  border: 2px solid #e53e3e;
+  border-radius: 12px;
+  padding: 32px;
+  margin: 16px 0;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(229, 62, 62, 0.1);
+  animation: slideInError 0.3s ease-out;
+}
+
+@keyframes slideInError {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.error-boundary-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.error-boundary-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.error-boundary-title {
+  color: #2d3748;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  margin-top: 0;
+}
+
+.error-boundary-message {
+  color: #4a5568;
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 24px;
+  margin-top: 0;
+}
+
+.error-boundary-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.error-boundary-actions .btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid;
+  transition: all 0.2s ease;
+  min-width: 140px;
+}
+
+.error-boundary-actions .btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.error-boundary-actions .btn-primary {
+  background: #3182ce;
+  color: white;
+  border-color: #3182ce;
+}
+
+.error-boundary-actions .btn-primary:hover {
+  background: #2c5aa0;
+  border-color: #2c5aa0;
+}
+
+.error-boundary-actions .btn-outline-secondary {
+  background: transparent;
+  color: #718096;
+  border-color: #e2e8f0;
+}
+
+.error-boundary-actions .btn-outline-secondary:hover {
+  background: #f7fafc;
+  border-color: #cbd5e0;
+  color: #4a5568;
+}
+
+.error-boundary-details {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.error-boundary-details summary {
+  cursor: pointer;
+  color: #718096;
+  font-size: 14px;
+  padding: 8px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.error-boundary-details summary:hover {
+  background: #f7fafc;
+}
+
+.error-boundary-details[open] summary {
+  margin-bottom: 12px;
+  background: #edf2f7;
+}
+
+.error-boundary-stack {
+  background: #2d3748;
+  color: #e2e8f0;
+  padding: 16px;
+  border-radius: 6px;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+  font-size: 12px;
+  line-height: 1.4;
+  overflow-x: auto;
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+/* Error boundary for specific sections */
+.form-section.has-error {
+  position: relative;
+}
+
+.form-section.has-error::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #fed7d7, #fbb6ce);
+  border-radius: 8px;
+  z-index: -1;
+  animation: errorPulse 2s ease-in-out infinite;
+}
+
+@keyframes errorPulse {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* Error notification styles */
+.error-notification {
+  background: #fed7d7;
+  border: 1px solid #fc8181;
+  color: #742a2a;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin: 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: slideInNotification 0.3s ease-out;
+}
+
+@keyframes slideInNotification {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.error-notification-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.error-notification-message {
+  flex: 1;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.error-notification-close {
+  background: none;
+  border: none;
+  color: #742a2a;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.error-notification-close:hover {
+  background: rgba(116, 42, 42, 0.1);
+}
+
+/* Loading state override for error boundaries */
+.error-boundary-fallback .loading-overlay {
+  display: none !important;
+}
+
+/* Recovery success animation */
+.error-boundary-recovered {
+  animation: recoverySuccess 0.6s ease-out;
+}
+
+@keyframes recoverySuccess {
+  0% {
+    background: #d4edda;
+    border-color: #c3e6cb;
+  }
+  100% {
+    background: transparent;
+    border-color: transparent;
+  }
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .error-boundary-fallback {
+    padding: 20px 16px;
+    margin: 12px 0;
+  }
+
+  .error-boundary-title {
+    font-size: 20px;
+  }
+
+  .error-boundary-message {
+    font-size: 14px;
+  }
+
+  .error-boundary-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .error-boundary-actions .btn {
+    min-width: auto;
+    width: 100%;
+  }
+
+  .error-boundary-stack {
+    font-size: 11px;
+    padding: 12px;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .error-boundary-fallback {
+    background: #ffffff;
+    border: 3px solid #cc0000;
+  }
+
+  .error-boundary-title {
+    color: #000000;
+  }
+
+  .error-boundary-message {
+    color: #333333;
+  }
+
+  .error-boundary-actions .btn-primary {
+    background: #0000cc;
+    border-color: #0000cc;
+  }
+
+  .error-boundary-actions .btn-outline-secondary {
+    color: #000000;
+    border-color: #666666;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .error-boundary-fallback,
+  .error-notification,
+  .error-boundary-recovered {
+    animation: none;
+  }
+
+  .error-boundary-actions .btn:hover {
+    transform: none;
+  }
+
+  .form-section.has-error::before {
+    animation: none;
+    opacity: 0.5;
+  }
+}
+
+/* Print styles */
+@media print {
+  .error-boundary-fallback {
+    background: #f9f9f9 !important;
+    border: 2px solid #666666 !important;
+    box-shadow: none !important;
+    page-break-inside: avoid;
+  }
+
+  .error-boundary-actions {
+    display: none !important;
+  }
+
+  .error-boundary-details {
+    display: none !important;
+  }
+}

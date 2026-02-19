@@ -1,0 +1,420 @@
+/**
+ * Form Components
+ * Reusable UI components: buttons, chips, cards, etc.
+ */
+
+/* Button Styles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  min-height: 44px;
+  box-sizing: border-box;
+}
+
+/* Primary Button */
+.btn-primary {
+  background: linear-gradient(135deg, #3a99d3 0%, #2685bb 50%, #1e7ab1 100%);
+  color: #fff;
+  border-radius: 14px;
+  padding: 16px 32px;
+  font-size: 16px;
+  font-weight: 700;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.btn-primary::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.btn-primary:hover::before {
+  left: 100%;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #2f8dc7 0%, #1e7ab1 50%, #155e8b 100%);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+  transform: translateY(-3px) scale(1.05);
+}
+
+.btn-primary:active {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+/* Secondary Button */
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
+  border-radius: 14px;
+  padding: 16px 32px;
+  min-height: 44px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-secondary::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(30, 136, 199, 0.1),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.btn-secondary:hover::before {
+  left: 100%;
+}
+
+.btn-secondary:hover {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+  box-shadow: 0 8px 24px rgba(30, 136, 199, 0.25);
+  transform: translateY(-2px) scale(1.03);
+}
+
+.btn-secondary:active {
+  transform: translateY(0) scale(1.01);
+  box-shadow: 0 4px 12px rgba(30, 136, 199, 0.15);
+}
+
+/* Outline Button */
+.btn-outline {
+  background: transparent;
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
+  padding: 10px 20px;
+}
+
+.btn-outline:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+/* Button Sizes */
+.btn-sm {
+  padding: 8px 16px;
+  font-size: 14px;
+  min-height: 36px;
+}
+
+.btn-lg {
+  padding: 18px 36px;
+  font-size: 18px;
+  min-height: 52px;
+}
+
+/* Button States */
+.btn:disabled,
+.btn[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Visit Goal Chips */
+.visit-goals-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.visit-goal-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 18px;
+  background: #ffffff;
+  border: 2px solid var(--border-color);
+  border-radius: 24px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.visit-goal-chip input[type="checkbox"] {
+  display: none;
+}
+
+.visit-goal-chip:hover {
+  border-color: var(--primary-color);
+  background: rgba(31, 58, 95, 0.04);
+}
+
+.visit-goal-chip input[type="checkbox"]:checked + span,
+.visit-goal-chip.selected {
+  background: #1f3a5f;
+  color: white;
+  border-color: #1f3a5f;
+}
+
+/* Radio and Checkbox Groups */
+.radio-group,
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.radio-group.horizontal,
+.checkbox-group.horizontal {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.radio-group label,
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.radio-group label:hover,
+.checkbox-group label:hover {
+  background-color: rgba(30, 136, 199, 0.05);
+}
+
+/* Gender Button Styling */
+.gender-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin: 16px 0;
+}
+
+.gender-button {
+  flex: 1;
+  max-width: 120px;
+  padding: 16px;
+  background: #f8f9fa;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: center;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.gender-button:hover {
+  border-color: var(--primary-color);
+  background: rgba(30, 136, 199, 0.05);
+}
+
+.gender-button.selected {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+/* Option Cards */
+.option-card {
+  background: white;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.option-card:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 4px 12px rgba(30, 136, 199, 0.1);
+  transform: translateY(-2px);
+}
+
+.option-card.selected {
+  border-color: var(--primary-color);
+  background: rgba(30, 136, 199, 0.05);
+}
+
+.option-card h3 {
+  color: var(--text-dark);
+  margin: 0 0 8px 0;
+  font-size: 18px;
+}
+
+.option-card p {
+  color: var(--text-light);
+  margin: 0;
+  font-size: 14px;
+}
+
+/* Loading States */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
+}
+
+.loading-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.loading-spinner {
+  background: white;
+  border-radius: 12px;
+  padding: 32px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 16px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-message {
+  color: var(--text-dark);
+  font-size: 16px;
+  margin: 0;
+}
+
+/* Info Boxes */
+.info-box {
+  background: linear-gradient(
+    135deg,
+    rgba(157, 78, 221, 0.08) 0%,
+    rgba(30, 136, 199, 0.08) 100%
+  );
+  border: 1px solid rgba(30, 136, 199, 0.2);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.info-box p {
+  margin: 0;
+  color: var(--text-dark);
+  line-height: 1.5;
+}
+
+/* Success/Warning/Error Boxes */
+.alert {
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  border-left: 4px solid;
+}
+
+.alert-success {
+  background: #d4edda;
+  border-color: #28a745;
+  color: #155724;
+}
+
+.alert-warning {
+  background: #fff3cd;
+  border-color: #ffc107;
+  color: #856404;
+}
+
+.alert-error {
+  background: #f8d7da;
+  border-color: #dc3545;
+  color: #721c24;
+}
+
+/* Progress Indicators */
+.progress {
+  width: 100%;
+  height: 8px;
+  background: var(--border-color);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+  transition: width 0.3s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .btn {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  .gender-buttons {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .gender-button {
+    max-width: none;
+  }
+}

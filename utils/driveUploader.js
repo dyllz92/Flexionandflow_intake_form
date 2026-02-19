@@ -2,6 +2,8 @@ const fs = require("fs");
 const path = require("path");
 const { Readable } = require("stream");
 const { google } = require("googleapis");
+const logger = require("./logger");
+const logger = require("./logger");
 
 /**
  * Google Drive uploader with fallback to local storage
@@ -15,8 +17,8 @@ class DriveUploader {
       String(process.env.ALLOW_LOCAL_PDF_FALLBACK).toLowerCase() === "true";
 
     if (!this.folderId) {
-      console.warn(
-        "⚠️  GOOGLE_DRIVE_FOLDER_ID is not set. Uploads will default to Drive root when Google Drive is configured.",
+      logger.warn(
+        "GOOGLE_DRIVE_FOLDER_ID not set - uploads will default to Drive root",
       );
     }
 
@@ -34,15 +36,14 @@ class DriveUploader {
             : path.resolve(__dirname, "..", credentialsPath);
           const raw = fs.readFileSync(absPath, "utf8");
           credentials = JSON.parse(raw);
-          console.log(
-            `✅ Using Google credentials from file: ${credentialsPath}`,
-          );
+          logger.info("Using Google credentials from file", {
+            path: credentialsPath,
+          });
         } catch (e) {
-          console.warn(
-            "Could not load credentials from path:",
-            credentialsPath,
-            e.message,
-          );
+          logger.warn("Could not load credentials from path", {
+            path: credentialsPath,
+            error: e.message,
+          });
         }
       }
 
@@ -53,7 +54,9 @@ class DriveUploader {
             `✅ Using Google credentials from GOOGLE_SERVICE_ACCOUNT_KEY env var`,
           );
         } catch (e) {
-          console.warn("Could not parse GOOGLE_SERVICE_ACCOUNT_KEY env var");
+          logger.warn(
+            "Could not parse GOOGLE_SERVICE_ACCOUNT_KEY environment variable",
+          );
         }
       }
 
@@ -65,18 +68,16 @@ class DriveUploader {
 
         this.drive = google.drive({ version: "v3", auth });
         this.configured = true;
-        console.log("✅ Google Drive API configured successfully");
+        logger.info("Google Drive API configured successfully");
       } else {
-        console.log(
-          "⚠️  Google Drive not configured - PDFs will be saved locally",
-        );
-        console.log(
-          "   Add GOOGLE_SERVICE_ACCOUNT_KEY env var or google-credentials.json to enable",
+        logger.warn("Google Drive not configured - PDFs will be saved locally");
+        logger.info(
+          "Add GOOGLE_SERVICE_ACCOUNT_KEY env var or google-credentials.json to enable",
         );
       }
     } catch (error) {
-      console.error("⚠️  Error initializing Google Drive:", error);
-      console.log("   PDFs will be saved locally instead");
+      logger.error("Error initializing Google Drive", { error: error.message });
+      logger.info("PDFs will be saved locally instead");
       this.configured = false;
     }
   }
@@ -154,20 +155,18 @@ class DriveUploader {
         createParams.includeItemsFromAllDrives = true;
         createParams.corpora = "drive";
         // No parents: uploads to root of the Shared Drive
-        console.log("ℹ️ Uploading to root of Shared Drive (no parents set)");
+        logger.info("Uploading to root of Shared Drive (no parents set)");
       } else if (this.folderId) {
         // For a folder (in My Drive or Shared Drive), set parents
         fileMetadata.parents = [this.folderId];
-        console.log(
-          "ℹ️ Uploading to folder:",
-          this.folderId.slice(0, 6) + "..." + this.folderId.slice(-4),
-        );
+        logger.info("Uploading to folder", {
+          folderId: this.folderId.slice(0, 6) + "..." + this.folderId.slice(-4),
+        });
       }
 
       const response = await this.drive.files.create(createParams);
 
-      console.log(`✅ Uploaded to Google Drive: ${filename}`);
-      console.log(`   File ID: ${response.data.id}`);
+      logger.driveUpload(filename, response.data);
 
       return {
         success: true,
@@ -177,15 +176,15 @@ class DriveUploader {
         filename: filename,
       };
     } catch (error) {
-      console.error("Error uploading to Google Drive:", error.message);
-      if (error.response && error.response.data) {
-        console.error("Google API response:", error.response.data);
-      }
-      console.error("Failed filename:", filename);
+      logger.error("Error uploading to Google Drive", {
+        error: error.message,
+        filename,
+        apiResponse: error.response?.data,
+      });
 
       if (this.allowLocalFallback) {
-        console.log(
-          "Falling back to local storage (ALLOW_LOCAL_PDF_FALLBACK=true)...",
+        logger.info(
+          "Falling back to local storage (ALLOW_LOCAL_PDF_FALLBACK=true)",
         );
         return await this.saveLocally(pdfBuffer, filename);
       }

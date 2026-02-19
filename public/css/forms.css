@@ -3101,6 +3101,7 @@ button[type="button"]#clearSignature {
   background: #e5e7eb;
   outline: none;
   -webkit-appearance: none;
+  appearance: none;
 }
 
 .slider-input::-webkit-slider-thumb {
