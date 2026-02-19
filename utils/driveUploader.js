@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const { Readable } = require("stream");
 const { google } = require("googleapis");
 
 /**
@@ -28,7 +29,11 @@ class DriveUploader {
 
       if (credentialsPath) {
         try {
-          credentials = require(credentialsPath);
+          const absPath = path.isAbsolute(credentialsPath)
+            ? credentialsPath
+            : path.resolve(__dirname, "..", credentialsPath);
+          const raw = fs.readFileSync(absPath, "utf8");
+          credentials = JSON.parse(raw);
           console.log(
             `✅ Using Google credentials from file: ${credentialsPath}`,
           );
@@ -36,6 +41,7 @@ class DriveUploader {
           console.warn(
             "Could not load credentials from path:",
             credentialsPath,
+            e.message,
           );
         }
       }
@@ -135,7 +141,7 @@ class DriveUploader {
         requestBody: fileMetadata,
         media: {
           mimeType: "application/pdf",
-          body: require("stream").Readable.from(pdfBuffer),
+          body: Readable.from(pdfBuffer),
         },
         fields: "id, webViewLink, webContentLink",
         supportsAllDrives: true,
@@ -276,7 +282,7 @@ class DriveUploader {
         requestBody: fileMetadata,
         media: {
           mimeType: "application/json",
-          body: require("stream").Readable.from(metadataBuffer),
+          body: Readable.from(metadataBuffer),
         },
         fields: "id",
         supportsAllDrives: true,

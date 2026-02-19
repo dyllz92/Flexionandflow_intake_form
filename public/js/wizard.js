@@ -214,6 +214,15 @@
     }
   }
 
+  function clearValidationMessage() {
+    const validationEl = document.getElementById("stepValidationMessage");
+    if (validationEl) {
+      validationEl.textContent = "";
+      validationEl.style.display = "none";
+      validationEl.classList.remove("show");
+    }
+  }
+
   function goToNextStep(event) {
     console.log("[wizard.js] goToNextStep called");
 
@@ -225,6 +234,8 @@
       showValidationErrors();
       return;
     }
+
+    clearValidationMessage();
 
     if (currentStep < TOTAL_STEPS) {
       console.log(
@@ -422,7 +433,8 @@
       const validationEl = document.getElementById("stepValidationMessage");
       if (validationEl) {
         validationEl.textContent = message;
-        validationEl.classList.remove("is-hidden");
+        validationEl.style.display = "block";
+        validationEl.classList.add("show");
       } else {
         // Fallback to alert if the message area is missing
         alert(message);

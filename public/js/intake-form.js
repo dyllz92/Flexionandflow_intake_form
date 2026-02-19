@@ -808,16 +808,17 @@ document.addEventListener("DOMContentLoaded", () => {
         const category = button.closest(".health-category");
 
         if (text.includes(searchTerm) || searchTerm === "") {
-          button.style.display = "flex";
-          if (category) category.style.display = "block";
+          button.style.display = "";
+          if (category) category.style.display = "";
         } else {
           button.style.display = "none";
-          // Hide category if no buttons are visible
-          const visibleButtons = category.querySelectorAll(
-            '.condition-btn[style*="display: flex"]',
-          );
-          if (visibleButtons.length === 0) {
-            category.style.display = "none";
+          // Hide category if no visible buttons remain
+          if (category) {
+            const allBtns = category.querySelectorAll(".condition-btn");
+            const anyVisible = Array.from(allBtns).some(
+              (b) => b.style.display !== "none",
+            );
+            category.style.display = anyVisible ? "" : "none";
           }
         }
       });
@@ -835,14 +836,35 @@ document.addEventListener("DOMContentLoaded", () => {
     // Visit goals buttons (multi-select checkboxes)
     setupVisitGoalsButtons();
 
-    // Referral source buttons (radio)
+    // Referral source buttons (radio) with conditional referral person field
     setupRadioButtonGroup("referral-btn", "referralSource");
+    setupReferralConditional();
 
     // Exercise frequency buttons (radio)
     setupRadioButtonGroup("exercise-btn", "exerciseFrequency");
 
     // Previous massage buttons (radio)
     setupRadioButtonGroup("previous-massage-btn", "previousMassage");
+
+    // Last treatment timing buttons (radio)
+    setupRadioButtonGroup("treatment-btn", "last_treatment_when");
+  }
+
+  function setupReferralConditional() {
+    const referralBtns = document.querySelectorAll(".referral-btn");
+    const referralPersonSection = document.getElementById(
+      "referralPersonSection",
+    );
+    if (!referralPersonSection) return;
+
+    referralBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const value = btn.getAttribute("data-value");
+        const showPerson =
+          value === "I was referred by someone" || value === "Word of mouth";
+        toggleConditionalField(showPerson, "referralPersonSection");
+      });
+    });
   }
 
   function setupVisitGoalsButtons() {
@@ -1009,28 +1031,26 @@ document.addEventListener("DOMContentLoaded", () => {
       const numValue = parseInt(value);
       numberDisplay.textContent = numValue;
 
-      // Color coding
-      if (numValue <= 3) {
-        numberDisplay.style.color = "#10B981"; // green
+      // Pain labels and color coding
+      if (numValue === 0) {
         labelDisplay.textContent = "None";
-      } else if (numValue <= 6) {
-        numberDisplay.style.color = "#F59E0B"; // orange
-        if (numValue <= 3) labelDisplay.textContent = "Mild";
-        else labelDisplay.textContent = "Moderate";
-      } else {
-        numberDisplay.style.color = "#EF4444"; // red
-        labelDisplay.textContent = "Severe";
-      }
-
-      // Specific labels
-      if (numValue === 0) labelDisplay.textContent = "None";
-      else if (numValue >= 2 && numValue <= 3)
+        numberDisplay.style.color = "#10B981";
+      } else if (numValue <= 2) {
         labelDisplay.textContent = "Mild";
-      else if (numValue >= 5 && numValue <= 6)
+        numberDisplay.style.color = "#10B981";
+      } else if (numValue <= 4) {
         labelDisplay.textContent = "Moderate";
-      else if (numValue >= 7 && numValue <= 8)
+        numberDisplay.style.color = "#F59E0B";
+      } else if (numValue <= 6) {
+        labelDisplay.textContent = "Moderate-Severe";
+        numberDisplay.style.color = "#F59E0B";
+      } else if (numValue <= 8) {
         labelDisplay.textContent = "Severe";
-      else if (numValue === 10) labelDisplay.textContent = "Worst possible";
+        numberDisplay.style.color = "#EF4444";
+      } else {
+        labelDisplay.textContent = "Worst possible";
+        numberDisplay.style.color = "#EF4444";
+      }
     }
 
     slider.addEventListener("input", (e) => {
@@ -1194,7 +1214,7 @@ document.addEventListener("DOMContentLoaded", () => {
     data.formType =
       document.getElementById("formType")?.value ||
       getSelectedFormTypeSafe() ||
-      "seated";
+      "intake";
 
     // Ensure selectedBrand is included (from hidden field or localStorage)
     if (!data.selectedBrand) {

@@ -3,6 +3,7 @@ const path = require("path");
 const fs = require("fs");
 const os = require("os");
 const cors = require("cors");
+const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 require("dotenv").config();
 
@@ -62,8 +63,27 @@ const corsOptions = {
   credentials: true,
 };
 app.use(cors(corsOptions));
-app.use(express.json({ limit: "10mb" }));
-app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net"],
+        styleSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "https://cdn.jsdelivr.net",
+          "https://fonts.googleapis.com",
+        ],
+        fontSrc: ["'self'", "https://fonts.gstatic.com"],
+        imgSrc: ["'self'", "data:"],
+        connectSrc: ["'self'"],
+      },
+    },
+  }),
+);
+app.use(express.json({ limit: "2mb" }));
+app.use(express.urlencoded({ extended: true, limit: "2mb" }));
 app.use(express.static(publicDir));
 
 // Basic API abuse protection
@@ -747,10 +767,17 @@ server.on("error", (error) => {
 process.on("uncaughtException", (error) => {
   console.error("[Process] Uncaught Exception:", error.message);
   console.error(error.stack);
-  // Don't exit immediately - try to keep the server running
-  console.error(
-    "[Process] Attempting to continue running despite uncaught exception",
-  );
+  // Gracefully shut down - continuing after an uncaught exception can leave
+  // the process in an undefined state. Let the process manager restart us.
+  console.error("[Process] Shutting down due to uncaught exception...");
+  server.close(() => {
+    process.exit(1);
+  });
+  // Force exit after 5 seconds if graceful shutdown stalls
+  setTimeout(() => {
+    console.error("[Process] Forced exit after uncaught exception");
+    process.exit(1);
+  }, 5000);
 });
 
 process.on("unhandledRejection", (error) => {
@@ -758,10 +785,15 @@ process.on("unhandledRejection", (error) => {
   if (error && error.stack) {
     console.error(error.stack);
   }
-  // Don't exit immediately - try to keep the server running
-  console.error(
-    "[Process] Attempting to continue running despite unhandled rejection",
-  );
+  // Treat unhandled rejections the same as uncaught exceptions
+  console.error("[Process] Shutting down due to unhandled rejection...");
+  server.close(() => {
+    process.exit(1);
+  });
+  setTimeout(() => {
+    console.error("[Process] Forced exit after unhandled rejection");
+    process.exit(1);
+  }, 5000);
 });
 
 // Graceful shutdown handling for Railway/Docker

@@ -3,6 +3,7 @@ node_modules/
 *.log
 .DS_Store
 pdfs/
+metadata/
 utils/users.json
 google-credentials.json
 nul

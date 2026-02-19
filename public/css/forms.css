@@ -415,10 +415,11 @@ input[type="radio"] {
   font-size: 13px;
   color: #c62828;
   min-height: 18px;
+  display: none;
 }
 
-.step-validation-message.is-hidden {
-  display: none;
+.step-validation-message.show {
+  display: block;
 }
 
 .step-status {
@@ -1470,6 +1471,44 @@ textarea {
   box-sizing: border-box;
   overflow: hidden;
   line-height: 1.1;
+}
+
+/* Back button (btn-outline) - global style */
+.btn-outline {
+  background: white;
+  border: 1.5px solid #d1d5db;
+  color: #374151;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 48px;
+}
+
+.btn-outline:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  background: rgba(30, 136, 199, 0.04);
+}
+
+.btn-outline:focus-visible {
+  outline: 3px solid rgba(30, 136, 199, 0.25);
+  outline-offset: 2px;
+}
+
+/* Toggle/condition button focus indicators for keyboard nav */
+.toggle-btn:focus-visible,
+.condition-btn:focus-visible,
+.visit-btn:focus-visible,
+.referral-btn:focus-visible,
+.exercise-btn:focus-visible,
+.treatment-btn:focus-visible,
+.body-area-btn:focus-visible,
+.symptom-desc-btn:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.5);
+  outline-offset: 2px;
 }
 
 /* Buttons */
@@ -2695,6 +2734,10 @@ button[type="button"]#clearSignature {
 
 .slider-input {
   -webkit-appearance: none;
+  appearance: none;
+  appearance: none;
+  appearance: none;
+  appearance: none;
   appearance: none;
   width: 100%;
   height: 12px;
