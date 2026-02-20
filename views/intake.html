@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Client Intake Form - Flexion &amp; Flow</title>
     <link rel="stylesheet" href="/css/styles.css?v=20260203" />
-    <link rel="stylesheet" href="/css/forms-modular.css?v=20260221" />
     <link rel="stylesheet" href="/css/validation.css?v=20260217" />
+    <link rel="stylesheet" href="/css/forms-modular.css?v=20260221-step1" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
@@ -90,52 +90,242 @@
 
         <!-- Step 1: Your Details -->
         <div
-          class="wizard-step form-section active"
+          class="wizard-step form-section active step-1-enhanced"
           data-step="1"
           data-testid="intake-step-1"
         >
-          <h2>Step 1 - Your Details</h2>
+          <div class="step-header">
+            <h2 class="step-title">Step 1 - Your Details</h2>
+            <p class="step-subtitle">
+              Let's start with some basic information about you.
+            </p>
+          </div>
 
-          <div class="form-row">
-            <div class="form-group">
-              <label for="firstName"
-                >First Name <span class="required">*</span></label
+          <div class="section-card personal-info">
+            <h3 class="section-heading">Personal Information</h3>
+            <div class="form-row">
+              <div class="form-group enhanced-field">
+                <label for="firstName" class="form-label-enhanced"
+                  >First Name <span class="required-indicator">*</span></label
+                >
+                <input
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  class="form-input-enhanced"
+                  data-testid="firstName"
+                  placeholder="Enter your first name"
+                  required
+                />
+                <div
+                  class="ux-validation-message ux-error-message"
+                  id="firstName-error"
+                ></div>
+                <div
+                  class="ux-validation-message ux-success-message"
+                  id="firstName-success"
+                ></div>
+              </div>
+              <div class="form-group enhanced-field">
+                <label for="lastName" class="form-label-enhanced"
+                  >Last Name <span class="required-indicator">*</span></label
+                >
+                <input
+                  type="text"
+                  id="lastName"
+                  name="lastName"
+                  class="form-input-enhanced"
+                  data-testid="lastName"
+                  placeholder="Enter your last name"
+                  required
+                />
+                <div
+                  class="ux-validation-message ux-error-message"
+                  id="lastName-error"
+                ></div>
+                <div
+                  class="ux-validation-message ux-success-message"
+                  id="lastName-success"
+                ></div>
+              </div>
+            </div>
+
+            <div class="form-group enhanced-field gender-group">
+              <label class="form-label-enhanced"
+                >Gender
+                <span class="optional-indicator">(optional)</span></label
+              >
+              <div class="radio-group-enhanced">
+                <label class="radio-option"
+                  ><input type="radio" name="gender" value="Male" /><span
+                    class="radio-custom"
+                  ></span
+                  >Male</label
+                >
+                <label class="radio-option"
+                  ><input type="radio" name="gender" value="Female" /><span
+                    class="radio-custom"
+                  ></span
+                  >Female</label
+                >
+                <label class="radio-option"
+                  ><input type="radio" name="gender" value="Non-binary" /><span
+                    class="radio-custom"
+                  ></span
+                  >Non-binary</label
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card contact-info">
+            <h3 class="section-heading">Contact Information</h3>
+            <div class="form-group enhanced-field">
+              <label for="email" class="form-label-enhanced"
+                >Email Address <span class="required-indicator">*</span></label
               >
               <input
-                type="text"
-                id="firstName"
-                name="firstName"
-                data-testid="firstName"
+                type="email"
+                id="email"
+                name="email"
+                class="form-input-enhanced"
+                data-testid="email"
+                placeholder="your.email@example.com"
                 required
               />
+              <div class="input-helper-text">
+                We'll use this to send you appointment confirmations
+              </div>
               <div
                 class="ux-validation-message ux-error-message"
-                id="firstName-error"
+                id="email-error"
               ></div>
               <div
                 class="ux-validation-message ux-success-message"
-                id="firstName-success"
+                id="email-success"
               ></div>
             </div>
-            <div class="form-group">
-              <label for="lastName"
-                >Last Name <span class="required">*</span></label
+
+            <div class="form-group enhanced-field">
+              <label for="mobile" class="form-label-enhanced"
+                >Phone Number <span class="required-indicator">*</span></label
               >
               <input
-                type="text"
-                id="lastName"
-                name="lastName"
-                data-testid="lastName"
+                type="tel"
+                id="mobile"
+                name="mobile"
+                class="form-input-enhanced"
+                data-testid="mobile"
+                placeholder="e.g. 0412 345 678"
                 required
               />
+              <div class="input-helper-text">
+                For urgent appointment matters and confirmations
+              </div>
               <div
                 class="ux-validation-message ux-error-message"
-                id="lastName-error"
+                id="mobile-error"
               ></div>
               <div
                 class="ux-validation-message ux-success-message"
-                id="lastName-success"
+                id="mobile-success"
               ></div>
+            </div>
+          </div>
+
+          <div class="section-card personal-details">
+            <h3 class="section-heading">Personal Details</h3>
+            <div class="form-group enhanced-field">
+              <label for="dateOfBirth" class="form-label-enhanced"
+                >Date of Birth <span class="required-indicator">*</span></label
+              >
+              <input
+                type="text"
+                id="dateOfBirth"
+                name="dateOfBirth"
+                class="form-input-enhanced date-input"
+                data-testid="dateOfBirth"
+                placeholder="DD/MM/YYYY"
+                inputmode="numeric"
+                autocomplete="bday"
+                data-max-date="today"
+                required
+              />
+              <div class="input-helper-text">
+                We need this to ensure appropriate treatment
+              </div>
+            </div>
+
+            <div class="form-group enhanced-field">
+              <label for="occupation" class="form-label-enhanced"
+                >What do you do for work?
+                <span class="required-indicator">*</span></label
+              >
+              <input
+                type="text"
+                id="occupation"
+                name="occupation"
+                class="form-input-enhanced"
+                data-testid="occupation"
+                placeholder="e.g., Office Worker, Tradie, Student"
+                maxlength="100"
+                required
+              />
+              <div class="input-helper-text">
+                This helps us understand potential work-related strain patterns
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card emergency-contact-card">
+            <div class="emergency-contact-section">
+              <h3 class="section-heading emergency-heading">
+                <span class="emergency-icon">🆘</span>
+                Emergency Contact Information
+              </h3>
+              <p class="section-description">
+                Please provide someone we can contact in case of emergency
+              </p>
+              <div class="emergency-contact-container">
+                <div class="form-group enhanced-field">
+                  <label for="emergencyName" class="form-label-enhanced"
+                    >Full Name:</label
+                  >
+                  <input
+                    type="text"
+                    id="emergencyName"
+                    name="emergencyName"
+                    class="form-input-enhanced"
+                    placeholder="Emergency contact's full name"
+                  />
+                </div>
+
+                <div class="form-group enhanced-field">
+                  <label for="emergencyRelationship" class="form-label-enhanced"
+                    >Relationship:</label
+                  >
+                  <input
+                    type="text"
+                    id="emergencyRelationship"
+                    name="emergencyRelationship"
+                    class="form-input-enhanced"
+                    placeholder="e.g., Partner, Parent, Friend"
+                  />
+                </div>
+
+                <div class="form-group enhanced-field">
+                  <label for="emergencyPhone" class="form-label-enhanced"
+                    >Phone Number:</label
+                  >
+                  <input
+                    type="tel"
+                    id="emergencyPhone"
+                    name="emergencyPhone"
+                    class="form-input-enhanced"
+                    placeholder="e.g., 0412 345 678"
+                  />
+                </div>
+              </div>
             </div>
           </div>
 
@@ -147,171 +337,6 @@
             <label for="pronounsSelfDescribe"
               >Please describe your pronouns:</label
             >
-          </div>
-
-          <div class="form-group">
-            <label for="gender"
-              >Gender
-              <span
-                style="
-                  font-weight: normal;
-                  font-size: 13px;
-                  color: var(--text-light);
-                "
-                >(optional)</span
-              ></label
-            >
-            <div class="radio-group inline compact">
-              <label
-                ><input type="radio" name="gender" value="Male" />Male</label
-              >
-              <label
-                ><input
-                  type="radio"
-                  name="gender"
-                  value="Female"
-                />Female</label
-              >
-              <label
-                ><input
-                  type="radio"
-                  name="gender"
-                  value="Non-binary"
-                />Non-binary</label
-              >
-            </div>
-          </div>
-
-          <div
-            style="margin: 24px 0; border-top: 1px solid var(--border-color)"
-          ></div>
-
-          <div class="form-group">
-            <label for="email">Email <span class="required">*</span></label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              data-testid="email"
-              required
-            />
-            <div
-              class="ux-validation-message ux-error-message"
-              id="email-error"
-            ></div>
-            <div
-              class="ux-validation-message ux-success-message"
-              id="email-success"
-            ></div>
-          </div>
-
-          <div class="form-group">
-            <label for="mobile">Phone <span class="required">*</span></label>
-            <input
-              type="tel"
-              id="mobile"
-              name="mobile"
-              data-testid="mobile"
-              placeholder="e.g. 0412 345 678"
-              required
-            />
-            <div
-              class="ux-validation-message ux-error-message"
-              id="mobile-error"
-            ></div>
-            <div
-              class="ux-validation-message ux-success-message"
-              id="mobile-success"
-            ></div>
-          </div>
-
-          <div
-            style="margin: 24px 0; border-top: 1px solid var(--border-color)"
-          ></div>
-
-          <div class="form-group">
-            <label for="dateOfBirth"
-              >Date of Birth <span class="required">*</span></label
-            >
-            <input
-              type="text"
-              id="dateOfBirth"
-              name="dateOfBirth"
-              data-testid="dateOfBirth"
-              class="date-input"
-              placeholder="15/09/1992"
-              inputmode="numeric"
-              autocomplete="bday"
-              data-max-date="today"
-              required
-              style="
-                width: 100%;
-                padding: 12px;
-                border: 1px solid var(--border-color);
-                border-radius: 12px;
-                font-size: 16px;
-                background: var(--input-bg);
-              "
-            />
-            <p
-              style="font-size: 13px; color: var(--text-light); margin-top: 4px"
-            ></p>
-          </div>
-
-          <div
-            style="margin: 24px 0; border-top: 1px solid var(--border-color)"
-          ></div>
-
-          <div class="form-group">
-            <label for="occupation"
-              >What do you do for work? <span class="required">*</span></label
-            >
-            <input
-              type="text"
-              id="occupation"
-              name="occupation"
-              data-testid="occupation"
-              placeholder="e.g., Office Worker, Tradie, Student"
-              maxlength="100"
-              required
-            />
-          </div>
-
-          <div class="emergency-contact-section">
-            <h3 class="emergency-contact-heading">
-              Emergency Contact Information
-            </h3>
-            <div class="emergency-contact-container">
-              <div class="form-group">
-                <label for="emergencyName">Name:</label>
-                <input
-                  type="text"
-                  id="emergencyName"
-                  name="emergencyName"
-                  placeholder="Emergency contact name"
-                />
-              </div>
-
-              <div class="form-group">
-                <label for="emergencyRelationship">Relationship:</label>
-                <input
-                  type="text"
-                  id="emergencyRelationship"
-                  name="emergencyRelationship"
-                  placeholder="e.g., Partner, Parent, Friend"
-                />
-              </div>
-
-              <div class="form-group">
-                <label for="emergencyPhone">Phone:</label>
-                <input
-                  type="tel"
-                  id="emergencyPhone"
-                  name="emergencyPhone"
-                  placeholder="e.g., 0412 345 678"
-                />
-              </div>
-            </div>
           </div>
         </div>
 

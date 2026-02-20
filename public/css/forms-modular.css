@@ -23,6 +23,9 @@
 /* 6. Step Wizard */
 @import url("./modules/step-wizard.css");
 
+/* 6.5. Step 1 Enhanced Styling */
+@import url("./modules/step-1-enhanced.css");
+
 /* 7. Form UX & Usability */
 @import url("./modules/form-ux.css");
 

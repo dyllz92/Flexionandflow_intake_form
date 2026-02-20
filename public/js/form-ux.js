@@ -13,12 +13,16 @@ class FormUXManager {
   }
 
   init() {
-    this.setupInlineValidation();
-    this.setupAutoSave();
-    this.setupProgressEstimation();
-    this.setupFieldFormatting();
-    this.setupCompletionTracking();
-    this.enhanceUserFeedback();
+    // Add small delay to ensure DOM is fully ready
+    setTimeout(() => {
+      this.setupInlineValidation();
+      this.setupAutoSave();
+      this.setupProgressEstimation();
+      this.setupFieldFormatting();
+      this.setupCompletionTracking();
+      this.enhanceUserFeedback();
+      console.log("🔧 FormUXManager initialization completed");
+    }, 100);
   }
 
   /**
@@ -26,8 +30,14 @@ class FormUXManager {
    */
   setupInlineValidation() {
     const formControls = document.querySelectorAll("input, select, textarea");
+    console.log(
+      `🔍 Found ${formControls.length} form controls for validation setup`,
+    );
 
-    formControls.forEach((field) => {
+    formControls.forEach((field, index) => {
+      console.log(
+        `📝 Setting up validation for field ${index + 1}: ${field.id || field.name}`,
+      );
       let validationTimer;
 
       // Real-time validation on input
@@ -190,14 +200,7 @@ class FormUXManager {
       errorElement.textContent = message;
       errorElement.classList.add("show");
       errorElement.style.animation = "slideIn 0.3s ease-out";
-    }
-  }
-
-  clearFieldError(field, errorElement) {
-    field.classList.remove("error");
-    field.setAttribute("aria-invalid", "false");
-
-    if (errorElement) {
+      console.log(`❌ Showing error for ${field.id}:`, message);
       errorElement.classList.remove("show");
       errorElement.textContent = "";
     }
@@ -605,14 +608,25 @@ class FormUXManager {
   }
 
   trackFieldInteraction(field, action) {
-    // Could be extended to send analytics data
-    console.log(`Field interaction: ${field.name || field.id} - ${action}`);
+    // Field interaction tracking can be extended for analytics
+    // Consider adding analytics service integration here
+    if (window.analytics && typeof window.analytics.track === "function") {
+      window.analytics.track("Field Interaction", {
+        field: field.name || field.id,
+        action: action,
+      });
+    }
   }
 }
 
 // Initialize when DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
-  window.formUXManager = new FormUXManager();
+  try {
+    window.formUXManager = new FormUXManager();
+    console.log("✅ FormUXManager initialized successfully");
+  } catch (error) {
+    console.error("❌ FormUXManager initialization failed:", error);
+  }
 });
 
 // Export for use by other modules
