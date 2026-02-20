@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Client Intake Form - Flexion &amp; Flow</title>
     <link rel="stylesheet" href="/css/styles.css?v=20260203" />
-    <link rel="stylesheet" href="/css/forms.css?v=20260203" />
+    <link rel="stylesheet" href="/css/forms-modular.css?v=20260221" />
     <link rel="stylesheet" href="/css/validation.css?v=20260217" />
-    <link rel="stylesheet" href="/css/error-boundaries.css?v=20260220" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
@@ -25,27 +24,8 @@
       </div>
 
       <!-- Intro Text -->
-      <div
-        class="info-box"
-        style="
-          margin-bottom: 24px;
-          background: linear-gradient(
-            135deg,
-            rgba(157, 78, 221, 0.08) 0%,
-            rgba(30, 136, 199, 0.08) 100%
-          );
-          padding: 16px;
-          border-radius: 12px;
-        "
-      >
-        <p
-          style="
-            margin: 0;
-            font-size: 14px;
-            color: var(--text-dark);
-            line-height: 1.5;
-          "
-        >
+      <div class="intro-box">
+        <p>
           Welcome! Please complete this intake form to help us provide you with
           the best possible service.
         </p>
@@ -77,6 +57,15 @@
       <div id="stepCount" class="step-count" aria-live="polite">
         Step 1 of 5
       </div>
+
+      <!-- Progress Enhancement Container -->
+      <div class="ux-progress-container">
+        <div class="ux-progress-bar">
+          <div class="ux-progress-fill" style="width: 0"></div>
+        </div>
+        <div id="progress-text" class="ux-progress-text">0% complete</div>
+      </div>
+
       <div
         id="stepValidationMessage"
         class="step-validation-message"
@@ -119,6 +108,14 @@
                 data-testid="firstName"
                 required
               />
+              <div
+                class="ux-validation-message ux-error-message"
+                id="firstName-error"
+              ></div>
+              <div
+                class="ux-validation-message ux-success-message"
+                id="firstName-success"
+              ></div>
             </div>
             <div class="form-group">
               <label for="lastName"
@@ -131,6 +128,14 @@
                 data-testid="lastName"
                 required
               />
+              <div
+                class="ux-validation-message ux-error-message"
+                id="lastName-error"
+              ></div>
+              <div
+                class="ux-validation-message ux-success-message"
+                id="lastName-success"
+              ></div>
             </div>
           </div>
 
@@ -190,6 +195,14 @@
               data-testid="email"
               required
             />
+            <div
+              class="ux-validation-message ux-error-message"
+              id="email-error"
+            ></div>
+            <div
+              class="ux-validation-message ux-success-message"
+              id="email-success"
+            ></div>
           </div>
 
           <div class="form-group">
@@ -202,7 +215,14 @@
               placeholder="e.g. 0412 345 678"
               required
             />
-            <div class="form-error" id="error-mobile"></div>
+            <div
+              class="ux-validation-message ux-error-message"
+              id="mobile-error"
+            ></div>
+            <div
+              class="ux-validation-message ux-success-message"
+              id="mobile-success"
+            ></div>
           </div>
 
           <div
@@ -1763,6 +1783,8 @@
 
     <script src="/js/auPhoneFormatter.js?v=20260127" defer></script>
     <script src="/js/error-boundaries.js?v=20260220" defer></script>
+    <script src="/js/accessibility.js?v=20260221" defer></script>
+    <script src="/js/form-ux.js?v=20260221" defer></script>
     <script src="/js/form-error-init.js?v=20260220" defer></script>
     <script src="/js/muscleMap.js?v=20260203" defer></script>
     <script src="/js/bodyMapModal.js?v=20260203" defer></script>
@@ -1812,6 +1834,12 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- Auto-Save Indicator -->
+    <div class="auto-save-indicator" id="autoSaveIndicator">
+      <span class="status-icon">💾</span>
+      <span class="status-text">Auto-saving...</span>
     </div>
 
     <script src="/js/termsModal.js?v=20260125" defer></script>

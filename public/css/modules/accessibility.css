@@ -1,0 +1,336 @@
+/**
+ * Accessibility Enhancements
+ * WCAG 2.1 AA compliant styles and improvements
+ */
+
+/* High Contrast Color Adjustments */
+:root {
+  /* WCAG AA compliant color ratios */
+  --text-primary: #1a365d; /* Enhanced contrast from #2b4f6f */
+  --text-secondary: #4a5568; /* Enhanced contrast from #6b8ca8 */
+  --text-muted: #718096; /* Enhanced contrast from #9ab0c2 */
+
+  /* Focus indicators */
+  --focus-ring: 0 0 0 3px rgba(30, 136, 199, 0.3);
+  --focus-ring-error: 0 0 0 3px rgba(220, 53, 69, 0.3);
+  --focus-ring-success: 0 0 0 3px rgba(40, 167, 69, 0.3);
+
+  /* High contrast borders */
+  --border-contrast: #a0aec0;
+}
+
+/* Enhanced Focus Management */
+*:focus {
+  outline: none;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus,
+[role="button"]:focus,
+[tabindex]:focus {
+  box-shadow: var(--focus-ring);
+  border-color: var(--primary-color);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+/* Error state focus */
+input:focus:invalid,
+.form-control.error:focus {
+  box-shadow: var(--focus-ring-error);
+  border-color: var(--error-color);
+}
+
+/* Success state focus */
+.form-control.success:focus {
+  box-shadow: var(--focus-ring-success);
+  border-color: var(--success-color);
+}
+
+/* Skip Links for Keyboard Navigation */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: var(--primary-color);
+  color: var(--text-white);
+  padding: 8px;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  z-index: var(--z-overlay);
+  font-weight: 600;
+  transition: top var(--transition-fast);
+}
+
+.skip-link:focus {
+  top: 6px;
+}
+
+/* Improved Step Indicator Accessibility */
+.step-number {
+  position: relative;
+}
+
+.step-number::after {
+  content: attr(aria-label);
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 12px;
+  color: transparent;
+  pointer-events: none;
+}
+
+.step.active .step-number:focus::after {
+  color: var(--text-secondary);
+}
+
+/* ARIA Live Regions for Dynamic Content */
+.live-region {
+  position: absolute !important;
+  left: -10000px !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+}
+
+.live-region.polite {
+  /* Will be announced after current speech - configured via aria-live=\"polite\" */
+  opacity: 1; /* Ensure visibility for screen readers */
+}
+
+.live-region.assertive {
+  /* Will interrupt current speech - configured via aria-live=\"assertive\" */
+  opacity: 1; /* Ensure visibility for screen readers */
+}
+
+/* Enhanced Form Validation Messaging */
+.field-error {
+  display: none;
+  margin-top: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background-color: rgba(220, 53, 69, 0.1);
+  border: 1px solid rgba(220, 53, 69, 0.3);
+  border-left: 4px solid var(--error-color);
+  border-radius: var(--radius-sm);
+  color: var(--error-color);
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;
+}
+
+.field-error.show {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.field-error::before {
+  content: \"⚠\";
+  flex-shrink: 0;
+  font-size: 16px;
+}
+
+/* Success Messages */
+.field-success {
+  display: none;
+  margin-top: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background-color: rgba(40, 167, 69, 0.1);
+  border: 1px solid rgba(40, 167, 69, 0.3);
+  border-left: 4px solid var(--success-color);
+  border-radius: var(--radius-sm);
+  color: var(--success-color);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.field-success.show {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.field-success::before {
+  content: \"✓\";
+  flex-shrink: 0;
+  font-size: 16px;
+}
+
+/* Improved Button Accessibility */
+.btn:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: var(--focus-ring), var(--shadow-md);
+}
+
+.btn:disabled:focus {
+  box-shadow: none;
+  transform: none;
+}
+
+/* Enhanced Checkbox and Radio Accessibility */
+.custom-checkbox:focus-within .checkbox-mark,
+.custom-radio:focus-within .radio-mark {
+  box-shadow: var(--focus-ring);
+  border-color: var(--primary-color);
+}
+
+/* Progress Indicator Accessibility */
+.step-progress[role=\"progressbar\"] {
+  position: relative;
+}
+
+.step-progress::after {
+  content: attr(aria-valuetext);
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  :root {
+    --border-color: var(--border-contrast);
+    --text-secondary: #2d3748;
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
+  }
+
+  .btn-primary {
+    border: 2px solid var(--text-primary);
+  }
+
+  .form-control {
+    border-width: 2px;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .step-content {
+    animation: none;
+  }
+
+  .btn::before {
+    transition: none;
+  }
+}
+
+/* Forced Colors Mode (Windows High Contrast) */
+@media (forced-colors: active) {
+  .btn-primary {
+    border: 2px solid ButtonText;
+    background: ButtonFace;
+    color: ButtonText;
+  }
+
+  .form-control:focus {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+
+  .step-number {
+    border: 2px solid ButtonText;
+  }
+
+  .step.active .step-number {
+    background: Highlight;
+    color: HighlightText;
+    border-color: Highlight;
+  }
+}
+
+/* Screen Reader Only Content */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.sr-only-focusable:focus {
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  padding: inherit !important;
+  margin: inherit !important;
+  overflow: visible !important;
+  clip: auto !important;
+  white-space: inherit !important;
+}
+
+/* Touch Target Minimum Size (44x44px WCAG) */
+input[type=\"checkbox\"],
+input[type=\"radio\"],
+.custom-checkbox .checkbox-mark,
+.custom-radio .radio-mark {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* Improved Focus for Touch Devices */
+@media (hover: none) and (pointer: coarse) {
+  .form-control:focus {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 2px;
+  }
+
+  .btn:focus {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 2px;
+  }
+}
+
+/* Color Blindness Support */
+.error-indicator::before {
+  content: \"❌ \";
+  color: var(--error-color);
+}
+
+.success-indicator::before {
+  content: \"✅ \";
+  color: var(--success-color);
+}
+
+.warning-indicator::before {
+  content: \"⚠️ \";
+  color: var(--warning-color);
+}
+
+/* Enhanced Error State Visibility */
+.form-control:invalid,
+.form-control.error {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="red"><circle cx="6" cy="6" r="4.5"/><path d="m5.8 4.6 1.4 1.4"/><path d="m7.2 4.6-1.4 1.4"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+
+.form-control:valid:not(:placeholder-shown),
+.form-control.success {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="green"><path d="m3 6 2 2 4-4"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}

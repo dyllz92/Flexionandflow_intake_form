@@ -3,7 +3,6 @@ const path = require("path");
 const { Readable } = require("stream");
 const { google } = require("googleapis");
 const logger = require("./logger");
-const logger = require("./logger");
 
 /**
  * Google Drive uploader with fallback to local storage

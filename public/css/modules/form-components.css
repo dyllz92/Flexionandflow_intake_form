@@ -13,9 +13,9 @@
   font-weight: 600;
   text-decoration: none;
   border: none;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all var(--transition-base);
   position: relative;
   overflow: hidden;
   min-height: 44px;
@@ -24,14 +24,18 @@
 
 /* Primary Button */
 .btn-primary {
-  background: linear-gradient(135deg, #3a99d3 0%, #2685bb 50%, #1e7ab1 100%);
-  color: #fff;
-  border-radius: 14px;
+  background: linear-gradient(
+    135deg,
+    var(--primary-color) 0%,
+    var(--primary-hover) 100%
+  );
+  color: var(--text-white);
+  border-radius: var(--radius-lg);
   padding: 16px 32px;
   font-size: 16px;
   font-weight: 700;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-  letter-spacing: 0.05em;
+  box-shadow: var(--shadow-md);
+  letter-spacing: 0.025em;
   text-transform: uppercase;
 }
 

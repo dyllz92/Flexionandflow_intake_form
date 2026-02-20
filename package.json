@@ -36,7 +36,7 @@
     "pdf-parse": "^1.1.1",
     "pdfkit": "^0.13.0",
     "uuid": "13.0.0",
-    "winston": "^3.11.0"
+    "winston": "3.19.0"
   },
   "devDependencies": {
     "@playwright/test": "1.58.2",

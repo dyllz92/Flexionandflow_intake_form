@@ -1,0 +1,35 @@
+/**
+ * Main CSS Entry Point
+ * Imports all modular CSS files in the correct order
+ */
+
+/* 1. Base and Variables */
+@import url("./modules/form-base.css");
+
+/* 2. Utilities */
+@import url("./modules/utilities.css");
+
+/* 3. Accessibility */
+@import url("./modules/accessibility.css");
+
+/* 4. Layout and Structure */
+@import url("./modules/form-layout.css");
+@import url("./modules/responsive.css");
+
+/* 5. Form Components */
+@import url("./modules/form-controls.css");
+@import url("./modules/form-components.css");
+
+/* 6. Step Wizard */
+@import url("./modules/step-wizard.css");
+
+/* 7. Form UX & Usability */
+@import url("./modules/form-ux.css");
+
+/* 8. Modern Effects & Interactions */
+@import url("./modules/modern-effects.css");
+
+/* 9. Error Boundaries Styling */
+@import url("./error-boundaries.css");
+
+/* Page-specific overrides can be added below */

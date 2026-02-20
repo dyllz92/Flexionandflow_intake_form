@@ -29,8 +29,10 @@ class Config {
       this.validateProduction();
     }
 
-    // Google Drive configuration
-    this.validateGoogleDrive();
+    // Google Drive configuration - skip in development
+    if (process.env.NODE_ENV !== "development") {
+      this.validateGoogleDrive();
+    }
 
     // OpenAI configuration (optional)
     this.validateOpenAI();

@@ -1,40 +1,4 @@
-:root {
-  --main-bg-gradient: linear-gradient(135deg, #e8f1f7 0%, #ffffff 70%);
-  --container-bg: rgba(255, 255, 255, 0.92);
-  --input-bg: #ffffff;
-  --primary-purple: #1e88c7;
-  --primary-purple-bright: #2b8fc9;
-  --secondary-purple: #6ba9d4;
-  --text-primary: #2b4f6f;
-  --text-secondary: #6b8ca8;
-  --text-placeholder: #9ab0c2;
-  --required-red: #d9534f;
-  --button-border: #1e88c7;
-  --button-hover: #2b8fc9;
-  --button-disabled: #a0b4c6;
-  --progress-line: #d5e1ec;
-  --step-inactive: #b8cbdd;
-  --step-active: #1e88c7;
-  --shadow: 0 8px 24px rgba(30, 79, 111, 0.12);
-  --font-primary: "Open Sans", "Helvetica Neue", Arial, sans-serif;
-  --font-body: "Open Sans", "Helvetica Neue", Arial, sans-serif;
-  --font-display: "Oswald", "Helvetica Neue", Arial, sans-serif;
-  --primary-color: #1e88c7;
-  --secondary-color: #2b8fc9;
-  --accent-color: #6ba9d4;
-  --success-color: #5cb85c;
-  --warning-color: #f0ad4e;
-  --text-dark: #2b4f6f;
-  --text-light: #6b8ca8;
-  --bg-light: #f8fbfd;
-  --border-color: #d5e1ec;
-  --page-gradient:;
-}
-
-@media (max-width: 900px) {
-}
-@media (max-width: 900px) {
-}
+/* Legacy styles - variables are now defined in form-base.css */
 
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Oswald:wght@400;600;700&display=swap");
 
@@ -469,7 +433,6 @@ body {
     flex: 1 1 calc(50% - 8px);
     min-height: 280px;
   }
-
 }
 
 @media (max-width: 768px) {
@@ -545,7 +508,6 @@ body {
     margin-top: 30px;
     padding-top: 15px;
   }
-
 }
 
 @media (max-width: 480px) {
@@ -623,5 +585,4 @@ body {
     padding-top: 12px;
     font-size: 12px;
   }
-
 }
